@@ -1,31 +1,31 @@
 {
-  "version": "0.6.4",
+  "version": "0.6.5",
   "entry": "index.html",
   "files": [
     {
       "path": "index.html",
       "bytes": 807,
-      "sha256": "f09be72525e4e9e66dc2d68ab47079c4f3e7e4b1982511a439af1107928f5d69"
+      "sha256": "aa5b6fb3c8c0ff12096447596750043d9f35645a8ae53b6f647e306ae26afbab"
     },
     {
       "path": "app.js",
-      "bytes": 50756,
-      "sha256": "f7193de053b3dc83b50ac3a4f310257d03b220f3f75fbc158bf0e79cfab1968d"
+      "bytes": 51043,
+      "sha256": "0679691e4afd52bfae403e37df804b62dc4f40088eacd8eb2fd58b4cdb70dcd3"
     },
     {
       "path": "data.js",
       "bytes": 16040,
-      "sha256": "55cfbb3c93a1cd6d50e34fcce5410ba648cc85fc60d6f123d78ab630de884d24"
+      "sha256": "acc3f414b837a9fa24168645f5fa381617c3e76740be71bfab25b22312df7df5"
     },
     {
       "path": "engine.js",
-      "bytes": 36275,
-      "sha256": "22eac88666bb7ab27cbaabf6d3abba7b8c4b53cd428a4c639f81d4e640ad826f"
+      "bytes": 37688,
+      "sha256": "34d99535f8064f3c992ce546a6578b5c5486b87d99d82e98e1475eeef8ec537b"
     },
     {
       "path": "enemies.js",
-      "bytes": 5943,
-      "sha256": "1143a94bd17f318b6016f56819e62c93d6e1570a4ed622953ccb311c9def412e"
+      "bytes": 7723,
+      "sha256": "52e33e99242ea4fb0c39acc903ce4a4b4f5956dfd72ea749be823c250413baa0"
     },
     {
       "path": "players.js",
@@ -39,8 +39,8 @@
     },
     {
       "path": "style.css",
-      "bytes": 45462,
-      "sha256": "ebeda42a6ab05262ca2f533202539b206f54e6e4c544c2e0927b7dd100fe1e6d"
+      "bytes": 47172,
+      "sha256": "27c9b0bc1a61f38e7eb691afe9f66638abf997601f68833c3590c74287f16c04"
     },
     {
       "path": "assets/enemies/runtime/qingcheng.png",

@@ -19,9 +19,19 @@ const roster=[
 ];
 export const ENEMIES=roster.map(d=>({...d,art:`assets/enemies/runtime/${d.id}.png`}));
 export const ENEMY=Object.fromEntries(ENEMIES.map(d=>[d.id,d]));
-export const ENCOUNTERS=[
- {normal:[['qingcheng'],['songshan']],elite:[['mugaofeng'],['tianboguang']],boss:['yucanghai']},
- {normal:[['xingxiu','xuedao'],['xingxiu','xingxiu'],['xuedao','xuedao']],elite:[['xuedaolaozu'],['hebiweng','luzhangke']],boss:['dingchunqiu']},
- {normal:[['baituo','riyue'],['riyue','riyue'],['baituo','baituo']],elite:[['chengkun'],['jinlun']],boss:['ouyangfeng']}
+// Encounter lineups are original game scenarios, rather than claims of novel alliances.
+const group=(title,ids,extra={})=>({title,ids,...extra});
+export const ENCOUNTER_GROUPS=[
+ {normal:[group('青城探路',['qingcheng']),group('嵩山拦路',['songshan']),group('松风双剑',['qingcheng','qingcheng']),group('嵩山双卫',['songshan','songshan']),group('剑掌夹击',['qingcheng','songshan']),group('三路合围',['qingcheng','qingcheng','songshan'])],
+  elite:[group('塞北明驼',['mugaofeng']),group('独行快刀',['tianboguang']),group('驼刀伏击',['mugaofeng','qingcheng'],{escorts:true}),group('快刀堵路',['tianboguang','songshan'],{escorts:true})],
+  boss:group('青城掌门与门徒',['yucanghai','qingcheng'],{escorts:true})},
+ {normal:[group('星宿探子',['xingxiu']),group('血刀游骑',['xuedao']),group('毒刃夹击',['xingxiu','xuedao']),group('星宿双徒',['xingxiu','xingxiu']),group('血刀双僧',['xuedao','xuedao']),group('毒阵藏刀',['xingxiu','xingxiu','xuedao']),group('双刀护毒',['xuedao','xuedao','xingxiu'])],
+  elite:[group('血刀老祖',['xuedaolaozu']),group('玄冥二老',['hebiweng','luzhangke']),group('血刀师徒',['xuedaolaozu','xuedao'],{escorts:true}),group('血刀围猎',['xuedaolaozu','xuedao','xuedao'],{escorts:true})],
+  boss:group('星宿老仙与门徒',['dingchunqiu','xingxiu','xingxiu'],{escorts:true})},
+ {normal:[group('白驼哨卫',['baituo']),group('日月游侠',['riyue']),group('蛇杖连剑',['baituo','riyue']),group('日月双剑',['riyue','riyue']),group('白驼双卫',['baituo','baituo']),group('灵蛇剑阵',['baituo','baituo','riyue']),group('双剑蛇影',['riyue','riyue','baituo'])],
+  elite:[group('混元霹雳手',['chengkun']),group('五轮法王',['jinlun']),group('阴谋同党',['chengkun','riyue'],{escorts:true}),group('五轮压阵',['jinlun','riyue','riyue'],{escorts:true})],
+  boss:group('西毒与白驼门人',['ouyangfeng','baituo'],{escorts:true})}
 ];
+// Keep ID-only rosters for old-save identity migration and tooling.
+export const ENCOUNTERS=ENCOUNTER_GROUPS.map(ch=>({normal:ch.normal.map(x=>x.ids),elite:ch.elite.map(x=>x.ids),boss:ch.boss.ids}));
 export const ENEMY_RANK={normal:'普通',elite:'精英',boss:'首领'};

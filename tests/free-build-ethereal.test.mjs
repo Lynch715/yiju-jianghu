@@ -14,7 +14,7 @@ test('baseline simulation fixture uses the same ten cards without direction bind
 });
 test('first-victory choices are normal random rewards, with no guaranteed direction card',()=>{
  const offered=new Set();
- for(let seed=0;seed<100;seed++){const g=new Game();g.start(seed,{opening:false});g.enter('battle');g.s.b.enemies[0].hp=0;g.checkEnd();assert.equal(g.s.reward.cards.length,3);for(const id of g.s.reward.cards)assert.ok(CARD[id]);offered.add(g.s.reward.cards[0]);}
+ for(let seed=0;seed<100;seed++){const g=new Game();g.start(seed,{opening:false});g.enter('battle');for(const e of g.s.b.enemies)e.hp=0;g.checkEnd();assert.equal(g.s.reward.cards.length,3);for(const id of g.s.reward.cards)assert.ok(CARD[id]);offered.add(g.s.reward.cards[0]);}
  assert.ok(offered.size>8,'first reward should not be a fixed legacy selection');
 });
 test('master events draw from all martial arts without any saved direction',()=>{

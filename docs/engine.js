@@ -1,6 +1,6 @@
-import {PLAYERS,DEFAULT_PLAYER,cleanPlayerName,playerNameError,validPlayer,PLAYER_RETURN_PHASES} from './players.js?v=0.6.4';
-import {ENEMY,ENCOUNTERS} from './enemies.js?v=0.6.4';
-import {CARDS,CARD,RELICS,RELIC,CHAPTERS,ROUTES,isEthereal,OPENING_BOONS} from './data.js?v=0.6.4';
+import {PLAYERS,DEFAULT_PLAYER,cleanPlayerName,playerNameError,validPlayer,PLAYER_RETURN_PHASES} from './players.js?v=0.6.5';
+import {ENEMY,ENCOUNTERS,ENCOUNTER_GROUPS} from './enemies.js?v=0.6.5';
+import {CARDS,CARD,RELICS,RELIC,CHAPTERS,ROUTES,isEthereal,OPENING_BOONS} from './data.js?v=0.6.5';
 
 export const SAVE_VERSION=5;
 export const STARTING_DECK=Object.freeze([...Array(5).fill('W01'),...Array(4).fill('U01'),'U02']);
@@ -35,7 +35,7 @@ export class Game {
     const chapter=Math.min(2,Math.floor(this.s.step/6)),pool=ENCOUNTERS[chapter];
     this.s.b.enemies.forEach((e,i)=>{if(!ENEMY[e.id]){const ids=e.kind==='boss'?pool.boss:e.kind==='elite'?pool.elite[0]:pool.normal[0];e.id=ids[i%ids.length];e.name=ENEMY[e.id].name;}});
    }
-   if(this.s.b?.log)this.s.b.log=this.s.b.log.map(x=>x.replaceAll('暂退','消耗').replaceAll('护体','格挡'));
+   if(this.s.b?.log)this.s.b.log=this.s.b.log.map(x=>x.replaceAll('暂退','消耗').replaceAll('护体','格挡').replaceAll('基础守势','抱元守一'));
   }
  }
  random(){let t=this.s.rng+=0x6D2B79F5;t=Math.imul(t^(t>>>15),t|1);t^=t+Math.imul(t^(t>>>7),t|61);this.s.rng>>>=0;return ((t^(t>>>14))>>>0)/4294967296;}
@@ -358,7 +358,11 @@ export class Game {
  enemyIntent(e){
   const d=ENEMY[e.id];if(!d)return this.legacyEnemyIntent(e);
   if(d.enragedMoves&&!e.enraged&&e.hp>0&&e.hp<=e.maxHp/2){e.enraged=true;e.round=0;e.charge=0;this.log(`${e.name} · 进入逆练阶段，招式已改变`);}
-  const moves=e.enraged?d.enragedMoves:d.moves;return clone(moves[e.round%moves.length]);
+  const moves=e.enraged?d.enragedMoves:d.moves,intent=clone(moves[e.round%moves.length]);
+  // Store tuned numbers in the actual intent: preview and execution share them.
+  for(const key of ['damage','leech'])if(intent[key])intent[key]=Math.max(1,Math.round(intent[key]*(e.damageScale??1)));
+  for(const key of ['block','allyBlock'])if(intent[key])intent[key]=Math.max(1,Math.round(intent[key]*(e.guardScale??1)));
+  return intent;
  }
  refreshEnemyPhases(){for(const e of this.s.b?.enemies||[])if(e.id==='ouyangfeng'&&!e.enraged&&e.hp>0&&e.hp<=e.maxHp/2)e.intent=this.enemyIntent(e);}
  legacyEnemyIntent(e){
@@ -379,9 +383,23 @@ export class Game {
   if(kind==='event')this.s.scene.event=this.pick(['master','shrine','traveller','cliff']);return true;
  }
  combat(kind){
-  const a=this.chapter,encounter=ENCOUNTERS[a],ids=kind==='boss'?encounter.boss:this.pick(kind==='elite'?encounter.elite:encounter.normal);
-  const enemies=ids.map((id,i)=>{const d=ENEMY[id],hp=d.hp+(kind==='battle'?(this.s.step%6)*2:0);return {id,name:d.name,kind:kind==='boss'?'boss':kind==='elite'?'elite':'bandit',hp,maxHp:hp,key:i,round:0,block:0,weak:0,vuln:0,str:0,pin:0,charge:0,enraged:false};});
-  this.s.b={enemies,draw:this.shuffle(this.s.deck.map(x=>clone(x))),hand:[],discard:[],exhaust:[],powers:{},qi:0,str:0,tempStr:0,block:0,weak:0,vuln:0,turn:0,nextDraw:0,repeat:false,discount:0,turnFlags:{},battleFlags:{bandage:0,blood:0},log:[],kind};
+  const a=this.chapter,encounter=ENCOUNTER_GROUPS[a],pool=kind==='elite'?encounter.elite:encounter.normal;
+  // The first road can roll a duo; three-person formations enter after it.
+  const setup=kind==='boss'?encounter.boss:this.pick(kind==='battle'&&this.s.step%6===0?pool.filter(x=>x.ids.length<=2):pool),ids=setup.ids;
+  const normalHp=ids.length===3?[.48,.62,.70][a]:ids.length===2?[.63,.80,.90][a]:1;
+  const normalDamage=ids.length===3?[.50,.60,.70][a]:ids.length===2?[.70,.80,.90][a]:1;
+  const duplicates=new Map();
+  const enemies=ids.map((id,i)=>{
+   const d=ENEMY[id],escort=!!setup.escorts&&i>0,count=(duplicates.get(id)||0);duplicates.set(id,count+1);
+   const callSign=ids.filter(x=>x===id).length>1?['甲','乙','丙'][count]:'';
+   const hpScale=kind==='battle'?normalHp:escort?(kind==='boss'?.40:.45):1;
+   const damageScale=kind==='battle'?normalDamage:escort?(kind==='boss'?.50:.55):1;
+   const guardScale=kind==='battle'&&ids.length>1?.75:escort?.60:1;
+   const hp=Math.max(1,Math.round((d.hp+(kind==='battle'?(this.s.step%6)*2:0))*hpScale));
+   const round=kind==='battle'&&ids.length>1?i%d.moves.length:escort?(i+1)%d.moves.length:0;
+   return {id,name:d.name+(callSign?'·'+callSign:''),callSign,role:escort?'随从':'',kind:d.rank==='normal'?'bandit':d.rank,hp,maxHp:hp,key:i,round,damageScale,guardScale,block:0,weak:0,vuln:0,str:0,pin:0,charge:0,enraged:false};
+  });
+  this.s.b={enemies,draw:this.shuffle(this.s.deck.map(x=>clone(x))),hand:[],discard:[],exhaust:[],powers:{},qi:0,str:0,tempStr:0,block:0,weak:0,vuln:0,turn:0,nextDraw:0,repeat:false,discount:0,turnFlags:{},battleFlags:{bandage:0,blood:0},log:[],kind,formation:setup.title};
   for(const e of enemies)e.intent=this.enemyIntent(e);
   if(this.has('R25'))this.addStatus(2);this.s.phase='battle';this.beginTurn(true);
   if(this.has('R21'))this.s.b.openDart=true;

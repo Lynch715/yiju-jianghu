@@ -27,6 +27,8 @@ test('refinement selection is preserved, can be backed out before applying, and 
  const restored=new Game(g.s);assert.equal(restored.s.opening.selected,'refine');assert.equal(restored.backOpening(),true);assert.equal(restored.s.rng,rng);assert.equal(restored.chooseOpening('refine'),true);
  const card=restored.s.deck.find(c=>c.id==='W01');assert.equal(restored.completeOpening(card.uid),true);assert.equal(card.up,true);assert.equal(restored.backOpening(),false);
  restored.leaveOpening();restored.enter('battle');for(let n=0;n<8&&!restored.s.b.hand.some(c=>c.uid===card.uid);n++)restored.endTurn();const b=restored.s.b,e=b.enemies[0],before=e.hp;
+ // Isolate refinement damage from debuffs inflicted while waiting to draw the card.
+ b.weak=0;e.vuln=0;e.block=0;
  assert.equal(restored.play(card.uid,0).ok,true);assert.equal(before-e.hp,9);
 });
 test('removal removes only the selected copy from permanent deck and combat',()=>{

@@ -241,3 +241,25 @@
  .hand-preview-action>button{min-height:36px;padding:7px 10px;font-size:13px}
  .hand-preview-action>small{font-size:9px}
 }
+
+/* Three enemies retain independent portraits, intents and touch targets. */
+.battlefield[data-enemies="3"]{grid-template-columns:minmax(0,.72fr) minmax(0,2fr);gap:22px;max-width:1120px}
+.battlefield[data-enemies="3"] .enemies{gap:10px}
+.battlefield[data-enemies="3"] .enemy{padding-left:8px;padding-right:8px}
+@media(max-width:900px){
+ .layout[data-phase="battle"] .battlefield[data-enemies="3"]{grid-template-columns:minmax(0,.80fr) minmax(0,2.6fr);gap:8px}
+ .battlefield[data-enemies="3"] .enemies{gap:4px}
+ .layout[data-phase="battle"] .battlefield[data-enemies="3"] .enemy{padding:7px 3px 9px}
+ .battlefield[data-enemies="3"] .enemy .intent{font-size:9px;line-height:1.4}.battlefield[data-enemies="3"] .enemy .intent .damage{font-size:11px}
+ .battlefield[data-enemies="3"] .enemy-extra{font-size:8px;line-height:1.35}
+ .battlefield[data-enemies="3"] .enemy h3{font-size:11px;line-height:1.5;min-height:18px;margin-bottom:5px}
+ .battlefield[data-enemies="3"] .enemy-faction{font-size:8px;line-height:1.4;min-height:12px;overflow-wrap:anywhere;margin-bottom:5px}
+ .battlefield[data-enemies="3"] .enemy>small{font-size:8px;line-height:1.5;margin:4px 0}
+ .battlefield[data-enemies="3"] .target-marker{font-size:7px;right:3px;top:3px}
+ .battlefield[data-enemies="3"] .status-chip{font-size:8px;padding:2px 3px}
+ .battlefield[data-enemies="3"] .player-name{font-size:13px}
+ .battlefield[data-enemies="3"] .player-intent small{display:none}
+ .battlefield[data-enemies="3"] .player>small{font-size:9px}
+ .layout[data-phase="battle"] .battle-top .tag{font-size:9px;padding:3px 5px}
+}
+@media(max-width:900px){.layout[data-phase="battle"] .battlefield[data-enemies="3"] .player{padding-left:3px;padding-right:3px}}

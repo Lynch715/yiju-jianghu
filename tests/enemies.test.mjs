@@ -20,7 +20,7 @@ for(const d of ENEMIES)test(`${d.name}: each announced technique applies its act
 test('all three chapters generate their actual named foes and all 16 identities are reachable',()=>{
  const seen=new Set();for(let chapter=0;chapter<3;chapter++)for(const kind of ['battle','elite','boss'])for(let seed=0;seed<60;seed++){
   const g=new Game();g.start(seed,{opening:false});g.s.step=chapter*6+(kind==='boss'?5:kind==='elite'?2:0);assert.equal(g.enter(kind),true);
-  for(const e of g.s.b.enemies){const d=ENEMY[e.id];assert.ok(d);assert.equal(d.chapter,chapter);assert.equal(e.name,d.name);assert.equal(e.intent.label,d.moves[0].label);seen.add(e.id);}
+  for(const e of g.s.b.enemies){const d=ENEMY[e.id];assert.ok(d);assert.equal(d.chapter,chapter);assert.equal(e.name,d.name+(e.callSign?'·'+e.callSign:''));assert.equal(e.intent.label,d.moves[e.round%d.moves.length].label);seen.add(e.id);}
   if(kind==='boss')assert.equal(g.s.b.enemies[0].name,CHAPTERS[chapter].boss);
  }
  assert.equal(seen.size,16);assert.equal(ENCOUNTERS.length,3);
