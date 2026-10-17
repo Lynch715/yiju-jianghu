@@ -1,26 +1,26 @@
 {
-  "version": "0.6.3",
+  "version": "0.6.4",
   "entry": "index.html",
   "files": [
     {
       "path": "index.html",
       "bytes": 807,
-      "sha256": "a95299ef32b39d300bbd6ab4481a72385a3d4c49d6ef9b1582dfc4573b7ea8ba"
+      "sha256": "f09be72525e4e9e66dc2d68ab47079c4f3e7e4b1982511a439af1107928f5d69"
     },
     {
       "path": "app.js",
-      "bytes": 48544,
-      "sha256": "8b3eb9ea5f81c07a28d17ad988ca61a42aaed5711369609a0de35286f6fb98f1"
+      "bytes": 50756,
+      "sha256": "f7193de053b3dc83b50ac3a4f310257d03b220f3f75fbc158bf0e79cfab1968d"
     },
     {
       "path": "data.js",
       "bytes": 16040,
-      "sha256": "a04ee3300ca095fa82f06605714b3c657701e29b72bc835527c7161918d440ea"
+      "sha256": "55cfbb3c93a1cd6d50e34fcce5410ba648cc85fc60d6f123d78ab630de884d24"
     },
     {
       "path": "engine.js",
       "bytes": 36275,
-      "sha256": "e69cb90a9de7b9d15da08cf0e26eddf3ea5f7ce7eacc3076a99831a505d12f7a"
+      "sha256": "22eac88666bb7ab27cbaabf6d3abba7b8c4b53cd428a4c639f81d4e640ad826f"
     },
     {
       "path": "enemies.js",
@@ -39,8 +39,8 @@
     },
     {
       "path": "style.css",
-      "bytes": 41683,
-      "sha256": "c4442a0bd70538c31fb81b2477081d0646ed954990e5142de8c9ba9e9a6e4955"
+      "bytes": 45462,
+      "sha256": "ebeda42a6ab05262ca2f533202539b206f54e6e4c544c2e0927b7dd100fe1e6d"
     },
     {
       "path": "assets/enemies/runtime/qingcheng.png",
