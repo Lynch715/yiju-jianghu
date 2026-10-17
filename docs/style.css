@@ -737,3 +737,8 @@
 .author-contact strong{display:block;color:#ead5a7;font:23px/1.4 var(--serif);letter-spacing:1px;margin-top:5px;user-select:text;-webkit-user-select:text}
 .author-contact>span{font-size:10px;color:#a9b69d;line-height:1.7;text-align:right}
 @media(max-width:560px){.author-contact{padding:15px;gap:12px}.author-contact strong{font-size:22px}.author-contact small{font-size:10px}.author-contact>span{font-size:9px;max-width:75px}}
+
+/* Compact character creation: selected portraits already provide the preview. */
+.character-layout{display:block;max-width:820px;margin-inline:auto}
+button,a,input,select,summary{touch-action:manipulation}
+html{overscroll-behavior-x:none;touch-action:pan-x pan-y}

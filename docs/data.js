@@ -1,5 +1,5 @@
 // All numbers and triggered effects are an original game adaptation of the approved design.
-export const GAME_VERSION='0.7.4';
+export const GAME_VERSION='0.8.0';
 export const OPENING_BOONS=[
  {id:'coins',title:'故人赠金',text:'获得75银两。',risk:false},
  {id:'vitality',title:'养元固本',text:'气血上限增加7，同时回复7气血。',risk:false},

@@ -5,7 +5,7 @@ export function runGame(policy,seed=42,elites=true,{classic=false}={}){
  const g=new Game();g.start(seed,{classic});g.setCharacterName('试剑人');g.choosePlayerPortrait('male-qing');g.finishCharacter();let steps=0;
  const boon=g.s.opening.options.find(x=>x.id==='coins')||g.s.opening.options.find(x=>x.id==='vitality')||g.s.opening.options.find(x=>!['relicWound','relicCurse','rareToll'].includes(x.id));
  g.chooseOpening(boon.id);if(!g.s.opening.result)g.completeOpening(boon.id==='insight'?boon.cards[0]:g.s.deck[0].uid);g.leaveOpening();
- const preference={劲力:['W13','W12','W08','W07','W10','W11','W44','W59','W21','W19'],格挡:['W22','W29','W19','W27','W21','W26','W23','W05','W24'],变招:['W37','W36','W38','W35','W31','W32','W33','W41','W13','W08'],血战:['W48','W51','W43','W44','W46','W47','W49','W50','W52','W13']}[policy];
+ const preference={劲力:['W13','W12','W08','W07','W10','W11','W44','W59','W21','W19'],格挡:['W22','W29','W19','W27','W21','W26','W23','W05','W24'],变招:['W37','W36','W38','W35','W31','W32','W33','W41','W13','W08'],血战:['W48','W51','W43','W44','W46','W47','W49','W50','W52','W13']}[policy]||[];
  const rank=id=>preference.includes(id)?100-preference.indexOf(id)*3:CARD[id].type==='a'?35+CARD[id].rarity:20;
  while(!['win','lost'].includes(g.s.phase)&&steps++<1200){
   const s=g.s;
