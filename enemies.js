@@ -17,7 +17,7 @@ const roster=[
  {id:'dingchunqiu',name:'丁春秋',rank:'boss',chapter:1,hp:130,faction:'星宿老仙',source:'天龙八部',trait:'化功大法塞气滞并压制下回合真气，三笑逍遥散施毒；精简牌组和消耗状态可应对。',moves:[{label:'化功大法',status:1,chill:1},{label:'三笑逍遥散',damage:8,poison:2},{label:'星宿护身',block:12},{label:'腐骨掌',damage:12,status:1}]},
  {id:'ouyangfeng',name:'欧阳锋',rank:'boss',chapter:2,hp:185,faction:'西毒',source:'射雕英雄传',trait:'蓄势为下一次攻击增加4伤害；气血不高于一半时切换逆练阶段，清除旧蓄力并重置招式顺序。',moves:[{label:'灵蛇杖法',damage:7,hits:2},{label:'蛤蟆蓄势',block:14,charge:4},{label:'蛤蟆功',damage:19},{label:'白驼守势',block:10}],enragedMoves:[{label:'逆练蛤蟆功',block:10,str:1,charge:2},{label:'逆转经脉',damage:4,hits:3},{label:'疯魔蛇杖',damage:14,poison:1}]}
 ];
-export const ENEMIES=roster.map(d=>({...d,art:`assets/enemies/runtime/${d.id}.png`}));
+export const ENEMIES=roster.map(d=>({...d,art:`assets/enemies/runtime/${d.id}.webp`}));
 export const ENEMY=Object.fromEntries(ENEMIES.map(d=>[d.id,d]));
 // Encounter lineups are original game scenarios, rather than claims of novel alliances.
 const group=(title,ids,extra={})=>({title,ids,...extra});

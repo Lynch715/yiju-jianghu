@@ -1,0 +1,14 @@
+{
+  "version": "0.6.7",
+  "baselinePortraitPngBytes": 8497854,
+  "portraitWebpBytes": 853394,
+  "cardIllustrationCount": 13,
+  "cardIllustrationBytes": 472812,
+  "runtimeArtBytes": 1326206,
+  "reductionIncludingNewCards": 0.8439363632277044,
+  "originalsPreserved": true,
+  "relicVectorCount": 30,
+  "relicVectorModuleBytes": 12397,
+  "allArtBytesIncludingVectorModule": 1338603,
+  "reductionIncludingCardsAndRelics": 0.8424775243255532
+}

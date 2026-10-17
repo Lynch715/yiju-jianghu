@@ -1,13 +1,26 @@
-// Mechanical runtime resizing only; original generated PNGs remain untouched.
+// Mechanical resizing / compression only. Keep original generated artwork untouched.
+// Requires Google's cwebp utility (libwebp), no API key or network calls.
 import {execFile} from 'node:child_process';
 import {promisify} from 'node:util';
 import {fileURLToPath} from 'node:url';
 import {mkdir,stat} from 'node:fs/promises';
 import {ENEMIES} from '../enemies.js';
 import {PLAYERS} from '../players.js';
+import {CARD_ART_THEMES} from '../card-art.js';
 const exec=promisify(execFile);
-for(const [folder,portraits] of [['enemies',ENEMIES],['players',PLAYERS]]){
- await mkdir(new URL(`../assets/${folder}/runtime/`,import.meta.url),{recursive:true});
- for(const d of portraits){const source=new URL(`../assets/${folder}/${d.id}.png`,import.meta.url),target=new URL(`../assets/${folder}/runtime/${d.id}.png`,import.meta.url);const original=await stat(source);let current;try{current=await stat(target);}catch{}if(!current||current.mtimeMs<original.mtimeMs)await exec('sips',['-Z','640',fileURLToPath(source),'--out',fileURLToPath(target)]);await stat(target);}
+const artJobs=[
+ ...ENEMIES.map(d=>({source:`assets/enemies/${d.id}.png`,target:d.art,options:['-q','76','-alpha_q','85','-resize','0','480']})),
+ ...PLAYERS.map(p=>({source:`assets/players/${p.id}.png`,target:p.art,options:['-q','76','-alpha_q','85','-resize','0','480']})),
+ ...Object.values(CARD_ART_THEMES).map(t=>({source:`assets/cards/originals/${t.id}.png`,target:t.art,options:['-q','72','-resize','480','320']}))
+];
+for(const job of artJobs){
+ const source=new URL('../'+job.source,import.meta.url),target=new URL('../'+job.target,import.meta.url);
+ await mkdir(new URL('./',target),{recursive:true});
+ let original,current;try{original=await stat(source);}catch{}
+ try{current=await stat(target);}catch{}
+ // Published checkouts ship ready-to-use card art; full-size generated card originals stay local.
+ if(!original){if(current)continue;throw Error('Missing artwork source and runtime file: '+job.target);}
+ if(!current||current.mtimeMs<original.mtimeMs)await exec('cwebp',['-quiet','-m','6',...job.options,fileURLToPath(source),'-o',fileURLToPath(target)]);
+ await stat(target);
 }
-console.log('Prepared 22 runtime portraits; original transparent PNGs preserved.');
+console.log(`Prepared ${artJobs.length} lightweight WebP assets; original artwork preserved.`);

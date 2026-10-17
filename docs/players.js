@@ -7,7 +7,7 @@ const avatars=[
  {id:'female-fei',title:'绯衣游侠',gender:'female',description:'绯衣短刀，快意江湖。'},
  {id:'female-bai',title:'白衣剑客',gender:'female',description:'素衣轻剑，清霜照影。'}
 ];
-export const PLAYERS=avatars.map(p=>({...p,art:`assets/players/runtime/${p.id}.png`}));
+export const PLAYERS=avatars.map(p=>({...p,art:`assets/players/runtime/${p.id}.webp`}));
 export const PLAYER=Object.fromEntries(PLAYERS.map(p=>[p.id,p]));
 export const DEFAULT_PLAYER=Object.freeze({name:'无名侠客',portrait:'male-qing'});
 export function cleanPlayerName(name){return typeof name==='string'?name.normalize('NFKC').trim().replace(/\s+/gu,' '):'';}

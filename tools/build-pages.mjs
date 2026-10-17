@@ -1,11 +1,14 @@
 // Lightweight web package. Keep the separate standalone build for offline use.
-import {readFile,writeFile,mkdir,copyFile} from 'node:fs/promises';
+import {readFile,writeFile,mkdir,copyFile,rm} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 import {GAME_VERSION} from '../data.js';
 import {ENEMIES} from '../enemies.js';
 import {PLAYERS} from '../players.js';
+import {CARD_ART_THEMES} from '../card-art.js';
 const sourceRoot=new URL('../',import.meta.url),targetRoot=new URL('../docs/',import.meta.url);
-const files=['index.html','app.js','data.js','engine.js','enemies.js','players.js','combat-ui.js','style.css',...ENEMIES.map(x=>x.art),...PLAYERS.map(x=>x.art)];
+const files=['index.html','app.js','data.js','card-art.js','relic-art.js','engine.js','enemies.js','players.js','combat-ui.js','style.css',...ENEMIES.map(x=>x.art),...PLAYERS.map(x=>x.art),...Object.values(CARD_ART_THEMES).map(x=>x.art)];
+// This generated directory contains only copied runtime art; remove obsolete PNG copies.
+await rm(new URL('assets/',targetRoot),{recursive:true,force:true});
 const manifest={version:GAME_VERSION,entry:'index.html',files:[]};
 for(const file of files){const source=new URL(file,sourceRoot),target=new URL(file,targetRoot);await mkdir(new URL('./',target),{recursive:true});await copyFile(source,target);
  if(file.endsWith('.js')){const code=(await readFile(target,'utf8')).replace(/(from\s+['"])(\.\/[^'"]+\.js)(['"])/g,`$1$2?v=${GAME_VERSION}$3`);await writeFile(target,code);}

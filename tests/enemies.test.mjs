@@ -63,7 +63,7 @@ test('pre-portrait battles map to novel characters without losing their HP, RNG 
 });
 test('all 16 original and runtime portraits exist and each character has its own prompt',()=>{
  const prompts=JSON.parse(readFileSync(new URL('../art/enemy-prompts.json',import.meta.url),'utf8'));assert.equal(prompts.length,16);assert.equal(new Set(prompts.map(x=>x.id)).size,16);
- for(const d of ENEMIES){assert.ok(prompts.some(x=>x.id===d.id&&x.name===d.name&&x.prompt.includes('Subject:')));for(const path of [`assets/enemies/${d.id}.png`,d.art]){const bytes=readFileSync(new URL('../'+path,import.meta.url));assert.equal(bytes.subarray(1,4).toString(),'PNG');assert.ok(bytes.length>10000,d.name);}}
+ for(const d of ENEMIES){assert.ok(prompts.some(x=>x.id===d.id&&x.name===d.name&&x.prompt.includes('Subject:')));for(const path of [`assets/enemies/${d.id}.png`,d.art]){const bytes=readFileSync(new URL('../'+path,import.meta.url));if(bytes.subarray(1,4).toString()!=='PNG'){assert.equal(bytes.subarray(0,4).toString(),'RIFF');assert.equal(bytes.subarray(8,12).toString(),'WEBP');}assert.ok(bytes.length>10000,d.name);}}
 });
 
 test('defeating the last foe by reflect ends combat before a pending poison tick',()=>{

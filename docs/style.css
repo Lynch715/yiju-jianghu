@@ -310,3 +310,73 @@
  .layout[data-phase="battle"] .battlefield .player-intent{height:auto;min-height:0}
  .battlefield .player-name{font-size:14px;margin-bottom:3px}
 }
+
+/* Card size contract: ordinary 160x240, expanded 260x390, both 2:3.
+   Only the description scrolls; content length never changes the outer dimensions. */
+:root{--card-small-width:160px;--card-small-height:240px;--card-large-width:260px;--card-large-height:390px}
+.card,.collection .card,.reward-cards .card,.shop-product .card,.hand .card,.opening-cards .card{
+ width:var(--card-small-width);min-width:var(--card-small-width);max-width:var(--card-small-width);
+ height:var(--card-small-height);min-height:var(--card-small-height);max-height:var(--card-small-height);
+ flex:0 0 var(--card-small-width);padding:10px;overflow:hidden;
+}
+.card .cost{top:7px;left:7px;width:22px;height:22px;font-size:16px}
+.card .type{height:20px;min-height:20px;padding:0 0 4px;font-size:8px;line-height:16px;flex-shrink:0}
+.card h3{height:36px;min-height:36px;max-height:36px;margin:4px 0 7px;font-size:15px;line-height:18px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.card .card-art,.hand .card .card-art,.collection .card .card-art,.reward-cards .card .card-art{display:block;width:100%;object-fit:cover;object-position:center;border:1px solid #806e4350;border-radius:4px;background:#27352c;flex-shrink:0;height:64px;min-height:64px;max-height:64px;margin:0 0 7px}
+.card .description,.collection .card .description{flex:1 1 0;min-height:0;overflow-y:auto;overscroll-behavior:contain;font-size:10px;line-height:1.6;scrollbar-width:thin}
+.card footer{height:18px;min-height:18px;flex-shrink:0;margin-top:6px;padding-top:4px;font-size:8px;line-height:1.4}
+.card .card-source{font-size:8px;line-height:12px;margin-top:3px;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.card .unplayable{font-size:8px;line-height:12px;flex-shrink:0}
+.collection,.reward-cards{justify-content:center;align-items:flex-start}
+@media(max-width:900px){
+ .hand .card{width:100%;min-width:0;max-width:112px;height:var(--hand-card-height);min-height:var(--hand-card-height);max-height:var(--hand-card-height);padding:8px 2px;flex:none}
+ .hand .card .cost{left:50%;top:8px;width:21px;height:21px;font-size:15px}
+ .hand .card .type{height:auto;min-height:0;max-height:none;line-height:1.4}
+ .hand .card h3,.hand .card .card-art,.hand .card .description,.hand .card footer,.hand .card .unplayable{display:none}
+ .hand-preview{position:fixed;top:50%;bottom:auto;left:50%;transform:translate(-50%,-50%);width:282px;max-width:calc(100vw - 20px);max-height:calc(100dvh - 20px);padding:10px;gap:8px}
+ .hand-preview>.card{width:var(--card-large-width);min-width:var(--card-large-width);max-width:var(--card-large-width);height:var(--card-large-height);min-height:var(--card-large-height);max-height:var(--card-large-height);flex:0 0 var(--card-large-height);padding:14px;overflow:hidden}
+ .hand-preview>.card .cost{top:10px;left:10px;width:27px;height:27px;font-size:19px}
+ .hand-preview>.card .type{height:22px;min-height:22px;padding:0;font-size:10px;line-height:18px}
+ .hand-preview>.card h3{height:44px;min-height:44px;max-height:44px;margin:6px 0 10px;font-size:21px;line-height:22px}
+ .hand-preview>.card .card-art{height:114px;min-height:114px;max-height:114px;margin-bottom:10px}
+ .hand-preview>.card .description{flex:1 1 0;min-height:0;overflow-y:auto;font-size:13px;line-height:1.8}
+ .hand-preview>.card footer{height:22px;min-height:22px;margin-top:8px;padding-top:5px;font-size:10px}
+ .hand-preview>.card .card-source{font-size:9px;line-height:14px;margin-top:4px}
+ .hand-preview-head{height:27px;min-height:27px;font-size:11px}
+ .hand-preview-head button{min-height:27px}
+ .hand-preview-action{min-height:42px}
+ .hand-preview-action>button{min-height:42px;font-size:14px;padding:9px 12px}
+}
+@media(max-width:900px) and (max-height:560px){
+ /* Small landscape windows scale the entire large face uniformly, never by text length. */
+ .hand-preview>.card{zoom:.75}
+ .hand-preview{width:217px;padding:10px;gap:6px}
+}
+@media(max-width:900px){
+ .modal:has(.collection){padding:12px}
+ .modal:has(.collection) .modal-head{top:-12px}
+ .modal:has(.collection) .selection-footer{bottom:-12px}
+}
+
+/* Relics use distinct lightweight vector objects, with one consistent icon frame. */
+.relic-art{display:block;width:72px;height:72px;flex:0 0 72px;filter:drop-shadow(0 4px 4px #0004)}
+.relic-option-head{display:flex;align-items:center;gap:14px;margin-bottom:12px;text-align:left}
+.relic-option-head>div{min-width:0}
+.relic-option-head .eyebrow{font-size:10px;letter-spacing:2px}
+.relic-option-head h3{margin:6px 0 0;line-height:1.45;font-size:19px}
+.relic-option>p{text-align:left}
+.relic-token{display:inline-flex;align-items:center;gap:6px;padding:5px 9px}
+.relic-token .relic-art{width:28px;height:28px;flex-basis:28px}
+.relic-detail .relic-option-head{flex-direction:column;text-align:center}
+.relic-detail .relic-art{width:128px;height:128px;flex-basis:128px}
+.relic-detail .relic-option>p{font-size:14px;line-height:1.9}
+
+@media(max-width:900px) and (max-height:430px){.hand-preview>.card{zoom:.6}.hand-preview{width:178px}}
+@media(max-width:900px) and (max-height:350px){.hand-preview>.card{zoom:.5}.hand-preview{width:152px}}
+/* A flying card keeps the exact dimensions and folded face it had in the hand. */
+.played-card.folded-flight{align-items:center;padding:8px 2px}
+.played-card.folded-flight h3,.played-card.folded-flight .card-art,.played-card.folded-flight .description,.played-card.folded-flight footer,.played-card.folded-flight .unplayable{display:none}
+.played-card.folded-flight .cost{left:50%;top:8px;transform:translateX(-50%);width:21px;height:21px;font-size:15px}
+.played-card.folded-flight .folded-name{display:flex;align-items:center;gap:4px;writing-mode:vertical-rl;text-orientation:upright;font:15px/1.15 var(--serif);letter-spacing:1px;max-height:calc(var(--hand-card-height) - 53px);margin-top:31px;overflow:hidden}
+.played-card.folded-flight .folded-name small{font:8px/1.2 var(--sans);color:#547044;letter-spacing:0}
+.played-card.folded-flight .type{position:absolute;bottom:8px;left:0;right:0;width:100%;height:auto;min-height:0;padding:0;text-align:center;font-size:8px;line-height:1.4}
