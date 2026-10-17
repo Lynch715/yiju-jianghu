@@ -20,9 +20,9 @@ for(const up of [false,true])for(const d of CARDS)test(`${d.id} ${up?'refined':'
 });
 
 // Independent numeric expectations from the approved card table, with no strength or relics.
-const attacks={W01:[6,9],W02:[5,7],W03:[8,12],W04:[6,9],W07:[14,18],W08:[12,16],W09:[5,7],W10:[10,14],W11:[6,9],W14:[10,14],W15:[24,30],W19:[5,7],W32:[9,12],W33:[8,11],W34:[18,24],W43:[12,16],W44:[18,24],W46:[9,12],W47:[8,10],W50:[9,12],W52:[8,11],W53:[6,9],W55:[8,10],W56:[4,6],W58:[7,10],W60:[8,10],U08:[3,5],U11:[7,10],U12:[6,9],U18:[4,6],U19:[5,8]};
+const attacks={W01:[6,9],W02:[6,8],W03:[8,12],W04:[7,10],W07:[14,18],W08:[12,16],W09:[5,7],W10:[10,14],W11:[6,9],W14:[10,14],W15:[24,30],W19:[5,7],W32:[9,12],W33:[8,11],W34:[18,24],W43:[12,16],W44:[18,24],W46:[9,12],W47:[8,10],W50:[9,12],W52:[8,11],W53:[6,9],W55:[8,10],W56:[4,6],W58:[7,10],W60:[8,10],U08:[3,5],U11:[7,10],U12:[6,9],U18:[4,6],U19:[5,8]};
 for(const [id,damage] of Object.entries(attacks))for(const up of [false,true])test(`${id}: damage matches ${up?'refined':'base'} design`,()=>{const g=fixture([id]);play(g,id,[],up);assert.equal(g.s.b.enemies[0].hp,2000-damage[up?1:0]);});
-const guards={W02:[3,5],W05:[7,10],W06:[5,8],W09:[5,7],W19:[7,10],W20:[8,11],W21:[5,8],W23:[18,24],W24:[7,10],W25:[12,16],W30:[9,12],W57:[7,10],U01:[5,8],U10:[3,5],U13:[7,10],U20:[8,11]};
+const guards={W02:[4,6],W05:[7,10],W06:[8,11],W09:[5,7],W19:[7,10],W20:[6,9],W21:[5,8],W23:[18,24],W24:[7,10],W25:[12,16],W30:[9,12],W57:[7,10],U01:[5,8],U10:[3,5],U13:[5,8],U20:[8,11]};
 for(const [id,amount] of Object.entries(guards))for(const up of [false,true])test(`${id}: guard matches ${up?'refined':'base'} design`,()=>{const g=fixture([id]);play(g,id,[],up);assert.equal(g.s.b.block,amount[up?1:0]);});
 
 test('base strike + strength and multi-hit apply strength per hit',()=>{const g=fixture(['W08']);g.s.b.str=3;play(g,'W08');assert.equal(g.s.b.enemies[0].hp,1982);});

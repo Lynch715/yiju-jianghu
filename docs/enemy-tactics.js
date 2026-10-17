@@ -1,5 +1,5 @@
-import {CARD} from './data.js?v=0.10.0';
-import {ENEMY} from './enemies.js?v=0.10.0';
+import {CARD} from './data.js?v=0.11.0';
+import {ENEMY} from './enemies.js?v=0.11.0';
 // Original battle adaptations. The rule object is captured on each newly spawned
 // enemy; existing battles without it keep their existing behaviour.
 const TACTIC_IDS=new Set(['mugaofeng','tianboguang','xuedaolaozu','hebiweng','luzhangke','chengkun','jinlun','yucanghai','dingchunqiu','ouyangfeng']);
@@ -29,10 +29,10 @@ export function tacticalIntent(game,e,intent){
  }
  if(t.kind==='yucanghai'&&['三峡剑','摧心追命'].includes(intent.label))intent.damage+=3*(t.sword||0);
  if(t.kind==='dingchunqiu'){
-  if(intent.poison)intent.poison+=b.enemies.filter(x=>x.hp>0&&x.tactics?.kind==='poisonDisciple').length;
+  if(intent.poison)intent.poison+=Math.floor(b.enemies.filter(x=>x.hp>0&&x.tactics?.kind==='poisonDisciple').length/2);
   if(['星宿护身','毒功尽展'].includes(intent.label))intent.summonPoison=true;
  }
- if(t.kind==='poisonDisciple'&&t.actions>=2)return {label:'献毒自爆',damage:scaled(e,15),poison:2,selfDestruct:true};
+ if(t.kind==='poisonDisciple'&&t.actions>=2)return {label:'献毒自爆',damage:scaled(e,12),poison:1,selfDestruct:true};
  if(t.kind==='ouyangfeng'){
   if(e.enraged&&!t.seenEnraged){t.seenEnraged=true;e.weak=0;e.vuln=0;t.windup=0;t.broken=false;game.log(`${e.name} · 逆练换息，清除自身虚弱与破绽`);}
   if(t.broken)return {label:'蛤蟆功蓄力被破'};

@@ -1,8 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {runGame} from './playthrough.mjs';
+import {runGame,VIABILITY_SEEDS} from './playthrough.mjs';
 import {Game} from '../engine.js';
-const winningSeeds={劲力:1245,格挡:1308,变招:1063,血战:1598};
+const winningSeeds=VIABILITY_SEEDS;
 for(const policy of Object.keys(winningSeeds))for(const seed of [7,42,123,2026,1016,winningSeeds[policy]])test(`complete journey: ${policy}, seed ${seed}, uses real resource and reward rules`,()=>{
  const r=runGame(policy,seed);
  assert.ok(['win','lost'].includes(r.phase),'cannot hang in any scene');

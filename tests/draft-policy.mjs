@@ -1,0 +1,13 @@
+import {CARD} from '../data.js';
+// Audit-only adaptive drafting: scores the player's owned deck and visible
+// rewards, without inspecting upcoming offers, encounters or draw order.
+export function adaptiveCardScore(g,id){
+ const d=CARD[id],deck=g.s.deck,has=x=>deck.some(c=>c.id===x),n=x=>deck.filter(c=>c.id===x).length;
+ const self=deck.filter(c=>['W43','W44','W45','W54','U14'].includes(c.id)).length;
+ const consume=deck.filter(c=>['W18','W31','W32','W35','W39','W40','W41','W42','W45','W49','W54','W56','U03','U04','U05','U08','U10','U14','U15','U16','U17'].includes(c.id)).length;
+ const attacks=deck.filter(c=>CARD[c.id].type==='a').length,skills=deck.filter(c=>CARD[c.id].type==='s').length;
+ if(id==='W22'&&has(id))return -10;
+ const scores={W01:5,U01:15,U02:60,W02:62,W03:57,W04:60,W05:57,W06:70,W07:has('W13')||has('W12')||has('W51')?88:50,W08:has('W13')||has('W12')||has('W51')?85:54,W09:63,W10:65,W11:70,W12:92,W13:attacks>=5?90:65,W14:70,W15:50,W16:attacks>=7?65:35,W17:82,W18:70,W19:80,W20:60,W21:88,W22:98,W23:70,W24:75,W25:80,W26:has('W22')?85:50,W27:has('W22')?105:has('W28')||has('W29')?75:40,W28:skills>=6?92:65,W29:skills>=6?85:60,W30:62,W31:has('W36')||has('W37')||has('W38')?80:60,W32:has('W38')||has('W37')?80:58,W33:72,W34:consume>=4?75:48,W35:has('W38')||has('W37')?85:65,W36:consume>=3?85:38,W37:consume>=3?87:38,W38:consume>=3?88:45,W39:has('W38')||has('W37')?80:40,W40:72,W41:has('W36')&&has('W37')?78:35,W42:consume>=4?70:35,W43:has('W48')||has('W51')?90:72,W44:has('W48')||has('W51')?90:60,W45:self>=2||has('W48')?75:45,W46:self>=2?80:55,W47:self>=2?85:60,W48:self>=2?95:55,W49:g.s.hp<g.s.maxHp*.75?82:55,W50:78,W51:self>=2?95:45,W52:self>=2?80:55,W53:65,W54:self>=2||has('W48')?85:60,W55:72,W56:65,W57:72,W58:76,W59:has('W13')||has('W12')||has('W51')?85:48,W60:65,U03:55,U04:75,U05:70,U06:72,U07:72,U08:65,U09:62,U10:60,U11:has('W22')||has('W28')?78:62,U12:65,U13:55,U14:self>=2?78:65,U15:consume>=3?80:62,U16:60,U17:40,U18:58,U19:60,U20:65};
+ let value=scores[id]??40;if(d.type==='p'&&n(id)>=2)value-=25;if(n(id)>=2&&d.type!=='p')value-=18;if(n(id)>=4)value-=25;return value;
+}
+export function adaptiveRelicScore(g,id){const deck=g.s.deck,has=x=>deck.some(c=>c.id===x),consume=deck.filter(c=>['W31','W32','W35','W39','W40','W41','U10','U15','U04'].includes(c.id)).length;return ({R02:65,R03:60,R04:40,R05:50,R06:65,R07:has('W51')||has('W48')?90:40,R08:has('W51')||has('W48')?80:35,R09:consume>=3?95:45,R10:consume>=3?70:40,R11:45,R12:75,R13:55,R14:60,R15:85,R16:90,R17:consume>=3?85:35,R18:consume>=3?95:40,R19:deck.some(c=>CARD[c.id].type==='p')?90:40,R20:55,R21:50,R22:60,R23:55,R24:45,R25:consume>=3?100:80,R26:85,R27:has('W48')||has('W49')?90:50,R28:has('W21')||has('W36')?92:70,R29:65,R30:70})[id]||0;}

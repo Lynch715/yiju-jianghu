@@ -1,16 +1,16 @@
 {
-  "version": "0.10.0",
+  "version": "0.11.0",
   "entry": "index.html",
   "files": [
     {
       "path": "index.html",
       "bytes": 1166,
-      "sha256": "e7492d78c42d9ddffef588002c60ba5a64f034845dd3d78475772e9a36f4e23e"
+      "sha256": "9a5350cd934a0a4a63cdf966f682de4af4be3f6d4996cf07b32b803441481a05"
     },
     {
       "path": "manifest.webmanifest",
       "bytes": 755,
-      "sha256": "4d8dd883543740572739e04865b63754150553ee4d45ffbebcdc93197f6b23a3"
+      "sha256": "d624cfdcda8dc19e493a569fbdb1d764b15eb53b9fec9ba526aeffbc9255cea2"
     },
     {
       "path": "assets/icons/icon.svg",
@@ -39,13 +39,13 @@
     },
     {
       "path": "app.js",
-      "bytes": 59938,
-      "sha256": "92365c9ad3511fb499b1b00870fb7d5881ebb97f1ae49279aa5ed7249a4de670"
+      "bytes": 60127,
+      "sha256": "31029134558df7d6a3a6941385264dc2883bb20f3fdb0820e4d806f6ad2ee492"
     },
     {
       "path": "data.js",
       "bytes": 16352,
-      "sha256": "6882aa6168dec1948bf4c0c291e531e2aca290f83ad1a8b242927057daa0bf5c"
+      "sha256": "b8d3417b91bca29b1caecd7d638336ff8f932a18d613d519767bc9538301a277"
     },
     {
       "path": "journey.js",
@@ -65,22 +65,22 @@
     {
       "path": "relic-art.js",
       "bytes": 12406,
-      "sha256": "91b3a96baa2694b9ee2b74b4824515fc805caf7a6e4a97955add531de81c638f"
+      "sha256": "d6c7df006faa8b5ab2181cc664ea52948366e4471945797bd6a7e17db7249d89"
     },
     {
       "path": "enemy-tactics.js",
-      "bytes": 7121,
-      "sha256": "bf8eae5f617252a236f60ccc1330fac368c2ad73eeb106bb3aa28cc86ef7bbeb"
+      "bytes": 7135,
+      "sha256": "ff4cd9dea435a02f0f31db7f79b1758d56c3e35d1e927c927915e7f9a207a127"
     },
     {
       "path": "engine.js",
-      "bytes": 43830,
-      "sha256": "399837d60c4fee30dfd45f38cd9bee866f280f36322880ec1fb09626218a31b6"
+      "bytes": 44588,
+      "sha256": "c4d552d7c297494c831d13ab171d6c11b6f6ced042f494cb542ff331e984f4c4"
     },
     {
       "path": "difficulty.js",
-      "bytes": 2669,
-      "sha256": "75a250fdc24524959bed7f13e659d5dcd70bdd46e8e7ae8cce475f661395c8db"
+      "bytes": 2703,
+      "sha256": "c93bf7b733d7e4e38042c5582ea80a1cd7765a26ba17edd8abb3db41a42452e5"
     },
     {
       "path": "enemies.js",

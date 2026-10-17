@@ -9,8 +9,8 @@ const bosses={
 export function combatDefinition(base,ruleset){return ruleset===DIFFICULTY&&bosses[base.id]?{...base,...bosses[base.id]}:base;}
 export function encounterTuning(chapter,kind,count,escort,progress){
  if(kind==='boss')return {hpScale:escort?.75:1,damageScale:escort?.85:1,guardScale:escort?.85:1,hpBonus:0};
- if(kind==='elite')return {hpScale:escort?.75:[1.4,1.6,1.8][chapter],damageScale:escort?.8:[1.3,1.5,1.7][chapter],guardScale:escort?.85:1.25,hpBonus:0};
- const hpScale=count===3?[.68,.85,1][chapter]:count===2?[.85,1.05,1.25][chapter]:[1.25,1.65,2.05][chapter];
- const damageScale=count===3?[.7,.9,1.1][chapter]:count===2?[.9,1.1,1.35][chapter]:[1.25,1.6,1.95][chapter];
- return {hpScale,damageScale,guardScale:1+.15*chapter,hpBonus:Math.round(progress*7)*2};
+ if(kind==='elite')return {hpScale:escort?.75:[1.3,1.6,1.8][chapter],damageScale:escort?.8:[1.2,1.5,1.7][chapter],guardScale:escort?.85:1.25,hpBonus:0};
+ const hpScale=count===3?[.68,.95,1.12][chapter]:count===2?[.85,1.2,1.45][chapter]:[1.25,1.85,2.3][chapter];
+ const damageScale=count===3?[.7,1.05,1.25][chapter]:count===2?[.9,1.25,1.55][chapter]:[1.25,1.8,2.15][chapter];
+ return {hpScale,damageScale:damageScale*(1+.15*progress),guardScale:1+.15*chapter,hpBonus:Math.round(progress*7)*2};
 }

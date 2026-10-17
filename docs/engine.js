@@ -1,9 +1,9 @@
-import {attachEnemyTactics,tacticalIntent,onTacticalDamage,onTacticalExhaust,onTacticalPlay,onTacticalDeath,afterTacticalAction,afterTacticalFollowerAction} from './enemy-tactics.js?v=0.10.0';
-import {JOURNEY_FLOORS,JOURNEY_TOTAL,newJourney,journeyChapter} from './journey.js?v=0.10.0';
-import {PLAYERS,DEFAULT_PLAYER,cleanPlayerName,playerNameError,validPlayer,PLAYER_RETURN_PHASES} from './players.js?v=0.10.0';
-import {ENEMY,ENCOUNTERS,ENCOUNTER_GROUPS} from './enemies.js?v=0.10.0';
-import {DIFFICULTY,combatDefinition,encounterTuning} from './difficulty.js?v=0.10.0';
-import {CARDS,CARD,RELICS,RELIC,CHAPTERS,ROUTES,isEthereal,OPENING_BOONS} from './data.js?v=0.10.0';
+import {attachEnemyTactics,tacticalIntent,onTacticalDamage,onTacticalExhaust,onTacticalPlay,onTacticalDeath,afterTacticalAction,afterTacticalFollowerAction} from './enemy-tactics.js?v=0.11.0';
+import {JOURNEY_FLOORS,JOURNEY_TOTAL,newJourney,journeyChapter} from './journey.js?v=0.11.0';
+import {PLAYERS,DEFAULT_PLAYER,cleanPlayerName,playerNameError,validPlayer,PLAYER_RETURN_PHASES} from './players.js?v=0.11.0';
+import {ENEMY,ENCOUNTERS,ENCOUNTER_GROUPS} from './enemies.js?v=0.11.0';
+import {DIFFICULTY,combatDefinition,encounterTuning} from './difficulty.js?v=0.11.0';
+import {CARDS,CARD,RELICS,RELIC,CHAPTERS,ROUTES,isEthereal,OPENING_BOONS} from './data.js?v=0.11.0';
 
 export const SAVE_VERSION=7;
 export const STARTING_DECK=Object.freeze([...Array(5).fill('W01'),...Array(4).fill('U01'),'U02']);
@@ -246,11 +246,11 @@ export class Game {
   if(!this.paySelf(c))return;
   switch(c.id){
    case 'W01':h(v(6,9));break;
-   case 'W02':h(v(5,7));g(v(3,5));break;
+   case 'W02':h(v(6,8));g(v(4,6));break;
    case 'W03':h(v(8,12));break;
-   case 'W04':h(v(6,9));if(ctx.previous==='s')draw(1);break;
+   case 'W04':h(v(7,10));if(ctx.previous==='s')draw(1);break;
    case 'W05':g(v(7,10));break;
-   case 'W06':g(v(5,8));draw(1);break;
+   case 'W06':g(v(8,11));draw(1);break;
    case 'W07':h(v(14,18),{str:v(3,4)});break;
    case 'W08':h(v(6,8),{times:2});break;
    case 'W09':h(v(5,7));g(v(5,7));break;
@@ -264,7 +264,7 @@ export class Game {
    case 'W17':for(const t of b.enemies.filter(x=>x.hp>0))t.weak+=v(2,3);break;
    case 'W18':b.repeat=(Number(b.repeat)||0)+1;break;
    case 'W19':h(v(5,7));g(v(7,10));break;
-   case 'W20':g(v(8,11)+(e.lastAction?.attacks?3:0));break;
+   case 'W20':g(v(6,9)+(e.lastAction?.attacks?3:0));break;
    case 'W21':g(v(5,8));draw(2);break;
    case 'W22':break;
    case 'W23':g(v(18,24));break;
@@ -314,7 +314,7 @@ export class Game {
    case 'U10':g(v(3,5));break;
    case 'U11':h(v(7,10));if(b.block>=10)draw(1);break;
    case 'U12':h(v(6,9));draw(1);break;
-   case 'U13':g(v(7,10));b.nextDraw++;break;
+   case 'U13':g(v(5,8));b.nextDraw++;break;
    case 'U14':this.energy(v(1,2));break;
    case 'U15':retire();draw(v(1,2));break;
    case 'U16':for(const x of b.hand)if(selected.includes(x.uid))x.up=true;break;
@@ -407,8 +407,11 @@ export class Game {
   this.s.scene={kind,chapter:this.chapter,step:this.s.step,nodeId:node.id,place:node.name};
   if(['battle','elite','boss'].includes(kind)){this.combat(kind);return true;}
   this.s.phase=kind;
-  if(kind==='shop')this.s.scene.stock={cards:this.offerCards(4).map((id,i)=>({id,price:CARD[id].rarity===3?125:CARD[id].rarity===2?65:40,sold:false})),relic:this.offerRelics(1,[1,2])[0],relicPrice:120,removed:false};
-  if(kind==='event')this.s.scene.event=this.pick(this.s.journey?['master','shrine','traveller','cliff','clinic','cache','stone','ferry']:['master','shrine','traveller','cliff']);
+  if(kind==='shop'){
+   const hard=this.s.ruleset===DIFFICULTY,stock={cards:this.offerCards(4).map(id=>({id,price:hard?({1:45,2:85,3:165}[CARD[id].rarity]):CARD[id].rarity===3?125:CARD[id].rarity===2?65:40,sold:false})),relic:this.offerRelics(1,[1,2])[0],relicPrice:120,removed:false};
+   if(hard){stock.removePrice=60+25*(this.s.shopRemovals||0);stock.relicPrice=stock.relic&&RELIC[stock.relic].tier===2?165:135;}this.s.scene.stock=stock;
+  }
+  if(kind==='event'){this.s.scene.event=this.pick(this.s.journey?['master','shrine','traveller','cliff','clinic','cache','stone','ferry']:['master','shrine','traveller','cliff']);if(this.s.ruleset===DIFFICULTY)this.s.scene.cliffCost=12+2*this.chapter;}
   if(kind==='treasure'){this.s.scene.relics=this.offerRelics(2,[1,2]);this.s.scene.claimed=null;}
   return true;
  }
@@ -450,6 +453,7 @@ export class Game {
    let rarity=absolute?3:(()=>{const x=this.random();return x<.65?1:x<.95?2:3;})();if(elite&&i===0)rarity=Math.max(2,rarity);
    const universal=!absolute&&this.random()<.2;
    let pool=CARDS.filter(x=>x.rarity===rarity&&(absolute||x.id.startsWith(universal?'U':'W'))&&!offered.includes(x.id)&&!(x.id==='W22'&&this.s.deck.some(c=>c.id===x.id)));
+   if(!pool.length)pool=CARDS.filter(x=>x.rarity===rarity&&!offered.includes(x.id)&&!(x.id==='W22'&&this.s.deck.some(c=>c.id===x.id)));
    if(!pool.length)pool=CARDS.filter(x=>x.rarity>0&&!offered.includes(x.id)&&!(x.id==='W22'&&this.s.deck.some(c=>c.id===x.id)));
    if(!pool.length)break;offered.push(this.pick(pool).id);
   }
@@ -481,12 +485,14 @@ export class Game {
  }
  buyCard(index){if(this.s.phase!=='shop')return false;const x=this.s.scene.stock.cards[index];if(!x||x.sold||this.s.gold<x.price)return false;this.s.gold-=x.price;x.sold=true;this.s.deck.push(this.make(x.id));return true;}
  buyRelic(){if(this.s.phase!=='shop')return false;const x=this.s.scene.stock;if(!x.relic||x.relicSold||this.s.gold<x.relicPrice||this.has(x.relic))return false;this.s.gold-=x.relicPrice;this.s.relics.push(x.relic);x.relicSold=true;return true;}
- removeCard(uid){if(this.s.phase!=='shop')return false;const x=this.s.scene.stock;if(x.removed||this.s.gold<60)return false;const i=this.s.deck.findIndex(x=>x.uid===uid);if(i<0)return false;this.s.deck.splice(i,1);this.s.gold-=60;x.removed=true;return true;}
+ get removalCost(){return this.s?.scene?.stock?.removePrice??60;}
+ get cliffCost(){return this.s?.scene?.cliffCost??6;}
+ removeCard(uid){if(this.s.phase!=='shop')return false;const x=this.s.scene.stock;const price=this.removalCost;if(x.removed||this.s.gold<price)return false;const i=this.s.deck.findIndex(x=>x.uid===uid);if(i<0)return false;this.s.deck.splice(i,1);this.s.gold-=price;if(this.s.ruleset===DIFFICULTY)this.s.shopRemovals=(this.s.shopRemovals||0)+1;x.removed=true;return true;}
  eventChoice(option){
   if(this.s.phase!=='event'||this.s.scene.result||![0,1,2].includes(option))return false;const e=this.s.scene.event;let message='';
   if(option===2){message='你拱手告辞，继续赶路。';}
   else if(e==='master'){
-   if(option===0){const pool=CARDS.filter(d=>d.id.startsWith('W')&&d.rarity>0&&!(d.type==='p'&&this.s.deck.some(c=>c.id===d.id)));if(!pool.length)return false;const id=this.pick(pool).id;this.s.deck.push(this.make(id));message=`老者点拨，习得「${CARD[id].name}」。`;}
+   if(option===0){const pool=CARDS.filter(d=>d.id.startsWith('W')&&d.rarity>0&&!(d.type==='p'&&this.s.deck.some(c=>c.id===d.id)));if(!pool.length)return false;const id=this.s.ruleset===DIFFICULTY?this.offerCards(1)[0]:this.pick(pool).id;this.s.deck.push(this.make(id));message=`老者点拨，习得「${CARD[id].name}」。`;}
    else {const pool=this.s.deck.filter(c=>!c.up&&CARD[c.id].rarity>0);if(!pool.length)return false;const c=this.pick(pool);c.up=true;message=`融会贯通，「${CARD[c.id].name}」得到永久精进。`;}
   }else if(e==='shrine'){
    if(option===0){const ids=this.offerRelics(1,[1,2]);if(!ids.length)return false;this.s.relics.push(ids[0]);this.s.deck.push(this.make('CURSE'));message=`取得「${RELIC[ids[0]].name}」，心魔悄然入牌。`;}
@@ -495,7 +501,7 @@ export class Game {
    if(option===0){if(this.s.gold<35)return false;this.s.gold-=35;this.s.maxHp+=8;this.heal(8,'药王传人');message='气血上限增加8，回复8气血。';}
    else{this.s.gold+=35;message='护送旅人，获得35银两。';}
   }else if(e==='cliff'){
-   if(option===0){if(this.s.hp<=6)return false;this.s.hp-=6;this.bee();const id=this.offerCards(1,{absolute:true})[0];this.s.deck.push(this.make(id));message=`攀上绝壁，失去6气血，发现「${CARD[id].name}」秘籍。`;}
+   if(option===0){const cost=this.cliffCost;if(this.s.hp<=cost)return false;this.s.hp-=cost;this.bee();const id=this.offerCards(1,{absolute:true})[0];this.s.deck.push(this.make(id));message=`攀上绝壁，失去${cost}气血，发现「${CARD[id].name}」秘籍。`;}
    else {this.s.gold+=25;message='沿山路捡得遗落钱袋，获得25银两。';}
   }
   if(!message&&e==='clinic'){
