@@ -1,8 +1,8 @@
-import {JOURNEY_FLOORS,JOURNEY_TOTAL,newJourney,journeyChapter} from './journey.js?v=0.8.0';
-import {PLAYERS,DEFAULT_PLAYER,cleanPlayerName,playerNameError,validPlayer,PLAYER_RETURN_PHASES} from './players.js?v=0.8.0';
-import {ENEMY,ENCOUNTERS,ENCOUNTER_GROUPS} from './enemies.js?v=0.8.0';
-import {DIFFICULTY,combatDefinition,encounterTuning} from './difficulty.js?v=0.8.0';
-import {CARDS,CARD,RELICS,RELIC,CHAPTERS,ROUTES,isEthereal,OPENING_BOONS} from './data.js?v=0.8.0';
+import {JOURNEY_FLOORS,JOURNEY_TOTAL,newJourney,journeyChapter} from './journey.js?v=0.8.1';
+import {PLAYERS,DEFAULT_PLAYER,cleanPlayerName,playerNameError,validPlayer,PLAYER_RETURN_PHASES} from './players.js?v=0.8.1';
+import {ENEMY,ENCOUNTERS,ENCOUNTER_GROUPS} from './enemies.js?v=0.8.1';
+import {DIFFICULTY,combatDefinition,encounterTuning} from './difficulty.js?v=0.8.1';
+import {CARDS,CARD,RELICS,RELIC,CHAPTERS,ROUTES,isEthereal,OPENING_BOONS} from './data.js?v=0.8.1';
 
 export const SAVE_VERSION=6;
 export const STARTING_DECK=Object.freeze([...Array(5).fill('W01'),...Array(4).fill('U01'),'U02']);
@@ -266,7 +266,7 @@ export class Game {
    case 'W24':g(v(7,10));b.reflectNext=v(8,12);break;
    case 'W25':g(v(12,16));b.reflectPool+=v(12,18);break;
    case 'W26':g(Math.floor(b.block*v(.5,.75)));break;
-   case 'W27':h(Math.min(b.block,v(24,32)),{str:0});break;
+   case 'W27':h(b.block,{str:0});break;
    case 'W28':case 'W29':break;
    case 'W30':g(v(9,12));for(const x of b.hand)if(selected.includes(x.uid))x.retain=true;break;
    case 'W31':retire();draw(v(2,3));break;
@@ -326,7 +326,7 @@ export class Game {
  }
  beginTurn(first=false){
   const b=this.s.b;b.turn++;this.s.stats.turns++;
-  const keep=this.power('W22');b.block=keep===null?0:Math.min(b.block,keep?40:30);
+  if(this.power('W22')===null)b.block=0;
   b.turnFlags={plays:0,attacks:0,last:null,retired:0,badRetired:0,self:false};b.qiPenalty=Math.min(this.qiMax,b.nextQiLoss||0);b.qi=Math.max(0,this.qiMax-b.qiPenalty);b.nextQiLoss=0;b.discount=0;b.repeat=false;b.reflectNext=0;b.reflectPool=0;
   const p=this.power('W12');if(p!==null){b.str+=p?3:2;this.log(`紫霞神功 · 劲力+${p?3:2}`);}
   if(first){if(this.has('R02'))b.str++;if(this.has('R04'))b.str+=2;if(this.has('R05'))this.block(8);}
