@@ -711,3 +711,12 @@
 @media(max-width:360px){.hand[data-count="9"] .folded-name,.hand[data-count="10"] .folded-name{font-size:10px;line-height:.95}}
 @media(max-width:900px){.hand .card .folded-name{width:fit-content;align-self:center;max-width:100%}}
 @media(max-width:900px){.hand .card .folded-name{overflow:visible}.hand[data-count="9"] .folded-name,.hand[data-count="10"] .folded-name{width:100%;overflow:hidden}}
+
+@media(max-width:900px){
+ .hand .card .folded-name,.played-card.folded-flight .folded-name{display:flex;flex-direction:row-reverse;justify-content:center;align-items:flex-start;writing-mode:horizontal-tb;width:100%;max-width:100%;gap:1px;overflow:visible}
+ .folded-column{display:block;writing-mode:vertical-rl;text-orientation:upright;white-space:nowrap;flex-shrink:0}
+ .hand[data-count="7"] .folded-name,.hand[data-count="8"] .folded-name{font-size:12px;line-height:1;letter-spacing:0}
+}
+
+@media(max-width:900px){.hand[data-count="6"] .folded-name{font-size:12px;line-height:1;letter-spacing:0}}
+@media(max-width:360px){.hand[data-count="9"] .folded-name,.hand[data-count="10"] .folded-name{font-size:9.5px;line-height:1;gap:0}}

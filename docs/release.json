@@ -9,8 +9,8 @@
     },
     {
       "path": "app.js",
-      "bytes": 60121,
-      "sha256": "34c4272472a3215771ebfa9f8251ac8f8c35752286d1918463fe710ac4c57626"
+      "bytes": 60392,
+      "sha256": "be85100e984156d81c575f46c950659ecb03735c304d435ed5a48ab3c1fa117e"
     },
     {
       "path": "data.js",
@@ -59,8 +59,8 @@
     },
     {
       "path": "style.css",
-      "bytes": 91094,
-      "sha256": "f336727ebaf852e7ef321c3af7a5722314659e4c0819a89bba7b59a3642c28e3"
+      "bytes": 91826,
+      "sha256": "81666a97392b7a16c1224fb9ab6083ae931ceb929d376726508ff6c79c59c5ba"
     },
     {
       "path": "assets/enemies/runtime/qingcheng.webp",
