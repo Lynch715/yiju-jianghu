@@ -731,3 +731,9 @@
  .layout[data-phase="battle"] .battlefield .player{flex:0 0 auto}
  .layout[data-phase="battle"] .battlefield .player{margin-top:auto}
 }
+
+.author-contact{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:18px 20px;margin:4px 0 20px;border:1px solid #b79e6559;border-radius:10px;background:linear-gradient(120deg,#c4a56912,#26372b55);text-align:left}
+.author-contact small{display:block;color:#b8c3aa;font-size:11px;letter-spacing:1px}
+.author-contact strong{display:block;color:#ead5a7;font:23px/1.4 var(--serif);letter-spacing:1px;margin-top:5px;user-select:text;-webkit-user-select:text}
+.author-contact>span{font-size:10px;color:#a9b69d;line-height:1.7;text-align:right}
+@media(max-width:560px){.author-contact{padding:15px;gap:12px}.author-contact strong{font-size:22px}.author-contact small{font-size:10px}.author-contact>span{font-size:9px;max-width:75px}}

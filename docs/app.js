@@ -1,13 +1,13 @@
-import {validJourney} from './journey.js?v=0.7.3';
-import {travelMark,travelTerrain} from './map-art.js?v=0.7.3';
-import {relicIcon} from './relic-art.js?v=0.7.3';
-import {cardArtwork} from './card-art.js?v=0.7.3';
-import {combatSnapshot,combatFeedback} from './combat-ui.js?v=0.7.3';
-import {PLAYERS,PLAYER,validPlayer,validCharacterDraft,playerNameError,cleanPlayerName} from './players.js?v=0.7.3';
-import {ENEMIES,ENEMY,ENEMY_RANK} from './enemies.js?v=0.7.3';
-import {CARDS,CARD,RELICS,RELIC,CHAPTERS,ROUTES,NODE_NAMES,TYPE,RARITY,describe,GAME_VERSION,OPENING_BOONS} from './data.js?v=0.7.3';
-import {Game,SAVE_VERSION,validOpening} from './engine.js?v=0.7.3';
-document.title=`一局江湖 · v${GAME_VERSION}`;
+import {validJourney} from './journey.js?v=0.7.4';
+import {travelMark,travelTerrain} from './map-art.js?v=0.7.4';
+import {relicIcon} from './relic-art.js?v=0.7.4';
+import {cardArtwork} from './card-art.js?v=0.7.4';
+import {combatSnapshot,combatFeedback} from './combat-ui.js?v=0.7.4';
+import {PLAYERS,PLAYER,validPlayer,validCharacterDraft,playerNameError,cleanPlayerName} from './players.js?v=0.7.4';
+import {ENEMIES,ENEMY,ENEMY_RANK} from './enemies.js?v=0.7.4';
+import {CARDS,CARD,RELICS,RELIC,CHAPTERS,ROUTES,NODE_NAMES,TYPE,RARITY,describe,GAME_VERSION,OPENING_BOONS} from './data.js?v=0.7.4';
+import {Game,SAVE_VERSION,validOpening} from './engine.js?v=0.7.4';
+document.title=`一局一江湖 · v${GAME_VERSION}`;
 const $=s=>document.querySelector(s), SAVE='yiju-jianghu-v1';
 const escapeHTML=text=>String(text).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const icon={battle:'剑',elite:'武',rest:'憩',event:'缘',shop:'市',boss:'巅'};
@@ -114,7 +114,7 @@ function modalBody(){
  let title='',body='';
  if(modal.type==='enemy-book'){title='江湖群敌 · 立绘与招式';body=`<p class="muted">人物、势力取自金庸小说；立绘、战斗机制与数值为本游戏改编。中毒：敌方行动结束时扣等量气血，随后减少1；寒气：下回合少真气，最多减少2点。</p><div class="enemy-gallery">${ENEMIES.map(d=>`<article class="enemy-entry rank-${d.rank}">${enemyFigure(d)}<div><span class="eyebrow">第${d.chapter+1}章 · ${ENEMY_RANK[d.rank]}</span><h3>${d.name}</h3><small>${d.faction} · ${d.source} · 气血${d.hp}</small><p>${d.trait}</p><div class="enemy-moves">${d.moves.map(i=>`<div><strong>${i.label}</strong><small>${moveText(i)}</small></div>`).join('')}${d.enragedMoves?'<h4>逆练阶段 · 半血触发</h4>'+d.enragedMoves.map(i=>`<div><strong>${i.label}</strong><small>${moveText(i)}</small></div>`).join(''):''}</div></div></article>`).join('')}</div>`;}
  if(modal.type==='help'){title='初入江湖须知';body=help();}
- if(modal.type==='menu'){title='歇笔片刻';body=`<div class="choices"><button data-action="catalogue">武学与奇物图鉴</button><button data-action="enemy-book">江湖群敌与招式</button><button data-action="edit-player">修改姓名与立绘</button><button data-action="help">初入江湖须知</button><button data-action="map">查看江湖行程</button><button data-action="export">导出当前存档副本</button><label class="choice">导入存档<input type="file" id="import-save" accept="application/json,.json" style="display:block;margin-top:12px"></label><button data-action="home">回到题页</button><button class="danger" data-action="restart">结束此局，重新出山</button></div><p class="muted" style="font-size:12px">${saveError?'本机自动存档不可用，请导出副本保存。':'操作后自动保存，可随时继续。'} 导入会替换当前进度。</p>`;}
+ if(modal.type==='menu'){title='游戏设置';body=`<section class="author-contact" aria-label="联系作者"><div><small>联系作者 · 建议与反馈</small><strong>lynchrrr</strong></div><span>可选中复制</span></section><div class="choices"><button data-action="catalogue">武学与奇物图鉴</button><button data-action="enemy-book">江湖群敌与招式</button><button data-action="edit-player">修改姓名与立绘</button><button data-action="help">初入江湖须知</button><button data-action="map">查看江湖行程</button><button data-action="export">导出当前存档副本</button><label class="choice">导入存档<input type="file" id="import-save" accept="application/json,.json" style="display:block;margin-top:12px"></label><button data-action="home">回到题页</button><button class="danger" data-action="restart">结束此局，重新出山</button></div><p class="muted" style="font-size:12px">${saveError?'本机自动存档不可用，请导出副本保存。':'操作后自动保存，可随时继续。'} 导入会替换当前进度。</p>`;}
  if(modal.type==='confirm-new'){title='另起一段江湖';body='<p class="muted">开始新的一局会替换当前自动存档。你可以先回菜单导出副本。</p><button class="primary" data-action="confirm-new">开始新一局</button>';}
  if(modal.type==='map'){title='江湖行程';body=mapBoard(false);}
  if(modal.type==='log'){title='本场完整战报';body=`<div class="log-lines" style="max-height:65vh">${game.s.b.log.slice().reverse().map(x=>`<div>${x}</div>`).join('')}</div>`;}

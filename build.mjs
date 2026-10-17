@@ -19,7 +19,12 @@ const script='const CARD_IMAGE_DATA='+JSON.stringify(cardImages)+';\n'+'const PL
 const css=await readFile(new URL('style.css',import.meta.url),'utf8');
 let html=await readFile(new URL('index.html',import.meta.url),'utf8');
 html=html.replace('<link rel="stylesheet" href="style.css">',`<style>${css}</style>`).replace('<script type="module" src="app.js"></script>',`<script type="module">\n${script}\n</script>`);
-html=html.replace(/<title>[^<]*<\/title>/,`<title>一局江湖 · v${GAME_VERSION}</title>`);
+// Standalone files keep their icons inline and do not link an online install manifest.
+html=html.replace(/<link rel="manifest"[^>]*>/,'');
+const iconSVG=await readFile(new URL('assets/icons/icon.svg',import.meta.url),'utf8');
+html=html.replace('href="assets/icons/icon.svg"',`href="data:image/svg+xml,${encodeURIComponent(iconSVG)}"`);
+for(const file of ['favicon-32.png','apple-touch-icon.png']){const icon=await readFile(new URL('assets/icons/'+file,import.meta.url));html=html.replace('href="assets/icons/'+file+'"',`href="data:image/png;base64,${icon.toString('base64')}"`);}
+html=html.replace(/<title>[^<]*<\/title>/,`<title>一局一江湖 · v${GAME_VERSION}</title>`);
 if(/(?:src|href)="(?:app\.js|style\.css)"/.test(html)||/^import .*?from /m.test(script))throw Error('Build contains external module dependencies');
 await mkdir(new URL('dist/',import.meta.url),{recursive:true});
 await writeFile(new URL('dist/一局江湖.html',import.meta.url),html);
