@@ -5,9 +5,12 @@ import {GAME_VERSION} from '../data.js';
 import {ENEMIES} from '../enemies.js';
 import {PLAYERS} from '../players.js';
 const sourceRoot=new URL('../',import.meta.url),targetRoot=new URL('../docs/',import.meta.url);
-const files=['index.html','app.js','data.js','engine.js','enemies.js','players.js','style.css',...ENEMIES.map(x=>x.art),...PLAYERS.map(x=>x.art)];
+const files=['index.html','app.js','data.js','engine.js','enemies.js','players.js','combat-ui.js','style.css',...ENEMIES.map(x=>x.art),...PLAYERS.map(x=>x.art)];
 const manifest={version:GAME_VERSION,entry:'index.html',files:[]};
-for(const file of files){const source=new URL(file,sourceRoot),target=new URL(file,targetRoot);await mkdir(new URL('./',target),{recursive:true});await copyFile(source,target);const bytes=await readFile(target);manifest.files.push({path:file,bytes:bytes.length,sha256:createHash('sha256').update(bytes).digest('hex')});}
+for(const file of files){const source=new URL(file,sourceRoot),target=new URL(file,targetRoot);await mkdir(new URL('./',target),{recursive:true});await copyFile(source,target);
+ if(file.endsWith('.js')){const code=(await readFile(target,'utf8')).replace(/(from\s+['"])(\.\/[^'"]+\.js)(['"])/g,`$1$2?v=${GAME_VERSION}$3`);await writeFile(target,code);}
+ if(file==='index.html'){const html=(await readFile(target,'utf8')).replace('href="style.css"',`href="style.css?v=${GAME_VERSION}"`).replace('src="app.js"',`src="app.js?v=${GAME_VERSION}"`);await writeFile(target,html);}
+ const bytes=await readFile(target);manifest.files.push({path:file,bytes:bytes.length,sha256:createHash('sha256').update(bytes).digest('hex')});}
 await writeFile(new URL('.nojekyll',targetRoot),'');
 await writeFile(new URL('release.json',targetRoot),JSON.stringify(manifest,null,2)+'\n');
 console.log(`Pages v${GAME_VERSION}: ${files.length} files, ${manifest.files.reduce((sum,x)=>sum+x.bytes,0)} bytes; artwork loads separately.`);
