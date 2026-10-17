@@ -709,3 +709,5 @@
  .hand[data-count="9"] .folded-name,.hand[data-count="10"] .folded-name{font-size:11px;line-height:1;letter-spacing:0}
 }
 @media(max-width:360px){.hand[data-count="9"] .folded-name,.hand[data-count="10"] .folded-name{font-size:10px;line-height:.95}}
+@media(max-width:900px){.hand .card .folded-name{width:fit-content;align-self:center;max-width:100%}}
+@media(max-width:900px){.hand .card .folded-name{overflow:visible}.hand[data-count="9"] .folded-name,.hand[data-count="10"] .folded-name{width:100%;overflow:hidden}}
