@@ -1,10 +1,10 @@
-import {JOURNEY_FLOORS,JOURNEY_TOTAL,newJourney,journeyChapter} from './journey.js?v=0.8.1';
-import {PLAYERS,DEFAULT_PLAYER,cleanPlayerName,playerNameError,validPlayer,PLAYER_RETURN_PHASES} from './players.js?v=0.8.1';
-import {ENEMY,ENCOUNTERS,ENCOUNTER_GROUPS} from './enemies.js?v=0.8.1';
-import {DIFFICULTY,combatDefinition,encounterTuning} from './difficulty.js?v=0.8.1';
-import {CARDS,CARD,RELICS,RELIC,CHAPTERS,ROUTES,isEthereal,OPENING_BOONS} from './data.js?v=0.8.1';
+import {JOURNEY_FLOORS,JOURNEY_TOTAL,newJourney,journeyChapter} from './journey.js?v=0.9.0';
+import {PLAYERS,DEFAULT_PLAYER,cleanPlayerName,playerNameError,validPlayer,PLAYER_RETURN_PHASES} from './players.js?v=0.9.0';
+import {ENEMY,ENCOUNTERS,ENCOUNTER_GROUPS} from './enemies.js?v=0.9.0';
+import {DIFFICULTY,combatDefinition,encounterTuning} from './difficulty.js?v=0.9.0';
+import {CARDS,CARD,RELICS,RELIC,CHAPTERS,ROUTES,isEthereal,OPENING_BOONS} from './data.js?v=0.9.0';
 
-export const SAVE_VERSION=6;
+export const SAVE_VERSION=7;
 export const STARTING_DECK=Object.freeze([...Array(5).fill('W01'),...Array(4).fill('U01'),'U02']);
 const exhausted=new Set(['W18','W39','W40','W41','W42','W45','W49','W54','W56','U03','U04','U05','U08','U10','U14','U15','U16','U17']);
 const multi=new Set(['W08','W44','W47','W55','W59','W60']);
@@ -126,14 +126,18 @@ export class Game {
   return floor===0?row:row.filter(n=>map.edges.some(([a,b])=>a===this.s.journey.path.at(-1)&&b===n.id));
  }
  get qiMax(){return 3+['R25','R26','R27','R28'].filter(x=>this.has(x)).length;}
- power(id){const p=this.s.b?.powers[id];return p===undefined?null:(p?1:0);}
+ powerCopies(id){const b=this.s.b,copies=b?.powerStacks?.[id];return Array.isArray(copies)?copies:(b?.powers[id]===undefined?[]:[!!b.powers[id]]);}
+ power(id){const copies=this.powerCopies(id);return copies.length?(copies.some(Boolean)?1:0):null;}
+ powerSum(id,base,up){return this.powerCopies(id).reduce((n,refined)=>n+(refined?up:base),0);}
+ addPower(card){const b=this.s.b,copies=[...this.powerCopies(card.id),!!card.up];b.powers[card.id]=copies.some(Boolean);if(copies.length>1){b.powerStacks??={};b.powerStacks[card.id]=copies;}}
+ reflectionStacks(kind){const b=this.s.b;return kind==='next'?(b.reflectNextStacks||(b.reflectNext?1:0)):(b.reflectRoundStacks||(b.reflectPool?1:0));}
  val(card,a,b){return card.up?b:a;}
  energy(n){this.s.b.qi+=n;if(n)this.log(`回复${n}真气`);}
  heal(n,source='调息'){const before=this.s.hp;this.s.hp=Math.min(this.s.maxHp,this.s.hp+n);if(this.s.hp>before)this.log(`${source} · 回复${this.s.hp-before}气血`);}
  block(n,direct=false,ctx=null){
   const b=this.s.b;
   n=Math.max(0,Math.floor(n));
-  if(direct&&ctx&&!ctx.blockBoosted){const p=this.power('W29');if(p!==null)n+=p?3:2;if(this.has('R06')&&!b.turnFlags.glove){n+=3;b.turnFlags.glove=true;this.log('金丝手套 · 额外格挡3');}ctx.blockBoosted=true;}
+  if(direct&&ctx&&!ctx.blockBoosted){n+=this.powerSum('W29',2,3);if(this.has('R06')&&!b.turnFlags.glove){n+=3;b.turnFlags.glove=true;this.log('金丝手套 · 额外格挡3');}ctx.blockBoosted=true;}
   b.block+=n;if(n)this.log(`获得${n}格挡（现有${b.block}）`);
  }
  low(){return this.s.hp<=this.s.maxHp/2;}
@@ -143,24 +147,24 @@ export class Game {
   const n=this.actualSelf(card);if(!n)return true;if(this.s.hp<=n)return false;
   const b=this.s.b;this.s.hp-=n;this.s.stats.self+=n;if(this.has('R08')&&b.battleFlags.bandage<2)b.battleFlags.bandage++;
   this.log(`${CARD[card.id].name} · 自损${n}气血`);
-  if(!b.turnFlags.self){const p=this.power('W51');if(p!==null){b.str+=p?2:1;this.log(`逆练蛤蟆功 · 劲力+${p?2:1}`);}const q=this.power('W48');if(q!==null)this.block(q?8:6);if(this.has('R07'))this.block(4);}
+  const strength=this.powerSum('W51',1,2);if(strength){b.str+=strength;this.log(`逆练蛤蟆功 · 劲力+${strength}`);}this.block(this.powerSum('W48',6,8));if(this.has('R07'))this.block(4);
   b.turnFlags.self=true;this.bee();return true;
  }
  draw(n){const b=this.s.b;for(let i=0;i<n;i++){if(!b.draw.length){if(!b.discard.length)break;b.draw=this.shuffle(b.discard.splice(0));this.log('弃牌洗回抽牌堆');}const c=b.draw.pop();if(b.hand.length<10)b.hand.push(c);else{delete c.retain;b.discard.push(c);this.log('手牌已满 · 抽到的牌进入弃牌堆');}}}
  addStatus(n){for(let i=0;i<n;i++)this.s.b.discard.push(this.make('QI'));this.log(`弃牌堆加入${n}张气滞`);}
  exhaustCard(c){
   const b=this.s.b;b.exhaust.push(c);delete c.retain;this.s.stats.exhausted++;b.turnFlags.retired++;this.log(`消耗 · ${CARD[c.id].name}`);
-  const p=this.power('W38');if(p!==null)this.block(p?4:3);
-  const q=this.power('W37');if(q!==null&&b.turnFlags.retired<=(q?3:2))this.energy(1);
-  const x=this.power('W36');if(x!==null&&b.turnFlags.retired===1)this.draw(x?2:1);
+  this.block(this.powerSum('W38',3,4));
+  this.energy(this.powerSum('W37',1,1));
+  this.draw(this.powerSum('W36',1,2));
   const type=CARD[c.id].type;
-  if(this.has('R09')&&!['status','curse'].includes(type)&&!b.turnFlags.chess){b.turnFlags.chess=true;this.draw(1);this.log('棋子袋 · 抽1张');}
+  if(this.has('R09')&&!['status','curse'].includes(type)){this.draw(1);this.log('棋子袋 · 抽1张');}
   if(['status','curse'].includes(type)){
-   if(this.has('R10')&&b.turnFlags.badRetired<2)this.block(4);b.turnFlags.badRetired++;
+   if(this.has('R10'))this.block(4);b.turnFlags.badRetired++;
    if(this.has('R24')&&!b.battleFlags.herb){b.battleFlags.herb=true;this.heal(3,'断肠草药包');}
   }
-  if(type==='s'&&this.has('R18')&&!b.turnFlags.doll){b.turnFlags.doll=true;this.energy(1);this.log('罗汉木偶 · 回气');}
-  if(b.turnFlags.retired===2&&this.has('R17'))for(const e of b.enemies.filter(x=>x.hp>0))this.direct(e,6,'圣火令');
+  if(type==='s'&&this.has('R18')){this.energy(1);this.log('罗汉木偶 · 回气');}
+  if(b.turnFlags.retired%2===0&&this.has('R17'))for(const e of b.enemies.filter(x=>x.hp>0))this.direct(e,6,'圣火令');
  }
  takeSelections(ids){const b=this.s.b;const taken=[];for(const uid of ids){const i=b.hand.findIndex(x=>x.uid===uid);if(i>=0)taken.push(b.hand.splice(i,1)[0]);}return taken;}
  retireSelected(ids){const a=this.takeSelections(ids);for(const c of a)this.exhaustCard(c);return a.length;}
@@ -169,7 +173,7 @@ export class Game {
  }
  onKill(e,card){
   if(e.dead)return;e.dead=true;this.s.stats.kills++;this.log(`击败 · ${e.name}`);
-  if(!e.summoned){if(this.has('R15')){this.s.b.str+=2;this.log('屠龙刀 · 劲力+2');}if(card?.id==='W50'&&this.s.b.battleFlags.blood<2){this.s.b.battleFlags.blood++;this.heal(card.up?4:3,'血刀大法');}}
+  if(!e.summoned){if(this.has('R15')){this.s.b.str+=2;this.log('屠龙刀 · 劲力+2');}if(card?.id==='W50'){this.s.b.battleFlags.blood++;this.heal(card.up?4:3,'血刀大法');}}
  }
  hit(e,base,card,ctx,{times=1,str=1,ignore=false}={}){
   const b=this.s.b;for(let i=0;i<times;i++){
@@ -192,14 +196,11 @@ export class Game {
   if(kind==='upgrade')candidates=candidates.filter(x=>!x.up&&!['status','curse'].includes(CARD[x.id].type));
   return {kind,max,min,candidates};
  }
- cost(card){const d=CARD[card.id],b=this.s.b;let n=Array.isArray(d.cost)?d.cost[card.up?1:0]:d.cost;if(n==='X')return b.qi;if(d.type==='s'&&b.discount)n--;if(d.type==='p'&&this.has('R19')&&!b.battleFlags.firstPower)n--;return Math.max(0,n);}
+ cost(card){const d=CARD[card.id],b=this.s.b;let n=Array.isArray(d.cost)?d.cost[card.up?1:0]:d.cost;if(n==='X')return b.qi;if(d.type==='s'&&b.discount)n-=b.discount;if(d.type==='p'&&this.has('R19')&&!b.battleFlags.firstPower)n--;return Math.max(0,n);}
  reason(card){
   if(this.s.phase!=='battle')return '当前不在战斗';const b=this.s.b,d=CARD[card.id];
   if(!b.hand.some(x=>x.uid===card.uid))return '不在手中';if(['status','curse'].includes(d.type))return '此牌无法使用';
-  if(this.has('R30')&&b.turnFlags.plays>=8)return '鸳鸯刀：每回合至多8张牌';
-  if(this.has('R29')&&d.type==='a'&&b.turnFlags.attacks>=2)return '广陵散：每回合至多两张攻击';
-  if(d.type==='p'&&this.power(card.id)!==null)return '此心法已运起';
-  if(card.id==='W49'&&b.battleFlags.shenzhao)return '神照经本场已用过';
+  if(card.id==='W22'&&this.power('W22')!==null)return '格挡保留已生效';
   if(this.cost(card)>b.qi)return '真气不足';if(card.id==='W59'&&b.qi===0)return '至少需要1点真气';
   if(this.actualSelf(card)>=this.s.hp&&selfCost[card.id])return '气血不足以支付自损';
   const s=this.selection(card);if(s.kind&&s.candidates.length<s.min)return '缺少可选择的其他手牌';return '';
@@ -211,7 +212,7 @@ export class Game {
   const target=b.enemies.find(x=>x.key===targetKey&&x.hp>0)||b.enemies.find(x=>x.hp>0);if(!target)return {ok:false,error:'没有目标'};
   const d=CARD[c.id],paid=this.cost(c),previous=b.turnFlags.last,attacks=b.turnFlags.attacks,plays=b.turnFlags.plays;
   b.hand.splice(b.hand.findIndex(x=>x.uid===uid),1);b.qi-=paid;if(d.type==='s')b.discount=0;
-  const extra=d.type==='a'&&b.repeat;b.repeat=d.type==='a'?false:b.repeat;
+  const extra=d.type==='a'?(Number(b.repeat)||0):0;if(d.type==='a')b.repeat=false;
   const ctx={paid,previous,attacks,plays,hitTargets:new Set(),blockBoosted:false,goldSnake:false,heavy:false};
   if(d.type==='a'){
    if(this.has('R13')&&paid>=2&&!b.turnFlags.heavy){ctx.heavy=true;b.turnFlags.heavy=true;}
@@ -219,21 +220,21 @@ export class Game {
   }
   this.log(`出招 · ${d.name}${c.up?'·精进':''}（${paid}真气）`);
   this.resolve(c,target,ctx,selections);
-  if(extra&&this.s.hp>0&&b.enemies.some(e=>e.hp>0)){
+  for(let copy=0;copy<extra&&this.s.hp>0&&b.enemies.some(e=>e.hp>0);copy++){
    const next=target.hp>0?target:b.enemies.find(e=>e.hp>0);
-   if(this.actualSelf(c)<this.s.hp){this.log('左右互搏 · 额外结算');this.resolve(c,next,{...ctx,heavy:false,heavyUsed:true,blockBoosted:false},[]);}else this.log('气血不足 · 取消额外结算');
+   if(this.actualSelf(c)<this.s.hp){this.log('左右互搏 · 额外结算');this.resolve(c,next,{...ctx,heavy:false,heavyUsed:true,blockBoosted:false},[]);}else{this.log('气血不足 · 取消剩余额外结算');break;}
   }
   if(d.type==='p'){
-   b.powers[c.id]=!!c.up;
+   this.addPower(c);
    if(!b.battleFlags.firstPower){if(this.has('R19'))this.draw(1);if(this.has('R23'))this.heal(3,'九花玉露丸');b.battleFlags.firstPower=true;}
   }else if(exhausted.has(c.id))this.exhaustCard(c);else b.discard.push(c);
   b.turnFlags.plays++;this.s.stats.played++;
   if(d.type==='a'){
    b.turnFlags.attacks++;
    if(b.turnFlags.attacks===1){if(this.has('R14'))for(const key of ctx.hitTargets){const e=b.enemies.find(x=>x.key===key);if(e.hp>0)e.vuln+=1;}if(this.has('R30'))this.energy(1);}
-   if(b.turnFlags.attacks===3){if(this.has('R03'))this.block(6);if(this.has('R16')){this.draw(1);this.energy(1);}}
+   if(b.turnFlags.attacks%3===0){if(this.has('R03'))this.block(6);if(this.has('R16')){this.draw(1);this.energy(1);}}
   }
-  if(d.type==='s'&&!b.turnFlags.skill){b.turnFlags.skill=true;const p=this.power('W28');if(p!==null)this.block(p?6:4);if(this.has('R29'))this.draw(2);if(this.has('R30'))this.energy(1);}
+  if(d.type==='s'){this.block(this.powerSum('W28',4,6));if(!b.turnFlags.skill){b.turnFlags.skill=true;if(this.has('R29'))this.draw(2);if(this.has('R30'))this.energy(1);}}
   b.turnFlags.last=d.type;this.refreshEnemyPhases();this.checkEnd();return {ok:true};
  }
  resolve(c,e,ctx,selected){
@@ -257,14 +258,14 @@ export class Game {
    case 'W15':h(v(16,20)+(this.low()?v(8,10):0));break;
    case 'W16':b.str+=v(3,5);b.tempStr+=v(3,5);break;
    case 'W17':for(const t of b.enemies.filter(x=>x.hp>0))t.weak+=v(2,3);break;
-   case 'W18':b.repeat=true;break;
+   case 'W18':b.repeat=(Number(b.repeat)||0)+1;break;
    case 'W19':h(v(5,7));g(v(7,10));break;
    case 'W20':g(v(8,11)+(e.intent.damage?3:0));break;
    case 'W21':g(v(5,8));draw(2);break;
    case 'W22':break;
    case 'W23':g(v(18,24));break;
-   case 'W24':g(v(7,10));b.reflectNext=v(8,12);break;
-   case 'W25':g(v(12,16));b.reflectPool+=v(12,18);break;
+   case 'W24':g(v(7,10));b.reflectNextStacks=this.reflectionStacks('next')+1;b.reflectNext=0;break;
+   case 'W25':g(v(12,16));b.reflectRoundStacks=this.reflectionStacks('round')+1;b.reflectPool=0;break;
    case 'W26':g(Math.floor(b.block*v(.5,.75)));break;
    case 'W27':h(b.block,{str:0});break;
    case 'W28':case 'W29':break;
@@ -285,7 +286,7 @@ export class Game {
    case 'W46':h(v(9,12)+(b.turnFlags.self?v(6,8):0));break;
    case 'W47':h(v(4,5),{times:b.turnFlags.self?3:2});break;
    case 'W48':break;
-   case 'W49':if(!b.battleFlags.shenzhao){b.battleFlags.shenzhao=true;this.heal(v(6,9),'神照经');}break;
+   case 'W49':this.heal(v(6,9),'神照经');break;
    case 'W50':h(v(9,12));break;
    case 'W51':break;
    case 'W52':h(v(8,11));if(b.turnFlags.self)draw(v(1,2));break;
@@ -294,7 +295,7 @@ export class Game {
    case 'W55':h(v(4,5)+(ctx.previous==='s'?2:0),{times:2});break;
    case 'W56':h(v(4,6));draw(1);this.addStatus(1);break;
    case 'W57':g(v(7,10));draw(1+(ctx.attacks>=2?1:0));break;
-   case 'W58':h(v(7,10));b.discount=1;break;
+   case 'W58':h(v(7,10));b.discount+=1;break;
    case 'W59':h(v(4,5),{times:ctx.paid});break;
    case 'W60':for(const t of b.enemies)this.hit(t,v(4,5),c,ctx,{times:ctx.attacks>=2?3:2});break;
    case 'U01':g(v(5,8));break;
@@ -305,7 +306,7 @@ export class Game {
    case 'U06':e.vuln+=v(2,3);draw(1);break;
    case 'U07':for(const t of b.enemies.filter(x=>x.hp>0))t.weak+=v(1,2);break;
    case 'U08':h(v(3,5));weak(1);break;
-   case 'U09':e.pin=Math.max(e.pin,v(6,9));break;
+   case 'U09':e.pin+=v(6,9);break;
    case 'U10':g(v(3,5));break;
    case 'U11':h(v(7,10));if(b.block>=10)draw(1);break;
    case 'U12':h(v(6,9));draw(1);break;
@@ -327,10 +328,10 @@ export class Game {
  beginTurn(first=false){
   const b=this.s.b;b.turn++;this.s.stats.turns++;
   if(this.power('W22')===null)b.block=0;
-  b.turnFlags={plays:0,attacks:0,last:null,retired:0,badRetired:0,self:false};b.qiPenalty=Math.min(this.qiMax,b.nextQiLoss||0);b.qi=Math.max(0,this.qiMax-b.qiPenalty);b.nextQiLoss=0;b.discount=0;b.repeat=false;b.reflectNext=0;b.reflectPool=0;
-  const p=this.power('W12');if(p!==null){b.str+=p?3:2;this.log(`紫霞神功 · 劲力+${p?3:2}`);}
+  b.turnFlags={plays:0,attacks:0,last:null,retired:0,badRetired:0,self:false};b.qiPenalty=Math.min(this.qiMax,b.nextQiLoss||0);b.qi=Math.max(0,this.qiMax-b.qiPenalty);b.nextQiLoss=0;b.discount=0;b.repeat=false;b.reflectNext=0;b.reflectPool=0;b.reflectNextStacks=0;b.reflectRoundStacks=0;
+  const strength=this.powerSum('W12',2,3);if(strength){b.str+=strength;this.log(`紫霞神功 · 劲力+${strength}`);}
   if(first){if(this.has('R02'))b.str++;if(this.has('R04'))b.str+=2;if(this.has('R05'))this.block(8);}
-  let n=5+b.nextDraw-(this.has('R28')?1:0)-(first&&this.has('R04')?1:0)-(first&&this.has('R26')?2:0);b.nextDraw=0;this.draw(Math.max(0,n));this.log(`—— 第${b.turn}回合 · ${b.qi}真气 ——`);if(b.qiPenalty)this.log(`寒气压制 · 本回合少${b.qiPenalty}真气`);
+  let n=5+b.nextDraw-(this.has('R28')?1:0)-(this.has('R30')?1:0)-(first&&this.has('R29')?2:0)-(first&&this.has('R04')?1:0)-(first&&this.has('R26')?2:0);b.nextDraw=0;this.draw(Math.max(0,n));this.log(`—— 第${b.turn}回合 · ${b.qi}真气 ——`);if(b.qiPenalty)this.log(`寒气压制 · 本回合少${b.qiPenalty}真气`);
  }
  endTurn(){
   if(this.s.phase!=='battle')return false;const b=this.s.b;
@@ -353,8 +354,8 @@ export class Game {
    if(intent.damage){for(let i=0;i<(intent.hits||1);i++){
     if(e.hp<=0||this.s.hp<=0)break;const n=this.previewEnemy(e,i);e.pin=0;
     const blocked=Math.min(b.block,n);b.block-=blocked;const hp=n-blocked;dealt+=hp;this.s.hp-=hp;this.log(`${e.name} → 你 ${n}伤害（格挡抵挡${blocked}）`);
-    if(b.reflectNext){this.direct(e,Math.min(blocked,b.reflectNext),'乾坤反震');b.reflectNext=0;}
-    if(b.reflectPool&&blocked){const reflected=Math.min(blocked,b.reflectPool);b.reflectPool-=reflected;this.direct(e,reflected,'斗转反震');}
+    const nextReflection=this.reflectionStacks('next');if(nextReflection){this.direct(e,blocked*nextReflection,'乾坤反震');b.reflectNextStacks=0;b.reflectNext=0;}
+    const roundReflection=this.reflectionStacks('round');if(roundReflection&&blocked)this.direct(e,blocked*roundReflection,'斗转反震');
     if(hp>0&&this.has('R11'))this.direct(e,3,'软猬甲');this.bee();if(this.s.hp<=0)break;
    }e.charge=0;}
    if(this.s.hp<=0){this.checkEnd();return true;}
@@ -440,15 +441,15 @@ export class Game {
   for(let i=0;i<n;i++){
    let rarity=absolute?3:(()=>{const x=this.random();return x<.65?1:x<.95?2:3;})();if(elite&&i===0)rarity=Math.max(2,rarity);
    const universal=!absolute&&this.random()<.2;
-   let pool=CARDS.filter(x=>x.rarity===rarity&&(absolute||x.id.startsWith(universal?'U':'W'))&&!offered.includes(x.id)&&!(x.type==='p'&&this.s.deck.some(c=>c.id===x.id)));
-   if(!pool.length)pool=CARDS.filter(x=>x.rarity>0&&!offered.includes(x.id)&&!(x.type==='p'&&this.s.deck.some(c=>c.id===x.id)));
+   let pool=CARDS.filter(x=>x.rarity===rarity&&(absolute||x.id.startsWith(universal?'U':'W'))&&!offered.includes(x.id)&&!(x.id==='W22'&&this.s.deck.some(c=>c.id===x.id)));
+   if(!pool.length)pool=CARDS.filter(x=>x.rarity>0&&!offered.includes(x.id)&&!(x.id==='W22'&&this.s.deck.some(c=>c.id===x.id)));
    if(!pool.length)break;offered.push(this.pick(pool).id);
   }
   return offered;
  }
  offerRelics(n=1,tiers=[1,2]){const pool=RELICS.filter(x=>tiers.includes(x.tier)&&!this.has(x.id));return this.shuffle(pool).slice(0,n).map(x=>x.id);}
  winBattle(){
-  const b=this.s.b;this.s.stats.wins++;if(this.has('R01'))this.heal(4,'粗布药囊');const p=this.power('W48');if(p!==null)this.heal(p?5:3,'九阳神功');
+  const b=this.s.b;this.s.stats.wins++;if(this.has('R01'))this.heal(4,'粗布药囊');this.heal(this.powerSum('W48',3,5),'九阳神功');
   const boss=b.kind==='boss',elite=b.kind==='elite';const gold=boss?65:elite?40:25;this.s.gold+=gold;
   const cards=this.offerCards(3,{absolute:boss,elite});
   this.s.reward={gold,cards,cardDone:false,relics:boss?this.offerRelics(3,[3]):elite?this.offerRelics(1,[1,2]):[],relicDone:!boss&&!elite,boss,elite};
@@ -519,7 +520,7 @@ export class Game {
   }
   candidates.sort((a,z)=>this.keepScore(z)-this.keepScore(a));return candidates.slice(0,Math.min(spec.max,candidates.length)).map(x=>x.uid);
  }
- keepScore(c){const d=CARD[c.id];return ['status','curse'].includes(d.type)?-5:d.rarity===0?0:d.type==='p'?(this.power(c.id)===null?12:-3):d.type==='a'?8:5;}
+ keepScore(c){const d=CARD[c.id];return ['status','curse'].includes(d.type)?-5:d.rarity===0?0:d.type==='p'?(c.id==='W22'&&this.power('W22')!==null?-3:12):d.type==='a'?8:5;}
  autoPlayTurn(){
   if(this.s.phase!=='battle')return;const b=this.s.b;if(b.openDart)this.useDart(b.enemies.find(e=>e.hp>0).key);
   for(let n=0;n<50&&this.s.phase==='battle';n++){

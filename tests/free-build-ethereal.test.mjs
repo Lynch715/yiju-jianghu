@@ -66,7 +66,7 @@ test('dark embrace drawing an ethereal during cleanup consumes it in the same tu
 });
 test('ethereal triggers chess and doll without incorrectly counting discard as consumption',()=>{
  const g=fixture(['W14','U10','W01'],['R09','R18']);g.endTurn();
- assert.equal(g.s.stats.exhausted,2);assert.equal(g.s.b.log.filter(x=>x.includes('棋子袋')).length,1);assert.equal(g.s.b.log.filter(x=>x.includes('罗汉木偶')).length,1);
+ assert.equal(g.s.stats.exhausted,2);assert.equal(g.s.b.log.filter(x=>x.includes('棋子袋')).length,2);assert.equal(g.s.b.log.filter(x=>x.includes('罗汉木偶')).length,1);
 });
 test('holy flame can end battle through ethereal triggers before enemies act',()=>{
  const g=fixture(['W14','U10'],['R17']);g.s.b.enemies[0].hp=6;g.endTurn();assert.equal(g.s.phase,'reward');assert.equal(g.s.hp,40);assert.equal(g.s.stats.exhausted,2);

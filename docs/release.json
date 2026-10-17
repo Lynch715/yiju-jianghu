@@ -1,16 +1,16 @@
 {
-  "version": "0.8.1",
+  "version": "0.9.0",
   "entry": "index.html",
   "files": [
     {
       "path": "index.html",
       "bytes": 1160,
-      "sha256": "11618b14003ea713cc6e76791ee1d7c6bc908bb272f459e5a0a3ec5688f49949"
+      "sha256": "e7b8f9af547a8bc9c8b710bf0281a9ba101716172aac2344e84666b86eeed1aa"
     },
     {
       "path": "manifest.webmanifest",
       "bytes": 752,
-      "sha256": "f30e144d3c07705cbc1a37efe2ad6f34f97b73308b1e3ef93fe2e6e25c04dc80"
+      "sha256": "e62e7e3fbc07d38a83be72468d4c9442471b3073d47ab69ff0472103599f23b2"
     },
     {
       "path": "assets/icons/icon.svg",
@@ -39,13 +39,13 @@
     },
     {
       "path": "app.js",
-      "bytes": 61240,
-      "sha256": "7a87d4a92987c7092666ee4d2bf9e003b004e8db0ed5252d7278f41f681a71a0"
+      "bytes": 62002,
+      "sha256": "15487a1bba41397fd2e1a5493667e0ae42497da036f372e93da531a9a12dd68a"
     },
     {
       "path": "data.js",
-      "bytes": 16073,
-      "sha256": "e685d840ebdbd4170ee152b1d24e8f235543287047753d98e337f5f44d344297"
+      "bytes": 16342,
+      "sha256": "1fbfc9973096eb737328813306a4dd4adaf7abb025fb2af04595bbb5e28156f5"
     },
     {
       "path": "journey.js",
@@ -65,12 +65,12 @@
     {
       "path": "relic-art.js",
       "bytes": 12405,
-      "sha256": "eb866a86af73c3179cb7b309ea4e8ba2f2b266741ce948229a6154b23bce563a"
+      "sha256": "d61f782c2866917f3d3025caf2d9a1f892620c1dfa89adee38fb446a14125826"
     },
     {
       "path": "engine.js",
-      "bytes": 42114,
-      "sha256": "df7011bd77bf63326ea8d52c85f79a8d791779a448575be09cd51b6c84c8c474"
+      "bytes": 42412,
+      "sha256": "c12d51d5b88e9f68e2fab10fd33f7e77dedfffda1722e74c212ebd3380566cfb"
     },
     {
       "path": "difficulty.js",
