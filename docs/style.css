@@ -148,3 +148,52 @@
  body:has(.layout[data-phase="battle"]) #toast{bottom:calc(94px + env(safe-area-inset-bottom,0px))}
 }
 @media(max-width:360px){.turn-controls{gap:14px;padding-left:14px;padding-right:14px}.turn-controls .energy{gap:9px;min-width:100px}}
+
+/* The mobile hand and turn controls share a single fixed battle dock. */
+.hand-inspect{padding:3px 0 3px 8px;font-size:10px;white-space:nowrap;color:var(--gold)}
+@media(max-width:900px){
+ .layout[data-phase="battle"]{--hand-card-height:clamp(140px,20dvh,174px);height:100dvh;min-height:0}
+ body:has(.layout[data-phase="battle"]){overflow:hidden}
+ .layout[data-phase="battle"]>div{height:100%;min-height:0;display:flex;flex-direction:column}
+ .layout[data-phase="battle"] .topbar{flex-shrink:0}
+ .layout[data-phase="battle"] .main{flex:1;min-height:0;width:100%;overflow-y:auto;overscroll-behavior-y:contain;padding:12px 14px calc(var(--hand-card-height) + 170px + env(safe-area-inset-bottom,0px))}
+ .battle-bottom{position:fixed;inset:auto 0 0;z-index:40;display:flex;flex-direction:column;gap:0;padding:8px 0 0;background:#19231ff5;border-top:1px solid #6b735344;box-shadow:0 -8px 24px #0004;backdrop-filter:blur(14px)}
+ .hand-panel{width:100%;padding:0 max(12px,env(safe-area-inset-right,0px)) 0 max(12px,env(safe-area-inset-left,0px))}
+ .hand-title{height:22px;margin:0 0 3px;font-size:10px;gap:8px}
+ .hand-inspect{font-size:10px;padding:3px 0 3px 6px}
+ .hand{height:calc(var(--hand-card-height) + 12px);min-height:0;gap:8px;padding:4px 2px 8px;overflow-y:hidden;overscroll-behavior-x:contain;align-items:stretch}
+ .hand .card{flex:0 0 112px;height:var(--hand-card-height);min-height:0;padding:9px 8px;border-radius:6px}
+ .hand .card .cost{top:8px;left:8px;width:23px;height:23px;font-size:16px}
+ .hand .card .type{padding:1px 0 12px;font-size:8px;letter-spacing:0}
+ .hand .card h3{font-size:15px;min-height:27px;flex-shrink:0;margin:4px 0 7px;line-height:1.4}
+ .hand .card .description{min-height:0;overflow-y:auto;overscroll-behavior-y:contain;font-size:10.5px;line-height:1.55}
+ .hand .card footer{flex-shrink:0;font-size:8px;margin-top:7px;padding-top:5px}
+ .hand .card .unplayable{font-size:8px;flex-shrink:0;margin-top:4px}
+ .hand .empty{height:100%;min-width:100%;display:grid;place-items:center;font-size:12px;padding:12px}
+ .hand-panel .battle-help{display:none}
+ .turn-panel{width:100%;display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:8px;row-gap:0}
+ .turn-panel>.piles{grid-column:1;grid-row:1;margin:0 0 6px max(14px,env(safe-area-inset-left,0px));gap:6px}
+ .turn-panel>.piles button{padding:6px 4px;font-size:10px;min-height:28px;white-space:nowrap}
+ .turn-panel>[data-action="auto-turn"]{grid-column:2;grid-row:1;margin:0 max(14px,env(safe-area-inset-right,0px)) 6px 0;padding:6px 9px;min-height:28px;font-size:10px;white-space:nowrap}
+ .turn-controls{position:static;grid-column:1/-1;grid-row:2;width:100%;box-shadow:none;backdrop-filter:none;background:transparent}
+ .layout[data-phase="battle"] .combat-log{display:none}
+ .layout[data-phase="battle"] .battle-top{gap:5px;margin-bottom:8px}
+ .layout[data-phase="battle"] .battle-top .round{font-size:18px}
+ .layout[data-phase="battle"] .battle-top .eyebrow{font-size:9px}
+ .layout[data-phase="battle"] .battle-top .small{font-size:9px;padding:4px 5px}
+ .layout[data-phase="battle"] .battlefield{padding-top:4px;padding-bottom:14px;gap:18px}
+ .layout[data-phase="battle"] .fighter-intent{height:38px;margin-bottom:3px}
+ .layout[data-phase="battle"] .player .player-art,.layout[data-phase="battle"] .enemy .enemy-art{height:clamp(56px,calc(100dvh - 660px - env(safe-area-inset-bottom,0px)),142px);margin-bottom:7px}
+ .layout[data-phase="battle"] .player,.layout[data-phase="battle"] .enemy{padding-top:7px;padding-bottom:10px}
+ .layout[data-phase="battle"] .powers{margin-top:8px}
+ body:has(.layout[data-phase="battle"]) #toast{bottom:calc(clamp(140px,20dvh,174px) + 172px + env(safe-area-inset-bottom,0px))}
+}
+@media(max-width:360px){.hand .card{flex-basis:106px}.hand-title{font-size:9px}.hand-inspect{font-size:9px}.turn-panel>[data-action="auto-turn"]{font-size:9px;padding:6px}}
+@media(max-width:900px) and (max-height:700px){
+ .layout[data-phase="battle"] .battle-top>.eyebrow{display:none}
+ .layout[data-phase="battle"] .fighter-intent{height:28px}
+ .layout[data-phase="battle"]{--hand-card-height:calc(140px - min(20px,env(safe-area-inset-bottom,0px)))}
+ .layout[data-phase="battle"] .powers{margin-top:4px}
+ .turn-controls{height:calc(70px + env(safe-area-inset-bottom,0px));padding-top:8px;padding-bottom:calc(8px + env(safe-area-inset-bottom,0px))}
+ .layout[data-phase="battle"] .main{padding-bottom:calc(var(--hand-card-height) + 162px + env(safe-area-inset-bottom,0px))}
+}
