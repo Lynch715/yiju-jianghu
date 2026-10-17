@@ -1,5 +1,5 @@
 // All numbers and triggered effects are an original game adaptation of the approved design.
-export const GAME_VERSION='0.6.7';
+export const GAME_VERSION='0.7.0';
 export const OPENING_BOONS=[
  {id:'coins',title:'故人赠金',text:'获得75银两。',risk:false},
  {id:'vitality',title:'养元固本',text:'气血上限增加7，同时回复7气血。',risk:false},
@@ -139,4 +139,4 @@ export const RELICS=r;
 export const RELIC=Object.fromEntries(r.map(d=>[d.id,d]));
 export const CHAPTERS=[{name:'烟雨初行',place:'江南古道',boss:'余沧海',quote:'一身青衫，半卷拳经。'}, {name:'风起武林',place:'中州渡口',boss:'丁春秋',quote:'招式渐熟，江湖渐远。'}, {name:'华山论剑',place:'华山绝顶',boss:'欧阳锋',quote:'万般武学，终归于心。'}];
 export const ROUTES=[['battle'],['event','battle'],['elite','battle'],['rest','event'],['shop','rest'],['boss']];
-export const NODE_NAMES={battle:'江湖交锋',elite:'高手挑战',rest:'山间歇脚',event:'江湖奇遇',shop:'行商驿站',boss:'章节首领'};
+export const NODE_NAMES={battle:'江湖交锋',elite:'高手挑战',rest:'山间歇脚',event:'江湖奇遇',shop:'行商驿站',boss:'章节首领',treasure:'江湖遗藏'};

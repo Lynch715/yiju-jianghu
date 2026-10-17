@@ -1,21 +1,31 @@
 {
-  "version": "0.6.7",
+  "version": "0.7.0",
   "entry": "index.html",
   "files": [
     {
       "path": "index.html",
       "bytes": 807,
-      "sha256": "baa2f392deacf312a034206aff0370b75ca035c9444b450853e74a5f9d822841"
+      "sha256": "8d36239e12a03a65c89d63c1882d869c77a715280eedca9cb34bd60ae511b97f"
     },
     {
       "path": "app.js",
-      "bytes": 51811,
-      "sha256": "c038cd4f069d72084658938aa4078de669df611ae07f66382f59e9fe1c12c72f"
+      "bytes": 59065,
+      "sha256": "e4703a0793f91e38d2e0372cc52dc64ce6bdb3b2ef7c241919759d82500a36eb"
     },
     {
       "path": "data.js",
-      "bytes": 16040,
-      "sha256": "cf2b247bd3cd4976e566b17184741e8c2294c1db6857c4549b7f2d24e1ec7485"
+      "bytes": 16064,
+      "sha256": "7b75d7052d640e8088e4b19e3363b9d5e94bd6142f45707b446681a21e8993b4"
+    },
+    {
+      "path": "journey.js",
+      "bytes": 4914,
+      "sha256": "e984b4cea09c0cbccb6e68b2205e816c20e07a2f43371e173371dec8289257ce"
+    },
+    {
+      "path": "map-art.js",
+      "bytes": 2606,
+      "sha256": "f767727c4592fdfe4cd353563a74d76bfb0a47086f1e23e38a8e4736da86a56b"
     },
     {
       "path": "card-art.js",
@@ -25,12 +35,12 @@
     {
       "path": "relic-art.js",
       "bytes": 12405,
-      "sha256": "4a29950f09bd43dfbfb04853f5c2998e598d5178be836b8b4afc245db0541f1b"
+      "sha256": "6a30e7c626d55646712b6878e578f020b46fbe9ef6b46944aa1f290b3db4f03e"
     },
     {
       "path": "engine.js",
-      "bytes": 37688,
-      "sha256": "664e1dd5940445d5e7897914a414228bea49d135ca0063148a858ffa666a62f3"
+      "bytes": 41514,
+      "sha256": "6fc96d3c28f021c8038069e4c24f3f30ac3521acf10dadc700d2bdf56b11baf0"
     },
     {
       "path": "enemies.js",
@@ -39,8 +49,8 @@
     },
     {
       "path": "players.js",
-      "bytes": 1987,
-      "sha256": "2bf70f2f0c2f738646ab0ff9866195bf5026d6fbc39938b81a25ac6a0d154d08"
+      "bytes": 1998,
+      "sha256": "6fa239f958ee110ff7df512362f7ea4041bd1abbea2b549ad41c3d05d355ceae"
     },
     {
       "path": "combat-ui.js",
@@ -49,8 +59,8 @@
     },
     {
       "path": "style.css",
-      "bytes": 56266,
-      "sha256": "db6ba5e552bde7a0fa3d421057c0d671926f2a995d6c72d7b02259a21d0c20e3"
+      "bytes": 65196,
+      "sha256": "8861f55c86e35486a6495016a24a7dc44500e9dda448e602899bd1f15a894d27"
     },
     {
       "path": "assets/enemies/runtime/qingcheng.webp",

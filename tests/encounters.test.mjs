@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {Game,clone} from '../engine.js';
 import {ENCOUNTER_GROUPS,ENEMY} from '../enemies.js';
 import {CARD,describe} from '../data.js';
-function encounter(chapter,kind,seed=42,localStep=2){const g=new Game();g.start(seed,{opening:false});g.s.step=chapter*6+(kind==='boss'?5:kind==='elite'?2:localStep);assert.equal(g.enter(kind),true);return g;}
+function encounter(chapter,kind,seed=42,localStep=2){const g=new Game();g.start(seed,{opening:false,classic:true});g.s.step=chapter*6+(kind==='boss'?5:kind==='elite'?2:localStep);assert.equal(g.enter(kind),true);return g;}
 function find(title,chapter=0,kind='battle'){for(let seed=0;seed<600;seed++){const g=encounter(chapter,kind,seed);if(g.s.b.formation===title)return g;}throw Error('Unreachable formation: '+title);}
 test('all declared formations are reachable and every chapter has solo, duo and trio normal encounters',()=>{
  for(let ch=0;ch<3;ch++)for(const kind of ['battle','elite','boss']){

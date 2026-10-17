@@ -19,5 +19,5 @@ export function playerNameError(raw){
 }
 export function validPlayer(p){return !!p&&typeof p.name==='string'&&!playerNameError(p.name)&&p.name===cleanPlayerName(p.name)&&PLAYERS.some(d=>d.id===p.portrait);}
 
-export const PLAYER_RETURN_PHASES=['opening','map','battle','reward','rest','shop','event','win','lost'];
+export const PLAYER_RETURN_PHASES=['opening','map','battle','reward','rest','shop','event','treasure','win','lost'];
 export function validCharacterDraft(c){return !!c&&typeof c.name==='string'&&Array.from(c.name).length<=60&&(c.portrait===null||PLAYERS.some(d=>d.id===c.portrait))&&typeof c.editing==='boolean'&&PLAYER_RETURN_PHASES.includes(c.returnPhase)&&(c.editing||['map','opening'].includes(c.returnPhase));}

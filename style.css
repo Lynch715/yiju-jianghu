@@ -380,3 +380,116 @@
 .played-card.folded-flight .folded-name{display:flex;align-items:center;gap:4px;writing-mode:vertical-rl;text-orientation:upright;font:15px/1.15 var(--serif);letter-spacing:1px;max-height:calc(var(--hand-card-height) - 53px);margin-top:31px;overflow:hidden}
 .played-card.folded-flight .folded-name small{font:8px/1.2 var(--sans);color:#547044;letter-spacing:0}
 .played-card.folded-flight .type{position:absolute;bottom:8px;left:0;right:0;width:100%;height:auto;min-height:0;padding:0;text-align:center;font-size:8px;line-height:1.4}
+
+/* Jianghu travel atlas: a scrollable landscape with fixed-size places and curved trails. */
+.travel-heading{margin-bottom:18px}
+.travel-heading h2{display:flex;align-items:center;gap:16px;margin:7px 0 9px;font-size:32px}
+.travel-heading h2>small{font:11px var(--sans);letter-spacing:1px;border-left:1px solid #73765a;padding-left:16px}
+.travel-heading p{font-size:12px;color:var(--muted);margin:0;line-height:1.7}
+.travel-layout{display:grid;grid-template-columns:minmax(0,1fr) 235px;gap:22px;align-items:start}
+.travel-map{min-width:0;border:1px solid #63705670;border-radius:12px;overflow:hidden;background:#1b2921;box-shadow:0 10px 30px #0002}
+.travel-map-toolbar{display:flex;justify-content:space-between;align-items:center;padding:13px 15px;background:#18241ef5;border-bottom:1px solid #64735950;gap:12px}
+.travel-chapters{display:flex;gap:5px;flex:1}
+.travel-chapters button{position:relative;border:0;border-radius:4px;padding:8px 11px;color:#9ca68f;text-align:left}
+.travel-chapters button[aria-pressed=true]{background:#c4a56913;color:#e5d3a1;box-shadow:inset 0 -2px #c4a569}
+.travel-chapters button>small{display:block;font-size:8px;letter-spacing:2px;margin-bottom:3px}
+.travel-chapters button>span{font:16px var(--serif);white-space:nowrap}
+.travel-chapters button>i{display:none}
+.map-locate{font-size:10px;padding:8px 6px;white-space:nowrap}
+.travel-map-scroll{height:clamp(410px,65dvh,700px);position:relative;overflow-y:auto;overscroll-behavior-y:contain;scrollbar-width:thin;scrollbar-color:#647359 #1c2b22;outline-offset:-4px}
+.travel-canvas{position:relative;width:100%;isolation:isolate;background:#1e2d24}
+.travel-terrain,.travel-roads{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.travel-roads{z-index:1}
+.travel-road{fill:none;stroke:#89917a;stroke-opacity:.4;stroke-width:1.6;stroke-dasharray:3 7;vector-effect:non-scaling-stroke}
+.travel-road.walked{stroke:#cbb67c;stroke-opacity:.9;stroke-width:2.6;stroke-dasharray:none}
+.travel-road.next{stroke:#ead29b;stroke-opacity:.9;stroke-width:2.3;stroke-dasharray:5 5}
+.travel-node{position:absolute;z-index:3;transform:translate(-50%,-25px);display:flex;flex-direction:column;align-items:center;width:108px;border:0;border-radius:0;padding:0;background:transparent;opacity:.73;color:#b4b99f;transition:opacity .18s,filter .18s}
+.travel-node:disabled{opacity:.72;cursor:default}
+.travel-node:disabled:hover,.travel-node:hover:not(:disabled){background:transparent;border:0}
+.travel-node-mark{position:relative;display:grid;place-items:center;width:50px;height:50px;background:#25372c;border:1px solid #6c7b5b;border-radius:50%;box-shadow:0 0 0 5px #1f2c22bc}
+.travel-node-mark>svg{width:24px;height:26px}
+.travel-node strong{max-width:108px;font:12px/1.5 var(--serif);font-weight:500;white-space:nowrap;margin-top:8px;text-shadow:0 1px 4px #132018}
+.travel-node>small{font-size:8px;line-height:1.4;color:#a8ad92;margin-top:2px}
+.travel-node-mark>i{position:absolute;bottom:-3px;right:-4px;background:#a5a77c;color:#17251b;border:2px solid #223229;width:18px;height:18px;border-radius:50%;font:11px var(--sans);font-style:normal;line-height:14px}
+.travel-node.available{opacity:1;color:#f4dca2;cursor:pointer}
+.travel-node.available .travel-node-mark{background:#394331;border-color:#e6c57c;box-shadow:0 0 0 5px #c4a56914,0 0 24px #c4a56926}
+.travel-node.available:hover .travel-node-mark{background:#4b5135;box-shadow:0 0 0 6px #c4a56920,0 0 24px #c4a56940}
+.travel-node.available>small{color:#ddc58d}
+.travel-node.visited{opacity:.95;color:#c2be97}
+.travel-node.visited .travel-node-mark{border-color:#b4a56e;background:#303c2a}
+.travel-node.bypassed{opacity:.2}
+.travel-node.kind-boss .travel-node-mark{width:62px;height:62px;margin-top:-6px;border-radius:9px;background:#44352a;border-color:#b49b64;color:#d5ba80;transform:rotate(45deg)}
+.travel-node.kind-boss .travel-node-mark>svg{transform:rotate(-45deg);width:29px;height:31px}
+.travel-node.kind-treasure .travel-node-mark{border-color:#b79e62;color:#dac083;background:#3d3e2a}
+.travel-node.kind-elite .travel-node-mark{color:#d29e85;border-color:#8e7056}
+.travel-node.kind-rest .travel-node-mark{color:#b8ccb0}
+.travel-destination{position:absolute;top:24px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;white-space:nowrap;z-index:2}
+.travel-destination>span{font-size:8px;letter-spacing:3px;color:#a6ad8a}
+.travel-destination strong{font:26px/1.6 var(--serif);letter-spacing:5px;color:#dcc99d}
+.travel-destination small{font-size:9px;letter-spacing:2px}
+.travel-origin{position:absolute;bottom:17px;left:0;right:0;display:flex;align-items:center;justify-content:center;gap:9px;color:#a3ae8e;font-size:9px}
+.travel-origin strong{font:17px var(--serif);letter-spacing:3px;color:#c1c59e}
+.travel-area{position:absolute;font:17px var(--serif);writing-mode:vertical-rl;letter-spacing:6px;opacity:.28;z-index:1;color:#c8c69c}
+.map-compass{position:absolute;top:25px;right:22px;display:flex;flex-direction:column;align-items:center;color:#a5af88;opacity:.5;font-size:10px}
+.map-compass span{font-size:35px;line-height:1}
+.travel-legend{display:flex;align-items:center;gap:18px;padding:12px 16px;background:#18241ef5;font-size:9px;color:#a6ae94;border-top:1px solid #64735940}
+.travel-legend span{display:inline-flex;align-items:center;gap:5px}
+.travel-legend span:last-child{margin-left:auto}
+.travel-legend i{width:7px;height:7px;border-radius:50%;border:1px solid #c4a569}
+.travel-legend .legend-done{background:#b3a475}
+.travel-summary{display:grid;gap:14px}
+.travel-summary .info-box{padding:19px;background:#202c22}
+.travel-summary h3{font-size:18px;line-height:1.6;margin:10px 0}
+.travel-summary p,.travel-tip p{font-size:11px;line-height:1.9;color:var(--muted)}
+.travel-summary .relic-strip{margin-bottom:12px}
+.travel-summary .relic-token{font-size:9px}
+.travel-summary .info-box>small{font-size:10px;line-height:1.7}
+.travel-progress{display:flex;justify-content:space-between;flex-wrap:wrap;gap:9px;font-size:9px;color:#babca4;margin-top:18px}
+.travel-progress>i{display:block;width:100%;height:4px;background:#44513c;border-radius:2px;overflow:hidden}
+.travel-progress b{height:100%;display:block;background:#bea572}
+.travel-tip{padding:15px 6px;color:#b4b794}
+.travel-tip strong{font:17px var(--serif);letter-spacing:2px}
+.travel-tip small{font-size:10px;color:#968e68}
+.treasure-emblem{color:var(--gold);margin:25px auto;width:96px;height:100px;display:grid;place-items:center;background:radial-gradient(ellipse,#b09e5020,transparent 70%)}
+.treasure-emblem svg{width:66px;height:70px}
+.treasure-page>.relic-options{max-width:680px;margin:30px auto 18px;grid-template-columns:repeat(2,minmax(0,1fr))}
+.treasure-coins{display:flex;flex-direction:column;gap:8px;margin:20px auto;color:#d6c291;background:#ad92500a;min-width:210px}
+.treasure-coins small{font-size:11px}
+.modal .travel-map{margin-top:10px}
+@media(max-width:1100px){.travel-layout{grid-template-columns:minmax(0,1fr) 200px;gap:16px}.travel-map-toolbar{padding:10px}.travel-chapters button{padding:7px 8px}.travel-chapters button>span{font-size:14px}}
+@media(max-width:900px){
+ .travel-layout{grid-template-columns:1fr;gap:14px}
+ .travel-heading{margin-bottom:13px}
+ .travel-heading h2{font-size:27px;gap:12px}
+ .travel-heading h2>small{font-size:10px;padding-left:12px}
+ .travel-heading p{font-size:10px}
+ .travel-map-toolbar{padding:8px 9px;gap:4px}
+ .travel-chapters{gap:2px}
+ .travel-chapters button{padding:6px 7px;flex:1}
+ .travel-chapters button>span{font-size:13px}
+ .travel-chapters button>small{font-size:7px;letter-spacing:1px}
+ .map-locate{font-size:8px;padding:6px 2px}
+ .travel-map-scroll{height:clamp(360px,61dvh,620px)}
+ .travel-node{width:100px;transform:translate(-50%,-23px)}
+ .travel-node-mark{width:46px;height:46px}
+ .travel-node strong{font-size:11px;max-width:100px;margin-top:6px}
+ .travel-node>small{font-size:8px}
+ .travel-area{font-size:14px;letter-spacing:5px}
+ .travel-legend{gap:12px;font-size:8px;padding:10px}
+ .travel-summary{grid-template-columns:1fr 1fr;gap:10px}
+ .travel-summary .info-box{padding:13px}
+ .travel-summary h3{font-size:14px;margin:7px 0}
+ .travel-summary p{font-size:10px}
+ .travel-summary .travel-tip{display:none}
+ .travel-summary .relic-token{padding:3px 5px;font-size:8px}
+ .travel-summary .relic-art{width:22px;height:22px;flex-basis:22px}
+ .travel-summary .info-box>.eyebrow{font-size:8px;letter-spacing:2px}
+ .travel-summary .info-box>small{font-size:8px}
+ .treasure-page>.relic-options{grid-template-columns:1fr}
+}
+@media(max-width:360px){.travel-chapters button{padding:5px}.travel-chapters button>span{font-size:11px}.map-locate{font-size:7px}.travel-legend{gap:8px}.travel-node strong{font-size:10px}.travel-node{width:92px}}
+@media(prefers-reduced-motion:reduce){.travel-node{transition:none}}
+
+.journey-bar{gap:2px}
+
+.travel-node.here .travel-node-mark{outline:1px solid #dbbf7e;outline-offset:4px}

@@ -5,7 +5,7 @@ import {Game,clone,SAVE_VERSION} from '../engine.js';
 import {ENEMIES,ENEMY,ENCOUNTERS} from '../enemies.js';
 import {CHAPTERS} from '../data.js';
 function spawn(id,key=0,round=0){const d=ENEMY[id];return {id,name:d.name,kind:d.rank==='normal'?'bandit':d.rank,hp:d.hp-10,maxHp:d.hp,key,round,str:0,weak:0,vuln:0,pin:0,charge:0,block:0,enraged:false};}
-function duel(id,round=0){const g=new Game();g.start(42,{opening:false});g.s.step=ENEMY[id].chapter*6;g.combat(ENEMY[id].rank==='normal'?'battle':ENEMY[id].rank);g.s.relics=[];g.s.hp=g.s.maxHp=4000;const b=g.s.b;b.hand=[];b.draw=[];b.discard=[];b.enemies=[spawn(id,0,round)];b.enemies[0].intent=g.enemyIntent(b.enemies[0]);return g;}
+function duel(id,round=0){const g=new Game();g.start(42,{opening:false,classic:true});g.s.step=ENEMY[id].chapter*6;g.combat(ENEMY[id].rank==='normal'?'battle':ENEMY[id].rank);g.s.relics=[];g.s.hp=g.s.maxHp=4000;const b=g.s.b;b.hand=[];b.draw=[];b.discard=[];b.enemies=[spawn(id,0,round)];b.enemies[0].intent=g.enemyIntent(b.enemies[0]);return g;}
 function allPiles(g){const b=g.s.b;return [...b.hand,...b.draw,...b.discard,...b.exhaust];}
 for(const d of ENEMIES)test(`${d.name}: each announced technique applies its actual numerical effects`,()=>{
  for(let round=0;round<d.moves.length;round++){
@@ -19,7 +19,7 @@ for(const d of ENEMIES)test(`${d.name}: each announced technique applies its act
 });
 test('all three chapters generate their actual named foes and all 16 identities are reachable',()=>{
  const seen=new Set();for(let chapter=0;chapter<3;chapter++)for(const kind of ['battle','elite','boss'])for(let seed=0;seed<60;seed++){
-  const g=new Game();g.start(seed,{opening:false});g.s.step=chapter*6+(kind==='boss'?5:kind==='elite'?2:0);assert.equal(g.enter(kind),true);
+  const g=new Game();g.start(seed,{opening:false,classic:true});g.s.step=chapter*6+(kind==='boss'?5:kind==='elite'?2:0);assert.equal(g.enter(kind),true);
   for(const e of g.s.b.enemies){const d=ENEMY[e.id];assert.ok(d);assert.equal(d.chapter,chapter);assert.equal(e.name,d.name+(e.callSign?'·'+e.callSign:''));assert.equal(e.intent.label,d.moves[e.round%d.moves.length].label);seen.add(e.id);}
   if(kind==='boss')assert.equal(g.s.b.enemies[0].name,CHAPTERS[chapter].boss);
  }

@@ -19,7 +19,7 @@ test('first-victory choices are normal random rewards, with no guaranteed direct
 });
 test('master events draw from all martial arts without any saved direction',()=>{
  const paths=new Set();
- for(let seed=0;seed<80;seed++){const g=new Game();g.start(seed,{opening:false});g.s.step=1;g.enter('event');g.s.scene.event='master';assert.equal(g.eventChoice(0),true);const c=g.s.deck.at(-1);assert.ok(c.id.startsWith('W'));paths.add(CARD[c.id].path);}
+ for(let seed=0;seed<80;seed++){const g=new Game();g.start(seed,{opening:false,classic:true});g.s.step=1;g.enter('event');g.s.scene.event='master';assert.equal(g.eventChoice(0),true);const c=g.s.deck.at(-1);assert.ok(c.id.startsWith('W'));paths.add(CARD[c.id].path);}
  assert.ok(paths.has('劲力')&&paths.has('格挡')&&paths.has('变招')&&paths.has('血战'));
 });
 test('v1 migration preserves existing assets, battle piles, upgrades and RNG while unbinding direction',()=>{

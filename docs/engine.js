@@ -1,8 +1,9 @@
-import {PLAYERS,DEFAULT_PLAYER,cleanPlayerName,playerNameError,validPlayer,PLAYER_RETURN_PHASES} from './players.js?v=0.6.7';
-import {ENEMY,ENCOUNTERS,ENCOUNTER_GROUPS} from './enemies.js?v=0.6.7';
-import {CARDS,CARD,RELICS,RELIC,CHAPTERS,ROUTES,isEthereal,OPENING_BOONS} from './data.js?v=0.6.7';
+import {JOURNEY_FLOORS,JOURNEY_TOTAL,newJourney,journeyChapter} from './journey.js?v=0.7.0';
+import {PLAYERS,DEFAULT_PLAYER,cleanPlayerName,playerNameError,validPlayer,PLAYER_RETURN_PHASES} from './players.js?v=0.7.0';
+import {ENEMY,ENCOUNTERS,ENCOUNTER_GROUPS} from './enemies.js?v=0.7.0';
+import {CARDS,CARD,RELICS,RELIC,CHAPTERS,ROUTES,isEthereal,OPENING_BOONS} from './data.js?v=0.7.0';
 
-export const SAVE_VERSION=5;
+export const SAVE_VERSION=6;
 export const STARTING_DECK=Object.freeze([...Array(5).fill('W01'),...Array(4).fill('U01'),'U02']);
 const exhausted=new Set(['W18','W39','W40','W41','W42','W45','W49','W54','W56','U03','U04','U05','U08','U10','U14','U15','U16','U17']);
 const multi=new Set(['W08','W44','W47','W55','W59','W60']);
@@ -32,7 +33,7 @@ export class Game {
    // An unfinished v0.3 selection has not entered the journey yet.
    if(this.s.phase==='draft'){this.s.phase='map';this.s.deck=STARTING_DECK.map(id=>this.make(id));}
    if(Array.isArray(this.s.b?.enemies)){
-    const chapter=Math.min(2,Math.floor(this.s.step/6)),pool=ENCOUNTERS[chapter];
+    const chapter=Math.min(2,Math.floor(this.s.step/this.chapterLength)),pool=ENCOUNTERS[chapter];
     this.s.b.enemies.forEach((e,i)=>{if(!ENEMY[e.id]){const ids=e.kind==='boss'?pool.boss:e.kind==='elite'?pool.elite[0]:pool.normal[0];e.id=ids[i%ids.length];e.name=ENEMY[e.id].name;}});
    }
    if(this.s.b?.log)this.s.b.log=this.s.b.log.map(x=>x.replaceAll('暂退','消耗').replaceAll('护体','格挡').replaceAll('基础守势','抱元守一'));
@@ -44,8 +45,9 @@ export class Game {
  make(id,up=false){return {id,up,uid:++this.s.uid};}
  has(id){return this.s.relics.includes(id);}
  log(text){if(this.s.b){this.s.b.log.push(text);this.s.b.log=this.s.b.log.slice(-80);}}
- start(seed=Date.now(),{opening=true,character=opening}={}){
+ start(seed=Date.now(),{opening=true,character=opening,classic=false}={}){
   this.s={version:SAVE_VERSION,phase:'map',player:{...DEFAULT_PLAYER},rng:Number(seed)>>>0,seed:Number(seed)>>>0,uid:0,hp:80,maxHp:80,gold:90,step:0,deck:[],relics:['R01'],b:null,scene:null,reward:null,history:[],stats:{turns:0,played:0,damage:0,exhausted:0,self:0,kills:0,wins:0},created:Date.now()};
+  if(!classic)this.s.journey=newJourney();
   for(const id of STARTING_DECK)this.s.deck.push(this.make(id));
   if(character){this.s.character={name:'',portrait:null,editing:false,returnPhase:opening?'opening':'map'};this.s.phase='character';}
   else if(opening)this.beginOpening();
@@ -106,7 +108,22 @@ export class Game {
   return true;
  }
  leaveOpening(){if(this.s?.phase!=='opening'||!this.s.opening?.result)return false;this.s.phase='map';return true;}
- get chapter(){return Math.min(2,Math.floor(this.s.step/6));}
+ get chapterLength(){return this.s?.journey?JOURNEY_FLOORS:6;}
+ get totalSteps(){return this.s?.journey?JOURNEY_TOTAL:18;}
+ get chapter(){return Math.min(2,Math.floor(this.s.step/this.chapterLength));}
+ get chapterStep(){return this.s.step%this.chapterLength;}
+ chapterMap(chapter=this.chapter){
+  if(this.s.journey)return journeyChapter(this.s.seed,chapter);
+  const rows=ROUTES.map((kinds,floor)=>kinds.map((kind,lane)=>({id:`old-${chapter}-${floor}-${lane}`,chapter,floor,lane,kind,name:kind==='boss'?CHAPTERS[chapter].boss:CHAPTERS[chapter].place,x:kinds.length===1?50:lane===0?32:68})));
+  return {chapter,rows,nodes:rows.flat(),edges:rows.slice(0,-1).flatMap((row,i)=>row.flatMap(a=>rows[i+1].map(b=>[a.id,b.id])))};
+ }
+ get availableNodes(){
+  if(!this.s||this.s.phase!=='map'||this.s.step>=this.totalSteps)return [];
+  const map=this.chapterMap(),floor=this.chapterStep,row=map.rows[floor];
+  if(!this.s.journey)return row;
+  if(this.s.journey.path.length!==this.s.step||this.s.journey.active!==null)return [];
+  return floor===0?row:row.filter(n=>map.edges.some(([a,b])=>a===this.s.journey.path.at(-1)&&b===n.id));
+ }
  get qiMax(){return 3+['R25','R26','R27','R28'].filter(x=>this.has(x)).length;}
  power(id){const p=this.s.b?.powers[id];return p===undefined?null:(p?1:0);}
  val(card,a,b){return card.up?b:a;}
@@ -374,18 +391,28 @@ export class Game {
    boss:[{damage:8+a*3,label:'试探'},{damage:5+a*2,hits:2,label:'连环攻势'},{block:10+a*3,str:1,label:'凝气护身'},{damage:12+a*4,status:1,label:'绝招 · 震脉'}]
   };return clone(patterns[e.kind][e.round%patterns[e.kind].length]);
  }
- enter(kind){
-  if(this.s.phase!=='map'||!ROUTES[this.s.step%6].includes(kind))return false;
-  this.s.scene={kind,chapter:this.chapter,step:this.s.step};
+ enter(kind){const node=this.availableNodes.find(n=>n.kind===kind);return node?this.enterNode(node.id):false;}
+ enterNode(id){
+  const node=this.availableNodes.find(n=>n.id===id);if(!node)return false;
+  const kind=node.kind;if(this.s.journey)this.s.journey.active=node.id;
+  this.s.scene={kind,chapter:this.chapter,step:this.s.step,nodeId:node.id,place:node.name};
   if(['battle','elite','boss'].includes(kind)){this.combat(kind);return true;}
   this.s.phase=kind;
   if(kind==='shop')this.s.scene.stock={cards:this.offerCards(4).map((id,i)=>({id,price:CARD[id].rarity===3?125:CARD[id].rarity===2?65:40,sold:false})),relic:this.offerRelics(1,[1,2])[0],relicPrice:120,removed:false};
-  if(kind==='event')this.s.scene.event=this.pick(['master','shrine','traveller','cliff']);return true;
+  if(kind==='event')this.s.scene.event=this.pick(this.s.journey?['master','shrine','traveller','cliff','clinic','cache','stone','ferry']:['master','shrine','traveller','cliff']);
+  if(kind==='treasure'){this.s.scene.relics=this.offerRelics(2,[1,2]);this.s.scene.claimed=null;}
+  return true;
+ }
+ chooseTreasure(id){
+  const sc=this.s?.scene;if(this.s?.phase!=='treasure'||sc.claimed)return false;
+  if(id==='coins'){this.s.gold+=65;sc.claimed='取走65银两，留待沿途所需。';}
+  else{if(!sc.relics.includes(id)||this.has(id))return false;this.s.relics.push(id);sc.claimed=`得到「${RELIC[id].name}」，已随身携带。`;}
+  return true;
  }
  combat(kind){
   const a=this.chapter,encounter=ENCOUNTER_GROUPS[a],pool=kind==='elite'?encounter.elite:encounter.normal;
   // The first road can roll a duo; three-person formations enter after it.
-  const setup=kind==='boss'?encounter.boss:this.pick(kind==='battle'&&this.s.step%6===0?pool.filter(x=>x.ids.length<=2):pool),ids=setup.ids;
+  const setup=kind==='boss'?encounter.boss:this.pick(kind==='battle'&&this.chapterStep===0?pool.filter(x=>x.ids.length<=2):pool),ids=setup.ids;
   const normalHp=ids.length===3?[.48,.62,.70][a]:ids.length===2?[.63,.80,.90][a]:1;
   const normalDamage=ids.length===3?[.50,.60,.70][a]:ids.length===2?[.70,.80,.90][a]:1;
   const duplicates=new Map();
@@ -395,7 +422,7 @@ export class Game {
    const hpScale=kind==='battle'?normalHp:escort?(kind==='boss'?.40:.45):1;
    const damageScale=kind==='battle'?normalDamage:escort?(kind==='boss'?.50:.55):1;
    const guardScale=kind==='battle'&&ids.length>1?.75:escort?.60:1;
-   const hp=Math.max(1,Math.round((d.hp+(kind==='battle'?(this.s.step%6)*2:0))*hpScale));
+   const hp=Math.max(1,Math.round((d.hp+(kind==='battle'?Math.round(this.chapterStep/(this.chapterLength-1)*5)*2:0))*hpScale));
    const round=kind==='battle'&&ids.length>1?i%d.moves.length:escort?(i+1)%d.moves.length:0;
    return {id,name:d.name+(callSign?'·'+callSign:''),callSign,role:escort?'随从':'',kind:d.rank==='normal'?'bandit':d.rank,hp,maxHp:hp,key:i,round,damageScale,guardScale,block:0,weak:0,vuln:0,str:0,pin:0,charge:0,enraged:false};
   });
@@ -428,8 +455,11 @@ export class Game {
  chooseRewardRelic(id=null){const r=this.s.reward;if(this.s.phase!=='reward'||r.relicDone||id&&!r.relics.includes(id))return false;if(id&&!this.has(id))this.s.relics.push(id);r.relicDone=true;return true;}
  leaveReward(){const r=this.s.reward;if(this.s.phase!=='reward'||!r.cardDone||!r.relicDone)return false;if(r.boss)this.heal(Math.floor(this.s.maxHp*.25),'章节整备');this.finishNode();return true;}
  finishNode(){
-  this.s.history.push({step:this.s.step,kind:this.s.scene?.kind,hp:this.s.hp,deck:this.s.deck.length});this.s.step++;this.s.reward=null;this.s.scene=null;
-  if(this.s.step>=18){this.s.phase='win';this.s.finished=Date.now();}else this.s.phase='map';
+  if(!['event','shop','rest','reward','treasure'].includes(this.s.phase)||this.s.phase==='event'&&!this.s.scene?.result||this.s.phase==='reward'&&(!this.s.reward?.cardDone||!this.s.reward?.relicDone)||this.s.phase==='treasure'&&!this.s.scene?.claimed)return false;
+  const entry={step:this.s.step,kind:this.s.scene?.kind,hp:this.s.hp,deck:this.s.deck.length};
+  if(this.s.journey){if(!this.s.journey.active)return false;entry.nodeId=this.s.journey.active;entry.place=this.s.scene.place;this.s.journey.path.push(this.s.journey.active);this.s.journey.active=null;}
+  this.s.history.push(entry);this.s.step++;this.s.reward=null;this.s.scene=null;
+  if(this.s.step>=this.totalSteps){this.s.phase='win';this.s.finished=Date.now();}else this.s.phase='map';return true;
  }
  rest(action,uid=null){
   if(this.s.phase!=='rest')return false;
@@ -441,7 +471,7 @@ export class Game {
  buyRelic(){if(this.s.phase!=='shop')return false;const x=this.s.scene.stock;if(!x.relic||x.relicSold||this.s.gold<x.relicPrice||this.has(x.relic))return false;this.s.gold-=x.relicPrice;this.s.relics.push(x.relic);x.relicSold=true;return true;}
  removeCard(uid){if(this.s.phase!=='shop')return false;const x=this.s.scene.stock;if(x.removed||this.s.gold<60)return false;const i=this.s.deck.findIndex(x=>x.uid===uid);if(i<0)return false;this.s.deck.splice(i,1);this.s.gold-=60;x.removed=true;return true;}
  eventChoice(option){
-  if(this.s.phase!=='event'||this.s.scene.result)return false;const e=this.s.scene.event;let message='';
+  if(this.s.phase!=='event'||this.s.scene.result||![0,1,2].includes(option))return false;const e=this.s.scene.event;let message='';
   if(option===2){message='你拱手告辞，继续赶路。';}
   else if(e==='master'){
    if(option===0){const pool=CARDS.filter(d=>d.id.startsWith('W')&&d.rarity>0&&!(d.type==='p'&&this.s.deck.some(c=>c.id===d.id)));if(!pool.length)return false;const id=this.pick(pool).id;this.s.deck.push(this.make(id));message=`老者点拨，习得「${CARD[id].name}」。`;}
@@ -452,11 +482,24 @@ export class Game {
   }else if(e==='traveller'){
    if(option===0){if(this.s.gold<35)return false;this.s.gold-=35;this.s.maxHp+=8;this.heal(8,'药王传人');message='气血上限增加8，回复8气血。';}
    else{this.s.gold+=35;message='护送旅人，获得35银两。';}
-  }else {
+  }else if(e==='cliff'){
    if(option===0){if(this.s.hp<=6)return false;this.s.hp-=6;this.bee();const id=this.offerCards(1,{absolute:true})[0];this.s.deck.push(this.make(id));message=`攀上绝壁，失去6气血，发现「${CARD[id].name}」秘籍。`;}
    else {this.s.gold+=25;message='沿山路捡得遗落钱袋，获得25银两。';}
   }
-  this.s.scene.result=message;return true;
+  if(!message&&e==='clinic'){
+   if(option===0){if(this.s.gold<25)return false;this.s.gold-=25;this.heal(18,'山野药庐');message='付出25银两，草药汤回复18气血。';}
+   else{this.heal(6,'清泉洗尘');message='以清泉洗去风尘，回复6气血。';}
+  }else if(!message&&e==='cache'){
+   if(option===0){if(this.s.gold<55)return false;const ids=this.offerRelics(1,[1]);if(!ids.length)return false;this.s.gold-=55;this.s.relics.push(ids[0]);message=`花55银两开启旧匣，得到「${RELIC[ids[0]].name}」。`;}
+   else{this.s.gold+=20;message='帮老者搬运旧箱，得到20银两。';}
+  }else if(!message&&e==='stone'){
+   const type=option===0?'a':'s',pool=this.s.deck.filter(c=>!c.up&&CARD[c.id].type===type);
+   if(!pool.length)return false;const c=this.pick(pool);c.up=true;message=`参悟残碑，「${CARD[c.id].name}」得到永久精进。`;
+  }else if(!message&&e==='ferry'){
+   if(option===0){if(this.s.hp<=5)return false;this.s.hp-=5;this.bee();const id=this.offerCards(1,{elite:true})[0];this.s.deck.push(this.make(id));message=`渡口切磋失去5气血，习得「${CARD[id].name}」。`;}
+   else{this.s.gold+=20;message='替船家撑篙一程，获得20银两。';}
+  }
+  if(!message)return false;this.s.scene.result=message;return true;
  }
  // Real rules only: this helper powers the optional one-turn assistance and deterministic QA.
  autoChoices(c){
