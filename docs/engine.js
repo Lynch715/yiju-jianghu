@@ -1,8 +1,9 @@
-import {JOURNEY_FLOORS,JOURNEY_TOTAL,newJourney,journeyChapter} from './journey.js?v=0.9.0';
-import {PLAYERS,DEFAULT_PLAYER,cleanPlayerName,playerNameError,validPlayer,PLAYER_RETURN_PHASES} from './players.js?v=0.9.0';
-import {ENEMY,ENCOUNTERS,ENCOUNTER_GROUPS} from './enemies.js?v=0.9.0';
-import {DIFFICULTY,combatDefinition,encounterTuning} from './difficulty.js?v=0.9.0';
-import {CARDS,CARD,RELICS,RELIC,CHAPTERS,ROUTES,isEthereal,OPENING_BOONS} from './data.js?v=0.9.0';
+import {attachEnemyTactics,tacticalIntent,onTacticalDamage,onTacticalExhaust,onTacticalPlay,onTacticalDeath,afterTacticalAction,afterTacticalFollowerAction} from './enemy-tactics.js?v=0.10.0';
+import {JOURNEY_FLOORS,JOURNEY_TOTAL,newJourney,journeyChapter} from './journey.js?v=0.10.0';
+import {PLAYERS,DEFAULT_PLAYER,cleanPlayerName,playerNameError,validPlayer,PLAYER_RETURN_PHASES} from './players.js?v=0.10.0';
+import {ENEMY,ENCOUNTERS,ENCOUNTER_GROUPS} from './enemies.js?v=0.10.0';
+import {DIFFICULTY,combatDefinition,encounterTuning} from './difficulty.js?v=0.10.0';
+import {CARDS,CARD,RELICS,RELIC,CHAPTERS,ROUTES,isEthereal,OPENING_BOONS} from './data.js?v=0.10.0';
 
 export const SAVE_VERSION=7;
 export const STARTING_DECK=Object.freeze([...Array(5).fill('W01'),...Array(4).fill('U01'),'U02']);
@@ -45,7 +46,9 @@ export class Game {
  shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(this.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
  make(id,up=false){return {id,up,uid:++this.s.uid};}
  has(id){return this.s.relics.includes(id);}
- log(text){if(this.s.b){this.s.b.log.push(text);this.s.b.log=this.s.b.log.slice(-80);}}
+ log(text){if(this.s.b){this.s.b.log.push(text);this.s.b.log=this.s.b.log.slice(-80);for(const e of this.s.b.enemies||[])if(text.startsWith(e.name+' · ')){const record=this.encounterRecord(e);record.notes=[...(record.notes||[]).filter(x=>x!==text),text].slice(-20);}}}
+ encounterRecord(e){this.s.journal??={};return this.s.journal[e.id]??=( {moves:{},notes:[]} );}
+ recordEnemyAction(e,intent,damage){const action={key:e.key,label:intent.label,attacks:!!intent.damage,damage};this.s.b.lastEnemyActions.push(action);e.lastAction=action;const record=this.encounterRecord(e);record.moves[intent.label]=(record.moves[intent.label]||0)+1;}
  start(seed=Date.now(),{opening=true,character=opening,classic=false}={}){
   this.s={version:SAVE_VERSION,phase:'map',player:{...DEFAULT_PLAYER},rng:Number(seed)>>>0,seed:Number(seed)>>>0,uid:0,hp:80,maxHp:80,gold:90,step:0,deck:[],relics:['R01'],b:null,scene:null,reward:null,history:[],stats:{turns:0,played:0,damage:0,exhausted:0,self:0,kills:0,wins:0},created:Date.now()};
   if(!classic){this.s.journey=newJourney();this.s.ruleset=DIFFICULTY;}
@@ -164,15 +167,16 @@ export class Game {
    if(this.has('R24')&&!b.battleFlags.herb){b.battleFlags.herb=true;this.heal(3,'断肠草药包');}
   }
   if(type==='s'&&this.has('R18')){this.energy(1);this.log('罗汉木偶 · 回气');}
+  onTacticalExhaust(this,c);
   if(b.turnFlags.retired%2===0&&this.has('R17'))for(const e of b.enemies.filter(x=>x.hp>0))this.direct(e,6,'圣火令');
  }
  takeSelections(ids){const b=this.s.b;const taken=[];for(const uid of ids){const i=b.hand.findIndex(x=>x.uid===uid);if(i>=0)taken.push(b.hand.splice(i,1)[0]);}return taken;}
  retireSelected(ids){const a=this.takeSelections(ids);for(const c of a)this.exhaustCard(c);return a.length;}
  direct(enemy,n,source='奇物'){
-  if(!enemy||enemy.hp<=0)return;const hit=Math.min(enemy.hp,n);enemy.hp-=hit;this.s.stats.damage+=hit;this.log(`${source} → ${enemy.name} ${hit}点伤害`);if(enemy.hp<=0)this.onKill(enemy,null);
+  if(!enemy||enemy.hp<=0)return;const hit=Math.min(enemy.hp,n);enemy.hp-=hit;this.s.stats.damage+=hit;this.log(`${source} → ${enemy.name} ${hit}点伤害`);onTacticalDamage(this,enemy,hit,hit);if(enemy.hp<=0)this.onKill(enemy,null);
  }
  onKill(e,card){
-  if(e.dead)return;e.dead=true;this.s.stats.kills++;this.log(`击败 · ${e.name}`);
+  if(e.dead)return;e.dead=true;onTacticalDeath(this,e);this.s.stats.kills++;this.log(`击败 · ${e.name}`);
   if(!e.summoned){if(this.has('R15')){this.s.b.str+=2;this.log('屠龙刀 · 劲力+2');}if(card?.id==='W50'){this.s.b.battleFlags.blood++;this.heal(card.up?4:3,'血刀大法');}}
  }
  hit(e,base,card,ctx,{times=1,str=1,ignore=false}={}){
@@ -183,7 +187,7 @@ export class Game {
    if(b.weak>0)n*=.75;if(e.vuln>0)n*=1.5;n=Math.floor(n);
    const blocked=ignore?0:Math.min(e.block,n);e.block-=blocked;const hp=Math.min(e.hp,n-blocked);e.hp-=hp;this.s.stats.damage+=hp;
    this.log(`${CARD[card.id].name} → ${e.name} ${n}伤害${blocked?`（抵挡${blocked}）`:''}`);if(ctx)ctx.hitTargets.add(e.key);
-   if(e.hp<=0)this.onKill(e,card);
+   onTacticalDamage(this,e,hp,hp+blocked);if(e.hp<=0)this.onKill(e,card);
   }
  }
  selection(card){
@@ -219,7 +223,7 @@ export class Game {
    if(this.has('R20')&&multi.has(c.id)&&!b.turnFlags.snake){ctx.goldSnake=true;b.turnFlags.snake=true;}
   }
   this.log(`出招 · ${d.name}${c.up?'·精进':''}（${paid}真气）`);
-  this.resolve(c,target,ctx,selections);
+  onTacticalPlay(this,c);this.resolve(c,target,ctx,selections);
   for(let copy=0;copy<extra&&this.s.hp>0&&b.enemies.some(e=>e.hp>0);copy++){
    const next=target.hp>0?target:b.enemies.find(e=>e.hp>0);
    if(this.actualSelf(c)<this.s.hp){this.log('左右互搏 · 额外结算');this.resolve(c,next,{...ctx,heavy:false,heavyUsed:true,blockBoosted:false},[]);}else{this.log('气血不足 · 取消剩余额外结算');break;}
@@ -260,7 +264,7 @@ export class Game {
    case 'W17':for(const t of b.enemies.filter(x=>x.hp>0))t.weak+=v(2,3);break;
    case 'W18':b.repeat=(Number(b.repeat)||0)+1;break;
    case 'W19':h(v(5,7));g(v(7,10));break;
-   case 'W20':g(v(8,11)+(e.intent.damage?3:0));break;
+   case 'W20':g(v(8,11)+(e.lastAction?.attacks?3:0));break;
    case 'W21':g(v(5,8));draw(2);break;
    case 'W22':break;
    case 'W23':g(v(18,24));break;
@@ -334,7 +338,7 @@ export class Game {
   let n=5+b.nextDraw-(this.has('R28')?1:0)-(this.has('R30')?1:0)-(first&&this.has('R29')?2:0)-(first&&this.has('R04')?1:0)-(first&&this.has('R26')?2:0);b.nextDraw=0;this.draw(Math.max(0,n));this.log(`—— 第${b.turn}回合 · ${b.qi}真气 ——`);if(b.qiPenalty)this.log(`寒气压制 · 本回合少${b.qiPenalty}真气`);
  }
  endTurn(){
-  if(this.s.phase!=='battle')return false;const b=this.s.b;
+  if(this.s.phase!=='battle')return false;const b=this.s.b;b.lastEnemyActions=[];
   // Ethereal is a condition at end of turn, not a synonym for Exhaust on play.
   // Resolve newly drawn ethereal cards too; consume before Retain / ordinary discard.
   for(let i=b.hand.findIndex(isEthereal);i>=0;i=b.hand.findIndex(isEthereal)){
@@ -347,31 +351,34 @@ export class Game {
   b.str-=b.tempStr;b.tempStr=0;b.weak=Math.max(0,b.weak-1);const oldVuln=b.vuln;
   // Reset enemy block together, so a partner can protect an ally who acts later.
   for(const e of b.enemies)if(e.hp>0)e.block=0;
-  for(const e of b.enemies){
-   if(e.hp<=0)continue;const intent=e.intent;let dealt=0;this.log(`${e.name} · ${intent.label}`);
+  this.refreshEnemyPhases();
+  for(const e of [...b.enemies]){
+   if(e.hp<=0||e.bornTurn===b.turn)continue;if(e.tactics)e.intent=this.enemyIntent(e);const intent=e.intent;let dealt=0,totalDamage=0;this.log(`${e.name} · ${intent.label}`);
    if(intent.block)e.block+=intent.block;
    if(intent.allyBlock)for(const ally of b.enemies.filter(x=>x!==e&&x.hp>0)){ally.block+=intent.allyBlock;this.log(`${e.name} · 为${ally.name}提供${intent.allyBlock}格挡`);}
    if(intent.damage){for(let i=0;i<(intent.hits||1);i++){
     if(e.hp<=0||this.s.hp<=0)break;const n=this.previewEnemy(e,i);e.pin=0;
-    const blocked=Math.min(b.block,n);b.block-=blocked;const hp=n-blocked;dealt+=hp;this.s.hp-=hp;this.log(`${e.name} → 你 ${n}伤害（格挡抵挡${blocked}）`);
+    totalDamage+=n;const blocked=Math.min(b.block,n);b.block-=blocked;const hp=n-blocked;dealt+=hp;this.s.hp-=hp;this.log(`${e.name} → 你 ${n}伤害（格挡抵挡${blocked}）`);
     const nextReflection=this.reflectionStacks('next');if(nextReflection){this.direct(e,blocked*nextReflection,'乾坤反震');b.reflectNextStacks=0;b.reflectNext=0;}
     const roundReflection=this.reflectionStacks('round');if(roundReflection&&blocked)this.direct(e,blocked*roundReflection,'斗转反震');
+    if(hp>0&&intent.woundOnHit)this.addStatus(intent.woundOnHit);
     if(hp>0&&this.has('R11'))this.direct(e,3,'软猬甲');this.bee();if(this.s.hp<=0)break;
    }e.charge=0;}
-   if(this.s.hp<=0){this.checkEnd();return true;}
+   if(this.s.hp<=0){this.recordEnemyAction(e,intent,totalDamage);this.checkEnd();return true;}
    if(e.hp>0){
     if(intent.weak)b.weak+=intent.weak;if(intent.vuln)b.vuln+=intent.vuln;if(intent.status)this.addStatus(intent.status);if(intent.str)e.str+=intent.str;
     if(intent.poison){b.poison=(b.poison||0)+intent.poison;this.log(`中毒+${intent.poison}`);}
     if(intent.chill){b.nextQiLoss=Math.min(2,(b.nextQiLoss||0)+intent.chill);this.log(`寒气 · 下回合少${intent.chill}真气`);}
-    if(intent.charge){e.charge=(e.charge||0)+intent.charge;this.log(`${e.name} · 下一次攻击蓄力+${intent.charge}`);}
+    if(intent.charge){e.charge=(e.charge||0)+intent.charge;this.log(`${e.name} · 蓄力+${intent.charge}`);}
     if(intent.leech&&dealt>0){const heal=Math.min(dealt,intent.leech,e.maxHp-e.hp);e.hp+=heal;if(heal)this.log(`${e.name} · 饮血回复${heal}气血`);}
    }
+   this.recordEnemyAction(e,intent,totalDamage);afterTacticalAction(this,e,intent,dealt);afterTacticalFollowerAction(this,e);
   }
   if(this.checkEnd())return true;
   if(oldVuln>0)b.vuln=Math.max(0,b.vuln-1);
   if((b.poison||0)>0){const poison=b.poison;this.s.hp-=poison;b.poison--;this.log(`毒发 · 失去${poison}气血（剩余中毒${b.poison}）`);this.bee();}
   if(this.checkEnd())return true;
-  for(const e of b.enemies){e.weak=Math.max(0,e.weak-1);e.vuln=Math.max(0,e.vuln-1);e.pin=0;if(e.hp>0){e.round++;if(e.ruleset===DIFFICULTY&&e.kind==='boss'&&b.turn%4===0){e.str++;this.log(`${e.name} · 久战蓄劲，劲力+1`);}e.intent=this.enemyIntent(e);}}
+  for(const e of b.enemies){e.weak=Math.max(0,e.weak-1);e.vuln=Math.max(0,e.vuln-1);e.pin=0;if(e.hp>0){if(e.bornTurn!==b.turn)e.round++;if(e.ruleset===DIFFICULTY&&e.kind==='boss'&&b.turn%4===0){e.str++;this.log(`${e.name} · 久战蓄劲，劲力+1`);}e.intent=this.enemyIntent(e);}}
   if(this.checkEnd())return true;this.beginTurn();return true;
  }
  enemyIntent(e){
@@ -381,9 +388,9 @@ export class Game {
   // Store tuned numbers in the actual intent: preview and execution share them.
   for(const key of ['damage','leech'])if(intent[key])intent[key]=Math.max(1,Math.round(intent[key]*(e.damageScale??1)));
   for(const key of ['block','allyBlock'])if(intent[key])intent[key]=Math.max(1,Math.round(intent[key]*(e.guardScale??1)));
-  return intent;
+  return tacticalIntent(this,e,intent);
  }
- refreshEnemyPhases(){for(const e of this.s.b?.enemies||[])if(combatDefinition(ENEMY[e.id]||{},e.ruleset).enragedMoves&&!e.enraged&&e.hp>0&&e.hp<=e.maxHp/2)e.intent=this.enemyIntent(e);}
+ refreshEnemyPhases(){for(const e of this.s.b?.enemies||[])if(e.hp>0&&(e.tactics||combatDefinition(ENEMY[e.id]||{},e.ruleset).enragedMoves&&!e.enraged&&e.hp<=e.maxHp/2))e.intent=this.enemyIntent(e);}
  legacyEnemyIntent(e){
   const a=this.chapter;
   const patterns={
@@ -431,7 +438,8 @@ export class Game {
    return {...(this.s.ruleset===DIFFICULTY?{ruleset:DIFFICULTY,...(d.phaseName?{phaseName:d.phaseName}:{})}:{}),id,name:d.name+(callSign?'·'+callSign:''),callSign,role:escort?'随从':'',kind:d.rank==='normal'?'bandit':d.rank,hp,maxHp:hp,key:i,round,damageScale,guardScale,block:0,weak:0,vuln:0,str:0,pin:0,charge:0,enraged:false};
   });
   this.s.b={enemies,draw:this.shuffle(this.s.deck.map(x=>clone(x))),hand:[],discard:[],exhaust:[],powers:{},qi:0,str:0,tempStr:0,block:0,weak:0,vuln:0,turn:0,nextDraw:0,repeat:false,discount:0,turnFlags:{},battleFlags:{bandage:0,blood:0},log:[],kind,formation:setup.title};
-  for(const e of enemies)e.intent=this.enemyIntent(e);
+  if(this.s.ruleset===DIFFICULTY)attachEnemyTactics(this);
+  for(const e of enemies){this.encounterRecord(e);e.intent=this.enemyIntent(e);}
   if(this.has('R25'))this.addStatus(2);this.s.phase='battle';this.beginTurn(true);
   if(this.has('R21'))this.s.b.openDart=true;
  }
@@ -524,7 +532,7 @@ export class Game {
  autoPlayTurn(){
   if(this.s.phase!=='battle')return;const b=this.s.b;if(b.openDart)this.useDart(b.enemies.find(e=>e.hp>0).key);
   for(let n=0;n<50&&this.s.phase==='battle';n++){
-   const alive=b.enemies.filter(x=>x.hp>0),threat=alive.reduce((a,e)=>a+this.previewEnemy(e)+this.previewEnemy(e,1)*((e.intent.hits||1)-1),0);
+   const alive=b.enemies.filter(x=>x.hp>0),threat=alive.reduce((n,e)=>n+(e.lastAction?.damage??(e.kind==='boss'?20:e.kind==='elite'?14:8)),0);
    const pool=b.hand.filter(c=>!this.reason(c));
    if(!pool.length)break;
    const score=c=>{const d=CARD[c.id];let s=d.type==='p'?19:d.type==='a'?12:6;s+=d.rarity;if(d.type==='s'&&b.block<threat)s+=8;if(['U04','U14','W54'].includes(c.id))s+=12;if(c.id==='W16'&&!b.hand.some(x=>CARD[x.id].type==='a'&&!this.reason(x)))s=-10;if(c.id==='W27')s=b.block>=10?24:1;if(c.id==='W49')s=this.s.maxHp-this.s.hp>5?40:-10;if(c.id==='W18'&&!b.hand.some(x=>CARD[x.id].type==='a'&&this.cost(x)<=b.qi-this.cost(c)))s=-10;if(c.id==='W59')s-=3;if(selfCost[c.id]&&this.s.hp<15)s-=15;return s;};

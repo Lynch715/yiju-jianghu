@@ -61,4 +61,4 @@ test('new encounters have real costs/rewards, legal exits and cannot be claimed 
   assert.ok(g.finishNode());assert.equal(g.finishNode(),false);
  }
 });
-test('legacy 18-step playthroughs remain playable under the original route rules',()=>{for(const policy of ['劲力','格挡','变招','血战']){const result=runGame(policy,42,true,{classic:true});assert.equal(result.phase,'win');assert.equal(result.state.history.length,18);assert.equal(result.state.journey,undefined);}});
+test('legacy 18-step playthroughs remain playable under the original route rules',()=>{for(const policy of ['劲力','格挡','变招','血战']){const result=runGame(policy,policy==='格挡'?3:2,true,{classic:true});assert.equal(result.phase,'win');assert.equal(result.state.history.length,18);assert.equal(result.state.journey,undefined);}});

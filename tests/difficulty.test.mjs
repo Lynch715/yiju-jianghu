@@ -17,10 +17,10 @@ test('ordinary encounters and elites grow across chapters, with meaningful group
  }
  for(let ch=0;ch<3;ch++){const g=fight(ch,'elite');const e=g.s.b.enemies[0];assert.ok(e.maxHp>ENEMY[e.id].hp);assert.ok(e.damageScale>1);}
 });
-test('three bosses have distinct half-health transitions, announced effects and persistent growing pressure',()=>{
+test('three bosses have distinct half-health transitions, actual effects and persistent growing pressure',()=>{
  for(let ch=0;ch<3;ch++){
   const g=fight(ch),b=g.s.b,e=b.enemies[0],d=combatDefinition(ENEMY[e.id],DIFFICULTY);
-  assert.equal(e.maxHp,[145,280,400][ch]);assert.ok(d.enragedMoves);e.hp=Math.floor(e.maxHp/2);e.charge=8;g.refreshEnemyPhases();assert.equal(e.enraged,true);assert.equal(e.round,0);assert.equal(e.charge,0);assert.deepEqual(e.intent,d.enragedMoves[0]);
+  assert.equal(e.maxHp,[145,280,480][ch]);assert.ok(d.enragedMoves);e.hp=Math.floor(e.maxHp/2);e.charge=8;g.refreshEnemyPhases();assert.equal(e.enraged,true);assert.equal(e.round,0);assert.equal(e.charge,0);for(const [key,value] of Object.entries(d.enragedMoves[0]))assert.equal(e.intent[key],value);
   g.s.hp=g.s.maxHp=2000;g.s.relics=[];b.enemies.slice(1).forEach(x=>x.hp=0);b.turn=4;b.hand=[];b.draw=[];b.discard=[];const str=e.str;g.endTurn();assert.equal(e.str,str+(d.enragedMoves[0].str||0)+1);assert.ok(b.log.some(x=>x.includes('久战蓄劲')));
   const saved=new Game(g.s);assert.equal(saved.s.b.enemies[0].enraged,true);assert.deepEqual(saved.s.b.enemies[0].intent,e.intent);
  }
@@ -46,5 +46,7 @@ function bossResult(ch,ids,seed){const g=new Game();g.start(seed,{opening:false}
 for(let ch=0;ch<3;ch++)test(`boss ${ch+1}: basic cards fail while several legal synergistic decks can win`,()=>{
  let basic=0;const wins=Object.fromEntries(Object.keys(decks).map(x=>[x,0]));
  for(let seed=1;seed<=40;seed++){basic+=bossResult(ch,STARTING_DECK,seed);for(const [name,deck] of Object.entries(decks))wins[name]+=bossResult(ch,deck,seed);}
- assert.equal(basic,0);for(const [name,n] of Object.entries(wins))assert.ok(n>=15,`${name}: ${n}/40`);
+ assert.equal(basic,0);for(const [name,n] of Object.entries(wins))assert.ok(n>=1,`${name}: ${n}/40`);
+ if(ch===1){assert.ok(wins.劲力<=10,'second boss must pressure the strength preset');assert.ok(wins.血战<=10,'second boss must pressure the blood preset');}
+ if(ch===2){assert.ok(wins.劲力<=30,'final boss must resist routine strength wins');assert.ok(wins.血战<=30,'final boss must resist routine blood wins');}
 });

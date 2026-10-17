@@ -1,16 +1,16 @@
 {
-  "version": "0.9.0",
+  "version": "0.10.0",
   "entry": "index.html",
   "files": [
     {
       "path": "index.html",
-      "bytes": 1160,
-      "sha256": "e7b8f9af547a8bc9c8b710bf0281a9ba101716172aac2344e84666b86eeed1aa"
+      "bytes": 1166,
+      "sha256": "e7492d78c42d9ddffef588002c60ba5a64f034845dd3d78475772e9a36f4e23e"
     },
     {
       "path": "manifest.webmanifest",
-      "bytes": 752,
-      "sha256": "e62e7e3fbc07d38a83be72468d4c9442471b3073d47ab69ff0472103599f23b2"
+      "bytes": 755,
+      "sha256": "4d8dd883543740572739e04865b63754150553ee4d45ffbebcdc93197f6b23a3"
     },
     {
       "path": "assets/icons/icon.svg",
@@ -39,13 +39,13 @@
     },
     {
       "path": "app.js",
-      "bytes": 62002,
-      "sha256": "15487a1bba41397fd2e1a5493667e0ae42497da036f372e93da531a9a12dd68a"
+      "bytes": 59938,
+      "sha256": "3f30192eb2473c1835ceb83834fb115f9588fd6ace7c8aec8b62855459696929"
     },
     {
       "path": "data.js",
-      "bytes": 16342,
-      "sha256": "1fbfc9973096eb737328813306a4dd4adaf7abb025fb2af04595bbb5e28156f5"
+      "bytes": 16352,
+      "sha256": "6882aa6168dec1948bf4c0c291e531e2aca290f83ad1a8b242927057daa0bf5c"
     },
     {
       "path": "journey.js",
@@ -64,18 +64,23 @@
     },
     {
       "path": "relic-art.js",
-      "bytes": 12405,
-      "sha256": "d61f782c2866917f3d3025caf2d9a1f892620c1dfa89adee38fb446a14125826"
+      "bytes": 12406,
+      "sha256": "91b3a96baa2694b9ee2b74b4824515fc805caf7a6e4a97955add531de81c638f"
+    },
+    {
+      "path": "enemy-tactics.js",
+      "bytes": 7121,
+      "sha256": "bf8eae5f617252a236f60ccc1330fac368c2ad73eeb106bb3aa28cc86ef7bbeb"
     },
     {
       "path": "engine.js",
-      "bytes": 42412,
-      "sha256": "c12d51d5b88e9f68e2fab10fd33f7e77dedfffda1722e74c212ebd3380566cfb"
+      "bytes": 43830,
+      "sha256": "399837d60c4fee30dfd45f38cd9bee866f280f36322880ec1fb09626218a31b6"
     },
     {
       "path": "difficulty.js",
-      "bytes": 2652,
-      "sha256": "fdebbcc5f662d0d675c10163c4e517f010a5222dbdc637b155b88ec48f802595"
+      "bytes": 2669,
+      "sha256": "75a250fdc24524959bed7f13e659d5dcd70bdd46e8e7ae8cce475f661395c8db"
     },
     {
       "path": "enemies.js",
@@ -89,8 +94,8 @@
     },
     {
       "path": "combat-ui.js",
-      "bytes": 1025,
-      "sha256": "2b7c898b0ddf5ea5ffe92a81e2d13829c15d12c5e95c2ecddb19fcb5819c072f"
+      "bytes": 1024,
+      "sha256": "43f9e972a890e063b3ae67ce66e462159d92555309daf5b105bd4d05e52eea8f"
     },
     {
       "path": "style.css",
