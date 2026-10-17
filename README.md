@@ -2,6 +2,8 @@
 
 手机游玩：[打开一局江湖](https://lynch715.github.io/yiju-jianghu/)
 
+扫码海报：[打开并保存分享海报](https://lynch715.github.io/yiju-jianghu/share/jianghu-poster-v1.jpg) · [独立游戏二维码](https://lynch715.github.io/yiju-jianghu/share/game-qr.png)
+
 仓库：[Lynch715/yiju-jianghu](https://github.com/Lynch715/yiju-jianghu)
 
 金庸武侠题材的本地静态卡牌游戏，v0.7.4。无需安装依赖，无账号、付费和远程服务。
