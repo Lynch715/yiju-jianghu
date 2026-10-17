@@ -133,3 +133,18 @@
 @media(max-width:360px){
  .topbar{padding:10px;gap:8px}.stats{font-size:9px;gap:8px;white-space:nowrap}.stats strong{font-size:12px}.top-actions{gap:3px}.top-actions button{font-size:9px;padding:5px}.build-badge{font-size:8px;margin-right:1px}
 }
+
+/* Keep the two primary turn controls within thumb reach on mobile. */
+.turn-controls{display:contents}
+@media(max-width:900px){
+ .layout[data-phase="battle"] .main{padding-bottom:calc(112px + env(safe-area-inset-bottom,0px))}
+ .turn-controls{position:fixed;inset:auto 0 0;z-index:40;height:calc(78px + env(safe-area-inset-bottom,0px));display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;gap:20px;padding:12px max(16px,env(safe-area-inset-right,0px)) calc(12px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));background:#19231ff5;border-top:1px solid #6b735344;box-shadow:0 -8px 24px #0004;backdrop-filter:blur(14px)}
+ .turn-controls .energy{padding:0;gap:12px;min-width:106px}
+ .turn-controls .energy-orb{width:44px;height:44px;font-size:27px;flex-shrink:0}
+ .turn-controls .energy span{font-size:13px}.turn-controls .energy small{font-size:9px;white-space:nowrap}
+ .turn-controls [data-action="end-turn"]{min-height:46px;font-size:15px;letter-spacing:1px}
+ .turn-panel{grid-template-columns:1fr}
+ .turn-panel>[data-action="auto-turn"],.turn-panel>.piles{grid-column:1/-1}
+ body:has(.layout[data-phase="battle"]) #toast{bottom:calc(94px + env(safe-area-inset-bottom,0px))}
+}
+@media(max-width:360px){.turn-controls{gap:14px;padding-left:14px;padding-right:14px}.turn-controls .energy{gap:9px;min-width:100px}}
