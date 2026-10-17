@@ -1,0 +1,11 @@
+.DS_Store
+node_modules/
+.env
+.env.*
+*.log
+qa/
+# Preserve older local builds without publishing outdated game entrypoints.
+dist/*
+!dist/index.html
+!dist/一局江湖.html
+!dist/一局江湖-v0.6.0.html

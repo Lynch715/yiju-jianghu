@@ -1,0 +1,151 @@
+{
+  "version": "0.6.0",
+  "entry": "index.html",
+  "files": [
+    {
+      "path": "index.html",
+      "bytes": 791,
+      "sha256": "7d8d5d921e69cfa36d7b6428b465c158d6752528383bc171717f6fd927593023"
+    },
+    {
+      "path": "app.js",
+      "bytes": 43655,
+      "sha256": "691cd2809e3f67711c3cda8daa237d7d81ef362427f6be7be29423e93b19326a"
+    },
+    {
+      "path": "data.js",
+      "bytes": 16040,
+      "sha256": "a18c5d65109e8fdaddd3876b82aba2bb0e06d362b7d75f57dca5146c5fa3ebb7"
+    },
+    {
+      "path": "engine.js",
+      "bytes": 36251,
+      "sha256": "ef7abc2a5f2967aa0a13b044ec6f2253ab18f8252381d001c80b08d7cfaf79fe"
+    },
+    {
+      "path": "enemies.js",
+      "bytes": 5943,
+      "sha256": "1143a94bd17f318b6016f56819e62c93d6e1570a4ed622953ccb311c9def412e"
+    },
+    {
+      "path": "players.js",
+      "bytes": 1986,
+      "sha256": "e48b5ae0bb785a82001a6420f45da1ad1a787ee034f0cdea82322f7ebe684bdb"
+    },
+    {
+      "path": "style.css",
+      "bytes": 26955,
+      "sha256": "5f57e24c812148ae545f7288df2234e49ffc8769e67796d15c5f27a9882108b6"
+    },
+    {
+      "path": "assets/enemies/runtime/qingcheng.png",
+      "bytes": 337583,
+      "sha256": "6f4a5d29170b0319e5aedc47d1eb374401f8ac4521d37374e15ab7a97e19029c"
+    },
+    {
+      "path": "assets/enemies/runtime/songshan.png",
+      "bytes": 404302,
+      "sha256": "a90f7dfc3d8fd5ae453f9393a4274292074d8acdbd15de9c48e5ec9c9a4be4be"
+    },
+    {
+      "path": "assets/enemies/runtime/xingxiu.png",
+      "bytes": 447006,
+      "sha256": "722e28da202ffc0c00a3b7e94c48e87b0f07200c85a74d136d2d1c4acc6dc803"
+    },
+    {
+      "path": "assets/enemies/runtime/xuedao.png",
+      "bytes": 373407,
+      "sha256": "35aac9fd90a0ced7d0290b8cfc0ddf90a3166a0936c14b2897985dc393314a6d"
+    },
+    {
+      "path": "assets/enemies/runtime/baituo.png",
+      "bytes": 415636,
+      "sha256": "23918d398b6b77c55ea65e4d2a75f2ee59b3146093b97d33527c2c60d8d2c02c"
+    },
+    {
+      "path": "assets/enemies/runtime/riyue.png",
+      "bytes": 382895,
+      "sha256": "d43bbee6d25e9fd544b262bb2fde4c80ed73e5f542e3356d33d2b9a22e263fb0"
+    },
+    {
+      "path": "assets/enemies/runtime/mugaofeng.png",
+      "bytes": 418171,
+      "sha256": "5a53c367df8925b568be1132ff8b45920046a7ab0b81f47c9dcd5c34a99b1809"
+    },
+    {
+      "path": "assets/enemies/runtime/tianboguang.png",
+      "bytes": 353875,
+      "sha256": "29efd1c2097872d2dd0804c587a059d37dd7440b423db96068f9d8dfbdf6044d"
+    },
+    {
+      "path": "assets/enemies/runtime/xuedaolaozu.png",
+      "bytes": 362187,
+      "sha256": "3f09c3fbb8ba27da516266aa9a2c074b84d99a6912986a16ccac76a6341b316a"
+    },
+    {
+      "path": "assets/enemies/runtime/hebiweng.png",
+      "bytes": 398902,
+      "sha256": "7ef826774265e873460d0ec01d8e514a3ca42bc6b19264199b2d334e98a997ef"
+    },
+    {
+      "path": "assets/enemies/runtime/luzhangke.png",
+      "bytes": 436304,
+      "sha256": "6f30a9b424537172e4586e450655539e05ff51355650ff76ebe2c954cbd006ac"
+    },
+    {
+      "path": "assets/enemies/runtime/chengkun.png",
+      "bytes": 368126,
+      "sha256": "d19cea8101abf2fd67fd2d34ed486c4ac3d90e09d9f9d6fa77e9cc9f8f961c59"
+    },
+    {
+      "path": "assets/enemies/runtime/jinlun.png",
+      "bytes": 400785,
+      "sha256": "7eef8e2e550b003d94b7a8a5b80b4b377a51f52217e5b31bc4cdfa96ddc44b60"
+    },
+    {
+      "path": "assets/enemies/runtime/yucanghai.png",
+      "bytes": 368563,
+      "sha256": "fd614e5a3cc42150d31f69f09af01b6c424f93eb539a4fec52fd408cb23a736d"
+    },
+    {
+      "path": "assets/enemies/runtime/dingchunqiu.png",
+      "bytes": 484256,
+      "sha256": "23eb053573ae90513dbbe48a2d48b613f5ec91436b710be5764d10b6b9682dac"
+    },
+    {
+      "path": "assets/enemies/runtime/ouyangfeng.png",
+      "bytes": 493099,
+      "sha256": "81f8ed01e2b7c31286daf271d56e9e26b9ee59d1aaecfbf822761822260677e0"
+    },
+    {
+      "path": "assets/players/runtime/male-qing.png",
+      "bytes": 336276,
+      "sha256": "cbdf3582de078aef3f443d1ea0e700640ac2494c25af7a16b43abc7e1314ee6d"
+    },
+    {
+      "path": "assets/players/runtime/male-xuan.png",
+      "bytes": 345285,
+      "sha256": "5a71d5150e8efc4ba4d45b586ed24a601bcf58082eb24c9f3b4b39a34aa3e0a9"
+    },
+    {
+      "path": "assets/players/runtime/male-bai.png",
+      "bytes": 336841,
+      "sha256": "36596132b18ccd597f60b6af4be65ef475ea57168c2ebc5081903bf652848022"
+    },
+    {
+      "path": "assets/players/runtime/female-qing.png",
+      "bytes": 348573,
+      "sha256": "d89f63d67d3cfb11caad79ce2854e0dd6f29115439fd84b20a6f98233f23fef0"
+    },
+    {
+      "path": "assets/players/runtime/female-fei.png",
+      "bytes": 320600,
+      "sha256": "1e734d56556e4b5c77f3d22a103d5822f1ab057862f1f21fe9d2552585544d13"
+    },
+    {
+      "path": "assets/players/runtime/female-bai.png",
+      "bytes": 365182,
+      "sha256": "11c184e1da80ad8b3ca25ed0600b6c1c403e3137e9eaa37beaa2934fb2bde37d"
+    }
+  ]
+}
