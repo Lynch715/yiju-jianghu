@@ -1,21 +1,21 @@
 {
-  "version": "0.7.2",
+  "version": "0.7.3",
   "entry": "index.html",
   "files": [
     {
       "path": "index.html",
       "bytes": 807,
-      "sha256": "5b9713796fcc9ac4ff1da8abf80d6f3d23164eb16119b253605695bee6212511"
+      "sha256": "76c631bb2117e78f78d7675fdac73c785079c6e03f15a1cf1554f8ec7eced9e9"
     },
     {
       "path": "app.js",
       "bytes": 60392,
-      "sha256": "2de119a1594c8c42cbffa308f4c19a664a2ab4cfa56537f6d09d4e9a8f4ed5b6"
+      "sha256": "a0de267722169a9abd0fe02acb92acd31d0b72dac63241dfc45245d882009abd"
     },
     {
       "path": "data.js",
       "bytes": 16064,
-      "sha256": "d58566b878516cbf4b8aa0b53064f23c4d69c654d52fc354eb6eeaaa7e329786"
+      "sha256": "1e1bd6efa65427357f0214fd0e1aa4fe05c0b4bf02199d9468be973cf89c3582"
     },
     {
       "path": "journey.js",
@@ -35,12 +35,12 @@
     {
       "path": "relic-art.js",
       "bytes": 12405,
-      "sha256": "87edf08693cb9f94546d7354a421711ed9be5e241f30c0523d1acbbf2c624b56"
+      "sha256": "693f5601c741f1a2c35b907d4cf8703c99f87d2d1a67200ed194c03bed591ff9"
     },
     {
       "path": "engine.js",
       "bytes": 41514,
-      "sha256": "3a51be935df36f110ff736df844b4f450ca3732fd1b909b8092016e1c72f15eb"
+      "sha256": "66ac983a569dc3fefeaf203b6fc666a4d1bee631ab74d06e18b9762b8faea421"
     },
     {
       "path": "enemies.js",
@@ -59,8 +59,8 @@
     },
     {
       "path": "style.css",
-      "bytes": 91826,
-      "sha256": "81666a97392b7a16c1224fb9ab6083ae931ceb929d376726508ff6c79c59c5ba"
+      "bytes": 92425,
+      "sha256": "eedb36b5aae130b0e7e17bc8a5d67c50277518f69985d391f4cf2b5741feef30"
     },
     {
       "path": "assets/enemies/runtime/qingcheng.webp",

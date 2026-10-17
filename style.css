@@ -720,3 +720,14 @@
 
 @media(max-width:900px){.hand[data-count="6"] .folded-name{font-size:12px;line-height:1;letter-spacing:0}}
 @media(max-width:360px){.hand[data-count="9"] .folded-name,.hand[data-count="10"] .folded-name{font-size:9.5px;line-height:1;gap:0}}
+/* Anchor opponents high and the player just above the fixed mobile hand. */
+@media(max-width:900px){
+ .layout[data-phase="battle"] .main{display:flex;flex-direction:column}
+ .layout[data-phase="battle"] .main>.battle-top,
+ .layout[data-phase="battle"] .main>.powers,
+ .layout[data-phase="battle"] .main>.info-box{flex-shrink:0}
+ .layout[data-phase="battle"] .battlefield[data-enemies]{flex:1 0 auto;width:100%}
+ .layout[data-phase="battle"] .battlefield .enemy,
+ .layout[data-phase="battle"] .battlefield .player{flex:0 0 auto}
+ .layout[data-phase="battle"] .battlefield .player{margin-top:auto}
+}
