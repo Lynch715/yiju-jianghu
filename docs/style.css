@@ -742,3 +742,65 @@
 .character-layout{display:block;max-width:820px;margin-inline:auto}
 button,a,input,select,summary{touch-action:manipulation}
 html{overscroll-behavior-x:none;touch-action:pan-x pan-y}
+
+/* Compact inventory: equal card sizes within each grid, two or three columns. */
+.modal .collection{display:grid;grid-template-columns:repeat(3,minmax(0,140px));gap:12px;justify-content:center;align-items:start}
+.modal .collection .card{width:100%;min-width:0;max-width:140px;height:auto;min-height:0;max-height:none;aspect-ratio:2/3;padding:8px;flex:none}
+.modal .collection .card .cost{top:6px;left:6px;width:19px;height:19px;font-size:13px}
+.modal .collection .card .type{height:17px;min-height:17px;font-size:8px;line-height:14px}
+.modal .collection .card h3{height:30px;min-height:30px;max-height:30px;font-size:13px;line-height:15px;margin:3px 0 6px}
+.modal .collection .card .card-art{height:48px;min-height:48px;max-height:48px;margin-bottom:6px}
+.modal .collection .card .description{font-size:10px;line-height:1.5}
+.modal .collection .card footer{height:15px;min-height:15px;font-size:8px;margin-top:5px;padding-top:3px}
+.modal .collection .card .card-source{display:none}
+.modal .collection .compact-card{cursor:pointer}
+.card-detail-modal{width:306px;padding:18px;text-align:center}
+.card-detail-modal .modal-head{top:-18px}
+.card-detail-modal .modal-head h2{font-size:16px;line-height:1.5}
+.collection-card-detail{display:flex;justify-content:center}
+.collection-card-detail>.card{width:260px;min-width:260px;max-width:260px;height:390px;min-height:390px;max-height:390px;padding:14px}
+.collection-card-detail>.card .type{height:22px;min-height:22px;font-size:10px}
+.collection-card-detail>.card h3{height:44px;min-height:44px;max-height:44px;font-size:21px;line-height:22px}
+.collection-card-detail>.card .card-art{height:114px;min-height:114px;max-height:114px;margin-bottom:10px}
+.collection-card-detail>.card .description{font-size:13px;line-height:1.8}
+.collection-card-detail>.card .cost{width:27px;height:27px;font-size:19px}
+.collection-card-detail>.card footer{height:22px;min-height:22px;font-size:10px}
+.collection-card-detail>.card .card-source{font-size:9px;line-height:14px}
+.card-back{margin-top:12px;min-height:40px;width:100%}
+
+/* Relics keep their individual art in a compact, readable inventory grid. */
+:is(.modal,.center-box) .relic-options{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+:is(.modal,.center-box) .relic-options .relic-option{min-width:0;padding:12px;border:1px solid var(--line);border-radius:7px}
+:is(.modal,.center-box) .relic-options .relic-option-head{gap:8px;margin-bottom:8px}
+:is(.modal,.center-box) .relic-options .relic-art{width:42px;height:42px;flex-basis:42px}
+:is(.modal,.center-box) .relic-options .relic-option-head h3{font-size:14px;line-height:1.4;margin:3px 0 0;overflow-wrap:anywhere}
+:is(.modal,.center-box) .relic-options .eyebrow{font-size:8px;letter-spacing:1px}
+:is(.modal,.center-box) .relic-options .relic-option p{font-size:11px;line-height:1.65}
+:is(.modal,.center-box) .relic-options .relic-option>small{display:block;font-size:9px;margin-top:6px;line-height:1.5;overflow-wrap:anywhere}
+@media(max-width:600px){
+ :is(.modal,.center-box) .relic-options{grid-template-columns:repeat(3,minmax(0,1fr))}
+ :is(.modal,.center-box) .relic-options .relic-option{padding:10px}
+ :is(.modal,.center-box) .relic-options .relic-option-head{flex-direction:column;align-items:flex-start;gap:5px}
+ :is(.modal,.center-box) .relic-options .relic-art{width:36px;height:36px;flex-basis:36px}
+}
+@media(max-width:359px){
+ .modal .collection{grid-template-columns:repeat(2,minmax(0,140px));gap:10px}
+ :is(.modal,.center-box) .relic-options{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+
+/* Illustrated mobile hand: horizontal titles and at most two equal-height rows. */
+@media(max-width:900px){
+ .hand{grid-template-columns:repeat(var(--hand-columns),minmax(0,1fr));grid-template-rows:repeat(var(--hand-rows),minmax(0,1fr));gap:5px;align-items:stretch}
+ .hand .card{display:flex;align-items:stretch;justify-content:flex-start;gap:0;max-width:112px;height:100%;min-height:0;max-height:none;padding:4px;border-radius:6px}
+ .hand .card .cost,.played-card.folded-flight .cost{left:4px;top:4px;transform:none;width:18px;height:18px;font-size:12px;z-index:1;box-shadow:0 1px 3px #0004}
+ .hand .card .type,.played-card.folded-flight .type{display:none}
+ .hand .card .card-art,.played-card.folded-flight .card-art{display:block;order:0;width:100%;height:calc(100% - 37px);min-height:0;max-height:none;object-fit:cover;border-radius:3px;margin:0 0 4px;flex:1 1 auto}
+ .hand .card .folded-name,.played-card.folded-flight .folded-name{display:flex;order:1;align-items:center;justify-content:center;flex-direction:row;writing-mode:horizontal-tb;text-orientation:mixed;align-self:stretch;width:100%;height:29px;min-height:29px;max-height:29px;max-width:100%;margin:0;white-space:normal;overflow-wrap:anywhere;word-break:normal;font:12px/14px var(--serif);letter-spacing:0;overflow:hidden;flex:0 0 29px}
+ .hand[data-count="6"] .folded-name,.hand[data-count="7"] .folded-name,.hand[data-count="8"] .folded-name,.hand[data-count="9"] .folded-name,.hand[data-count="10"] .folded-name{font-size:11px;line-height:13px;height:26px;min-height:26px;max-height:26px;flex-basis:26px}
+ .hand[data-count="6"] .card,.hand[data-count="7"] .card,.hand[data-count="8"] .card,.hand[data-count="9"] .card,.hand[data-count="10"] .card{padding:3px}
+ .hand .card.inspected{transform:translateY(-3px)}
+ .played-card.folded-flight{align-items:stretch;padding:4px}
+}
+@media(max-height:560px){.collection-card-detail>.card{zoom:.75}}
+@media(max-height:430px){.collection-card-detail>.card{zoom:.6}}
+@media(max-height:350px){.collection-card-detail>.card{zoom:.5}}
