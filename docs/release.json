@@ -1,16 +1,16 @@
 {
-  "version": "0.12.2",
+  "version": "0.12.3",
   "entry": "index.html",
   "files": [
     {
       "path": "index.html",
       "bytes": 1166,
-      "sha256": "8384027bb44e0a5ba498566e45f76720b698ecd3b79badc9efbdf31372299dea"
+      "sha256": "1ae3c99d4378e2990ccecbcaf42267404a47e0ef044778c48f962481806b8bdf"
     },
     {
       "path": "manifest.webmanifest",
       "bytes": 755,
-      "sha256": "606dea9b185cbd680980427c534fd13969ca0e30b5df6b395d9fe3b550e034d9"
+      "sha256": "736422c1d18d1cb828e9512c1a65416906d53d757a0607ebb69307f613c5012e"
     },
     {
       "path": "assets/icons/icon.svg",
@@ -39,13 +39,13 @@
     },
     {
       "path": "app.js",
-      "bytes": 60954,
-      "sha256": "0552d67967b98bbd36c7b9183e19e55481f6e52ab8de77fd352d784a4aaba31e"
+      "bytes": 64595,
+      "sha256": "688ab2609cd38d2c78bf796026ebade49d86c137b463166a000384d5f2384d44"
     },
     {
       "path": "data.js",
       "bytes": 16352,
-      "sha256": "a0cbb8ae9d1fc888d03c7b1dbf3154527e494e65cf5f9ea50bc26885ff853162"
+      "sha256": "a247c540823fe4f227273d02508f0acac2ebb275f8a50a0c828c0c18aa3f59a2"
     },
     {
       "path": "journey.js",
@@ -65,17 +65,17 @@
     {
       "path": "relic-art.js",
       "bytes": 12406,
-      "sha256": "36755cdc7cfc22cf3b9e0d8d69ae8f510046e69918a012227590683d5c86f382"
+      "sha256": "d46ea6ae7a4de2466fd9fd55bb3375179a1336dcb1908f70430f3c24a54653e5"
     },
     {
       "path": "enemy-tactics.js",
       "bytes": 9241,
-      "sha256": "e06a46078fa0038a409fc83ab6cb70c799720ef665dfc46936ff18ef08973ba5"
+      "sha256": "aefe5cd35f8116f96b8f15859dc8df8c9f65811e46f17fb17a158a6de52645a3"
     },
     {
       "path": "engine.js",
       "bytes": 44588,
-      "sha256": "c62917dd60e85bf94d56be551b2ec5b926ff0e1c33ae590098ce49596838ecaa"
+      "sha256": "3f7e4e8ce676f70af80fe47a50c11eebb13617e250e63ba2067508f8dcdf69cb"
     },
     {
       "path": "difficulty.js",
@@ -98,9 +98,14 @@
       "sha256": "43f9e972a890e063b3ae67ce66e462159d92555309daf5b105bd4d05e52eea8f"
     },
     {
+      "path": "hand-gesture.js",
+      "bytes": 1419,
+      "sha256": "e9e1e71493e6ea83c39641cfd594dd774ed12d681ea095aeb22626120be3293c"
+    },
+    {
       "path": "style.css",
-      "bytes": 100662,
-      "sha256": "56f152553856cfcd2d72d9793ea540ca8627ca0e72efef92fd8c8369b7eed2ca"
+      "bytes": 101044,
+      "sha256": "f2dfb9e34057a39fdbb4c56a64f557c7dcea72b32ce907c1ce18ef28275fd4b7"
     },
     {
       "path": "assets/enemies/runtime/qingcheng.webp",

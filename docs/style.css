@@ -817,3 +817,10 @@ html{overscroll-behavior-x:none;touch-action:pan-x pan-y}
  .hand .empty{position:absolute;inset:0}
 }
 @media(prefers-reduced-motion:reduce){.hand .card{transition:none}}
+
+/* Scrubbing changes selection only; the full face leaves the fan accessible. */
+@media(max-width:900px){.hand,.hand .card{touch-action:none;-webkit-user-select:none;user-select:none}}
+@media(max-width:900px) and (min-height:600px){
+ .hand-preview{top:auto;bottom:var(--scrub-preview-bottom,220px);transform:translateX(-50%)}
+ .hand-preview>.card{zoom:var(--scrub-face-scale,1)}
+}
