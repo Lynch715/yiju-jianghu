@@ -8,10 +8,13 @@ qa/
 dist/*
 !dist/index.html
 !dist/一局江湖.html
-!dist/一局江湖-v0.16.1.html
+!dist/一局江湖-v0.16.2.html
 
 # Editable full-size card artwork stays local; publish lightweight runtime WebP only.
 assets/cards/originals/
 # Superseded generated portrait PNGs; full-size sources remain available.
 assets/enemies/runtime/*.png
 assets/players/runtime/*.png
+
+# Keep the full-size generated battle paintings local; ship compressed WebP only.
+assets/battles/originals/

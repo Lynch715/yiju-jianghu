@@ -1,0 +1,23 @@
+[
+  {
+    "id": "jiangnan",
+    "path": "assets/battles/runtime/jiangnan.webp",
+    "width": 840,
+    "quality": 58,
+    "bytes": 72140
+  },
+  {
+    "id": "zhongzhou",
+    "path": "assets/battles/runtime/zhongzhou.webp",
+    "width": 960,
+    "quality": 54,
+    "bytes": 70556
+  },
+  {
+    "id": "huashan",
+    "path": "assets/battles/runtime/huashan.webp",
+    "width": 960,
+    "quality": 62,
+    "bytes": 69566
+  }
+]

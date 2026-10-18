@@ -1,4 +1,4 @@
-import {RELIC} from './data.js?v=0.16.1';
+import {RELIC} from './data.js?v=0.16.2';
 // Compact original vector objects, each drawn for its particular relic rather than a letter badge.
 export const RELIC_ART={
  R01:`<path d="M43 34 36 23Q64 12 90 23L82 35Q102 57 100 90Q98 113 65 115Q30 114 28 92Q25 59 43 34Z" fill="#94785b"/><path d="m40 33 46 2m-45 7 42 2" stroke="#dbc197" stroke-width="5"/><path d="M45 52Q34 78 43 100M80 48q16 26 7 50" stroke="#675240"/><path d="M57 64h15v10h10v15H72v10H57V89H47V74h10Z" fill="#d5c29a"/><path d="m43 27 3-7m14 11 1-12m13 12 4-11" stroke="#b69c79"/>`,

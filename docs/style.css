@@ -1107,9 +1107,10 @@ html{overscroll-behavior-x:none;touch-action:pan-x pan-y}
 @media(max-width:600px){.journey-page{--stop-card-width:clamp(126px,calc((100vw - 88px)/2),180px)}}
 .journey-hero h2{text-wrap:balance}
 
-/* Static chapter scenery sits behind the existing combatant tiles. */
+/* A compressed chapter painting sits behind the existing combatant tiles. */
 .layout[data-phase="battle"] .battlefield{isolation:isolate;background:none}
 .battle-scenery{position:absolute;inset:-7px -9px -7px;z-index:-1;border-radius:14px;overflow:hidden;pointer-events:none;user-select:none;-webkit-user-select:none;contain:paint}
-.battle-scenery svg{display:block;width:100%;height:100%;pointer-events:none}
+.battle-scenery .battle-scene-image{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 58%;opacity:.76;pointer-events:none}
+.battle-scenery.tone-jiangnan{background:#18291f}.battle-scenery.tone-zhongzhou{background:#29271c}.battle-scenery.tone-huashan{background:#1d282c}
 .battle-scenery:after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,#15211b24,#15211b08 55%,#15211b40);box-shadow:inset 0 0 24px #14201b55;pointer-events:none}
 @media(max-width:900px){.battle-scenery{inset:-5px -6px -6px;border-radius:11px}}
