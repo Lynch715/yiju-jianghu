@@ -6,7 +6,7 @@ import {ENEMIES} from '../enemies.js';
 import {PLAYERS} from '../players.js';
 import {CARD_ART_THEMES} from '../card-art.js';
 const sourceRoot=new URL('../',import.meta.url),targetRoot=new URL('../docs/',import.meta.url);
-const files=['index.html','manifest.webmanifest','assets/icons/icon.svg','assets/icons/icon-512.png','assets/icons/icon-192.png','assets/icons/apple-touch-icon.png','assets/icons/favicon-32.png','app.js','data.js','journey.js','map-art.js','journey-art.js','journey-ui.js','card-art.js','relic-art.js','enemy-tactics.js','enemy-action.js','records.js','engine.js','card-preview.js','difficulty.js','enemies.js','players.js','combat-ui.js','hand-gesture.js','style.css',...ENEMIES.map(x=>x.art),...PLAYERS.map(x=>x.art),...Object.values(CARD_ART_THEMES).map(x=>x.art)];
+const files=['index.html','manifest.webmanifest','assets/icons/icon.svg','assets/icons/icon-512.png','assets/icons/icon-192.png','assets/icons/apple-touch-icon.png','assets/icons/favicon-32.png','app.js','data.js','journey.js','map-art.js','journey-art.js','battle-art.js','journey-ui.js','card-art.js','relic-art.js','enemy-tactics.js','enemy-action.js','records.js','engine.js','card-preview.js','difficulty.js','enemies.js','players.js','combat-ui.js','hand-gesture.js','style.css',...ENEMIES.map(x=>x.art),...PLAYERS.map(x=>x.art),...Object.values(CARD_ART_THEMES).map(x=>x.art)];
 // This generated directory contains only copied runtime art; remove obsolete PNG copies.
 await rm(new URL('assets/',targetRoot),{recursive:true,force:true});
 const manifest={version:GAME_VERSION,entry:'index.html',files:[]};

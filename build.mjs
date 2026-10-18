@@ -4,7 +4,7 @@ import {GAME_VERSION,CARDS,CARD,RELICS,describe,OPENING_BOONS} from './data.js';
 import {ENEMIES} from './enemies.js';
 import {PLAYERS} from './players.js';
 import {CARD_ART_THEMES} from './card-art.js';
-const files=['data.js','journey.js','map-art.js','journey-art.js','journey-ui.js','card-art.js','relic-art.js','enemies.js','difficulty.js','players.js','enemy-tactics.js','enemy-action.js','records.js','engine.js','card-preview.js','combat-ui.js','hand-gesture.js','app.js'];
+const files=['data.js','journey.js','map-art.js','journey-art.js','battle-art.js','journey-ui.js','card-art.js','relic-art.js','enemies.js','difficulty.js','players.js','enemy-tactics.js','enemy-action.js','records.js','engine.js','card-preview.js','combat-ui.js','hand-gesture.js','app.js'];
 const source=await Promise.all(files.map(f=>readFile(new URL(f,import.meta.url),'utf8')));
 // Check actual displayed descriptions in both refinement states, not just raw source text.
 const visibleText=[source.at(-1),...PLAYERS.flatMap(p=>[p.title,p.description]),...ENEMIES.flatMap(d=>[d.name,d.faction,d.trait,...d.moves.map(i=>i.label),...(d.enragedMoves||[]).map(i=>i.label)]),...OPENING_BOONS.flatMap(d=>[d.title,d.text]),...CARDS.flatMap(d=>[d.name,d.source,d.path,describe({id:d.id,up:false}),describe({id:d.id,up:true})]),...['QI','CURSE'].map(id=>describe({id})),...RELICS.flatMap(r=>[r.name,r.source,r.text])];
