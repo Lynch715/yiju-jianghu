@@ -811,6 +811,7 @@ html{overscroll-behavior-x:none;touch-action:pan-x pan-y}
  .hand .card{position:absolute;left:calc(50% + (100% - var(--fan-width) - 58px)*var(--fan-position)/2);top:9px;width:var(--fan-width);min-width:var(--fan-width);max-width:var(--fan-width);height:calc(var(--hand-card-height) - 20px);min-height:0;max-height:none;padding:4px;transform-origin:50% 100%;transform:translateX(-50%) translateY(var(--fan-drop)) rotate(var(--fan-angle));z-index:var(--fan-order);box-shadow:-3px 2px 8px #0005;border:1px solid #746d52;transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease}
  .hand .card .folded-name,.hand[data-count] .card .folded-name{font-size:12px;line-height:14px;height:29px;min-height:29px;max-height:29px;flex-basis:29px;text-shadow:none}
  .hand .card.inspected,.hand .card:focus-visible{transform:translateX(-50%) translateY(calc(var(--fan-drop) - 18px)) rotate(0deg);z-index:30;border-color:#f1ce80;box-shadow:0 0 0 1px #f1ce80,0 6px 18px #0007;outline-offset:2px}
+ .hand .card.unavailable{opacity:1;filter:grayscale(.55) brightness(.78)}
  .hand .card:hover:not(:disabled){transform:translateX(-50%) translateY(calc(var(--fan-drop) - 6px)) rotate(var(--fan-angle))}
  .hand .card.inspected:hover:not(:disabled){transform:translateX(-50%) translateY(calc(var(--fan-drop) - 18px)) rotate(0deg)}
  .hand .empty{position:absolute;inset:0}
