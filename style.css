@@ -923,7 +923,7 @@ html{overscroll-behavior-x:none;touch-action:pan-x pan-y}
 .combat-busy .battle-bottom{filter:saturate(.7)}
 
 /* Per-hit values finish before the next impact, including long combos. */
-.combat-busy .combat-vitals :is(.health-bar,.block-bar)>span{transition-duration:.08s}
+.combat-busy .combat-vitals :is(.health-bar,.block-bar)>span{transition-duration:.18s}
 .combat-float.detail{font-size:18px}
 
 /* Personal clears stay compact on a phone and use the game's existing ink-and-gold palette. */
