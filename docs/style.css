@@ -883,3 +883,23 @@ html{overscroll-behavior-x:none;touch-action:pan-x pan-y}
  .stats{gap:6px}
  .top-actions .build-badge{display:none}
 }
+
+/* Three matching metrics: labels share a row and values share a baseline. */
+.topbar .stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;margin:0;min-width:0;width:330px;flex:0 1 330px;align-items:center}
+.topbar .stats .top-stat{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;min-width:0;padding:0 10px;white-space:nowrap}
+.top-stat+.top-stat{border-left:1px solid var(--line)}
+.top-stat dt{margin:0;color:var(--muted);font-size:10px;font-weight:400;line-height:12px;letter-spacing:1px}
+.top-stat dd{display:flex;align-items:baseline;justify-content:center;gap:3px;margin:0;height:19px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.topbar .stats .top-stat strong{font:500 17px/19px var(--sans);color:var(--paper)}
+.topbar .stats .top-stat small{font:10px/1 var(--sans);color:var(--muted)}
+.topbar .stats .hp strong{color:#df9b8d}
+.topbar .stats .gold-stat strong{color:var(--gold)}
+@media(max-width:900px){
+ .topbar .stats{width:auto;max-width:330px;flex:1 1 0}
+ .topbar .stats .top-stat{padding-inline:5px;gap:3px}
+ .top-stat dt{font-size:9px;line-height:11px}
+ .top-stat dd{height:17px;gap:2px}
+ .topbar .stats .top-stat strong{font-size:14px;line-height:17px}
+ .topbar .stats .top-stat small{font-size:8px}
+}
+@media(max-width:359px){.topbar .stats .top-stat{padding-inline:3px}.topbar .stats .top-stat strong{font-size:13px}}

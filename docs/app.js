@@ -1,14 +1,14 @@
-import {validJourney} from './journey.js?v=0.12.5';
-import {travelMark,travelTerrain} from './map-art.js?v=0.12.5';
-import {relicIcon} from './relic-art.js?v=0.12.5';
-import {cardArtwork} from './card-art.js?v=0.12.5';
-import {combatSnapshot,combatFeedback} from './combat-ui.js?v=0.12.5';
-import {HandScrub} from './hand-gesture.js?v=0.12.5';
-import {PLAYERS,PLAYER,validPlayer,validCharacterDraft,playerNameError,cleanPlayerName} from './players.js?v=0.12.5';
-import {ENEMIES,ENEMY,ENEMY_RANK} from './enemies.js?v=0.12.5';
-import {DIFFICULTY,combatDefinition} from './difficulty.js?v=0.12.5';
-import {CARDS,CARD,RELICS,RELIC,CHAPTERS,ROUTES,NODE_NAMES,TYPE,RARITY,describe,GAME_VERSION,OPENING_BOONS} from './data.js?v=0.12.5';
-import {Game,SAVE_VERSION,validOpening} from './engine.js?v=0.12.5';
+import {validJourney} from './journey.js?v=0.12.6';
+import {travelMark,travelTerrain} from './map-art.js?v=0.12.6';
+import {relicIcon} from './relic-art.js?v=0.12.6';
+import {cardArtwork} from './card-art.js?v=0.12.6';
+import {combatSnapshot,combatFeedback} from './combat-ui.js?v=0.12.6';
+import {HandScrub} from './hand-gesture.js?v=0.12.6';
+import {PLAYERS,PLAYER,validPlayer,validCharacterDraft,playerNameError,cleanPlayerName} from './players.js?v=0.12.6';
+import {ENEMIES,ENEMY,ENEMY_RANK} from './enemies.js?v=0.12.6';
+import {DIFFICULTY,combatDefinition} from './difficulty.js?v=0.12.6';
+import {CARDS,CARD,RELICS,RELIC,CHAPTERS,ROUTES,NODE_NAMES,TYPE,RARITY,describe,GAME_VERSION,OPENING_BOONS} from './data.js?v=0.12.6';
+import {Game,SAVE_VERSION,validOpening} from './engine.js?v=0.12.6';
 document.title=`一局一江湖 · v${GAME_VERSION}`;
 // Block multi-touch zoom without cancelling ordinary one-finger scrolling.
 for(const type of ['touchstart','touchmove'])document.addEventListener(type,e=>{if(e.touches.length>1&&e.cancelable)e.preventDefault();},{passive:false});
@@ -110,7 +110,7 @@ function home(){
  const resumable=!!game.s,profile=resumable?`${escapeHTML(game.s.player.name)} · 第${game.chapter+1}章 · ${Math.min(game.s.step+1,game.totalSteps)}/${game.totalSteps}程`:'十招起步，沿途习武，自成一家';
  return `<div class="home"><nav class="home-nav" aria-label="首页导航"><div class="brand"><span class="seal">侠</span><div><strong>一局江湖</strong><small>武侠卡牌冒险</small></div></div><div class="home-links"><button class="small" data-action="enemy-book">群敌录</button><button class="small" data-action="catalogue">图鉴 →</button></div></nav><section class="home-hero" aria-label="一局江湖封面"><img class="home-cover" src="${cardArtwork('W03').art}" alt="群山云海间的仗剑侠客" width="480" height="320" fetchpriority="high" decoding="async"><div class="home-cover-copy"><div class="eyebrow">以牌入江湖 · 以武问山河</div><h1><span>一局</span><span>一江湖</span></h1><p>从无名侠客，到华山论剑。</p></div><span class="home-cover-note" aria-hidden="true">牌由你组 · 路由你行</span></section><section class="home-entry" aria-label="开始冒险"><button class="primary home-start" data-action="${resumable?'continue':'new'}"><span><strong>${resumable?'继续此局':'踏入江湖'}</strong><small>${profile}</small></span><b aria-hidden="true">→</b></button><div class="intro-actions">${resumable?'<button data-action="new">另启新程</button>':''}<button data-action="help">初入须知</button></div></section><section class="home-bottom" aria-label="江湖一览"><div><strong>80<small> 招</small></strong><span>武学技法</span></div><div><strong>30<small> 件</small></strong><span>随身奇物</span></div><div><strong>45<small> 程</small></strong><span>三章江湖</span></div></section><footer class="home-footer"><span>一局一江湖，取舍皆由你</span><span>v${GAME_VERSION} · 自动存档</span></footer></div>`;
 }
-function header(){const s=game.s;return `<header class="topbar"><div class="stats"><span class="mobile-brand">江湖</span><span class="hp">气血 <strong>${s.hp}</strong><small> / ${s.maxHp}</small></span><span class="gold-stat">银两 <strong>${s.gold}</strong></span><span>行程 <strong>${Math.min(s.step+1,game.totalSteps)}</strong><small> / ${game.totalSteps}</small></span></div><div class="top-actions"><span class="build-badge" aria-label="游戏版本 v${GAME_VERSION}">v${GAME_VERSION}</span><button class="small" data-action="deck">牌组 ${s.deck.length}</button><button class="small" data-action="relics">奇物 ${s.relics.length}</button><button class="small desktop-only" data-action="help">须知</button><button class="small" data-action="menu">菜单</button></div></header>`;}
+function header(){const s=game.s;return `<header class="topbar"><dl class="stats" aria-label="侠客状态"><div class="top-stat hp"><dt>气血</dt><dd><strong>${s.hp}</strong><small>/ ${s.maxHp}</small></dd></div><div class="top-stat gold-stat"><dt>银两</dt><dd><strong>${s.gold}</strong></dd></div><div class="top-stat journey-stat"><dt>行程</dt><dd><strong>${Math.min(s.step+1,game.totalSteps)}</strong><small>/ ${game.totalSteps}</small></dd></div></dl><div class="top-actions"><span class="build-badge" aria-label="游戏版本 v${GAME_VERSION}">v${GAME_VERSION}</span><button class="small" data-action="deck">牌组 ${s.deck.length}</button><button class="small" data-action="relics">奇物 ${s.relics.length}</button><button class="small desktop-only" data-action="help">须知</button><button class="small" data-action="menu">菜单</button></div></header>`;}
 function sidebar(){const s=game.s,ch=CHAPTERS[game.chapter];return `<aside class="side"><div class="brand"><span class="seal">侠</span><div><strong>一局江湖</strong><small>A MARTIAL JOURNEY</small></div></div><div class="side-chapter"><span class="eyebrow">第 ${game.chapter+1} 章 / 共三章</span><h3>${ch.name}</h3><small>${ch.place}</small><div class="journey-bar">${Array.from({length:game.totalSteps},(_,i)=>`<i class="${i<s.step?'done':''}"></i>`).join('')}</div></div><nav><button data-action="map"><b>⌁</b> 江湖行程</button><button data-action="deck"><b>▤</b> 我的武学 <small>${s.deck.length}</small></button><button data-action="relics"><b>◇</b> 随身奇物 <small>${s.relics.length}</small></button><button data-action="catalogue"><b>冊</b> 武学图鉴</button><button data-action="edit-player"><b>侠</b> 姓名与立绘</button><button data-action="enemy-book"><b>劍</b> 江湖群敌</button><button data-action="help"><b>?</b> 初入须知</button></nav><div class="side-foot">${ch.quote}<br>牌由你组，路由你行<br><span class="version">v${GAME_VERSION} · ${saveError?'存档受限':'进度已自动保存'}</span></div></aside>`;}
 function mapBoard(interactive=true){
  const s=game.s,ch=mapViewChapter??game.chapter,map=game.chapterMap(ch),height=map.rows.length*96+210,base=ch*game.chapterLength;
