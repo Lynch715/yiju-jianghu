@@ -8,7 +8,7 @@ qa/
 dist/*
 !dist/index.html
 !dist/一局江湖.html
-!dist/一局江湖-v0.12.7.html
+!dist/一局江湖-v0.13.0.html
 
 # Editable full-size card artwork stays local; publish lightweight runtime WebP only.
 assets/cards/originals/

@@ -1,7 +1,7 @@
 // Presentation snapshots never mutate the battle or enter the saved game.
 export function combatSnapshot(s){
  if(!s?.b)return null;
- return {hp:s.hp,block:s.b.block,actions:(s.b.lastEnemyActions||[]).map(x=>({...x})),enemies:s.b.enemies.map(e=>({key:e.key,hp:e.hp,block:e.block,alive:e.hp>0}))};
+ return {hp:Math.max(0,s.hp),maxHp:s.maxHp,block:s.b.block,qi:s.b.qi,turn:s.b.turn,handUids:s.b.hand.map(c=>c.uid),actions:(s.b.lastEnemyActions||[]).map(x=>({...x})),enemies:s.b.enemies.map(e=>({key:e.key,hp:e.hp,maxHp:e.maxHp,block:e.block,alive:e.hp>0}))};
 }
 export function combatFeedback(before,after,{enemyTurn=false}={}){
  if(!before||!after)return [];
@@ -15,4 +15,15 @@ export function combatFeedback(before,after,{enemyTurn=false}={}){
  compare('player',before,after,enemyTurn&&(after.actions||[]).some(e=>e.attacks));
  for(const e of before.enemies){const next=after.enemies.find(x=>x.key===e.key);if(next)compare(e.key,e,next);}
  return changes;
+}
+
+// Trace completed actions only. Nothing is persisted, rerun, or read from future intents.
+export function captureCombatAction(game,action){
+ const before=combatSnapshot(game.s),steps=[],hadObserver=Object.hasOwn(game,'onCombatStep'),observer=game.onCombatStep;
+ game.onCombatStep=step=>{steps.push({...step,snapshot:combatSnapshot(game.s)});observer?.(step);};
+ let result;try{result=action();}finally{if(hadObserver)game.onCombatStep=observer;else delete game.onCombatStep;}
+ return {result,before,after:combatSnapshot(game.s),steps};
+}
+export async function playCombatSteps(steps,present){
+ for(const step of steps)await present(step);
 }

@@ -48,6 +48,7 @@ export class Game {
  has(id){return this.s.relics.includes(id);}
  log(text){if(this.s.b){this.s.b.log.push(text);this.s.b.log=this.s.b.log.slice(-80);for(const e of this.s.b.enemies||[])if(text.startsWith(e.name+' · ')){const record=this.encounterRecord(e);record.notes=[...(record.notes||[]).filter(x=>x!==text),text].slice(-20);}}}
  encounterRecord(e){this.s.journal??={};return this.s.journal[e.id]??=( {moves:{},notes:[]} );}
+ combatStep(step){this.onCombatStep?.(step);}
  recordEnemyAction(e,intent,damage){const action={key:e.key,label:intent.label,attacks:!!intent.damage,damage};this.s.b.lastEnemyActions.push(action);e.lastAction=action;const record=this.encounterRecord(e);record.moves[intent.label]=(record.moves[intent.label]||0)+1;}
  start(seed=Date.now(),{opening=true,character=opening,classic=false}={}){
   this.s={version:SAVE_VERSION,phase:'map',player:{...DEFAULT_PLAYER},rng:Number(seed)>>>0,seed:Number(seed)>>>0,uid:0,hp:80,maxHp:80,gold:90,step:0,deck:[],relics:['R01'],b:null,scene:null,reward:null,history:[],stats:{turns:0,played:0,damage:0,exhausted:0,self:0,kills:0,wins:0},created:Date.now()};
@@ -239,7 +240,7 @@ export class Game {
    if(b.turnFlags.attacks%3===0){if(this.has('R03'))this.block(6);if(this.has('R16')){this.draw(1);this.energy(1);}}
   }
   if(d.type==='s'){this.block(this.powerSum('W28',4,6));if(!b.turnFlags.skill){b.turnFlags.skill=true;if(this.has('R29'))this.draw(2);if(this.has('R30'))this.energy(1);}}
-  b.turnFlags.last=d.type;this.refreshEnemyPhases();this.checkEnd();return {ok:true};
+  b.turnFlags.last=d.type;this.refreshEnemyPhases();this.combatStep({kind:'player',actor:'player',label:d.name+(c.up?'·精进':''),type:d.type});this.checkEnd();return {ok:true};
  }
  resolve(c,e,ctx,selected){
   const b=this.s.b,v=(a,z)=>this.val(c,a,z),h=(n,o={})=>this.hit(e,n,c,ctx,o),g=n=>this.block(n,true,ctx),draw=n=>this.draw(n),retire=()=>this.retireSelected(selected),weak=n=>{if(e.hp>0)e.weak+=n;};
@@ -335,23 +336,24 @@ export class Game {
   b.turnFlags={plays:0,attacks:0,last:null,retired:0,badRetired:0,self:false};b.qiPenalty=Math.min(this.qiMax,b.nextQiLoss||0);b.qi=Math.max(0,this.qiMax-b.qiPenalty);b.nextQiLoss=0;b.discount=0;b.repeat=false;b.reflectNext=0;b.reflectPool=0;b.reflectNextStacks=0;b.reflectRoundStacks=0;
   const strength=this.powerSum('W12',2,3);if(strength){b.str+=strength;this.log(`紫霞神功 · 劲力+${strength}`);}
   if(first){if(this.has('R02'))b.str++;if(this.has('R04'))b.str+=2;if(this.has('R05'))this.block(8);}
-  let n=5+b.nextDraw-(this.has('R28')?1:0)-(this.has('R30')?1:0)-(first&&this.has('R29')?2:0)-(first&&this.has('R04')?1:0)-(first&&this.has('R26')?2:0);b.nextDraw=0;this.draw(Math.max(0,n));this.log(`—— 第${b.turn}回合 · ${b.qi}真气 ——`);if(b.qiPenalty)this.log(`寒气压制 · 本回合少${b.qiPenalty}真气`);
+  let n=5+b.nextDraw-(this.has('R28')?1:0)-(this.has('R30')?1:0)-(first&&this.has('R29')?2:0)-(first&&this.has('R04')?1:0)-(first&&this.has('R26')?2:0);b.nextDraw=0;this.draw(Math.max(0,n));this.log(`—— 第${b.turn}回合 · ${b.qi}真气 ——`);if(b.qiPenalty)this.log(`寒气压制 · 本回合少${b.qiPenalty}真气`);this.combatStep({kind:'player-start',label:'你的回合'});
  }
  endTurn(){
   if(this.s.phase!=='battle')return false;const b=this.s.b;b.lastEnemyActions=[];
   // Ethereal is a condition at end of turn, not a synonym for Exhaust on play.
   // Resolve newly drawn ethereal cards too; consume before Retain / ordinary discard.
   for(let i=b.hand.findIndex(isEthereal);i>=0;i=b.hand.findIndex(isEthereal)){
-   const c=b.hand.splice(i,1)[0];this.log(`虚无触发 · ${CARD[c.id].name}`);this.exhaustCard(c);
+   const c=b.hand.splice(i,1)[0];this.log(`虚无触发 · ${CARD[c.id].name}`);this.exhaustCard(c);this.combatStep({kind:'turn-end',label:'虚无消耗'});
    if(this.checkEnd())return true;
   }
   for(const c of b.hand)if(c.id==='CURSE'){this.s.hp-=2;this.log('心魔 · 失去2气血');this.bee();}
-  if(this.checkEnd())return true;
+  this.combatStep({kind:'turn-end',label:'回合结束'});if(this.checkEnd())return true;
   const held=[];for(const c of b.hand){if(c.retain){delete c.retain;held.push(c);}else b.discard.push(c);}b.hand=held;
   b.str-=b.tempStr;b.tempStr=0;b.weak=Math.max(0,b.weak-1);const oldVuln=b.vuln;
   // Reset enemy block together, so a partner can protect an ally who acts later.
   for(const e of b.enemies)if(e.hp>0)e.block=0;
-  this.refreshEnemyPhases();
+  this.refreshEnemyPhases();this.combatStep({kind:'enemy-start',label:'敌方回合'});
+  // Freeze this round's queue in formation order. Summons wait until the next round.
   for(const e of [...b.enemies]){
    if(e.hp<=0||e.bornTurn===b.turn)continue;if(e.tactics)e.intent=this.enemyIntent(e);const intent=e.intent;let dealt=0,totalDamage=0;this.log(`${e.name} · ${intent.label}`);
    if(intent.block)e.block+=intent.block;
@@ -364,7 +366,7 @@ export class Game {
     if(hp>0&&intent.woundOnHit)this.addStatus(intent.woundOnHit);
     if(hp>0&&this.has('R11'))this.direct(e,3,'软猬甲');this.bee();if(this.s.hp<=0)break;
    }e.charge=0;}
-   if(this.s.hp<=0){this.recordEnemyAction(e,intent,totalDamage);this.checkEnd();return true;}
+   if(this.s.hp<=0){this.recordEnemyAction(e,intent,totalDamage);this.combatStep({kind:'enemy',actor:e.key,label:intent.label,attacks:!!intent.damage});this.checkEnd();return true;}
    if(e.hp>0){
     if(intent.weak)b.weak+=intent.weak;if(intent.vuln)b.vuln+=intent.vuln;if(intent.status)this.addStatus(intent.status);if(intent.str)e.str+=intent.str;
     if(intent.poison){b.poison=(b.poison||0)+intent.poison;this.log(`中毒+${intent.poison}`);}
@@ -372,12 +374,12 @@ export class Game {
     if(intent.charge){e.charge=(e.charge||0)+intent.charge;this.log(`${e.name} · 蓄力+${intent.charge}`);}
     if(intent.leech&&dealt>0){const heal=Math.min(dealt,intent.leech,e.maxHp-e.hp);e.hp+=heal;if(heal)this.log(`${e.name} · 饮血回复${heal}气血`);}
    }
-   this.recordEnemyAction(e,intent,totalDamage);afterTacticalAction(this,e,intent,dealt);afterTacticalFollowerAction(this,e);
+   this.recordEnemyAction(e,intent,totalDamage);afterTacticalAction(this,e,intent,dealt);afterTacticalFollowerAction(this,e);this.combatStep({kind:'enemy',actor:e.key,label:intent.label,attacks:!!intent.damage});
   }
   if(this.checkEnd())return true;
   if(oldVuln>0)b.vuln=Math.max(0,b.vuln-1);
   if((b.poison||0)>0){const poison=b.poison;this.s.hp-=poison;b.poison--;this.log(`毒发 · 失去${poison}气血（剩余中毒${b.poison}）`);this.bee();}
-  if(this.checkEnd())return true;
+  this.combatStep({kind:'round-end',label:'回合收尾'});if(this.checkEnd())return true;
   for(const e of b.enemies){e.weak=Math.max(0,e.weak-1);e.vuln=Math.max(0,e.vuln-1);e.pin=0;if(e.hp>0){if(e.bornTurn!==b.turn)e.round++;if(e.ruleset===DIFFICULTY&&e.kind==='boss'&&b.turn%4===0){e.str++;this.log(`${e.name} · 久战蓄劲，劲力+1`);}e.intent=this.enemyIntent(e);}}
   if(this.checkEnd())return true;this.beginTurn();return true;
  }
@@ -446,7 +448,7 @@ export class Game {
   if(this.has('R25'))this.addStatus(2);this.s.phase='battle';this.beginTurn(true);
   if(this.has('R21'))this.s.b.openDart=true;
  }
- useDart(key){const b=this.s.b;if(this.s.phase!=='battle'||!b.openDart)return false;const e=b.enemies.find(x=>x.key===key&&x.hp>0);if(!e)return false;b.openDart=false;this.direct(e,8,'金蛇锥');this.refreshEnemyPhases();this.checkEnd();return true;}
+ useDart(key){const b=this.s.b;if(this.s.phase!=='battle'||!b.openDart)return false;const e=b.enemies.find(x=>x.key===key&&x.hp>0);if(!e)return false;b.openDart=false;this.direct(e,8,'金蛇锥');this.refreshEnemyPhases();this.combatStep({kind:'player',actor:'player',label:'金蛇锥',type:'a'});this.checkEnd();return true;}
  offerCards(n=3,{absolute=false,elite=false}={}){
   const offered=[];
   for(let i=0;i<n;i++){

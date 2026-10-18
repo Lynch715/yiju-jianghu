@@ -916,3 +916,8 @@ html{overscroll-behavior-x:none;touch-action:pan-x pan-y}
  .topbar .top-actions{grid-template-columns:repeat(3,44px);gap:5px}
  .topbar .top-actions>.small{width:44px}
 }
+
+/* Only one actor is active at a time throughout the saved combat playback. */
+.combat-acting{outline:2px solid #e7bd72;outline-offset:2px}
+.combat-busy .hand .combat-spent{visibility:hidden}
+.combat-busy .battle-bottom{filter:saturate(.7)}
