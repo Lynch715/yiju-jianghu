@@ -1,9 +1,10 @@
-import {attachEnemyTactics,tacticalIntent,onTacticalDamage,onTacticalExhaust,onTacticalPlay,onTacticalDeath,afterTacticalAction,afterTacticalFollowerAction} from './enemy-tactics.js?v=0.13.1';
-import {JOURNEY_FLOORS,JOURNEY_TOTAL,newJourney,journeyChapter} from './journey.js?v=0.13.1';
-import {PLAYERS,DEFAULT_PLAYER,cleanPlayerName,playerNameError,validPlayer,PLAYER_RETURN_PHASES} from './players.js?v=0.13.1';
-import {ENEMY,ENCOUNTERS,ENCOUNTER_GROUPS} from './enemies.js?v=0.13.1';
-import {DIFFICULTY,combatDefinition,encounterTuning} from './difficulty.js?v=0.13.1';
-import {CARDS,CARD,RELICS,RELIC,CHAPTERS,ROUTES,isEthereal,OPENING_BOONS} from './data.js?v=0.13.1';
+import {createClearRecord} from './records.js?v=0.14.0';
+import {attachEnemyTactics,tacticalIntent,onTacticalDamage,onTacticalExhaust,onTacticalPlay,onTacticalDeath,afterTacticalAction,afterTacticalFollowerAction} from './enemy-tactics.js?v=0.14.0';
+import {JOURNEY_FLOORS,JOURNEY_TOTAL,newJourney,journeyChapter} from './journey.js?v=0.14.0';
+import {PLAYERS,DEFAULT_PLAYER,cleanPlayerName,playerNameError,validPlayer,PLAYER_RETURN_PHASES} from './players.js?v=0.14.0';
+import {ENEMY,ENCOUNTERS,ENCOUNTER_GROUPS} from './enemies.js?v=0.14.0';
+import {DIFFICULTY,combatDefinition,encounterTuning} from './difficulty.js?v=0.14.0';
+import {CARDS,CARD,RELICS,RELIC,CHAPTERS,ROUTES,isEthereal,OPENING_BOONS,GAME_VERSION} from './data.js?v=0.14.0';
 
 export const SAVE_VERSION=7;
 export const STARTING_DECK=Object.freeze([...Array(5).fill('W01'),...Array(4).fill('U01'),'U02']);
@@ -51,7 +52,7 @@ export class Game {
  combatStep(step){this.onCombatStep?.(step);}
  recordEnemyAction(e,intent,damage){const action={key:e.key,label:intent.label,attacks:!!intent.damage,damage};this.s.b.lastEnemyActions.push(action);e.lastAction=action;const record=this.encounterRecord(e);record.moves[intent.label]=(record.moves[intent.label]||0)+1;}
  start(seed=Date.now(),{opening=true,character=opening,classic=false}={}){
-  this.s={version:SAVE_VERSION,phase:'map',player:{...DEFAULT_PLAYER},rng:Number(seed)>>>0,seed:Number(seed)>>>0,uid:0,hp:80,maxHp:80,gold:90,step:0,deck:[],relics:['R01'],b:null,scene:null,reward:null,history:[],stats:{turns:0,played:0,damage:0,exhausted:0,self:0,kills:0,wins:0},created:Date.now()};
+  this.s={version:SAVE_VERSION,phase:'map',player:{...DEFAULT_PLAYER},rng:Number(seed)>>>0,seed:Number(seed)>>>0,uid:0,hp:80,maxHp:80,gold:90,step:0,deck:[],relics:['R01'],b:null,scene:null,reward:null,history:[],stats:{turns:0,played:0,damage:0,exhausted:0,self:0,kills:0,wins:0},created:Date.now(),runInfo:{version:GAME_VERSION,activeMs:0,timed:true}};
   if(!classic){this.s.journey=newJourney();this.s.ruleset=DIFFICULTY;}
   for(const id of STARTING_DECK)this.s.deck.push(this.make(id));
   if(character){this.s.character={name:'',portrait:null,editing:false,returnPhase:opening?'opening':'map'};this.s.phase='character';}
@@ -465,7 +466,7 @@ export class Game {
  }
  offerRelics(n=1,tiers=[1,2]){const pool=RELICS.filter(x=>tiers.includes(x.tier)&&!this.has(x.id));return this.shuffle(pool).slice(0,n).map(x=>x.id);}
  winBattle(){
-  const b=this.s.b;this.s.stats.wins++;if(this.has('R01'))this.heal(4,'粗布药囊');this.heal(this.powerSum('W48',3,5),'九阳神功');
+  const b=this.s.b;this.s.stats.wins++;if(b.kind==='boss'&&this.s.step===this.totalSteps-1&&!this.s.clearRecord)this.s.clearRecord=createClearRecord(this.s);if(this.has('R01'))this.heal(4,'粗布药囊');this.heal(this.powerSum('W48',3,5),'九阳神功');
   const boss=b.kind==='boss',elite=b.kind==='elite';const gold=boss?65:elite?40:25;this.s.gold+=gold;
   const cards=this.offerCards(3,{absolute:boss,elite});
   this.s.reward={gold,cards,cardDone:false,relics:boss?this.offerRelics(3,[3]):elite?this.offerRelics(1,[1,2]):[],relicDone:!boss&&!elite,boss,elite};
