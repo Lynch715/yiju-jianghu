@@ -1,0 +1,86 @@
+[
+  {
+    "id": "shop",
+    "path": "assets/journey/runtime/shop.webp",
+    "width": 840,
+    "quality": 54,
+    "bytes": 46616
+  },
+  {
+    "id": "rest",
+    "path": "assets/journey/runtime/rest.webp",
+    "width": 960,
+    "quality": 54,
+    "bytes": 47348
+  },
+  {
+    "id": "master",
+    "path": "assets/journey/runtime/master.webp",
+    "width": 840,
+    "quality": 62,
+    "bytes": 47364
+  },
+  {
+    "id": "shrine",
+    "path": "assets/journey/runtime/shrine.webp",
+    "width": 960,
+    "quality": 50,
+    "bytes": 46260
+  },
+  {
+    "id": "traveller",
+    "path": "assets/journey/runtime/traveller.webp",
+    "width": 840,
+    "quality": 58,
+    "bytes": 46976
+  },
+  {
+    "id": "cliff",
+    "path": "assets/journey/runtime/cliff.webp",
+    "width": 960,
+    "quality": 54,
+    "bytes": 48290
+  },
+  {
+    "id": "clinic",
+    "path": "assets/journey/runtime/clinic.webp",
+    "width": 840,
+    "quality": 58,
+    "bytes": 48506
+  },
+  {
+    "id": "cache",
+    "path": "assets/journey/runtime/cache.webp",
+    "width": 840,
+    "quality": 62,
+    "bytes": 47738
+  },
+  {
+    "id": "stone",
+    "path": "assets/journey/runtime/stone.webp",
+    "width": 960,
+    "quality": 54,
+    "bytes": 48342
+  },
+  {
+    "id": "ferry",
+    "path": "assets/journey/runtime/ferry.webp",
+    "width": 960,
+    "quality": 62,
+    "bytes": 38936
+  },
+  {
+    "id": "treasure",
+    "path": "assets/journey/runtime/treasure.webp",
+    "width": 960,
+    "quality": 62,
+    "bytes": 45812
+  },
+  {
+    "id": "reward",
+    "path": "assets/journey/runtime/reward.webp",
+    "width": 960,
+    "quality": 50,
+    "bytes": 48784
+  }
+]

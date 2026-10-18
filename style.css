@@ -1114,3 +1114,12 @@ html{overscroll-behavior-x:none;touch-action:pan-x pan-y}
 .battle-scenery.tone-jiangnan{background:#18291f}.battle-scenery.tone-zhongzhou{background:#29271c}.battle-scenery.tone-huashan{background:#1d282c}
 .battle-scenery:after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,#15211b24,#15211b08 55%,#15211b40);box-shadow:inset 0 0 24px #14201b55;pointer-events:none}
 @media(max-width:900px){.battle-scenery{inset:-5px -6px -6px;border-radius:11px}}
+
+/* Painted journey headers are self-contained; item displays below keep their plain backgrounds. */
+.journey-hero{min-height:220px;background:#1b2c23}
+.journey-hero .journey-scene{inset:0;right:0;bottom:0;width:100%;max-width:none;height:100%;object-fit:cover;object-position:60% 54%;opacity:.88;z-index:0;pointer-events:none;user-select:none;-webkit-user-select:none}
+.journey-hero:before{content:'';position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,#13241bf2 0%,#15271cdb 29%,#18291c84 58%,#1c2d2324 100%);pointer-events:none}
+.journey-hero:after{z-index:3}
+.journey-hero-copy{z-index:2}
+.journey-hero p{color:#d1d5bd}
+@media(max-width:600px){.journey-hero{min-height:210px}.journey-hero-copy{width:72%}.journey-hero .journey-scene{object-position:63% 52%}.journey-hero:before{background:linear-gradient(90deg,#13241bef,#15271cd6 35%,#18291c73 72%,#1c2d232c)}.journey-hero p{color:#d1d5bd}}

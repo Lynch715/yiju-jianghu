@@ -1,4 +1,4 @@
-import {CARD,RELIC} from './data.js?v=0.16.2';
+import {CARD,RELIC} from './data.js?v=0.16.3';
 // Read only results already resolved by the engine; never roll or predict an event reward.
 export function journeyResultItems(state,message=''){
  const named=name=>message.includes(`「${name}」`);

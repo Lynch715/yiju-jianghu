@@ -8,7 +8,7 @@ qa/
 dist/*
 !dist/index.html
 !dist/一局江湖.html
-!dist/一局江湖-v0.16.2.html
+!dist/一局江湖-v0.16.3.html
 
 # Editable full-size card artwork stays local; publish lightweight runtime WebP only.
 assets/cards/originals/
@@ -18,3 +18,6 @@ assets/players/runtime/*.png
 
 # Keep the full-size generated battle paintings local; ship compressed WebP only.
 assets/battles/originals/
+
+# Keep full-size journey scene paintings local.
+assets/journey/originals/

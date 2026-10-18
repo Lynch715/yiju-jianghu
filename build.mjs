@@ -5,6 +5,7 @@ import {ENEMIES} from './enemies.js';
 import {PLAYERS} from './players.js';
 import {CARD_ART_THEMES} from './card-art.js';
 import {BATTLE_SCENES} from './battle-art.js';
+import {JOURNEY_SCENES} from './journey-art.js';
 const files=['data.js','journey.js','map-art.js','journey-art.js','battle-art.js','journey-ui.js','card-art.js','relic-art.js','enemies.js','difficulty.js','players.js','enemy-tactics.js','enemy-action.js','records.js','engine.js','card-preview.js','combat-ui.js','hand-gesture.js','app.js'];
 const source=await Promise.all(files.map(f=>readFile(new URL(f,import.meta.url),'utf8')));
 // Check actual displayed descriptions in both refinement states, not just raw source text.
@@ -19,7 +20,9 @@ const cardImages={};
 for(const theme of Object.values(CARD_ART_THEMES)){const image=await readFile(new URL(theme.art,import.meta.url));cardImages[theme.id]='data:image/webp;base64,'+image.toString('base64');}
 const battleImages={};
 for(const scene of BATTLE_SCENES){const image=await readFile(new URL(scene.art,import.meta.url));if(!image.length)throw Error('Missing battle scene: '+scene.id);battleImages[scene.id]='data:image/webp;base64,'+image.toString('base64');}
-const script='const BATTLE_IMAGE_DATA='+JSON.stringify(battleImages)+';\n'+'const CARD_IMAGE_DATA='+JSON.stringify(cardImages)+';\n'+'const PLAYER_IMAGE_DATA='+JSON.stringify(playerImages)+';\n'+'const ENEMY_IMAGE_DATA='+JSON.stringify(portraits)+';\n'+source.map((s,i)=>`// ---- ${files[i]} ----\n`+s.replace('art:`assets/enemies/runtime/${d.id}.webp`','art:ENEMY_IMAGE_DATA[d.id]').replace('art:`assets/players/runtime/${p.id}.webp`','art:PLAYER_IMAGE_DATA[p.id]').replace('art:`assets/cards/runtime/${id}.webp`','art:CARD_IMAGE_DATA[id]').replace('art:`assets/battles/runtime/${d.id}.webp`','art:BATTLE_IMAGE_DATA[d.id]').replace(/^import .*?;\s*$/gm,'').replace(/^export /gm,'')).join('\n\n');
+const journeyImages={};
+for(const scene of JOURNEY_SCENES){const image=await readFile(new URL(scene.art,import.meta.url));if(!image.length)throw Error('Missing journey scene: '+scene.id);journeyImages[scene.id]='data:image/webp;base64,'+image.toString('base64');}
+const script='const JOURNEY_IMAGE_DATA='+JSON.stringify(journeyImages)+';\n'+'const BATTLE_IMAGE_DATA='+JSON.stringify(battleImages)+';\n'+'const CARD_IMAGE_DATA='+JSON.stringify(cardImages)+';\n'+'const PLAYER_IMAGE_DATA='+JSON.stringify(playerImages)+';\n'+'const ENEMY_IMAGE_DATA='+JSON.stringify(portraits)+';\n'+source.map((s,i)=>`// ---- ${files[i]} ----\n`+s.replace('art:`assets/enemies/runtime/${d.id}.webp`','art:ENEMY_IMAGE_DATA[d.id]').replace('art:`assets/players/runtime/${p.id}.webp`','art:PLAYER_IMAGE_DATA[p.id]').replace('art:`assets/cards/runtime/${id}.webp`','art:CARD_IMAGE_DATA[id]').replace('art:`assets/battles/runtime/${d.id}.webp`','art:BATTLE_IMAGE_DATA[d.id]').replace('art:`assets/journey/runtime/${d.id}.webp`','art:JOURNEY_IMAGE_DATA[d.id]').replace(/^import .*?;\s*$/gm,'').replace(/^export /gm,'')).join('\n\n');
 const css=await readFile(new URL('style.css',import.meta.url),'utf8');
 let html=await readFile(new URL('index.html',import.meta.url),'utf8');
 html=html.replace('<link rel="stylesheet" href="style.css">',`<style>${css}</style>`).replace('<script type="module" src="app.js"></script>',`<script type="module">\n${script}\n</script>`);
