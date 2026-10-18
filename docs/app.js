@@ -1,17 +1,17 @@
-import {describeCombatCardHTML} from './card-preview.js?v=0.15.2';
-import {enemyActionView,enemyActionTagHTML} from './enemy-action.js?v=0.15.2';
-import {readRecords,storeRecords,mergeRecords,parseRecords,serializeRecords,clearRecordForState,recordGroup,eliteCount,deckSize,refinedCount,rankRecords,PlayClock} from './records.js?v=0.15.2';
-import {validJourney} from './journey.js?v=0.15.2';
-import {travelMark,travelTerrain} from './map-art.js?v=0.15.2';
-import {relicIcon} from './relic-art.js?v=0.15.2';
-import {cardArtwork} from './card-art.js?v=0.15.2';
-import {captureCombatAction,playCombatSteps,combatStepFeedback} from './combat-ui.js?v=0.15.2';
-import {HandScrub} from './hand-gesture.js?v=0.15.2';
-import {PLAYERS,PLAYER,validPlayer,validCharacterDraft,playerNameError,cleanPlayerName} from './players.js?v=0.15.2';
-import {ENEMIES,ENEMY,ENEMY_RANK} from './enemies.js?v=0.15.2';
-import {DIFFICULTY,combatDefinition} from './difficulty.js?v=0.15.2';
-import {CARDS,CARD,RELICS,RELIC,CHAPTERS,ROUTES,NODE_NAMES,TYPE,RARITY,describe,GAME_VERSION,OPENING_BOONS} from './data.js?v=0.15.2';
-import {Game,SAVE_VERSION,validOpening} from './engine.js?v=0.15.2';
+import {describeCombatCardHTML,cardCostHTML} from './card-preview.js?v=0.15.3';
+import {enemyActionView,enemyActionTagHTML} from './enemy-action.js?v=0.15.3';
+import {readRecords,storeRecords,mergeRecords,parseRecords,serializeRecords,clearRecordForState,recordGroup,eliteCount,deckSize,refinedCount,rankRecords,PlayClock} from './records.js?v=0.15.3';
+import {validJourney} from './journey.js?v=0.15.3';
+import {travelMark,travelTerrain} from './map-art.js?v=0.15.3';
+import {relicIcon} from './relic-art.js?v=0.15.3';
+import {cardArtwork} from './card-art.js?v=0.15.3';
+import {captureCombatAction,playCombatSteps,combatStepFeedback} from './combat-ui.js?v=0.15.3';
+import {HandScrub} from './hand-gesture.js?v=0.15.3';
+import {PLAYERS,PLAYER,validPlayer,validCharacterDraft,playerNameError,cleanPlayerName} from './players.js?v=0.15.3';
+import {ENEMIES,ENEMY,ENEMY_RANK} from './enemies.js?v=0.15.3';
+import {DIFFICULTY,combatDefinition} from './difficulty.js?v=0.15.3';
+import {CARDS,CARD,RELICS,RELIC,CHAPTERS,ROUTES,NODE_NAMES,TYPE,RARITY,describe,GAME_VERSION,OPENING_BOONS} from './data.js?v=0.15.3';
+import {Game,SAVE_VERSION,validOpening} from './engine.js?v=0.15.3';
 document.title=`一局一江湖 · v${GAME_VERSION}`;
 // Block multi-touch zoom without cancelling ordinary one-finger scrolling.
 for(const type of ['touchstart','touchmove'])document.addEventListener(type,e=>{if(e.touches.length>1&&e.cancelable)e.preventDefault();},{passive:false});
@@ -125,14 +125,14 @@ function combatCardDescription(c,{selections=[],selectionKnown=false}={}){
  return combatDescriptionCache.get(key);
 }
 function cardHTML(c,{action='',uid=null,read=false,battle=false,choice=false,compact=false,handIndex=null}={}){
- const d=CARD[c.id],rar=d.rarity,art=cardArtwork(c.id);let cost=Array.isArray(d.cost)?d.cost[c.up?1:0]:d.cost;if(battle)cost=d.cost==='X'?'X':game.cost(c);if(cost===99)cost='—';
+ const d=CARD[c.id],rar=d.rarity,art=cardArtwork(c.id),live=battle||modal?.type==='select'||modal?.type==='pile'&&modal.id==='hand'||modal?.type==='card'&&modal.live;
  const reason=battle?game.reason(c):'',inspectable=battle&&!read&&matchMedia('(max-width:900px)').matches,label=`${d.name}${c.up?'·精进':''}`;
  const fanPosition=handIndex===null?0:game.s.b.hand.length<2?0:(handIndex/(game.s.b.hand.length-1)*2-1);
  const fanStyle=handIndex===null?'':`style="--fan-position:${fanPosition};--fan-angle:${fanPosition*14}deg;--fan-drop:${fanPosition*fanPosition*14}px;--fan-order:${handIndex+1}"`;
  if(compact)action='inspect-card';
  const attr=action?`data-action="${action}" ${uid!==null?`data-uid="${uid}"`:''} data-id="${d.id}" ${compact?`data-refined="${c.up?'1':'0'}"`:''}`:'';
  return `<${read&&!compact?'article':'button'} class="card ${d.type} r${rar} ${c.up?'up':''} ${read?'readonly':''} ${compact?'compact-card':''} ${inspectable&&reason?'unavailable':''} ${inspectable&&inspectedCard===c.uid?'inspected':''} ${choice&&selected.includes(c.uid)?'selected':''}" ${attr} ${fanStyle} ${battle&&reason&&!read&&!inspectable?'disabled':''} ${inspectable?`aria-expanded="${inspectedCard===c.uid}"`:''} ${!read||compact?`aria-label="${label}${battle&&reason?'，'+reason:''}"`:''}>
- <span class="cost">${cost}</span><div class="type">${TYPE[d.type]}${c.up?' · 精进':''}</div><h3>${label}</h3>${battle&&!read?`<span class="folded-name" aria-hidden="true">${escapeHTML(d.name)}${c.up?'<small>精进</small>':''}</span>`:''}${art?`<img class="card-art" src="${art.art}" alt="${art.label}意境插画" width="480" height="320" loading="${battle?'eager':'lazy'}" decoding="async" draggable="false">`:''}<div class="description">${battle||modal?.type==='select'||modal?.type==='pile'&&modal.id==='hand'||modal?.type==='card'&&modal.live?combatCardDescription(c):describe(c)}</div><footer><span>${d.path}</span><span>${RARITY[rar]||''}</span></footer>${read?`<div class="card-source">${d.source}</div>`:''}${battle&&reason?`<div class="unplayable">${reason}</div>`:''}</${read&&!compact?'article':'button'}>`;
+ ${cardCostHTML(game,c,{live})}<div class="type">${TYPE[d.type]}${c.up?' · 精进':''}</div><h3>${label}</h3>${battle&&!read?`<span class="folded-name" aria-hidden="true">${escapeHTML(d.name)}${c.up?'<small>精进</small>':''}</span>`:''}${art?`<img class="card-art" src="${art.art}" alt="${art.label}意境插画" width="480" height="320" loading="${battle?'eager':'lazy'}" decoding="async" draggable="false">`:''}<div class="description">${live?combatCardDescription(c):describe(c)}</div><footer><span>${d.path}</span><span>${RARITY[rar]||''}</span></footer>${read?`<div class="card-source">${d.source}</div>`:''}${battle&&reason?`<div class="unplayable">${reason}</div>`:''}</${read&&!compact?'article':'button'}>`;
 }
 function relicHTML(id,action='',extra=''){const r=RELIC[id];return `<${action?'button':'article'} class="relic-option" ${action?`data-action="${action}" data-id="${id}"`:''} ${extra}><div class="relic-option-head">${relicIcon(id)}<div><div class="eyebrow">${['初始','随身','珍奇','镇派'][r.tier]}</div><h3>${r.name}</h3></div></div><p>${r.text}</p><small>${r.source}</small></${action?'button':'article'}>`;}
 function home(){
@@ -173,8 +173,8 @@ function enemyFigure(e){const d=ENEMY[e.id];return d?`<img class="enemy-art" src
 function handPreview(){
  const enemy=game.s.b.enemies.find(e=>e.key===target&&e.hp>0)||game.s.b.enemies.find(e=>e.hp>0);
  const panels=game.s.b.hand.map(c=>{
-  const d=CARD[c.id],reason=game.reason(c),art=cardArtwork(c.id),cost=d.cost==='X'?'X':game.cost(c),label=`${d.name} · 完整牌面`;
-  return `<article class="hand-preview-card" data-preview-uid="${c.uid}" data-label="${label}" ${c.uid===inspectedCard?'':'hidden'}><div class="preview-card-title"><span class="preview-cost">${cost===99?'—':cost}</span><h3>${d.name}${c.up?'·精进':''}</h3><small>${TYPE[d.type]}</small></div><div class="preview-card-body">${art?`<img src="${art.art}" alt="${art.label}意境插画" width="72" height="70" draggable="false" decoding="async">`:''}<div class="preview-effect" tabindex="0" aria-label="招式效果">${combatCardDescription(c)}</div></div><div class="hand-preview-action"><small>${escapeHTML(reason||(d.type==='a'?'目标：'+(enemy?.name||'无'):'看清效果，再出招'))}</small><button class="primary" data-action="play-inspected" data-uid="${c.uid}" ${reason?'disabled':''}>${reason?'暂不能出招':'出招 →'}</button></div></article>`;
+  const d=CARD[c.id],reason=game.reason(c),art=cardArtwork(c.id),label=`${d.name} · 完整牌面`;
+  return `<article class="hand-preview-card" data-preview-uid="${c.uid}" data-label="${label}" ${c.uid===inspectedCard?'':'hidden'}><div class="preview-card-title">${cardCostHTML(game,c,{live:true,preview:true})}<h3>${d.name}${c.up?'·精进':''}</h3><small>${TYPE[d.type]}</small></div><div class="preview-card-body">${art?`<img src="${art.art}" alt="${art.label}意境插画" width="72" height="70" draggable="false" decoding="async">`:''}<div class="preview-effect" tabindex="0" aria-label="招式效果">${combatCardDescription(c)}</div></div><div class="hand-preview-action"><small>${escapeHTML(reason||(d.type==='a'?'目标：'+(enemy?.name||'无'):'看清效果，再出招'))}</small><button class="primary" data-action="play-inspected" data-uid="${c.uid}" ${reason?'disabled':''}>${reason?'暂不能出招':'出招 →'}</button></div></article>`;
  }).join('');
  return `<section class="hand-preview compact-preview" role="region" aria-label="${game.s.b.hand.find(c=>c.uid===inspectedCard)?CARD[game.s.b.hand.find(c=>c.uid===inspectedCard).id].name+' · 完整牌面':'手牌预览'}" ${inspectedCard===null?'hidden':''}><button class="preview-close quiet" data-action="close-card-preview" aria-label="收起牌面">✕</button>${panels}</section>`;
 }

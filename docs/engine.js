@@ -1,11 +1,11 @@
-import {enemyActionView,enemyAttackTag} from './enemy-action.js?v=0.15.2';
-import {createClearRecord} from './records.js?v=0.15.2';
-import {attachEnemyTactics,tacticalIntent,onTacticalDamage,onTacticalExhaust,onTacticalPlay,onTacticalDeath,afterTacticalAction,afterTacticalFollowerAction} from './enemy-tactics.js?v=0.15.2';
-import {JOURNEY_FLOORS,JOURNEY_TOTAL,newJourney,journeyChapter} from './journey.js?v=0.15.2';
-import {PLAYERS,DEFAULT_PLAYER,cleanPlayerName,playerNameError,validPlayer,PLAYER_RETURN_PHASES} from './players.js?v=0.15.2';
-import {ENEMY,ENCOUNTERS,ENCOUNTER_GROUPS} from './enemies.js?v=0.15.2';
-import {DIFFICULTY,combatDefinition,encounterTuning} from './difficulty.js?v=0.15.2';
-import {CARDS,CARD,RELICS,RELIC,CHAPTERS,ROUTES,isEthereal,OPENING_BOONS,GAME_VERSION} from './data.js?v=0.15.2';
+import {enemyActionView,enemyAttackTag} from './enemy-action.js?v=0.15.3';
+import {createClearRecord} from './records.js?v=0.15.3';
+import {attachEnemyTactics,tacticalIntent,onTacticalDamage,onTacticalExhaust,onTacticalPlay,onTacticalDeath,afterTacticalAction,afterTacticalFollowerAction} from './enemy-tactics.js?v=0.15.3';
+import {JOURNEY_FLOORS,JOURNEY_TOTAL,newJourney,journeyChapter} from './journey.js?v=0.15.3';
+import {PLAYERS,DEFAULT_PLAYER,cleanPlayerName,playerNameError,validPlayer,PLAYER_RETURN_PHASES} from './players.js?v=0.15.3';
+import {ENEMY,ENCOUNTERS,ENCOUNTER_GROUPS} from './enemies.js?v=0.15.3';
+import {DIFFICULTY,combatDefinition,encounterTuning} from './difficulty.js?v=0.15.3';
+import {CARDS,CARD,RELICS,RELIC,CHAPTERS,ROUTES,isEthereal,OPENING_BOONS,GAME_VERSION} from './data.js?v=0.15.3';
 
 export const SAVE_VERSION=7;
 export const STARTING_DECK=Object.freeze([...Array(5).fill('W01'),...Array(4).fill('U01'),'U02']);

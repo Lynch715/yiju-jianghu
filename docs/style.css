@@ -967,3 +967,7 @@ html{overscroll-behavior-x:none;touch-action:pan-x pan-y}
 /* Values compare with the same card's base effect, including its current refinement. */
 .card-value.higher,.combat-value.higher{color:#8bd5a0;font-weight:700}.card-value.lower,.combat-value.lower{color:#ff9890;font-weight:700}
 .card .card-value.higher{color:#246b3e}.card .card-value.lower{color:#a82e26}
+
+/* A lower energy cost is favorable, opposite to damage/block comparisons. */
+.preview-cost.cost-cheaper{color:#8bd5a0;border-color:#75b88a;font-weight:700}.preview-cost.cost-dearer{color:#ff9890;border-color:#d77d76;font-weight:700}
+.card .cost.cost-cheaper{color:#246b3e;border-color:#43845a;font-weight:700}.card .cost.cost-dearer{color:#a82e26;border-color:#b55e50;font-weight:700}

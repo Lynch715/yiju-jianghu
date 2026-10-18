@@ -1,5 +1,5 @@
-import {CARD,describe} from './data.js?v=0.15.2';
-import {Game} from './engine.js?v=0.15.2';
+import {CARD,describe} from './data.js?v=0.15.3';
+import {Game} from './engine.js?v=0.15.3';
 function cardHitPattern(values,base,value){const runs=[];for(const n of values){if(runs.at(-1)?.amount===n)runs.at(-1).count++;else runs.push({amount:n,count:1});}return runs.map(r=>r.count>1?`${value(r.amount,base)}×${r.count}`:value(r.amount,base)).join('＋');}
 // Resolve one cast on a private copy. Only public damage/block values leave this copy;
 // RNG, draws, choices, tactics, histories and the live save are never mutated or exposed.
@@ -63,4 +63,19 @@ export function describeCombatCardHTML(game,card,targetKey,options){
   return `\uE000${values.length-1}\uE001`;
  });
  return escapeCardText(text).replace(/\uE000(\d+)\uE001/g,(_,i)=>values[Number(i)]);
+}
+
+// Cost comparisons reverse the damage/block palette: cheaper is favorable.
+// Catalogue/deck cards keep base costs; X and unplayable symbols have no numeric baseline.
+export function cardCostView(game,card,{live=false}={}){
+ const d=CARD[card.id],base=Array.isArray(d.cost)?d.cost[card.up?1:0]:d.cost;
+ if(base==='X'||base===99)return {text:base==='X'?'X':'—',base,value:base,direction:''};
+ const inHand=live&&game.s?.phase==='battle'&&game.s.b?.hand.some(c=>c.uid===card.uid);
+ const value=inHand?game.cost(card):base;
+ return {text:String(value),base,value,direction:value<base?'cheaper':value>base?'dearer':''};
+}
+export function cardCostHTML(game,card,{live=false,preview=false}={}){
+ const v=cardCostView(game,card,{live}),badge=preview?'preview-cost':'cost';
+ const hint=v.direction?` title="基础费用 ${v.base}，当前${v.value}真气，费用${v.direction==='cheaper'?'降低':'升高'}"`:'';
+ return `<span class="${badge}${v.direction?' cost-'+v.direction:''}"${hint}>${escapeCardText(v.text)}</span>`;
 }
