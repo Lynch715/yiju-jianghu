@@ -921,3 +921,7 @@ html{overscroll-behavior-x:none;touch-action:pan-x pan-y}
 .combat-acting{outline:2px solid #e7bd72;outline-offset:2px}
 .combat-busy .hand .combat-spent{visibility:hidden}
 .combat-busy .battle-bottom{filter:saturate(.7)}
+
+/* Per-hit values finish before the next impact, including long combos. */
+.combat-busy .combat-vitals :is(.health-bar,.block-bar)>span{transition-duration:.08s}
+.combat-float.detail{font-size:18px}

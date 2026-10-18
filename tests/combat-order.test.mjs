@@ -37,7 +37,7 @@ test('capture neither changes combat outcomes nor persists playback data, and sn
 });
 test('observer is restored after errors and captures no unperformed or future enemy moves',()=>{
  const g=trio(),watch=()=>{};g.onCombatStep=watch;assert.throws(()=>captureCombatAction(g,()=>{throw Error('stop');}),/stop/);assert.equal(g.onCombatStep,watch);
- const c=g.make('W01');g.s.b.hand=[c];const trace=captureCombatAction(g,()=>g.play(c.uid,9));assert.equal(trace.steps.length,1);assert.equal(trace.steps[0].kind,'player');assert.ok(trace.steps[0].snapshot.enemies.every(e=>!('label' in e)&&!('intent' in e)));
+ const c=g.make('W01');g.s.b.hand=[c];const trace=captureCombatAction(g,()=>g.play(c.uid,9));assert.deepEqual(trace.steps.map(s=>s.kind),['player-begin','player-hit','player']);assert.ok(trace.steps[0].snapshot.enemies.every(e=>!('label' in e)&&!('intent' in e)));
 });
 test('automatic assistance records player cards first, then the enemy queue, then the next turn',()=>{
  const g=trio();g.s.b.hand=[g.make('U01'),g.make('W01')];g.s.b.qi=3;const trace=captureCombatAction(g,()=>g.autoPlayTurn()),firstEnemy=trace.steps.findIndex(s=>s.kind==='enemy');

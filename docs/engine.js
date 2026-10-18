@@ -1,9 +1,9 @@
-import {attachEnemyTactics,tacticalIntent,onTacticalDamage,onTacticalExhaust,onTacticalPlay,onTacticalDeath,afterTacticalAction,afterTacticalFollowerAction} from './enemy-tactics.js?v=0.13.0';
-import {JOURNEY_FLOORS,JOURNEY_TOTAL,newJourney,journeyChapter} from './journey.js?v=0.13.0';
-import {PLAYERS,DEFAULT_PLAYER,cleanPlayerName,playerNameError,validPlayer,PLAYER_RETURN_PHASES} from './players.js?v=0.13.0';
-import {ENEMY,ENCOUNTERS,ENCOUNTER_GROUPS} from './enemies.js?v=0.13.0';
-import {DIFFICULTY,combatDefinition,encounterTuning} from './difficulty.js?v=0.13.0';
-import {CARDS,CARD,RELICS,RELIC,CHAPTERS,ROUTES,isEthereal,OPENING_BOONS} from './data.js?v=0.13.0';
+import {attachEnemyTactics,tacticalIntent,onTacticalDamage,onTacticalExhaust,onTacticalPlay,onTacticalDeath,afterTacticalAction,afterTacticalFollowerAction} from './enemy-tactics.js?v=0.13.1';
+import {JOURNEY_FLOORS,JOURNEY_TOTAL,newJourney,journeyChapter} from './journey.js?v=0.13.1';
+import {PLAYERS,DEFAULT_PLAYER,cleanPlayerName,playerNameError,validPlayer,PLAYER_RETURN_PHASES} from './players.js?v=0.13.1';
+import {ENEMY,ENCOUNTERS,ENCOUNTER_GROUPS} from './enemies.js?v=0.13.1';
+import {DIFFICULTY,combatDefinition,encounterTuning} from './difficulty.js?v=0.13.1';
+import {CARDS,CARD,RELICS,RELIC,CHAPTERS,ROUTES,isEthereal,OPENING_BOONS} from './data.js?v=0.13.1';
 
 export const SAVE_VERSION=7;
 export const STARTING_DECK=Object.freeze([...Array(5).fill('W01'),...Array(4).fill('U01'),'U02']);
@@ -152,7 +152,7 @@ export class Game {
   const b=this.s.b;this.s.hp-=n;this.s.stats.self+=n;if(this.has('R08')&&b.battleFlags.bandage<2)b.battleFlags.bandage++;
   this.log(`${CARD[card.id].name} · 自损${n}气血`);
   const strength=this.powerSum('W51',1,2);if(strength){b.str+=strength;this.log(`逆练蛤蟆功 · 劲力+${strength}`);}this.block(this.powerSum('W48',6,8));if(this.has('R07'))this.block(4);
-  b.turnFlags.self=true;this.bee();return true;
+  b.turnFlags.self=true;this.bee();this.combatStep({kind:'player-effect',actor:'player',label:CARD[card.id].name+' · 自损'});return true;
  }
  draw(n){const b=this.s.b;for(let i=0;i<n;i++){if(!b.draw.length){if(!b.discard.length)break;b.draw=this.shuffle(b.discard.splice(0));this.log('弃牌洗回抽牌堆');}const c=b.draw.pop();if(b.hand.length<10)b.hand.push(c);else{delete c.retain;b.discard.push(c);this.log('手牌已满 · 抽到的牌进入弃牌堆');}}}
  addStatus(n){for(let i=0;i<n;i++)this.s.b.discard.push(this.make('QI'));this.log(`弃牌堆加入${n}张气滞`);}
@@ -173,8 +173,8 @@ export class Game {
  }
  takeSelections(ids){const b=this.s.b;const taken=[];for(const uid of ids){const i=b.hand.findIndex(x=>x.uid===uid);if(i>=0)taken.push(b.hand.splice(i,1)[0]);}return taken;}
  retireSelected(ids){const a=this.takeSelections(ids);for(const c of a)this.exhaustCard(c);return a.length;}
- direct(enemy,n,source='奇物'){
-  if(!enemy||enemy.hp<=0)return;const hit=Math.min(enemy.hp,n);enemy.hp-=hit;this.s.stats.damage+=hit;this.log(`${source} → ${enemy.name} ${hit}点伤害`);onTacticalDamage(this,enemy,hit,hit);if(enemy.hp<=0)this.onKill(enemy,null);
+ direct(enemy,n,source='奇物',trace={}){
+  if(!enemy||enemy.hp<=0)return;const hit=Math.min(enemy.hp,n);enemy.hp-=hit;this.s.stats.damage+=hit;this.log(`${source} → ${enemy.name} ${hit}点伤害`);onTacticalDamage(this,enemy,hit,hit);if(enemy.hp<=0)this.onKill(enemy,null);if(hit>0)this.combatStep({kind:['乾坤反震','斗转反震','软猬甲'].includes(source)?'reaction':'effect',actor:'player',target:enemy.key,label:source,...trace});
  }
  onKill(e,card){
   if(e.dead)return;e.dead=true;onTacticalDeath(this,e);this.s.stats.kills++;this.log(`击败 · ${e.name}`);
@@ -189,6 +189,7 @@ export class Game {
    const blocked=ignore?0:Math.min(e.block,n);e.block-=blocked;const hp=Math.min(e.hp,n-blocked);e.hp-=hp;this.s.stats.damage+=hp;
    this.log(`${CARD[card.id].name} → ${e.name} ${n}伤害${blocked?`（抵挡${blocked}）`:''}`);if(ctx)ctx.hitTargets.add(e.key);
    onTacticalDamage(this,e,hp,hp+blocked);if(e.hp<=0)this.onKill(e,card);
+   this.combatStep({kind:'player-hit',actor:'player',target:e.key,label:CARD[card.id].name+(card.up?'·精进':''),type:'a',hit:ctx?.hitSequence?++ctx.hitSequence.value:i+1,blocked,damage:hp});
   }
  }
  selection(card){
@@ -218,13 +219,13 @@ export class Game {
   const d=CARD[c.id],paid=this.cost(c),previous=b.turnFlags.last,attacks=b.turnFlags.attacks,plays=b.turnFlags.plays;
   b.hand.splice(b.hand.findIndex(x=>x.uid===uid),1);b.qi-=paid;if(d.type==='s')b.discount=0;
   const extra=d.type==='a'?(Number(b.repeat)||0):0;if(d.type==='a')b.repeat=false;
-  const ctx={paid,previous,attacks,plays,hitTargets:new Set(),blockBoosted:false,goldSnake:false,heavy:false};
+  const ctx={paid,previous,attacks,plays,hitSequence:{value:0},hitTargets:new Set(),blockBoosted:false,goldSnake:false,heavy:false};
   if(d.type==='a'){
    if(this.has('R13')&&paid>=2&&!b.turnFlags.heavy){ctx.heavy=true;b.turnFlags.heavy=true;}
    if(this.has('R20')&&multi.has(c.id)&&!b.turnFlags.snake){ctx.goldSnake=true;b.turnFlags.snake=true;}
   }
   this.log(`出招 · ${d.name}${c.up?'·精进':''}（${paid}真气）`);
-  onTacticalPlay(this,c);this.resolve(c,target,ctx,selections);
+  this.combatStep({kind:'player-begin',actor:'player',label:d.name+(c.up?'·精进':''),type:d.type});onTacticalPlay(this,c);this.resolve(c,target,ctx,selections);
   for(let copy=0;copy<extra&&this.s.hp>0&&b.enemies.some(e=>e.hp>0);copy++){
    const next=target.hp>0?target:b.enemies.find(e=>e.hp>0);
    if(this.actualSelf(c)<this.s.hp){this.log('左右互搏 · 额外结算');this.resolve(c,next,{...ctx,heavy:false,heavyUsed:true,blockBoosted:false},[]);}else{this.log('气血不足 · 取消剩余额外结算');break;}
@@ -355,16 +356,17 @@ export class Game {
   this.refreshEnemyPhases();this.combatStep({kind:'enemy-start',label:'敌方回合'});
   // Freeze this round's queue in formation order. Summons wait until the next round.
   for(const e of [...b.enemies]){
-   if(e.hp<=0||e.bornTurn===b.turn)continue;if(e.tactics)e.intent=this.enemyIntent(e);const intent=e.intent;let dealt=0,totalDamage=0;this.log(`${e.name} · ${intent.label}`);
+   if(e.hp<=0||e.bornTurn===b.turn)continue;if(e.tactics)e.intent=this.enemyIntent(e);const intent=e.intent;let dealt=0,totalDamage=0;this.log(`${e.name} · ${intent.label}`);this.combatStep({kind:'enemy-begin',actor:e.key,label:intent.label});
    if(intent.block)e.block+=intent.block;
    if(intent.allyBlock)for(const ally of b.enemies.filter(x=>x!==e&&x.hp>0)){ally.block+=intent.allyBlock;this.log(`${e.name} · 为${ally.name}提供${intent.allyBlock}格挡`);}
+   if(intent.block||intent.allyBlock)this.combatStep({kind:'enemy-effect',actor:e.key,label:intent.label});
    if(intent.damage){for(let i=0;i<(intent.hits||1);i++){
     if(e.hp<=0||this.s.hp<=0)break;const n=this.previewEnemy(e,i);e.pin=0;
-    totalDamage+=n;const blocked=Math.min(b.block,n);b.block-=blocked;const hp=n-blocked;dealt+=hp;this.s.hp-=hp;this.log(`${e.name} → 你 ${n}伤害（格挡抵挡${blocked}）`);
-    const nextReflection=this.reflectionStacks('next');if(nextReflection){this.direct(e,blocked*nextReflection,'乾坤反震');b.reflectNextStacks=0;b.reflectNext=0;}
-    const roundReflection=this.reflectionStacks('round');if(roundReflection&&blocked)this.direct(e,blocked*roundReflection,'斗转反震');
+    totalDamage+=n;const blocked=Math.min(b.block,n);b.block-=blocked;const hp=n-blocked;dealt+=hp;this.s.hp-=hp;this.log(`${e.name} → 你 ${n}伤害（格挡抵挡${blocked}）`);this.combatStep({kind:'enemy-hit',actor:e.key,target:'player',label:intent.label,hit:i+1,blocked,damage:hp});
+    const nextReflection=this.reflectionStacks('next');if(nextReflection){this.direct(e,blocked*nextReflection,'乾坤反震',{reactTo:e.key,hit:i+1});b.reflectNextStacks=0;b.reflectNext=0;}
+    const roundReflection=this.reflectionStacks('round');if(roundReflection&&blocked)this.direct(e,blocked*roundReflection,'斗转反震',{reactTo:e.key,hit:i+1});
     if(hp>0&&intent.woundOnHit)this.addStatus(intent.woundOnHit);
-    if(hp>0&&this.has('R11'))this.direct(e,3,'软猬甲');this.bee();if(this.s.hp<=0)break;
+    if(hp>0&&this.has('R11'))this.direct(e,3,'软猬甲',{reactTo:e.key,hit:i+1});this.bee();if(this.s.hp<=0)break;
    }e.charge=0;}
    if(this.s.hp<=0){this.recordEnemyAction(e,intent,totalDamage);this.combatStep({kind:'enemy',actor:e.key,label:intent.label,attacks:!!intent.damage});this.checkEnd();return true;}
    if(e.hp>0){

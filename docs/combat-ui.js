@@ -27,3 +27,13 @@ export function captureCombatAction(game,action){
 export async function playCombatSteps(steps,present){
  for(const step of steps)await present(step);
 }
+
+export function combatStepFeedback(before,step){
+ if(step.kind==='enemy-start')return [];
+ const after=step.snapshot,isHit=['player-hit','enemy-hit'].includes(step.kind);
+ let changes=combatFeedback(before,after,{enemyTurn:step.kind==='enemy-hit'||step.kind==='enemy'});
+ if(isHit&&step.blocked>0){changes=changes.filter(c=>!(c.target===step.target&&c.kind==='blocked'));const loss=changes.find(c=>c.target===step.target&&c.kind==='damage');if(loss)loss.text+=` · 格挡${step.blocked}`;else changes.push({target:step.target,kind:'blocked',text:`格挡 −${step.blocked}`});}
+ if(isHit&&step.damage===0&&!step.blocked)changes.push({target:step.target,kind:'blocked',text:'0'});
+ if(step.kind==='reaction')changes=changes.map(c=>c.target===step.target&&c.kind==='damage'?{...c,text:`${step.label} ${c.text}`}:c);
+ return changes;
+}
