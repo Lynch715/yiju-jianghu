@@ -1,5 +1,5 @@
-import {CARD,RELIC,GAME_VERSION} from './data.js?v=0.14.1';
-import {validPlayer} from './players.js?v=0.14.1';
+import {CARD,RELIC,GAME_VERSION} from './data.js?v=0.15.0';
+import {validPlayer} from './players.js?v=0.15.0';
 export const RECORDS_KEY='yiju-jianghu-clears-v1';
 const copy=value=>JSON.parse(JSON.stringify(value));
 const whole=n=>Number.isFinite(n)&&Number.isInteger(n)&&n>=0;

@@ -1,10 +1,11 @@
-import {createClearRecord} from './records.js?v=0.14.1';
-import {attachEnemyTactics,tacticalIntent,onTacticalDamage,onTacticalExhaust,onTacticalPlay,onTacticalDeath,afterTacticalAction,afterTacticalFollowerAction} from './enemy-tactics.js?v=0.14.1';
-import {JOURNEY_FLOORS,JOURNEY_TOTAL,newJourney,journeyChapter} from './journey.js?v=0.14.1';
-import {PLAYERS,DEFAULT_PLAYER,cleanPlayerName,playerNameError,validPlayer,PLAYER_RETURN_PHASES} from './players.js?v=0.14.1';
-import {ENEMY,ENCOUNTERS,ENCOUNTER_GROUPS} from './enemies.js?v=0.14.1';
-import {DIFFICULTY,combatDefinition,encounterTuning} from './difficulty.js?v=0.14.1';
-import {CARDS,CARD,RELICS,RELIC,CHAPTERS,ROUTES,isEthereal,OPENING_BOONS,GAME_VERSION} from './data.js?v=0.14.1';
+import {enemyActionView} from './enemy-action.js?v=0.15.0';
+import {createClearRecord} from './records.js?v=0.15.0';
+import {attachEnemyTactics,tacticalIntent,onTacticalDamage,onTacticalExhaust,onTacticalPlay,onTacticalDeath,afterTacticalAction,afterTacticalFollowerAction} from './enemy-tactics.js?v=0.15.0';
+import {JOURNEY_FLOORS,JOURNEY_TOTAL,newJourney,journeyChapter} from './journey.js?v=0.15.0';
+import {PLAYERS,DEFAULT_PLAYER,cleanPlayerName,playerNameError,validPlayer,PLAYER_RETURN_PHASES} from './players.js?v=0.15.0';
+import {ENEMY,ENCOUNTERS,ENCOUNTER_GROUPS} from './enemies.js?v=0.15.0';
+import {DIFFICULTY,combatDefinition,encounterTuning} from './difficulty.js?v=0.15.0';
+import {CARDS,CARD,RELICS,RELIC,CHAPTERS,ROUTES,isEthereal,OPENING_BOONS,GAME_VERSION} from './data.js?v=0.15.0';
 
 export const SAVE_VERSION=7;
 export const STARTING_DECK=Object.freeze([...Array(5).fill('W01'),...Array(4).fill('U01'),'U02']);
@@ -190,7 +191,7 @@ export class Game {
    const blocked=ignore?0:Math.min(e.block,n);e.block-=blocked;const hp=Math.min(e.hp,n-blocked);e.hp-=hp;this.s.stats.damage+=hp;
    this.log(`${CARD[card.id].name} → ${e.name} ${n}伤害${blocked?`（抵挡${blocked}）`:''}`);if(ctx)ctx.hitTargets.add(e.key);
    onTacticalDamage(this,e,hp,hp+blocked);if(e.hp<=0)this.onKill(e,card);
-   this.combatStep({kind:'player-hit',actor:'player',target:e.key,label:CARD[card.id].name+(card.up?'·精进':''),type:'a',hit:ctx?.hitSequence?++ctx.hitSequence.value:i+1,blocked,damage:hp});
+   this.combatStep({kind:'player-hit',actor:'player',target:e.key,label:CARD[card.id].name+(card.up?'·精进':''),type:'a',hit:ctx?.hitSequence?++ctx.hitSequence.value:i+1,blocked,damage:hp,amount:n});
   }
  }
  selection(card){
@@ -357,13 +358,13 @@ export class Game {
   this.refreshEnemyPhases();this.combatStep({kind:'enemy-start',label:'敌方回合'});
   // Freeze this round's queue in formation order. Summons wait until the next round.
   for(const e of [...b.enemies]){
-   if(e.hp<=0||e.bornTurn===b.turn)continue;if(e.tactics)e.intent=this.enemyIntent(e);const intent=e.intent;let dealt=0,totalDamage=0;this.log(`${e.name} · ${intent.label}`);this.combatStep({kind:'enemy-begin',actor:e.key,label:intent.label});
+   if(e.hp<=0||e.bornTurn===b.turn)continue;if(e.tactics)e.intent=this.enemyIntent(e);const intent=e.intent;let dealt=0,totalDamage=0;this.log(`${e.name} · ${intent.label}`);this.combatStep({kind:'enemy-begin',actor:e.key,label:intent.label,actionView:enemyActionView(this,e)});
    if(intent.block)e.block+=intent.block;
    if(intent.allyBlock)for(const ally of b.enemies.filter(x=>x!==e&&x.hp>0)){ally.block+=intent.allyBlock;this.log(`${e.name} · 为${ally.name}提供${intent.allyBlock}格挡`);}
    if(intent.block||intent.allyBlock)this.combatStep({kind:'enemy-effect',actor:e.key,label:intent.label});
    if(intent.damage){for(let i=0;i<(intent.hits||1);i++){
     if(e.hp<=0||this.s.hp<=0)break;const n=this.previewEnemy(e,i);e.pin=0;
-    totalDamage+=n;const blocked=Math.min(b.block,n);b.block-=blocked;const hp=n-blocked;dealt+=hp;this.s.hp-=hp;this.log(`${e.name} → 你 ${n}伤害（格挡抵挡${blocked}）`);this.combatStep({kind:'enemy-hit',actor:e.key,target:'player',label:intent.label,hit:i+1,blocked,damage:hp});
+    totalDamage+=n;const blocked=Math.min(b.block,n);b.block-=blocked;const hp=n-blocked;dealt+=hp;this.s.hp-=hp;this.log(`${e.name} → 你 ${n}伤害（格挡抵挡${blocked}）`);this.combatStep({kind:'enemy-hit',actor:e.key,target:'player',label:intent.label,hit:i+1,blocked,damage:hp,actionView:{state:'ready',tags:[{kind:'attack',text:'攻击 '+n}]}});
     const nextReflection=this.reflectionStacks('next');if(nextReflection){this.direct(e,blocked*nextReflection,'乾坤反震',{reactTo:e.key,hit:i+1});b.reflectNextStacks=0;b.reflectNext=0;}
     const roundReflection=this.reflectionStacks('round');if(roundReflection&&blocked)this.direct(e,blocked*roundReflection,'斗转反震',{reactTo:e.key,hit:i+1});
     if(hp>0&&intent.woundOnHit)this.addStatus(intent.woundOnHit);

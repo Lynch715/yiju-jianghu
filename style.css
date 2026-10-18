@@ -942,3 +942,24 @@ html{overscroll-behavior-x:none;touch-action:pan-x pan-y}
 
 .ending-actions{display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:28px}
 @media(max-width:600px){.ending-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}.ending-actions:has([data-action="records"])>button:first-child{grid-column:1/-1}.ending-actions>button{min-width:0;padding:13px 8px;font-size:13px}}
+
+/* Current enemy action types remain visible while choosing a card. */
+.layout[data-phase="battle"] .battlefield[data-enemies]{--intent-height:62px}
+.enemy-plan{width:100%;min-width:0;display:grid;gap:4px}.enemy .enemy-plan-heading{margin:0;color:#d5c79e;font-size:10px;line-height:12px;letter-spacing:1px}.enemy-plan-tags{display:flex;justify-content:center;align-content:start;flex-wrap:wrap;gap:4px}.enemy-plan-tags:empty{display:none}
+.enemy-action-tag{display:inline-block;border:1px solid #a6af8d55;border-radius:4px;background:#3b493740;color:#d6d8c3;padding:2px 5px;font:11px/14px var(--sans);font-variant-numeric:tabular-nums;white-space:normal;overflow-wrap:anywhere;max-width:100%}.enemy-action-tag.attack{color:#ffd1b9;background:#73443255;border-color:#be785b88}.enemy-action-tag.block{color:#c0e4f3;background:#36576555;border-color:#7ca6b777}.enemy-action-tag.charge,.enemy-action-tag.buff{color:#f1d792;background:#6c592b55;border-color:#b69a5677}.enemy-action-tag.debuff,.enemy-action-tag.special{color:#e3cbed;background:#58436155;border-color:#a58aaf77}
+@media(max-width:900px){
+ .layout[data-phase="battle"] .battlefield .enemy .fighter-intent{width:47%;height:auto;min-height:26px;align-items:flex-end}
+ .enemy-plan{gap:0}.enemy .enemy-plan-heading{display:none}.enemy .enemy-plan:has(.enemy-plan-tags:empty) .enemy-plan-heading{display:block}
+ .enemy-plan-tags{justify-content:flex-end;gap:2px}.enemy-action-tag{font-size:9px;line-height:11px;padding:0 3px;border-radius:3px}
+}
+@media(max-width:900px) and (max-height:740px){.layout[data-phase="battle"] .battlefield .enemy .fighter-intent{top:5px;min-height:22px}.enemy-plan-tags{gap:1px}.enemy-action-tag{font-size:8px;line-height:9px;padding:0 2px}}
+@media(max-width:900px) and (max-height:700px) and (min-height:561px){
+ .layout.has-hand-preview[data-phase="battle"] .battlefield[data-enemies="3"] .enemy{height:126px;min-height:126px;grid-template-rows:26px 28px 14px 10px 22px;gap:2px;padding:4px}
+ .layout.has-hand-preview[data-phase="battle"] .battlefield[data-enemies="3"] .enemy .fighter-intent{position:static;width:100%;height:26px;min-height:0;grid-row:1;align-items:center;justify-content:center}
+ .layout.has-hand-preview[data-phase="battle"] .battlefield[data-enemies="3"] .enemy .enemy-plan-tags{justify-content:center}
+ .layout.has-hand-preview[data-phase="battle"] .battlefield[data-enemies="3"] .enemy .enemy-art{width:28px;height:28px}
+ .layout.has-hand-preview[data-phase="battle"] .battlefield[data-enemies="3"] .enemy .target-marker{top:35px;left:3px}
+ .layout.has-hand-preview[data-phase="battle"] .battlefield[data-enemies="3"] .enemy .status-row{height:10px}
+ .layout.has-hand-preview[data-phase="battle"] .battlefield[data-enemies="3"] .enemy .status-chip{line-height:8px;padding:0 1px}
+}
+.selection-live-preview{font-size:13px;line-height:1.8;color:#e0cb94;padding:12px;border:1px solid #a98c4f66;border-radius:7px;background:#b39a5910}

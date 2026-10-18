@@ -41,7 +41,7 @@ test('large player attacks remain uncapped and can skip every boss phase',()=>{
 test('boss reactions remain identical after save/reload with active charge, followers, and reflection',()=>{
  for(let ch=0;ch<3;ch++){const g=fight(ch);g.s.b.enemies[0].round=ch===0?3:ch===1?2:1;g.refreshEnemyPhases();g.endTurn();const h=new Game(g.s);for(let i=0;i<3;i++){g.endTurn();h.endTurn();assert.deepEqual(h.s,g.s);}}
 });
-test('presentation never reads upcoming mechanics, descriptions, or stance thresholds',()=>{
+test('presentation uses current action summaries without reading raw boss scripts or stance thresholds',()=>{
  const source=fs.readFileSync(new URL('../app.js',import.meta.url),'utf8');assert.doesNotMatch(source,/\.intent\b|\.trait\b|\.windup\b|\.releaseCharge\b|\.revision\b/);
  for(let ch=0;ch<3;ch++){const g=fight(ch);assert.deepEqual(g.s.journal[g.s.b.enemies[0].id].moves,{});assert.equal(g.s.b.enemies[0].lastAction,undefined);}
 });
