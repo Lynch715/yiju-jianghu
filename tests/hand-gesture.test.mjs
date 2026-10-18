@@ -25,3 +25,16 @@ test('zero cards are ignored, one card stays selected, and anchors are snapshott
  const s=new HandScrub();assert.equal(s.begin({pointerId:1,x:0,y:0,anchors:[],uids:[]}),false);assert.equal(s.begin({pointerId:1,x:0,y:0,anchors:[NaN],uids:[1]}),false);
  const anchors=[30];assert.ok(s.begin({pointerId:1,x:0,y:0,anchors,uids:[7]}));anchors[0]=500;assert.deepEqual(s.current.anchors,[30]);assert.equal(s.move({pointerId:1,x:100,y:0}).uid,7);
 });
+
+test('boundary hysteresis absorbs small thumb jitter without delaying a deliberate crossing',()=>{
+ const s=new HandScrub();start(s);assert.equal(s.move({pointerId:1,x:18,y:100}).uid,101);
+ for(const x of [24,26,28,25])assert.equal(s.move({pointerId:1,x,y:100}).uid,101);
+ assert.equal(s.move({pointerId:1,x:31,y:100}).uid,102);
+ for(const x of [26,24,22])assert.equal(s.move({pointerId:1,x,y:100}).uid,102);
+ assert.equal(s.move({pointerId:1,x:19,y:100}).uid,101);
+});
+test('fast motion may skip directly across many cards and still reaches either edge',()=>{
+ const s=new HandScrub(),anchors=Array.from({length:10},(_,i)=>30+i*25);s.begin({pointerId:1,x:30,y:100,anchors,uids:anchors.map((_,i)=>i)});
+ assert.equal(s.move({pointerId:1,x:33,y:100}),null);assert.equal(s.move({pointerId:1,x:34,y:100}).uid,0);
+ assert.equal(s.move({pointerId:1,x:500,y:100}).uid,9);assert.equal(s.move({pointerId:1,x:-100,y:100}).uid,0);
+});

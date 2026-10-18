@@ -1,14 +1,14 @@
-import {validJourney} from './journey.js?v=0.12.3';
-import {travelMark,travelTerrain} from './map-art.js?v=0.12.3';
-import {relicIcon} from './relic-art.js?v=0.12.3';
-import {cardArtwork} from './card-art.js?v=0.12.3';
-import {combatSnapshot,combatFeedback} from './combat-ui.js?v=0.12.3';
-import {HandScrub} from './hand-gesture.js?v=0.12.3';
-import {PLAYERS,PLAYER,validPlayer,validCharacterDraft,playerNameError,cleanPlayerName} from './players.js?v=0.12.3';
-import {ENEMIES,ENEMY,ENEMY_RANK} from './enemies.js?v=0.12.3';
-import {DIFFICULTY,combatDefinition} from './difficulty.js?v=0.12.3';
-import {CARDS,CARD,RELICS,RELIC,CHAPTERS,ROUTES,NODE_NAMES,TYPE,RARITY,describe,GAME_VERSION,OPENING_BOONS} from './data.js?v=0.12.3';
-import {Game,SAVE_VERSION,validOpening} from './engine.js?v=0.12.3';
+import {validJourney} from './journey.js?v=0.12.4';
+import {travelMark,travelTerrain} from './map-art.js?v=0.12.4';
+import {relicIcon} from './relic-art.js?v=0.12.4';
+import {cardArtwork} from './card-art.js?v=0.12.4';
+import {combatSnapshot,combatFeedback} from './combat-ui.js?v=0.12.4';
+import {HandScrub} from './hand-gesture.js?v=0.12.4';
+import {PLAYERS,PLAYER,validPlayer,validCharacterDraft,playerNameError,cleanPlayerName} from './players.js?v=0.12.4';
+import {ENEMIES,ENEMY,ENEMY_RANK} from './enemies.js?v=0.12.4';
+import {DIFFICULTY,combatDefinition} from './difficulty.js?v=0.12.4';
+import {CARDS,CARD,RELICS,RELIC,CHAPTERS,ROUTES,NODE_NAMES,TYPE,RARITY,describe,GAME_VERSION,OPENING_BOONS} from './data.js?v=0.12.4';
+import {Game,SAVE_VERSION,validOpening} from './engine.js?v=0.12.4';
 document.title=`一局一江湖 · v${GAME_VERSION}`;
 // Block multi-touch zoom without cancelling ordinary one-finger scrolling.
 for(const type of ['touchstart','touchmove'])document.addEventListener(type,e=>{if(e.touches.length>1&&e.cancelable)e.preventDefault();},{passive:false});
@@ -18,45 +18,54 @@ const escapeHTML=text=>String(text).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt
 const icon={battle:'剑',elite:'武',rest:'憩',event:'缘',shop:'市',boss:'巅'};
 let game=new Game(),view='home',modal=null,target=0,selected=[],pending=null,filter='',pathFilter='',showUp=false,saveError=false,heroGender='male';
 let toastTimer,combatBusy=false,inspectedCard=null,mapViewChapter=null;
-const handScrub=new HandScrub();let scrubHand=null;
+const handScrub=new HandScrub();let scrubHand=null,selectionFrame=0,queuedCard=null,previewRoot=null,previewCards=new Map(),handCards=new Map();
+function flushHandSelection(){
+ if(selectionFrame)cancelAnimationFrame(selectionFrame);selectionFrame=0;
+ const uid=queuedCard;queuedCard=null;if(uid!==null)inspectHandCard(uid);
+}
 function cancelHandScrub(time=performance.now()){
+ if(selectionFrame)cancelAnimationFrame(selectionFrame);selectionFrame=0;queuedCard=null;
  const pointerId=handScrub.current?.pointerId;handScrub.cancel(time);
- if(scrubHand?.hasPointerCapture(pointerId))scrubHand.releasePointerCapture(pointerId);scrubHand=null;
+ if(scrubHand?.hasPointerCapture(pointerId))scrubHand.releasePointerCapture(pointerId);scrubHand?.classList.remove('scrubbing');scrubHand=null;
 }
 function positionHandPreview(){
- const preview=$('.hand-preview'),hand=$('.hand');if(!preview||!hand)return;
- if(innerHeight>=600&&matchMedia('(max-width:900px)').matches){
-  const top=hand.getBoundingClientRect().top,scale=Math.min(1,Math.max(.45,(top-128)/390));
-  preview.style.setProperty('--scrub-face-scale',scale);preview.style.width=`${260*scale+22}px`;
-  preview.style.setProperty('--scrub-preview-bottom',`${innerHeight-top+8}px`);
- }
+ const hand=$('.hand');if(!previewRoot||!hand)return;
+ previewRoot.style.setProperty('--scrub-preview-bottom',`${innerHeight-hand.getBoundingClientRect().top+8}px`);
+}
+function closeHandPreview(){
+ handCards.get(inspectedCard)?.classList.remove('inspected');handCards.get(inspectedCard)?.setAttribute('aria-expanded','false');
+ previewCards.get(inspectedCard)?.setAttribute('hidden','');inspectedCard=null;
+ if(previewRoot)previewRoot.hidden=true;$('.layout')?.classList.remove('has-hand-preview');
 }
 function inspectHandCard(uid){
- if(combatBusy||modal||game.s?.phase!=='battle'||!game.s.b.hand.some(c=>c.uid===uid))return;
- if(inspectedCard===uid)return;inspectedCard=uid;
- for(const card of document.querySelectorAll('.hand .card')){const active=Number(card.dataset.uid)===uid;card.classList.toggle('inspected',active);card.setAttribute('aria-expanded',active);}
- const preview=$('.hand-preview');if(preview)preview.outerHTML=handPreview();else $('.battle-bottom')?.insertAdjacentHTML('beforebegin',handPreview());
- positionHandPreview();
+ if(combatBusy||modal||game.s?.phase!=='battle'||!previewCards.has(uid)||inspectedCard===uid)return;
+ handCards.get(inspectedCard)?.classList.remove('inspected');handCards.get(inspectedCard)?.setAttribute('aria-expanded','false');
+ previewCards.get(inspectedCard)?.setAttribute('hidden','');inspectedCard=uid;
+ const card=handCards.get(uid),panel=previewCards.get(uid);card?.classList.add('inspected');card?.setAttribute('aria-expanded','true');panel.hidden=false;
+ previewRoot.hidden=false;previewRoot.setAttribute('aria-label',panel.dataset.label);$('.layout')?.classList.add('has-hand-preview');
 }
 document.addEventListener('pointerdown',ev=>{
  if(!ev.isPrimary){cancelHandScrub(ev.timeStamp);return;}
  if(ev.button!==0||combatBusy||modal||view==='home'||game.s?.phase!=='battle'||!matchMedia('(max-width:900px)').matches)return;
  const hand=ev.target.closest('.hand');if(!hand)return;
- const cards=[...hand.querySelectorAll('.card')],rect=hand.getBoundingClientRect();
- // Snapshot unlifted geometry, so the selected card never moves its own hit boundary.
- const anchors=cards.map(card=>{const a=parseFloat(card.style.getPropertyValue('--fan-angle'))*Math.PI/180,cost=card.querySelector('.cost');return rect.left+card.offsetLeft+(cost.offsetLeft+cost.offsetWidth/2-card.offsetWidth/2)*Math.cos(a)-(cost.offsetTop+cost.offsetHeight/2-card.offsetHeight)*Math.sin(a);});
+ const cards=[...handCards.values()],rect=hand.getBoundingClientRect();
+ // The untransformed card centres stay fixed while the selected face lifts.
+ const anchors=cards.map(card=>rect.left+card.offsetLeft);
  if(handScrub.begin({pointerId:ev.pointerId,x:ev.clientX,y:ev.clientY,anchors,uids:cards.map(c=>Number(c.dataset.uid))}))scrubHand=hand;
 });
 document.addEventListener('pointermove',ev=>{
  if(!handScrub.current)return;if(!scrubHand?.isConnected||modal||combatBusy||game.s?.phase!=='battle'){cancelHandScrub(ev.timeStamp);return;}
  const result=handScrub.move({pointerId:ev.pointerId,x:ev.clientX,y:ev.clientY});if(!result)return;
- // Capture only after a drag begins; ordinary taps keep their original card target.
- if(result.started)scrubHand.setPointerCapture(ev.pointerId);if(ev.cancelable)ev.preventDefault();inspectHandCard(result.uid);
+ if(result.started){scrubHand.setPointerCapture(ev.pointerId);scrubHand.classList.add('scrubbing');}
+ if(ev.cancelable)ev.preventDefault();queuedCard=result.uid;
+ if(!selectionFrame)selectionFrame=requestAnimationFrame(flushHandSelection);
 },{passive:false});
 document.addEventListener('pointerup',ev=>{
  if(handScrub.current?.pointerId!==ev.pointerId)return;
+ // Flush the last coordinate before release, even when it arrives between frames.
+ const result=handScrub.move({pointerId:ev.pointerId,x:ev.clientX,y:ev.clientY});if(result)queuedCard=result.uid;flushHandSelection();
  handScrub.end({pointerId:ev.pointerId,x:ev.clientX,y:ev.clientY,time:ev.timeStamp});
- if(scrubHand?.hasPointerCapture(ev.pointerId))scrubHand.releasePointerCapture(ev.pointerId);scrubHand=null;
+ if(scrubHand?.hasPointerCapture(ev.pointerId))scrubHand.releasePointerCapture(ev.pointerId);scrubHand?.classList.remove('scrubbing');scrubHand=null;
 });
 for(const type of ['pointercancel','lostpointercapture'])document.addEventListener(type,ev=>{if(handScrub.current?.pointerId===ev.pointerId)cancelHandScrub(ev.timeStamp);});
 document.addEventListener('click',ev=>{
@@ -133,9 +142,12 @@ function mapPage(){
 function statusHTML(){const b=game.s.b;return `${b.str?`<span class="status-chip">劲力 ${b.str}</span>`:''}${b.weak?`<span class="status-chip red">虚弱 ${b.weak}</span>`:''}${b.vuln?`<span class="status-chip red">破绽 ${b.vuln}</span>`:''}${b.poison?`<span class="status-chip red" title="敌方行动结束后失去等量气血，随后中毒减少1">中毒 ${b.poison}</span>`:''}${b.qiPenalty?`<span class="status-chip red">寒气 · 真气−${b.qiPenalty}</span>`:''}${b.repeat?`<span class="status-chip">互搏额外 ${Number(b.repeat)} 次</span>`:''}${b.discount?`<span class="status-chip">技法减费 ${b.discount}</span>`:''}${game.reflectionStacks('next')?`<span class="status-chip">单段反震 ×${game.reflectionStacks('next')}</span>`:''}${game.reflectionStacks('round')?`<span class="status-chip">本轮反震 ×${game.reflectionStacks('round')}</span>`:''}`;}
 function enemyFigure(e){const d=ENEMY[e.id];return d?`<img class="enemy-art" src="${d.art}" alt="${d.name}立绘" width="200" height="250" draggable="false">`:figure(true);}
 function handPreview(){
- const c=game.s.b.hand.find(x=>x.uid===inspectedCard);if(!c)return '';
- const d=CARD[c.id],reason=game.reason(c),enemy=game.s.b.enemies.find(e=>e.key===target&&e.hp>0)||game.s.b.enemies.find(e=>e.hp>0);
- return `<section class="hand-preview" role="region" aria-label="${d.name} · 完整牌面"><div class="hand-preview-head"><span>武学详情 · ${TYPE[d.type]}</span><button class="quiet small" data-action="close-card-preview" aria-label="收起牌面">✕</button></div>${cardHTML(c,{read:true,battle:true})}<div class="hand-preview-action"><small>${reason|| (d.type==='a'?'目标：'+(enemy?.name||'无'):'看清效果，再出招')}</small><button class="primary" data-action="play-inspected" data-uid="${c.uid}" ${reason?'disabled':''}>${reason?'暂不能出招':'出招 →'}</button></div></section>`;
+ const enemy=game.s.b.enemies.find(e=>e.key===target&&e.hp>0)||game.s.b.enemies.find(e=>e.hp>0);
+ const panels=game.s.b.hand.map(c=>{
+  const d=CARD[c.id],reason=game.reason(c),art=cardArtwork(c.id),cost=d.cost==='X'?'X':game.cost(c),label=`${d.name} · 完整牌面`;
+  return `<article class="hand-preview-card" data-preview-uid="${c.uid}" data-label="${label}" ${c.uid===inspectedCard?'':'hidden'}><div class="preview-card-title"><span class="preview-cost">${cost===99?'—':cost}</span><h3>${d.name}${c.up?'·精进':''}</h3><small>${TYPE[d.type]}</small></div><div class="preview-card-body">${art?`<img src="${art.art}" alt="${art.label}意境插画" width="72" height="70" draggable="false" decoding="async">`:''}<div class="preview-effect" tabindex="0" aria-label="招式效果">${describe(c)}</div></div><div class="hand-preview-action"><small>${escapeHTML(reason||(d.type==='a'?'目标：'+(enemy?.name||'无'):'看清效果，再出招'))}</small><button class="primary" data-action="play-inspected" data-uid="${c.uid}" ${reason?'disabled':''}>${reason?'暂不能出招':'出招 →'}</button></div></article>`;
+ }).join('');
+ return `<section class="hand-preview compact-preview" role="region" aria-label="${game.s.b.hand.find(c=>c.uid===inspectedCard)?CARD[game.s.b.hand.find(c=>c.uid===inspectedCard).id].name+' · 完整牌面':'手牌预览'}" ${inspectedCard===null?'hidden':''}><button class="preview-close quiet" data-action="close-card-preview" aria-label="收起牌面">✕</button>${panels}</section>`;
 }
 function vitalsHTML(hp,maxHp,block){
  const safeHp=Math.max(0,hp),safeBlock=Math.max(0,block||0),blockMax=Math.max(maxHp,safeBlock);
@@ -199,7 +211,8 @@ function render(){
  const travel=$('.travel-map-scroll');if(travel){if(travelScroll&&travelScroll.key===travel.dataset.mapKey)travel.scrollTop=travelScroll.top;else focusTravelMap();}
  if(previousPhase&&s&&previousPhase!==s.phase)window.scrollTo(0,0);
  const surface=$('.layout')||$('.home');if(surface)surface.inert=!!modal;
- positionHandPreview();
+ previewRoot=$('.hand-preview');previewCards=new Map([...document.querySelectorAll('[data-preview-uid]')].map(el=>[Number(el.dataset.previewUid),el]));handCards=new Map([...document.querySelectorAll('.hand .card')].map(el=>[Number(el.dataset.uid),el]));
+ $('.layout')?.classList.toggle('has-hand-preview',inspectedCard!==null);positionHandPreview();
 }
 function focusTravelMap(){const el=$('.travel-map-scroll');if(el)el.scrollTop=Number(el.dataset.mapFocus)-el.clientHeight*.7;}
 function update(){save();render();}
@@ -232,7 +245,7 @@ async function battleAction(action,{label='',type='',enemyTurn=false,auto=false}
  return result;
 }
 document.addEventListener('click',async ev=>{
- const el=ev.target.closest('[data-action]');if(combatBusy)return;if(!el){if(!modal&&inspectedCard!==null&&!ev.target.closest('.hand,.hand-preview')){inspectedCard=null;render();}return;}if(el.disabled)return;
+ const el=ev.target.closest('[data-action]');if(combatBusy)return;if(!el){if(!modal&&inspectedCard!==null&&!ev.target.closest('.hand,.hand-preview')){closeHandPreview();}return;}if(el.disabled)return;
  const a=el.dataset.action,id=el.dataset.id,uid=Number(el.dataset.uid),key=Number(el.dataset.key);
  try{
  switch(a){
@@ -262,10 +275,10 @@ document.addEventListener('click',async ev=>{
   case 'map-locate':mapViewChapter=game.chapter;render();focusTravelMap();return;
   case 'take-treasure':game.chooseTreasure(id);break;
   case 'target':target=key;render();return;
-  case 'close-card-preview':inspectedCard=null;render();return;
+  case 'close-card-preview':closeHandPreview();return;
   case 'play':case 'play-inspected':{
    const c=game.s.b.hand.find(x=>x.uid===uid);if(!c)return;
-   if(a==='play'&&matchMedia('(max-width:900px)').matches){inspectedCard=inspectedCard===uid?null:uid;render();return;}
+   if(a==='play'&&matchMedia('(max-width:900px)').matches){if(inspectedCard===uid)closeHandPreview();else inspectHandCard(uid);return;}
    const why=game.reason(c);if(why){toast(why);return;}
    inspectedCard=null;render();const spec=game.selection(c);
    if(spec.kind&&spec.candidates.length){pending=uid;selected=[];modal={type:'select'};render();return;}

@@ -818,9 +818,50 @@ html{overscroll-behavior-x:none;touch-action:pan-x pan-y}
 }
 @media(prefers-reduced-motion:reduce){.hand .card{transition:none}}
 
-/* Scrubbing changes selection only; the full face leaves the fan accessible. */
-@media(max-width:900px){.hand,.hand .card{touch-action:none;-webkit-user-select:none;user-select:none}}
-@media(max-width:900px) and (min-height:600px){
- .hand-preview{top:auto;bottom:var(--scrub-preview-bottom,220px);transform:translateX(-50%)}
- .hand-preview>.card{zoom:var(--scrub-face-scale,1)}
+/* A compact inspection strip keeps opponents visible above the mobile fan. */
+@media(max-width:900px){
+ .hand,.hand .card{touch-action:none;-webkit-user-select:none;user-select:none}
+ .hand-preview.compact-preview{position:fixed;left:12px;right:12px;top:auto;bottom:var(--scrub-preview-bottom,220px);transform:none;width:auto;max-width:none;height:154px;min-height:154px;max-height:154px;padding:8px;display:block;overflow:hidden;box-shadow:0 4px 16px #0006;contain:layout paint}
+ .hand-preview[hidden],.hand-preview-card[hidden]{display:none!important}
+ .hand-preview-card{display:grid;grid-template-rows:24px minmax(0,1fr) 36px;gap:6px;height:100%;min-width:0}
+ .preview-card-title{display:flex;align-items:center;gap:7px;min-width:0;padding-right:30px}
+ .preview-card-title h3{font-size:14px;line-height:1.2;margin:0;min-width:0;flex:1;letter-spacing:0;white-space:nowrap}
+ .preview-card-title>small{font-size:9px;color:var(--gold);flex-shrink:0}
+ .preview-cost{width:22px;height:22px;border:1px solid #ad9970;border-radius:50%;display:grid;place-items:center;flex-shrink:0;font:15px/1 var(--serif);color:var(--gold)}
+ .preview-close{position:absolute;top:5px;right:5px;width:30px;height:30px;min-height:30px;padding:0;z-index:1;font-size:17px}
+ .preview-card-body{display:grid;grid-template-columns:72px minmax(0,1fr);gap:9px;min-height:0}
+ .preview-card-body img{display:block;width:72px;height:100%;min-height:0;object-fit:cover;border-radius:4px;border:1px solid #806e4350}
+ .preview-effect{font-size:13px;line-height:1.5;overflow:auto;overscroll-behavior:contain;scrollbar-width:thin;color:var(--ink);min-height:0;outline-offset:-2px}
+ .compact-preview .hand-preview-action{min-height:36px;height:36px;gap:8px}
+ .compact-preview .hand-preview-action>small{font-size:10px;line-height:1.3;min-width:0;max-height:30px;overflow:auto}
+ .compact-preview .hand-preview-action>button{height:36px;min-height:36px;min-width:104px;padding:5px 12px;font-size:14px;flex-shrink:0}
+ .hand .card{transition:transform .09s ease-out,border-color .09s;box-shadow:-2px 2px 5px #0005}
+ .hand .card.inspected{box-shadow:0 0 0 1px #f1ce80,0 3px 8px #0005}
+ .hand.scrubbing .card{transition:none;will-change:transform}
 }
+@media(max-width:359px){.preview-card-title h3{font-size:12px}.preview-card-title{gap:5px}.preview-card-body{grid-template-columns:60px minmax(0,1fr);gap:8px}.preview-card-body img{width:60px}}
+@media(max-width:900px) and (max-height:740px){
+ .layout.has-hand-preview[data-phase="battle"] .battlefield[data-enemies="3"] .enemy{height:62px;min-height:62px;grid-template-columns:44px minmax(0,1fr);grid-template-rows:14px 9px 22px;gap:2px 10px;padding:4px 10px}
+ .layout.has-hand-preview[data-phase="battle"] .battlefield[data-enemies="3"] .enemy .enemy-art{width:44px;height:44px}
+ .layout.has-hand-preview[data-phase="battle"] .battlefield[data-enemies="3"] .enemy h3{font-size:13px;line-height:14px;height:14px}
+ .layout.has-hand-preview[data-phase="battle"] .battlefield[data-enemies="3"] .enemy-faction{font-size:7px;line-height:9px;height:9px}
+ .layout.has-hand-preview[data-phase="battle"] .battlefield[data-enemies="3"] .enemy .combat-vitals{grid-template-rows:10px 10px;gap:2px}
+ .layout.has-hand-preview[data-phase="battle"] .battlefield[data-enemies="3"] .enemy .combat-vitals .health-bar,.layout.has-hand-preview[data-phase="battle"] .battlefield[data-enemies="3"] .enemy .combat-vitals .block-bar{height:10px}
+ .layout.has-hand-preview[data-phase="battle"] .battlefield[data-enemies="3"] .enemy .fighter-intent{top:4px}
+}
+@media(prefers-reduced-motion:reduce){.hand .card{transition:none}}
+/* On short portrait screens three opponents share one row while inspecting. */
+@media(max-width:900px) and (max-height:700px) and (min-height:561px){
+ .layout.has-hand-preview[data-phase="battle"] .battlefield[data-enemies="3"] .enemies{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;order:0;width:100%}
+ .layout.has-hand-preview[data-phase="battle"] .battlefield[data-enemies="3"] .enemy{height:132px;min-height:132px;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:13px 36px 14px 12px 22px;gap:3px;padding:6px 4px;align-content:center}
+ .layout.has-hand-preview[data-phase="battle"] .battlefield[data-enemies="3"] .enemy .fighter-intent{position:static;grid-column:1;grid-row:1;width:100%;max-width:100%;height:13px;min-height:0;text-align:center}
+ .layout.has-hand-preview[data-phase="battle"] .battlefield[data-enemies="3"] .enemy .intent{font-size:8px;line-height:13px;min-height:0;height:13px;overflow:hidden}
+ .layout.has-hand-preview[data-phase="battle"] .battlefield[data-enemies="3"] .enemy .enemy-art{grid-column:1;grid-row:2;width:36px;height:36px;justify-self:center}
+ .layout.has-hand-preview[data-phase="battle"] .battlefield[data-enemies="3"] .enemy h3{grid-column:1;grid-row:3;font-size:12px;line-height:14px;height:14px;text-align:center;max-width:100%}
+ .layout.has-hand-preview[data-phase="battle"] .battlefield[data-enemies="3"] .enemy .enemy-faction{display:none}
+ .layout.has-hand-preview[data-phase="battle"] .battlefield[data-enemies="3"] .enemy .status-row{grid-column:1;grid-row:4;max-width:100%;height:12px;justify-content:center;position:static;transform:none}
+ .layout.has-hand-preview[data-phase="battle"] .battlefield[data-enemies="3"] .enemy .status-chip{font-size:7px;padding:1px 2px}
+ .layout.has-hand-preview[data-phase="battle"] .battlefield[data-enemies="3"] .enemy .combat-vitals{grid-column:1;grid-row:5}
+ .layout.has-hand-preview[data-phase="battle"] .battlefield[data-enemies="3"] .enemy .target-marker{top:22px;left:4px;font-size:7px}
+}
+@media(max-width:900px) and (max-height:560px){.hand-preview.compact-preview{top:8px;bottom:auto;width:min(340px,calc(100vw - 24px));left:auto;right:12px}}
