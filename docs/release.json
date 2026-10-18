@@ -1,16 +1,16 @@
 {
-  "version": "0.12.4",
+  "version": "0.12.5",
   "entry": "index.html",
   "files": [
     {
       "path": "index.html",
       "bytes": 1166,
-      "sha256": "dc6469cb0dfc988363578754dcfceb964e774528ddb9617eea264d913a812cdc"
+      "sha256": "44e8b32376cff27d078b14966b9568a5144947c5eb333f93783d6d78bea71354"
     },
     {
       "path": "manifest.webmanifest",
       "bytes": 755,
-      "sha256": "0469f7ec69b8f24e45dc739514c5a44199d1cff5ef9f50ea009eda6d032a9ed9"
+      "sha256": "9f622d193183598b6f4775f8d5ecb785ce2e2701684fc500bca7651fa26033d3"
     },
     {
       "path": "assets/icons/icon.svg",
@@ -40,12 +40,12 @@
     {
       "path": "app.js",
       "bytes": 66223,
-      "sha256": "9c27d6fd4c9c5f129513f53a6b4bbd5357a5c9c6e16544d10989e08ebf132a4e"
+      "sha256": "025221f73e796ba4e6376ac6bed17a3aa8c9a959bc5884c166d5354c8810411d"
     },
     {
       "path": "data.js",
       "bytes": 16352,
-      "sha256": "0a06ffd8b04d7ee31b6b35dc513ff039e513ac738f5770dda863b0aa9865664b"
+      "sha256": "6c75f9d22bddc9b3efb0ce69907c1839894f4e5c40d96af4946e01c5c2109b59"
     },
     {
       "path": "journey.js",
@@ -65,17 +65,17 @@
     {
       "path": "relic-art.js",
       "bytes": 12406,
-      "sha256": "2bf6637e4974d9f37f1f2d3ca84bcbcd95c9a900ec6e64c1a677952cbce660fe"
+      "sha256": "b26445d6db7ec70a26bf1289c4c22bf19317a4a70cb649c9eee599c9c755982b"
     },
     {
       "path": "enemy-tactics.js",
       "bytes": 9241,
-      "sha256": "3cd7e80acea74dacbc83bb100eb4e5103cde6bdacaf5a3e2d17aaba3f7136486"
+      "sha256": "2fae91744c7f7d1387d7a162bf5c57730fee8e5962c9c96500ca19dbdfaa17da"
     },
     {
       "path": "engine.js",
       "bytes": 44588,
-      "sha256": "beccac6c94e26a32b9c8f693e2b6989966634c51e12ae173539179e50265fe9e"
+      "sha256": "459fe901bcc1dfb4cb8181ce0f4052e3dc6c1abcc77e4398e91bc564d0af3f2a"
     },
     {
       "path": "difficulty.js",
@@ -104,8 +104,8 @@
     },
     {
       "path": "style.css",
-      "bytes": 106447,
-      "sha256": "74e254cc3c0daac0599cc97b228abf97411d0d2f8f0af503962bb4523112502d"
+      "bytes": 107130,
+      "sha256": "4804731f1a0c1301842f9898ec681ed692e088221dee1f2b77dee646f03ee50a"
     },
     {
       "path": "assets/enemies/runtime/qingcheng.webp",
