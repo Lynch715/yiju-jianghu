@@ -1,16 +1,16 @@
 {
-  "version": "0.15.1",
+  "version": "0.15.2",
   "entry": "index.html",
   "files": [
     {
       "path": "index.html",
       "bytes": 1166,
-      "sha256": "0903c63f18bce85b46924c413c3d92804a732bbcc69f5c35ac1c10158f5fa954"
+      "sha256": "ac6cf46665bf996742d610c99f02776f6ea53459d15b907c76e59115a5b32c37"
     },
     {
       "path": "manifest.webmanifest",
       "bytes": 755,
-      "sha256": "d109c62dae1e7ee1013f419d4ebb85af225f2763631d92ae9e42c3c0b6120f8b"
+      "sha256": "50197235cd9d4a2102b53940eacde5b30b8e5174c9553921909df524129b5ca4"
     },
     {
       "path": "assets/icons/icon.svg",
@@ -39,13 +39,13 @@
     },
     {
       "path": "app.js",
-      "bytes": 81294,
-      "sha256": "c85d12dc7303f5cd5f07943f5482ac7a3fd815b7b925493efc677408cefa2a98"
+      "bytes": 81316,
+      "sha256": "94dba5eb74e711a3ebdd29b5999f58bfb4c40ae3dfff1f532c79e4dbf4d326f2"
     },
     {
       "path": "data.js",
       "bytes": 16352,
-      "sha256": "45ffd27544190cc73a4cfa44c6080f8c7876c8360c2a083ebebe5a71195dcb9f"
+      "sha256": "b0a3e695b0f6bde82b75494d9f815bb09d554a927af0c5b88f80ddad756857cf"
     },
     {
       "path": "journey.js",
@@ -65,32 +65,32 @@
     {
       "path": "relic-art.js",
       "bytes": 12406,
-      "sha256": "77092afc299bfd5b6ff64976fdfc71deecf5cfe9d6af9d90bbb6699bc94dff5e"
+      "sha256": "425956ae3ac7861a5a88bf44daad51f711a285ac448fb13b6417ae86f1beeeeb"
     },
     {
       "path": "enemy-tactics.js",
       "bytes": 9241,
-      "sha256": "2efadc8643282db050846f16620e261087a825f0f79af74007b663cabb4fbeae"
+      "sha256": "b3406dd3c1861b22675bf2010251a5ae0d54973d5905b2c9c669229017a36105"
     },
     {
       "path": "enemy-action.js",
-      "bytes": 1530,
-      "sha256": "d9f212963c812551edf65ad45435c06550560d3de226f9b4b832791272a4fd23"
+      "bytes": 2634,
+      "sha256": "ae894c97b4b01797f8302b07a16d98297d295aeca2dbc3033a9371d5d214f577"
     },
     {
       "path": "records.js",
       "bytes": 5697,
-      "sha256": "85495fdbf5cb53925d8e22b645ee608c374789752f804fcd5be3263140a352d6"
+      "sha256": "d8b5976a26a1b53f74b7b9784bafc4d257acdabe1a0b8045c13a5cc42c83d120"
     },
     {
       "path": "engine.js",
-      "bytes": 46707,
-      "sha256": "3c1d6a3c9dbe8a9fabb8629f065fc9435deb65e8a912d1cb41d624edbd1b8a8d"
+      "bytes": 46709,
+      "sha256": "42e976c6a0ede7570b3c59005f36d6b8a7324cf5b3986e8cdd1d68f988ad7ea2"
     },
     {
       "path": "card-preview.js",
       "bytes": 6488,
-      "sha256": "bda64d3a442b1b9f6d204d3baa12fe2856ee77dba2f77ad0f857412932f68489"
+      "sha256": "2ad29d89eb5061878b22e9561ff6b88dc7b3eaa69c3d04c876bed834120ce064"
     },
     {
       "path": "difficulty.js",
@@ -119,8 +119,8 @@
     },
     {
       "path": "style.css",
-      "bytes": 118759,
-      "sha256": "fcea0ad8031e04caee5663d61fcbd0c5d2ac570a4ae5e4173494b3027c111c5d"
+      "bytes": 118800,
+      "sha256": "4f1cb64791c205633181c1e5eec32a50115368d3a066e8fae3292c24eab07c35"
     },
     {
       "path": "assets/enemies/runtime/qingcheng.webp",
