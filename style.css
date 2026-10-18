@@ -804,3 +804,15 @@ html{overscroll-behavior-x:none;touch-action:pan-x pan-y}
 @media(max-height:560px){.collection-card-detail>.card{zoom:.75}}
 @media(max-height:430px){.collection-card-detail>.card{zoom:.6}}
 @media(max-height:350px){.collection-card-detail>.card{zoom:.5}}
+
+/* Fan the same illustrated cards within the existing mobile hand dock. */
+@media(max-width:900px){
+ .hand{--fan-width:clamp(78px,23vw,108px);position:relative;display:block;isolation:isolate;overflow:visible;padding:0;touch-action:manipulation}
+ .hand .card{position:absolute;left:calc(50% + (100% - var(--fan-width) - 58px)*var(--fan-position)/2);top:9px;width:var(--fan-width);min-width:var(--fan-width);max-width:var(--fan-width);height:calc(var(--hand-card-height) - 20px);min-height:0;max-height:none;padding:4px;transform-origin:50% 100%;transform:translateX(-50%) translateY(var(--fan-drop)) rotate(var(--fan-angle));z-index:var(--fan-order);box-shadow:-3px 2px 8px #0005;border:1px solid #746d52;transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease}
+ .hand .card .folded-name,.hand[data-count] .card .folded-name{font-size:12px;line-height:14px;height:29px;min-height:29px;max-height:29px;flex-basis:29px;text-shadow:none}
+ .hand .card.inspected,.hand .card:focus-visible{transform:translateX(-50%) translateY(calc(var(--fan-drop) - 18px)) rotate(0deg);z-index:30;border-color:#f1ce80;box-shadow:0 0 0 1px #f1ce80,0 6px 18px #0007;outline-offset:2px}
+ .hand .card:hover:not(:disabled){transform:translateX(-50%) translateY(calc(var(--fan-drop) - 6px)) rotate(var(--fan-angle))}
+ .hand .card.inspected:hover:not(:disabled){transform:translateX(-50%) translateY(calc(var(--fan-drop) - 18px)) rotate(0deg)}
+ .hand .empty{position:absolute;inset:0}
+}
+@media(prefers-reduced-motion:reduce){.hand .card{transition:none}}
