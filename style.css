@@ -963,3 +963,7 @@ html{overscroll-behavior-x:none;touch-action:pan-x pan-y}
  .layout.has-hand-preview[data-phase="battle"] .battlefield[data-enemies="3"] .enemy .status-chip{line-height:8px;padding:0 1px}
 }
 .selection-live-preview{font-size:13px;line-height:1.8;color:#e0cb94;padding:12px;border:1px solid #a98c4f66;border-radius:7px;background:#b39a5910}
+
+/* Values compare with the same card's base effect, including its current refinement. */
+.card-value.higher{color:#8bd5a0;font-weight:700}.card-value.lower{color:#ff9890;font-weight:700}
+.card .card-value.higher{color:#246b3e}.card .card-value.lower{color:#a82e26}

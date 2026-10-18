@@ -1,17 +1,17 @@
-import {describeCombatCard} from './card-preview.js?v=0.15.0';
-import {enemyActionView} from './enemy-action.js?v=0.15.0';
-import {readRecords,storeRecords,mergeRecords,parseRecords,serializeRecords,clearRecordForState,recordGroup,eliteCount,deckSize,refinedCount,rankRecords,PlayClock} from './records.js?v=0.15.0';
-import {validJourney} from './journey.js?v=0.15.0';
-import {travelMark,travelTerrain} from './map-art.js?v=0.15.0';
-import {relicIcon} from './relic-art.js?v=0.15.0';
-import {cardArtwork} from './card-art.js?v=0.15.0';
-import {captureCombatAction,playCombatSteps,combatStepFeedback} from './combat-ui.js?v=0.15.0';
-import {HandScrub} from './hand-gesture.js?v=0.15.0';
-import {PLAYERS,PLAYER,validPlayer,validCharacterDraft,playerNameError,cleanPlayerName} from './players.js?v=0.15.0';
-import {ENEMIES,ENEMY,ENEMY_RANK} from './enemies.js?v=0.15.0';
-import {DIFFICULTY,combatDefinition} from './difficulty.js?v=0.15.0';
-import {CARDS,CARD,RELICS,RELIC,CHAPTERS,ROUTES,NODE_NAMES,TYPE,RARITY,describe,GAME_VERSION,OPENING_BOONS} from './data.js?v=0.15.0';
-import {Game,SAVE_VERSION,validOpening} from './engine.js?v=0.15.0';
+import {describeCombatCardHTML} from './card-preview.js?v=0.15.1';
+import {enemyActionView} from './enemy-action.js?v=0.15.1';
+import {readRecords,storeRecords,mergeRecords,parseRecords,serializeRecords,clearRecordForState,recordGroup,eliteCount,deckSize,refinedCount,rankRecords,PlayClock} from './records.js?v=0.15.1';
+import {validJourney} from './journey.js?v=0.15.1';
+import {travelMark,travelTerrain} from './map-art.js?v=0.15.1';
+import {relicIcon} from './relic-art.js?v=0.15.1';
+import {cardArtwork} from './card-art.js?v=0.15.1';
+import {captureCombatAction,playCombatSteps,combatStepFeedback} from './combat-ui.js?v=0.15.1';
+import {HandScrub} from './hand-gesture.js?v=0.15.1';
+import {PLAYERS,PLAYER,validPlayer,validCharacterDraft,playerNameError,cleanPlayerName} from './players.js?v=0.15.1';
+import {ENEMIES,ENEMY,ENEMY_RANK} from './enemies.js?v=0.15.1';
+import {DIFFICULTY,combatDefinition} from './difficulty.js?v=0.15.1';
+import {CARDS,CARD,RELICS,RELIC,CHAPTERS,ROUTES,NODE_NAMES,TYPE,RARITY,describe,GAME_VERSION,OPENING_BOONS} from './data.js?v=0.15.1';
+import {Game,SAVE_VERSION,validOpening} from './engine.js?v=0.15.1';
 document.title=`一局一江湖 · v${GAME_VERSION}`;
 // Block multi-touch zoom without cancelling ordinary one-finger scrolling.
 for(const type of ['touchstart','touchmove'])document.addEventListener(type,e=>{if(e.touches.length>1&&e.cancelable)e.preventDefault();},{passive:false});
@@ -121,8 +121,8 @@ function characterPage(){
 }
 function combatCardDescription(c,{selections=[],selectionKnown=false}={}){
  const key=`${c.uid}:${!!c.up}:${target}:${selectionKnown}:${selections.join(',')}`;
- if(!combatDescriptionCache.has(key))combatDescriptionCache.set(key,describeCombatCard(game,c,target,{selections,selectionKnown}));
- return escapeHTML(combatDescriptionCache.get(key));
+ if(!combatDescriptionCache.has(key))combatDescriptionCache.set(key,describeCombatCardHTML(game,c,target,{selections,selectionKnown}));
+ return combatDescriptionCache.get(key);
 }
 function cardHTML(c,{action='',uid=null,read=false,battle=false,choice=false,compact=false,handIndex=null}={}){
  const d=CARD[c.id],rar=d.rarity,art=cardArtwork(c.id);let cost=Array.isArray(d.cost)?d.cost[c.up?1:0]:d.cost;if(battle)cost=d.cost==='X'?'X':game.cost(c);if(cost===99)cost='—';

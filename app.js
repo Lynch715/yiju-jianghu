@@ -1,4 +1,4 @@
-import {describeCombatCard} from './card-preview.js';
+import {describeCombatCardHTML} from './card-preview.js';
 import {enemyActionView} from './enemy-action.js';
 import {readRecords,storeRecords,mergeRecords,parseRecords,serializeRecords,clearRecordForState,recordGroup,eliteCount,deckSize,refinedCount,rankRecords,PlayClock} from './records.js';
 import {validJourney} from './journey.js';
@@ -121,8 +121,8 @@ function characterPage(){
 }
 function combatCardDescription(c,{selections=[],selectionKnown=false}={}){
  const key=`${c.uid}:${!!c.up}:${target}:${selectionKnown}:${selections.join(',')}`;
- if(!combatDescriptionCache.has(key))combatDescriptionCache.set(key,describeCombatCard(game,c,target,{selections,selectionKnown}));
- return escapeHTML(combatDescriptionCache.get(key));
+ if(!combatDescriptionCache.has(key))combatDescriptionCache.set(key,describeCombatCardHTML(game,c,target,{selections,selectionKnown}));
+ return combatDescriptionCache.get(key);
 }
 function cardHTML(c,{action='',uid=null,read=false,battle=false,choice=false,compact=false,handIndex=null}={}){
  const d=CARD[c.id],rar=d.rarity,art=cardArtwork(c.id);let cost=Array.isArray(d.cost)?d.cost[c.up?1:0]:d.cost;if(battle)cost=d.cost==='X'?'X':game.cost(c);if(cost===99)cost='—';
