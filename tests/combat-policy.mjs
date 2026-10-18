@@ -24,7 +24,10 @@ export function exploreTurn(g){
      const remainingAttacks=[...nb.hand,...nb.draw,...nb.discard].filter(x=>CARD[x.id].type==='a').length;
      for(const used of nb.exhaust.slice(b.exhaust.length)){
       const kind=CARD[used.id].type;if(kind==='a'&&remainingAttacks<2)value-=60;
-      if(kind==='p'&&!(used.id==='W22'&&g.power('W22')!==null))value-=g.power(used.id)===null?25:10;
+      // Do not mistake a large, nonlethal exhaust burst for a sustainable win.
+      // This uses only the cards just consumed and the visible surviving foes.
+      if(remainingAttacks===0&&nb.enemies.some(e=>e.hp>0))value-=1000;
+      if(kind==='p'&&!(used.id==='W22'&&g.power('W22')!==null))value-=g.power(used.id)===null?150:10;
      }
     }
 for(const uid of selected)if(['status','curse'].includes(CARD[b.hand.find(x=>x.uid===uid).id].type))value+=3;

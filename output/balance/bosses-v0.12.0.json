@@ -1,0 +1,731 @@
+{
+  "version": "0.12.0",
+  "note": "Conditional fully refined decks, active powers are NOT preinstalled. Every fight includes shuffled startup, finite exhaust fuel, and actual HP costs. Both policies are blind to future intents. Combo/exhaust include supporting strength growth; fixed-damage resource engines alone are not equivalent to a complete scaling deck. Net HP costs include victory recovery and lost attempts. Outcomes are automated strategy samples, not human win rates or acquisition odds.",
+  "profiles": {
+    "strength": {
+      "ids": [
+        "W01",
+        "U01",
+        "U01",
+        "U02",
+        "W13",
+        "W12",
+        "W07",
+        "W08",
+        "W17",
+        "W19",
+        "W21",
+        "W11"
+      ],
+      "relics": [
+        "R13",
+        "R20"
+      ]
+    },
+    "guard": {
+      "ids": [
+        "W01",
+        "U01",
+        "U01",
+        "U02",
+        "W22",
+        "W29",
+        "W28",
+        "W19",
+        "W23",
+        "W24",
+        "W27",
+        "W21"
+      ],
+      "relics": [
+        "R06",
+        "R12"
+      ]
+    },
+    "blood": {
+      "ids": [
+        "W01",
+        "U01",
+        "U01",
+        "U02",
+        "W48",
+        "W51",
+        "W43",
+        "W44",
+        "W47",
+        "W49",
+        "W13",
+        "W19",
+        "W21",
+        "W17"
+      ],
+      "relics": [
+        "R07",
+        "R08"
+      ]
+    },
+    "exhaust": {
+      "ids": [
+        "W01",
+        "W01",
+        "U01",
+        "U01",
+        "U02",
+        "W36",
+        "W37",
+        "W38",
+        "W35",
+        "W31",
+        "W32",
+        "W33",
+        "W41",
+        "W21",
+        "W13",
+        "W08",
+        "W54",
+        "U04",
+        "W56",
+        "W40",
+        "W12"
+      ],
+      "relics": [
+        "R17",
+        "R09"
+      ]
+    },
+    "combo": {
+      "ids": [
+        "W01",
+        "U01",
+        "U02",
+        "W28",
+        "W58",
+        "W58",
+        "W55",
+        "W55",
+        "W53",
+        "W53",
+        "W57",
+        "W04",
+        "U12",
+        "W21",
+        "W13",
+        "W12"
+      ],
+      "relics": [
+        "R03",
+        "R16"
+      ]
+    }
+  },
+  "results": [
+    {
+      "revision": "baseline",
+      "policy": "simple",
+      "chapter": 1,
+      "profile": "strength",
+      "wins": 96,
+      "runs": 100,
+      "meanTurns": 7.95,
+      "meanNetHpCost": 45.07
+    },
+    {
+      "revision": "baseline",
+      "policy": "simple",
+      "chapter": 1,
+      "profile": "guard",
+      "wins": 100,
+      "runs": 100,
+      "meanTurns": 6.03,
+      "meanNetHpCost": 4.99
+    },
+    {
+      "revision": "baseline",
+      "policy": "simple",
+      "chapter": 1,
+      "profile": "blood",
+      "wins": 95,
+      "runs": 100,
+      "meanTurns": 9.65,
+      "meanNetHpCost": 41.96
+    },
+    {
+      "revision": "baseline",
+      "policy": "simple",
+      "chapter": 1,
+      "profile": "exhaust",
+      "wins": 74,
+      "runs": 100,
+      "meanTurns": 4.76,
+      "meanNetHpCost": 29.47
+    },
+    {
+      "revision": "baseline",
+      "policy": "simple",
+      "chapter": 1,
+      "profile": "combo",
+      "wins": 100,
+      "runs": 100,
+      "meanTurns": 4.85,
+      "meanNetHpCost": 18.12
+    },
+    {
+      "revision": "baseline",
+      "policy": "simple",
+      "chapter": 2,
+      "profile": "strength",
+      "wins": 35,
+      "runs": 100,
+      "meanTurns": 9.61,
+      "meanNetHpCost": 74.15
+    },
+    {
+      "revision": "baseline",
+      "policy": "simple",
+      "chapter": 2,
+      "profile": "guard",
+      "wins": 100,
+      "runs": 100,
+      "meanTurns": 9.43,
+      "meanNetHpCost": 30.54
+    },
+    {
+      "revision": "baseline",
+      "policy": "simple",
+      "chapter": 2,
+      "profile": "blood",
+      "wins": 36,
+      "runs": 100,
+      "meanTurns": 11.56,
+      "meanNetHpCost": 69.18
+    },
+    {
+      "revision": "baseline",
+      "policy": "simple",
+      "chapter": 2,
+      "profile": "exhaust",
+      "wins": 34,
+      "runs": 100,
+      "meanTurns": 7.14,
+      "meanNetHpCost": 65.58
+    },
+    {
+      "revision": "baseline",
+      "policy": "simple",
+      "chapter": 2,
+      "profile": "combo",
+      "wins": 100,
+      "runs": 100,
+      "meanTurns": 7.12,
+      "meanNetHpCost": 28.92
+    },
+    {
+      "revision": "baseline",
+      "policy": "simple",
+      "chapter": 3,
+      "profile": "strength",
+      "wins": 70,
+      "runs": 100,
+      "meanTurns": 8.98,
+      "meanNetHpCost": 60.75
+    },
+    {
+      "revision": "baseline",
+      "policy": "simple",
+      "chapter": 3,
+      "profile": "guard",
+      "wins": 100,
+      "runs": 100,
+      "meanTurns": 7.44,
+      "meanNetHpCost": 5.35
+    },
+    {
+      "revision": "baseline",
+      "policy": "simple",
+      "chapter": 3,
+      "profile": "blood",
+      "wins": 76,
+      "runs": 100,
+      "meanTurns": 10.46,
+      "meanNetHpCost": 52.85
+    },
+    {
+      "revision": "baseline",
+      "policy": "simple",
+      "chapter": 3,
+      "profile": "exhaust",
+      "wins": 24,
+      "runs": 100,
+      "meanTurns": 5.83,
+      "meanNetHpCost": 70.49
+    },
+    {
+      "revision": "baseline",
+      "policy": "simple",
+      "chapter": 3,
+      "profile": "combo",
+      "wins": 100,
+      "runs": 100,
+      "meanTurns": 6.31,
+      "meanNetHpCost": 24.2
+    },
+    {
+      "revision": "baseline",
+      "policy": "observed",
+      "chapter": 1,
+      "profile": "strength",
+      "wins": 100,
+      "runs": 100,
+      "meanTurns": 5.9,
+      "meanNetHpCost": 30.93
+    },
+    {
+      "revision": "baseline",
+      "policy": "observed",
+      "chapter": 1,
+      "profile": "guard",
+      "wins": 100,
+      "runs": 100,
+      "meanTurns": 6.08,
+      "meanNetHpCost": 7.71
+    },
+    {
+      "revision": "baseline",
+      "policy": "observed",
+      "chapter": 1,
+      "profile": "blood",
+      "wins": 99,
+      "runs": 100,
+      "meanTurns": 5.78,
+      "meanNetHpCost": 27.6
+    },
+    {
+      "revision": "baseline",
+      "policy": "observed",
+      "chapter": 1,
+      "profile": "exhaust",
+      "wins": 100,
+      "runs": 100,
+      "meanTurns": 3.17,
+      "meanNetHpCost": 7.44
+    },
+    {
+      "revision": "baseline",
+      "policy": "observed",
+      "chapter": 1,
+      "profile": "combo",
+      "wins": 100,
+      "runs": 100,
+      "meanTurns": 5.05,
+      "meanNetHpCost": 14.11
+    },
+    {
+      "revision": "baseline",
+      "policy": "observed",
+      "chapter": 2,
+      "profile": "strength",
+      "wins": 25,
+      "runs": 100,
+      "meanTurns": 9.97,
+      "meanNetHpCost": 76.35
+    },
+    {
+      "revision": "baseline",
+      "policy": "observed",
+      "chapter": 2,
+      "profile": "guard",
+      "wins": 100,
+      "runs": 100,
+      "meanTurns": 7.8,
+      "meanNetHpCost": 24.63
+    },
+    {
+      "revision": "baseline",
+      "policy": "observed",
+      "chapter": 2,
+      "profile": "blood",
+      "wins": 80,
+      "runs": 100,
+      "meanTurns": 8.9,
+      "meanNetHpCost": 54.78
+    },
+    {
+      "revision": "baseline",
+      "policy": "observed",
+      "chapter": 2,
+      "profile": "exhaust",
+      "wins": 85,
+      "runs": 100,
+      "meanTurns": 6.73,
+      "meanNetHpCost": 49.14
+    },
+    {
+      "revision": "baseline",
+      "policy": "observed",
+      "chapter": 2,
+      "profile": "combo",
+      "wins": 88,
+      "runs": 100,
+      "meanTurns": 7.33,
+      "meanNetHpCost": 50.15
+    },
+    {
+      "revision": "baseline",
+      "policy": "observed",
+      "chapter": 3,
+      "profile": "strength",
+      "wins": 19,
+      "runs": 100,
+      "meanTurns": 8.27,
+      "meanNetHpCost": 75.52
+    },
+    {
+      "revision": "baseline",
+      "policy": "observed",
+      "chapter": 3,
+      "profile": "guard",
+      "wins": 100,
+      "runs": 100,
+      "meanTurns": 7.55,
+      "meanNetHpCost": 5.66
+    },
+    {
+      "revision": "baseline",
+      "policy": "observed",
+      "chapter": 3,
+      "profile": "blood",
+      "wins": 90,
+      "runs": 100,
+      "meanTurns": 8.58,
+      "meanNetHpCost": 47.02
+    },
+    {
+      "revision": "baseline",
+      "policy": "observed",
+      "chapter": 3,
+      "profile": "exhaust",
+      "wins": 9,
+      "runs": 100,
+      "meanTurns": 5.99,
+      "meanNetHpCost": 76.44
+    },
+    {
+      "revision": "baseline",
+      "policy": "observed",
+      "chapter": 3,
+      "profile": "combo",
+      "wins": 85,
+      "runs": 100,
+      "meanTurns": 8.2,
+      "meanNetHpCost": 46.49
+    },
+    {
+      "revision": "current",
+      "policy": "simple",
+      "chapter": 1,
+      "profile": "strength",
+      "wins": 87,
+      "runs": 100,
+      "meanTurns": 8.75,
+      "meanNetHpCost": 51.37
+    },
+    {
+      "revision": "current",
+      "policy": "simple",
+      "chapter": 1,
+      "profile": "guard",
+      "wins": 100,
+      "runs": 100,
+      "meanTurns": 6.12,
+      "meanNetHpCost": 4.99
+    },
+    {
+      "revision": "current",
+      "policy": "simple",
+      "chapter": 1,
+      "profile": "blood",
+      "wins": 76,
+      "runs": 100,
+      "meanTurns": 10.71,
+      "meanNetHpCost": 51.41
+    },
+    {
+      "revision": "current",
+      "policy": "simple",
+      "chapter": 1,
+      "profile": "exhaust",
+      "wins": 67,
+      "runs": 100,
+      "meanTurns": 5.01,
+      "meanNetHpCost": 34.39
+    },
+    {
+      "revision": "current",
+      "policy": "simple",
+      "chapter": 1,
+      "profile": "combo",
+      "wins": 100,
+      "runs": 100,
+      "meanTurns": 5,
+      "meanNetHpCost": 19.01
+    },
+    {
+      "revision": "current",
+      "policy": "simple",
+      "chapter": 2,
+      "profile": "strength",
+      "wins": 36,
+      "runs": 100,
+      "meanTurns": 9.93,
+      "meanNetHpCost": 72.94
+    },
+    {
+      "revision": "current",
+      "policy": "simple",
+      "chapter": 2,
+      "profile": "guard",
+      "wins": 100,
+      "runs": 100,
+      "meanTurns": 9.93,
+      "meanNetHpCost": 20.76
+    },
+    {
+      "revision": "current",
+      "policy": "simple",
+      "chapter": 2,
+      "profile": "blood",
+      "wins": 29,
+      "runs": 100,
+      "meanTurns": 12.28,
+      "meanNetHpCost": 72.32
+    },
+    {
+      "revision": "current",
+      "policy": "simple",
+      "chapter": 2,
+      "profile": "exhaust",
+      "wins": 38,
+      "runs": 100,
+      "meanTurns": 6.61,
+      "meanNetHpCost": 62.46
+    },
+    {
+      "revision": "current",
+      "policy": "simple",
+      "chapter": 2,
+      "profile": "combo",
+      "wins": 100,
+      "runs": 100,
+      "meanTurns": 6.76,
+      "meanNetHpCost": 24.88
+    },
+    {
+      "revision": "current",
+      "policy": "simple",
+      "chapter": 3,
+      "profile": "strength",
+      "wins": 66,
+      "runs": 100,
+      "meanTurns": 9.36,
+      "meanNetHpCost": 62.56
+    },
+    {
+      "revision": "current",
+      "policy": "simple",
+      "chapter": 3,
+      "profile": "guard",
+      "wins": 100,
+      "runs": 100,
+      "meanTurns": 7.71,
+      "meanNetHpCost": 5.62
+    },
+    {
+      "revision": "current",
+      "policy": "simple",
+      "chapter": 3,
+      "profile": "blood",
+      "wins": 70,
+      "runs": 100,
+      "meanTurns": 11.11,
+      "meanNetHpCost": 56.31
+    },
+    {
+      "revision": "current",
+      "policy": "simple",
+      "chapter": 3,
+      "profile": "exhaust",
+      "wins": 16,
+      "runs": 100,
+      "meanTurns": 6.07,
+      "meanNetHpCost": 73.6
+    },
+    {
+      "revision": "current",
+      "policy": "simple",
+      "chapter": 3,
+      "profile": "combo",
+      "wins": 99,
+      "runs": 100,
+      "meanTurns": 6.62,
+      "meanNetHpCost": 26.7
+    },
+    {
+      "revision": "current",
+      "policy": "observed",
+      "chapter": 1,
+      "profile": "strength",
+      "wins": 100,
+      "runs": 100,
+      "meanTurns": 6.33,
+      "meanNetHpCost": 35.33
+    },
+    {
+      "revision": "current",
+      "policy": "observed",
+      "chapter": 1,
+      "profile": "guard",
+      "wins": 100,
+      "runs": 100,
+      "meanTurns": 6.32,
+      "meanNetHpCost": 7.8
+    },
+    {
+      "revision": "current",
+      "policy": "observed",
+      "chapter": 1,
+      "profile": "blood",
+      "wins": 100,
+      "runs": 100,
+      "meanTurns": 5.98,
+      "meanNetHpCost": 27.49
+    },
+    {
+      "revision": "current",
+      "policy": "observed",
+      "chapter": 1,
+      "profile": "exhaust",
+      "wins": 100,
+      "runs": 100,
+      "meanTurns": 3.34,
+      "meanNetHpCost": 8.4
+    },
+    {
+      "revision": "current",
+      "policy": "observed",
+      "chapter": 1,
+      "profile": "combo",
+      "wins": 100,
+      "runs": 100,
+      "meanTurns": 5.31,
+      "meanNetHpCost": 14.55
+    },
+    {
+      "revision": "current",
+      "policy": "observed",
+      "chapter": 2,
+      "profile": "strength",
+      "wins": 15,
+      "runs": 100,
+      "meanTurns": 10.06,
+      "meanNetHpCost": 77.59
+    },
+    {
+      "revision": "current",
+      "policy": "observed",
+      "chapter": 2,
+      "profile": "guard",
+      "wins": 100,
+      "runs": 100,
+      "meanTurns": 8.54,
+      "meanNetHpCost": 15.13
+    },
+    {
+      "revision": "current",
+      "policy": "observed",
+      "chapter": 2,
+      "profile": "blood",
+      "wins": 88,
+      "runs": 100,
+      "meanTurns": 9.12,
+      "meanNetHpCost": 48.51
+    },
+    {
+      "revision": "current",
+      "policy": "observed",
+      "chapter": 2,
+      "profile": "exhaust",
+      "wins": 85,
+      "runs": 100,
+      "meanTurns": 6.34,
+      "meanNetHpCost": 44.12
+    },
+    {
+      "revision": "current",
+      "policy": "observed",
+      "chapter": 2,
+      "profile": "combo",
+      "wins": 97,
+      "runs": 100,
+      "meanTurns": 8.03,
+      "meanNetHpCost": 28.2
+    },
+    {
+      "revision": "current",
+      "policy": "observed",
+      "chapter": 3,
+      "profile": "strength",
+      "wins": 17,
+      "runs": 100,
+      "meanTurns": 8.45,
+      "meanNetHpCost": 75.54
+    },
+    {
+      "revision": "current",
+      "policy": "observed",
+      "chapter": 3,
+      "profile": "guard",
+      "wins": 100,
+      "runs": 100,
+      "meanTurns": 7.77,
+      "meanNetHpCost": 5.9
+    },
+    {
+      "revision": "current",
+      "policy": "observed",
+      "chapter": 3,
+      "profile": "blood",
+      "wins": 87,
+      "runs": 100,
+      "meanTurns": 9.03,
+      "meanNetHpCost": 50.4
+    },
+    {
+      "revision": "current",
+      "policy": "observed",
+      "chapter": 3,
+      "profile": "exhaust",
+      "wins": 7,
+      "runs": 100,
+      "meanTurns": 6.27,
+      "meanNetHpCost": 78.15
+    },
+    {
+      "revision": "current",
+      "policy": "observed",
+      "chapter": 3,
+      "profile": "combo",
+      "wins": 82,
+      "runs": 100,
+      "meanTurns": 8.37,
+      "meanNetHpCost": 45.28
+    }
+  ],
+  "sourceHashes": {
+    "enemy-tactics.js": "9cec65ba3e22416e8070aa54b9da6e194d1f2507c67da324a7acf80f54427e3e",
+    "engine.js": "537c52904caaa51ae7dba4ff815e2a422e8eda66c4a12229718d623fdde970c9",
+    "difficulty.js": "c93bf7b733d7e4e38042c5582ea80a1cd7765a26ba17edd8abb3db41a42452e5",
+    "data.js": "deeeb08ad05bd074cb393cb717594b1b4cc0f967813b652fce475adb47f30852",
+    "tests/combat-policy.mjs": "aee9da7aec80a1285cc8ec7e73dac10d871253c00442cb8390447f401bf34930",
+    "tests/playthrough.mjs": "d9fe4bb1a0192766be869e2831200ff0b6f8f6eac32e83ee0e0f9cf890e01fc5"
+  }
+}

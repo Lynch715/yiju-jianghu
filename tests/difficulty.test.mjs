@@ -20,7 +20,7 @@ test('ordinary encounters and elites grow across chapters, with meaningful group
 test('three bosses have distinct half-health transitions, actual effects and persistent growing pressure',()=>{
  for(let ch=0;ch<3;ch++){
   const g=fight(ch),b=g.s.b,e=b.enemies[0],d=combatDefinition(ENEMY[e.id],DIFFICULTY);
-  assert.equal(e.maxHp,[145,280,480][ch]);assert.ok(d.enragedMoves);e.hp=Math.floor(e.maxHp/2);e.charge=8;g.refreshEnemyPhases();assert.equal(e.enraged,true);assert.equal(e.round,0);assert.equal(e.charge,0);for(const [key,value] of Object.entries(d.enragedMoves[0]))assert.equal(e.intent[key],value);
+  assert.equal(e.maxHp,[155,300,500][ch]);assert.ok(d.enragedMoves);e.hp=Math.floor(e.maxHp/2);e.charge=8;g.refreshEnemyPhases();assert.equal(e.enraged,true);assert.equal(e.round,0);assert.equal(e.charge,0);for(const [key,value] of Object.entries(d.enragedMoves[0]))assert.equal(e.intent[key],value);
   g.s.hp=g.s.maxHp=2000;g.s.relics=[];b.enemies.slice(1).forEach(x=>x.hp=0);b.turn=4;b.hand=[];b.draw=[];b.discard=[];const str=e.str;g.endTurn();assert.equal(e.str,str+(d.enragedMoves[0].str||0)+1);assert.ok(b.log.some(x=>x.includes('久战蓄劲')));
   const saved=new Game(g.s);assert.equal(saved.s.b.enemies[0].enraged,true);assert.deepEqual(saved.s.b.enemies[0].intent,e.intent);
  }
@@ -30,9 +30,9 @@ test('all stronger boss attacks execute exactly the preview, including weakness,
   const d=combatDefinition(ENEMY[['yucanghai','dingchunqiu','ouyangfeng'][ch]],DIFFICULTY);
   for(const [round,move] of (enraged?d.enragedMoves:d.moves).entries()){
    const g=fight(ch),b=g.s.b,e=b.enemies[0];b.enemies=[e];g.s.relics=[];g.s.hp=g.s.maxHp=5000;b.hand=[];b.draw=[];b.discard=[];e.enraged=enraged;e.round=round;e.str=2;e.weak=1;e.charge=3;e.intent=g.enemyIntent(e);
-   const predicted=Array.from({length:move.damage?(move.hits||1):0},(_,i)=>g.previewEnemy(e,i)).reduce((a,v)=>a+v,0);
+   const predicted=Array.from({length:e.intent.damage?(e.intent.hits||1):0},(_,i)=>g.previewEnemy(e,i)).reduce((a,v)=>a+v,0),executed={...e.intent};
    g.endTurn();assert.equal(5000-g.s.hp,predicted+(move.poison||0),`${e.id}/${move.label}`);
-   assert.equal(b.qi,Math.max(0,g.qiMax-(move.chill||0)));assert.equal(e.block,move.block||0);
+   assert.equal(b.qi,Math.max(0,g.qiMax-(move.chill||0)));assert.equal(e.block,executed.block||0);
   }
  }
 });
