@@ -903,3 +903,16 @@ html{overscroll-behavior-x:none;touch-action:pan-x pan-y}
  .topbar .stats .top-stat small{font-size:8px}
 }
 @media(max-width:359px){.topbar .stats .top-stat{padding-inline:3px}.topbar .stats .top-stat strong{font-size:13px}}
+
+/* Match the three quick actions in size, rhythm, and vertical alignment. */
+.topbar .top-actions{align-items:center;gap:8px}
+.topbar .top-actions>.small{display:inline-flex;align-items:center;justify-content:center;width:76px;height:38px;min-height:38px;padding:0 6px;border-radius:7px;font-size:12px;line-height:1;white-space:nowrap;flex:0 0 auto}
+@media(max-width:900px){
+ .topbar .top-actions{display:grid;grid-template-columns:repeat(3,46px);gap:6px;align-items:center;justify-content:end;flex:0 0 auto}
+ .topbar .top-actions>.small{width:46px;height:36px;min-height:36px;padding:0 3px;font-size:10px}
+ .topbar .top-actions>.desktop-only,.topbar .top-actions>.build-badge{display:none}
+}
+@media(max-width:359px){
+ .topbar .top-actions{grid-template-columns:repeat(3,44px);gap:5px}
+ .topbar .top-actions>.small{width:44px}
+}

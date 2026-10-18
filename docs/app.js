@@ -1,14 +1,14 @@
-import {validJourney} from './journey.js?v=0.12.6';
-import {travelMark,travelTerrain} from './map-art.js?v=0.12.6';
-import {relicIcon} from './relic-art.js?v=0.12.6';
-import {cardArtwork} from './card-art.js?v=0.12.6';
-import {combatSnapshot,combatFeedback} from './combat-ui.js?v=0.12.6';
-import {HandScrub} from './hand-gesture.js?v=0.12.6';
-import {PLAYERS,PLAYER,validPlayer,validCharacterDraft,playerNameError,cleanPlayerName} from './players.js?v=0.12.6';
-import {ENEMIES,ENEMY,ENEMY_RANK} from './enemies.js?v=0.12.6';
-import {DIFFICULTY,combatDefinition} from './difficulty.js?v=0.12.6';
-import {CARDS,CARD,RELICS,RELIC,CHAPTERS,ROUTES,NODE_NAMES,TYPE,RARITY,describe,GAME_VERSION,OPENING_BOONS} from './data.js?v=0.12.6';
-import {Game,SAVE_VERSION,validOpening} from './engine.js?v=0.12.6';
+import {validJourney} from './journey.js?v=0.12.7';
+import {travelMark,travelTerrain} from './map-art.js?v=0.12.7';
+import {relicIcon} from './relic-art.js?v=0.12.7';
+import {cardArtwork} from './card-art.js?v=0.12.7';
+import {combatSnapshot,combatFeedback} from './combat-ui.js?v=0.12.7';
+import {HandScrub} from './hand-gesture.js?v=0.12.7';
+import {PLAYERS,PLAYER,validPlayer,validCharacterDraft,playerNameError,cleanPlayerName} from './players.js?v=0.12.7';
+import {ENEMIES,ENEMY,ENEMY_RANK} from './enemies.js?v=0.12.7';
+import {DIFFICULTY,combatDefinition} from './difficulty.js?v=0.12.7';
+import {CARDS,CARD,RELICS,RELIC,CHAPTERS,ROUTES,NODE_NAMES,TYPE,RARITY,describe,GAME_VERSION,OPENING_BOONS} from './data.js?v=0.12.7';
+import {Game,SAVE_VERSION,validOpening} from './engine.js?v=0.12.7';
 document.title=`一局一江湖 · v${GAME_VERSION}`;
 // Block multi-touch zoom without cancelling ordinary one-finger scrolling.
 for(const type of ['touchstart','touchmove'])document.addEventListener(type,e=>{if(e.touches.length>1&&e.cancelable)e.preventDefault();},{passive:false});
