@@ -1,5 +1,5 @@
-import {restRate} from './expedition.js?v=0.18.0';
-import {CARD,RELIC} from './data.js?v=0.18.0';
+import {restRate} from './expedition.js?v=0.19.1';
+import {CARD,RELIC} from './data.js?v=0.19.1';
 // Read only results already resolved by the engine; never roll or predict an event reward.
 export function journeyResultItems(state,message=''){
  const named=name=>message.includes(`「${name}」`);
