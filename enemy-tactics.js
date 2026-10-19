@@ -1,11 +1,12 @@
 import {CARD} from './data.js';
 import {ENEMY} from './enemies.js';
-import {DIFFICULTY} from './difficulty.js';
+import {DIFFICULTY,SKIRMISH_REVISION} from './difficulty.js';
 // Original battle adaptations. The rule object is captured on each newly spawned
 // enemy; existing battles without it keep their existing behaviour.
 const TACTIC_IDS=new Set(['mugaofeng','tianboguang','xuedaolaozu','hebiweng','luzhangke','chengkun','jinlun','yucanghai','dingchunqiu','ouyangfeng','dingmian','azi','jiumozhi','zuolengchan','renwoxing','dongfangbubai']);
 export function attachEnemyTactics(game){
  const b=game.s.b;for(const e of b.enemies)if(TACTIC_IDS.has(e.id))e.tactics={kind:e.id,...(e.id==='yucanghai'?{sword:0}:{})};
+ for(const e of b.enemies)if(e.skirmishRevision===SKIRMISH_REVISION)e.tactics={kind:e.id,skirmish:true,sword:0,venom:0,frenzy:0,pressure:0};
  // Capture the revision on spawn. Never retrofit an ongoing saved battle.
  for(const e of b.enemies)if(e.ruleset===DIFFICULTY&&e.kind==='boss'){
   e.tactics.revision=2;const extra={yucanghai:10,dingchunqiu:20,ouyangfeng:20}[e.id]||0;e.hp+=extra;e.maxHp+=extra;
@@ -15,6 +16,7 @@ export function attachEnemyTactics(game){
 const scaled=(e,n)=>Math.max(1,Math.round(n*(e.damageScale??1)));
 export function tacticalIntent(game,e,intent){
  const t=e.tactics;if(!t)return intent;const b=game.s.b;
+ if(t.skirmish)return skirmishIntent(game,e,intent);
  if(t.kind==='dingmian'&&t.broken)return {label:'托塔气墙被破'};
  if(t.kind==='azi'&&intent.poison)intent.poison+=(t.bags||0);
  if(t.kind==='jiumozhi'&&intent.damage){if(t.lastType==='s')intent.damage+=scaled(e,3);if(t.lastType==='a')intent.weak=(intent.weak||0)+1;}
@@ -56,6 +58,7 @@ export function tacticalIntent(game,e,intent){
 }
 export function onTacticalDamage(game,e,hpDamage,totalDamage){
  const t=e.tactics;if(!t||e.hp<=0)return;
+ if(t.skirmish){onSkirmishDamage(game,e,hpDamage,totalDamage);return;}
  if(t.kind==='dingmian'&&t.ward&&e.block===0&&totalDamage>0&&!t.broken){t.broken=true;t.ward=false;game.log(`${e.name} · 托塔气墙崩散`);}
  if(t.kind==='azi'&&t.bags>0&&hpDamage>0){t.bagDamage=(t.bagDamage||0)+hpDamage;const n=Math.min(t.bags,Math.floor(t.bagDamage/15));if(n){t.bags-=n;t.bagDamage%=15;game.log(`${e.name} · 毒囊破损${n}层`);}}
  if(t.kind==='zuolengchan'&&e.charge>0&&hpDamage>0){t.thaw=(t.thaw||0)+hpDamage;const n=Math.min(e.charge,Math.floor(t.thaw/8));if(n){e.charge-=n;t.thaw%=8;game.log(`${e.name} · 寒劲受挫，蓄力−${n}`);}}
@@ -71,6 +74,7 @@ export function onTacticalDamage(game,e,hpDamage,totalDamage){
 function disarmMines(game,e,n){const t=e.tactics,removed=Math.min(t.mines,n);t.mines-=removed;if(t.mines===0){t.fuse=0;t.disarm=0;}game.log(`拆除混元暗雷${removed}层 · 剩余${t.mines}层`);}
 export function onTacticalExhaust(game,card){
  for(const e of game.s.b.enemies.filter(e=>e.hp>0)){
+  if(e.tactics?.skirmish&&e.id==='xingxiu'&&e.tactics.venom>0&&['status','curse'].includes(CARD[card.id].type)){e.tactics.venom--;game.log(`${e.name} · 消耗毒滞，备毒−1`);}
   if(e.tactics?.kind==='azi'&&e.tactics.bags>0&&['status','curse'].includes(CARD[card.id].type)){e.tactics.bags--;game.log(`${e.name} · 毒囊散去1层`);}
   if(e.tactics?.kind==='chengkun'&&e.tactics.mines>0)disarmMines(game,e,1);
   if(e.tactics?.kind==='dingchunqiu'&&['status','curse'].includes(CARD[card.id].type)){const b=game.s.b,n=Math.min(2,b.poison||0);b.poison=(b.poison||0)-n;if(n)game.log(`清除毒滞 · 中毒−${n}`);}
@@ -98,6 +102,7 @@ function summonPoisonDisciple(game,boss){
 }
 export function afterTacticalAction(game,e,intent,dealt){
  const t=e.tactics,b=game.s.b;if(!t||e.hp<=0)return;
+ if(t.skirmish){afterSkirmishAction(game,e,intent,dealt);return;}
  if(t.kind==='dingmian'){if(t.broken){t.broken=false;}else if(intent.label==='托塔护阵')t.ward=true;else t.ward=false;}
  if(t.kind==='azi'&&intent.poisonBags){t.bags=(t.bags||0)+intent.poisonBags;t.bagDamage=0;game.log(`${e.name} · 备下毒囊${t.bags}层`);}
  if(t.kind==='renwoxing'&&intent.stealStrength){const n=Math.min(intent.stealStrength,Math.max(0,b.str));if(n){b.str-=n;e.str+=n;t.stolen=(t.stolen||0)+n;game.log(`${e.name} · 吸取劲力${n}`);}}
@@ -120,3 +125,60 @@ export function afterTacticalAction(game,e,intent,dealt){
  }
 }
 export function afterTacticalFollowerAction(game,e){if(e.id==='qingcheng'&&e.hp>0)for(const boss of game.s.b.enemies)if(boss.hp>0&&boss.tactics?.kind==='yucanghai'){boss.tactics.sword=(boss.tactics.sword||0)+1;game.log(`青城门徒助阵 · 剑势${boss.tactics.sword}`);}}
+
+// Pure derivation: changing a visible action never consumes counters or RNG.
+function skirmishIntent(game,e,intent){
+ const t=e.tactics;
+ if(e.id==='qingcheng'&&intent.damage)intent.damage+=scaledBonus(e,2*t.sword);
+ if(e.id==='songshan'&&intent.heavyPalm){
+  if(t.braced)intent.damage+=scaled(e,4);
+  if(t.staggered){intent.damage=scaled(e,6);delete intent.weak;}
+ }
+ if(intent.releaseVenom)intent.poison=t.venom;
+ if(e.id==='xuedao'&&intent.damage)intent.damage+=scaledBonus(e,2*t.frenzy);
+ if(intent.releaseCoil&&t.coilBroken)delete intent.poison;
+ if(intent.pursuit&&t.opening)intent.damage+=scaled(e,5);
+ if(intent.releaseFocus&&t.focus>0){if(!e.weak&&!e.pin)intent.damage+=scaled(e,t.focus);else intent.focusSuppressed=true;}
+ if(intent.cover){
+  if(t.coverBroken){delete intent.allyBlock;intent.block=Math.ceil(intent.block/2);}
+  if(!game.s.b.enemies.some(x=>x!==e&&x.hp>0)){delete intent.allyBlock;intent.block=Math.ceil(intent.block/2);intent.damage=scaled(e,e.id==='qingchengguard'?6:8);intent.label=e.id==='qingchengguard'?'孤剑突围':'孤刀突围';}
+ }
+ return intent;
+}
+const scaledBonus=(e,n)=>n?scaled(e,n):0;
+export const coverThreshold=e=>e.id==='qingchengguard'?8:16;
+function onSkirmishDamage(game,e,hpDamage,totalDamage){
+ const t=e.tactics;
+ if(e.id==='qingcheng'&&t.sword>0&&hpDamage>0){
+  t.pressure+=hpDamage;const n=Math.min(t.sword,Math.floor(t.pressure/6));
+  if(n){t.sword-=n;t.pressure=t.sword?t.pressure%6:0;game.log(`${e.name} · 松风剑势受挫，剑势−${n}`);}
+ }
+ if(e.id==='songshan'&&t.braced&&e.block===0&&totalDamage>0){t.braced=false;t.staggered=true;game.log(`${e.name} · 嵩阳架势被破，重掌削弱`);}
+ if(e.id==='xingxiu'&&t.venom>0&&hpDamage>0){
+  t.pressure+=hpDamage;const n=Math.min(t.venom,Math.floor(t.pressure/8));
+  if(n){t.venom-=n;t.pressure=t.venom?t.pressure%8:0;game.log(`${e.name} · 毒囊被拆，备毒−${n}`);}
+ }
+ if(e.id==='baituo'&&t.coil>0&&totalDamage>0){
+  t.coil=Math.max(0,t.coil-totalDamage);t.pressure+=totalDamage;
+  const n=Math.min(e.charge,Math.floor(t.pressure/4));if(n){e.charge-=n;t.pressure%=4;game.log(`${e.name} · 盘蛇受压，蓄力−${n}`);}
+  if(t.coil===0){e.charge=0;t.coilBroken=true;game.log(`${e.name} · 盘蛇架势被破，毒劲散去`);}
+ }
+ if(['qingchengguard','riyueguard'].includes(e.id)&&!t.coverBroken&&totalDamage>0){
+  t.pressure+=totalDamage;if(t.pressure>=coverThreshold(e)){t.coverBroken=true;game.log(`${e.name} · 护援被截断`);}
+ }
+}
+function afterSkirmishAction(game,e,intent,dealt){
+ const t=e.tactics;
+ if(e.id==='qingcheng'&&intent.damage){t.sword=Math.min(3,t.sword+1);t.pressure=0;game.log(`${e.name} · 松风连势，剑势${t.sword}`);}
+ if(e.id==='songshan'){if(intent.brace){t.braced=true;t.staggered=false;game.log(`${e.name} · 嵩阳架势已立`);}else if(intent.heavyPalm){t.braced=false;t.staggered=false;}}
+ if(intent.prepareVenom){t.venom=intent.prepareVenom;t.pressure=0;game.log(`${e.name} · 备毒${t.venom}`);}
+ if(intent.releaseVenom){t.venom=0;t.pressure=0;}
+ if(e.id==='xuedao'&&intent.damage){t.frenzy=dealt>0?Math.min(3,t.frenzy+1):0;game.log(`${e.name} · ${t.frenzy?'血势'+t.frenzy:'刀势被完整格挡，血势散去'}`);}
+ if(intent.coil){t.coil=intent.coil;t.coilBroken=false;t.pressure=0;game.log(`${e.name} · 盘蛇架势已立`);}
+ if(intent.releaseCoil){t.coil=0;t.coilBroken=false;t.pressure=0;}
+ if(intent.probe){t.opening=dealt>0;if(t.opening)game.log(`${e.name} · 试剑得隙，追剑增强`);}
+ if(intent.pursuit)t.opening=false;
+ if(intent.focus){t.focus=intent.focus;game.log(`${e.name} · 运劲${t.focus}`);}
+ if(intent.releaseFocus){if(intent.focusSuppressed)game.log(`${e.name} · 运劲受制`);t.focus=0;}
+ if(['qingchengguard','riyueguard'].includes(e.id)){t.coverBroken=false;t.pressure=0;}
+}

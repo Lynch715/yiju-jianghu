@@ -5,7 +5,7 @@ import {attachEnemyTactics,tacticalIntent,onTacticalDamage,onTacticalExhaust,onT
 import {JOURNEY_FLOORS,JOURNEY_TOTAL,newJourney,journeyChapter} from './journey.js';
 import {PLAYERS,DEFAULT_PLAYER,cleanPlayerName,playerNameError,validPlayer,PLAYER_RETURN_PHASES} from './players.js';
 import {ENEMY,ENCOUNTERS,ENCOUNTER_GROUPS} from './enemies.js';
-import {DIFFICULTY,combatDefinition,encounterTuning} from './difficulty.js';
+import {DIFFICULTY,combatDefinition,encounterTuning,SKIRMISH_REVISION} from './difficulty.js';
 import {CARDS,CARD,RELICS,RELIC,CHAPTERS,ROUTES,isEthereal,OPENING_BOONS,GAME_VERSION} from './data.js';
 
 export const SAVE_VERSION=7;
@@ -32,6 +32,7 @@ export class Game {
  constructor(state=null){
   this.s=state?clone(state):null;
   if(this.s){
+   if(this.s.skirmishRevision!==undefined&&this.s.skirmishRevision!==SKIRMISH_REVISION)throw Error('普通遭遇规则无效');
    // Preserve existing cards, relics and combat progress; remove the old direction binding.
    if(!validExpedition(this.s))throw Error('历练存档无效');
    this.s.version=SAVE_VERSION;delete this.s.legacy;
@@ -56,7 +57,7 @@ export class Game {
  recordEnemyAction(e,intent,damage){const action={key:e.key,label:intent.label,attacks:!!intent.damage,damage};this.s.b.lastEnemyActions.push(action);e.lastAction=action;const record=this.encounterRecord(e);record.moves[intent.label]=(record.moves[intent.label]||0)+1;}
  start(seed=Date.now(),{opening=true,character=opening,classic=false,trialLevel:level=null}={}){
   this.s={version:SAVE_VERSION,phase:'map',player:{...DEFAULT_PLAYER},rng:Number(seed)>>>0,seed:Number(seed)>>>0,uid:0,hp:80,maxHp:80,gold:90,step:0,deck:[],relics:['R01'],b:null,scene:null,reward:null,history:[],stats:{turns:0,played:0,damage:0,exhausted:0,self:0,kills:0,wins:0},created:Date.now(),runInfo:{version:GAME_VERSION,activeMs:0,timed:true}};
-  if(!classic){this.s.journey=newJourney();this.s.ruleset=DIFFICULTY;if(level!==null)this.s.expedition=newExpedition(seed,level);}else if(level!==null)throw Error('历练需要四十五程行程');
+  if(!classic){this.s.journey=newJourney();this.s.ruleset=DIFFICULTY;this.s.skirmishRevision=SKIRMISH_REVISION;if(level!==null)this.s.expedition=newExpedition(seed,level);}else if(level!==null)throw Error('历练需要四十五程行程');
   for(const id of STARTING_DECK)this.s.deck.push(this.make(id));
   if(character){this.s.character={name:'',portrait:null,editing:false,returnPhase:opening?'opening':'map'};this.s.phase='character';}
   else if(opening)this.beginOpening();
@@ -375,7 +376,7 @@ export class Game {
    if(this.s.hp<=0){this.recordEnemyAction(e,intent,totalDamage);this.combatStep({kind:'enemy',actor:e.key,label:intent.label,attacks:!!intent.damage});this.checkEnd();return true;}
    if(e.hp>0){
     if(intent.weak)b.weak+=intent.weak;if(intent.vuln)b.vuln+=intent.vuln;if(intent.status)this.addStatus(intent.status);if(intent.str)e.str+=intent.str;
-    if(intent.poison){b.poison=(b.poison||0)+intent.poison;this.log(`中毒+${intent.poison}`);}
+    if(intent.poison&&(!intent.poisonOnHit||dealt>0)){b.poison=(b.poison||0)+intent.poison;this.log(`中毒+${intent.poison}`);}
     if(intent.chill){b.nextQiLoss=Math.min(2,(b.nextQiLoss||0)+intent.chill);this.log(`寒气 · 下回合少${intent.chill}真气`);}
     if(intent.charge){e.charge=(e.charge||0)+intent.charge;this.log(`${e.name} · 蓄力+${intent.charge}`);}
     if(intent.leech&&dealt>0){const heal=Math.min(dealt,intent.leech,e.maxHp-e.hp);e.hp+=heal;if(heal)this.log(`${e.name} · 饮血回复${heal}气血`);}
@@ -390,7 +391,7 @@ export class Game {
   if(this.checkEnd())return true;this.beginTurn();return true;
  }
  enemyIntent(e){
-  const base=ENEMY[e.id];if(!base)return this.legacyEnemyIntent(e);const d=combatDefinition(base,e.ruleset);
+  const base=ENEMY[e.id];if(!base)return this.legacyEnemyIntent(e);const d=combatDefinition(base,e.ruleset,e.skirmishRevision);
   if(d.enragedMoves&&!e.enraged&&e.hp>0&&e.hp<=e.maxHp*(e.phaseThreshold??.5)){e.enraged=true;e.round=0;e.charge=0;this.log(`${e.name} · 进入${d.phaseName||'逆练阶段'}，招式已改变`);}
   const moves=e.enraged?d.enragedMoves:d.moves,intent=clone(moves[e.round%moves.length]);
   // Store tuned numbers in the actual intent: preview and execution share them.
@@ -398,7 +399,7 @@ export class Game {
   for(const key of ['block','allyBlock'])if(intent[key])intent[key]=Math.max(1,Math.round(intent[key]*(e.guardScale??1)));
   return tacticalIntent(this,e,intent);
  }
- refreshEnemyPhases(){for(const e of this.s.b?.enemies||[])if(e.hp>0&&(e.tactics||combatDefinition(ENEMY[e.id]||{},e.ruleset).enragedMoves&&!e.enraged&&e.hp<=e.maxHp*(e.phaseThreshold??.5)))e.intent=this.enemyIntent(e);}
+ refreshEnemyPhases(){for(const e of this.s.b?.enemies||[])if(e.hp>0&&(e.tactics||combatDefinition(ENEMY[e.id]||{},e.ruleset,e.skirmishRevision).enragedMoves&&!e.enraged&&e.hp<=e.maxHp*(e.phaseThreshold??.5)))e.intent=this.enemyIntent(e);}
  legacyEnemyIntent(e){
   const a=this.chapter;
   const patterns={
@@ -438,17 +439,18 @@ export class Game {
   const normalDamage=ids.length===3?[.50,.60,.70][a]:ids.length===2?[.70,.80,.90][a]:1;
   const duplicates=new Map();
   const enemies=ids.map((id,i)=>{
-   const d=combatDefinition(ENEMY[id],this.s.ruleset),escort=!!setup.escorts&&i>0,count=(duplicates.get(id)||0);duplicates.set(id,count+1);
+   const revision=kind!=='boss'&&ENEMY[id].rank==='normal'?this.s.skirmishRevision:undefined;
+   const d=combatDefinition(ENEMY[id],this.s.ruleset,revision),escort=!!setup.escorts&&i>0,count=(duplicates.get(id)||0);duplicates.set(id,count+1);
    const callSign=ids.filter(x=>x===id).length>1?['甲','乙','丙'][count]:'';
    let hpScale=kind==='battle'?normalHp:escort?(kind==='boss'?.40:.45):1;
    let damageScale=kind==='battle'?normalDamage:escort?(kind==='boss'?.50:.55):1;
    let guardScale=kind==='battle'&&ids.length>1?.75:escort?.60:1;
    let hpBonus=kind==='battle'?Math.round(this.chapterStep/(this.chapterLength-1)*5)*2:0;
-   if(this.s.ruleset===DIFFICULTY){const tuned=encounterTuning(a,kind,ids.length,escort,this.chapterStep/(this.chapterLength-1));({hpScale,damageScale,guardScale,hpBonus}=tuned);}
+   if(this.s.ruleset===DIFFICULTY){const tuned=encounterTuning(a,kind,ids.length,escort,this.chapterStep/(this.chapterLength-1),this.s.skirmishRevision,trialLevel(this.s));({hpScale,damageScale,guardScale,hpBonus}=tuned);}
    const level=trialLevel(this.s);if(level>=2&&kind==='elite')guardScale*=1.12;if(level>=4&&kind==='boss'&&!escort)hpScale*=1.08;
    const hp=Math.max(1,Math.round((d.hp+hpBonus)*hpScale));
    const round=kind==='battle'&&ids.length>1?i%d.moves.length:escort?(i+1)%d.moves.length:0;
-   return {...(this.s.ruleset===DIFFICULTY?{ruleset:DIFFICULTY,...(d.phaseName?{phaseName:d.phaseName}:{})}:{}),...(level>=4&&d.rank==='boss'?{phaseThreshold:.6}:{}),...(level>=5&&d.rank==='boss'?{escalationEvery:3}:{}),id,name:d.name+(callSign?'·'+callSign:''),callSign,role:escort?'随从':'',kind:d.rank==='normal'?'bandit':d.rank,hp,maxHp:hp,key:i,round,damageScale,guardScale,block:0,weak:0,vuln:0,str:level>=5&&d.rank==='boss'?1:0,pin:0,charge:0,enraged:false};
+   return {...(this.s.ruleset===DIFFICULTY?{ruleset:DIFFICULTY,...(d.phaseName?{phaseName:d.phaseName}:{})}:{}),...(level>=4&&d.rank==='boss'?{phaseThreshold:.6}:{}),...(level>=5&&d.rank==='boss'?{escalationEvery:3}:{}),...(revision===SKIRMISH_REVISION?{skirmishRevision:revision}:{}),id,name:d.name+(callSign?'·'+callSign:''),callSign,role:escort?'随从':'',kind:d.rank==='normal'?'bandit':d.rank,hp,maxHp:hp,key:i,round,damageScale,guardScale,block:0,weak:0,vuln:0,str:level>=5&&d.rank==='boss'?1:0,pin:0,charge:0,enraged:false};
   });
   this.s.b={enemies,draw:this.shuffle(this.s.deck.map(x=>clone(x))),hand:[],discard:[],exhaust:[],powers:{},qi:0,str:0,tempStr:0,block:0,weak:0,vuln:0,turn:0,nextDraw:0,repeat:false,discount:0,turnFlags:{},battleFlags:{bandage:0,blood:0},log:[],kind,formation:setup.title};
   if(this.s.ruleset===DIFFICULTY)attachEnemyTactics(this);

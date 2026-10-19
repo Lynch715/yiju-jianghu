@@ -1,8 +1,8 @@
-import {EXPANDED_ENCOUNTERS} from './enemies.js?v=0.17.0';
-import {DIFFICULTY} from './difficulty.js?v=0.17.0';
+import {EXPANDED_ENCOUNTERS} from './enemies.js?v=0.18.0';
+import {DIFFICULTY} from './difficulty.js?v=0.18.0';
 export const TRIALS=[
- {level:1,name:'初涉风波',text:'三章四十五程，每章首领与途中遭遇随此局变化。'},
- {level:2,name:'群敌环伺',text:'沿用前阶变化；途中更常遇到结伴敌人，精英护势更强。'},
+ {level:1,name:'初涉风波',text:'三章四十五程，各门派有可拆解的招法，每章首领与途中遭遇随此局变化。'},
+ {level:2,name:'群敌环伺',text:'沿用前阶变化；途中更常遇到结伴敌人，普通敌人逐阶加压，精英护势更强。'},
  {level:3,name:'风尘难歇',text:'沿用前阶变化；歇脚疗伤降至20%，行商价格提高10%。'},
  {level:4,name:'宗师争锋',text:'沿用前阶变化；首领战更为险峻，持久交锋需要更稳健的构筑。'},
  {level:5,name:'险峰问道',text:'沿用前阶变化；首领起手劲力+1，久战蓄劲更快。'}

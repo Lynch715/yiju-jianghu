@@ -2,7 +2,7 @@ import {CARD} from '../data.js';
 import {enemyActionView} from '../enemy-action.js';
 // QA policy uses the current hand, public action tags and immediate card outcomes.
 // No future enemy script, hidden tactic threshold, draw order or future reward is scored.
-export function visibleTurn(g){
+export function visibleTurn(g,{counterplay=true}={}){
  if(g.s.phase!=='battle')return;let b=g.s.b;
  for(const e of b.enemies)if(e.lastAction?.damage>0)e.observedPressure=Math.max(e.observedPressure||0,e.lastAction.damage);
  if(b.openDart)g.useDart([...b.enemies].filter(e=>e.hp>0).sort((a,z)=>a.hp-z.hp)[0].key);
@@ -14,6 +14,13 @@ export function visibleTurn(g){
     const nb=copy.s.b,damage=living.reduce((n,e)=>n+e.hp-(nb.enemies.find(x=>x.key===e.key)?.hp||0),0),kills=living.filter(e=>(nb.enemies.find(x=>x.key===e.key)?.hp||0)<=0).length;
     const guard=nb.block-b.block,needed=Math.max(0,incoming-b.block),stored=g.power('W22')!==null?.28:0;
     let value=damage+Math.min(guard,needed)*1.35+Math.max(0,guard-needed)*stored+drawn*4+(nb.qi-b.qi+paid)*6+(copy.s.hp-g.s.hp)*(g.s.hp<25?3.5:2)+kills*18;
+    // Score only the change to currently visible threats. No future script or
+    // draw-pile identity is used to decide whether to break a stance or poison.
+    if(counterplay&&living.some(e=>e.tactics?.skirmish)){
+     const threat=(engine,enemies)=>enemies.reduce((sum,e)=>sum+enemyActionView(engine,e).tags.reduce((n,t)=>n+(t.kind==='attack'?(t.segments||[]).reduce((v,x)=>v+x.amount*x.count,0):t.kind==='debuff'&&/施毒/.test(t.text)?Number(t.text.match(/\d+/)?.[0]||0)*3:t.kind==='block'&&/护援/.test(t.text)?Number(t.text.match(/\d+/)?.[0]||0)*.7:0),0),0);
+     value+=Math.max(0,threat(g,living)-threat(copy,nb.enemies.filter(e=>e.hp>0)))*1.25;
+     value+=living.reduce((sum,e)=>{const next=nb.enemies.find(x=>x.key===e.key),breakable=enemyActionView(g,e).tags.some(t=>/破盾削掌|截断护援/.test(t.text));return sum+(breakable&&next?Math.max(0,e.block-next.block)*1.5:0);},0);
+    }
     value+=(nb.str-b.str)*Math.min(7,2+own.filter(x=>CARD[x.id].type==='a').length*.45);
     value+=living.reduce((n,e)=>{const next=nb.enemies.find(x=>x.key===e.key);return n+(next?Math.max(0,next.weak-e.weak)*4+Math.max(0,next.vuln-e.vuln)*2+Math.max(0,next.pin-e.pin)*.6:0);},0);
     if(d.type==='p')value+=({W22:20,W12:16,W13:0,W28:18,W29:15,W36:consumes>=3?22:2,W37:consumes>=3?20:2,W38:consumes>=3?17:2,W48:own.some(x=>['W43','W44','W54','U14'].includes(x.id))?19:3,W51:own.some(x=>['W43','W44','W54','U14'].includes(x.id))?17:2}[c.id]||0);

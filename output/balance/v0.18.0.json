@@ -1,0 +1,437 @@
+{
+  "version": "0.18.0",
+  "note": "2250 isolated preset encounters use real rules and a fixed blind heuristic. Mature presets are deliberately granted complete upgraded decks and chapter energy relics; these measure conditional strength, not acquisition probability. Net HP cost includes victory healing. Automated outcomes are not human win rates. 1 full-run cases use actual opening rewards, routes, drops, shop costs and rest rules.",
+  "matchups": [
+    {
+      "chapter": 1,
+      "kind": "battle",
+      "profile": "starting",
+      "runs": 50,
+      "wins": 1,
+      "meanTurns": 13.22,
+      "meanNetHpCost": 79.72
+    },
+    {
+      "chapter": 1,
+      "kind": "battle",
+      "profile": "developing",
+      "runs": 50,
+      "wins": 46,
+      "meanTurns": 9.92,
+      "meanNetHpCost": 28.16
+    },
+    {
+      "chapter": 1,
+      "kind": "battle",
+      "profile": "mature_strength",
+      "runs": 50,
+      "wins": 46,
+      "meanTurns": 7.28,
+      "meanNetHpCost": 27.32
+    },
+    {
+      "chapter": 1,
+      "kind": "battle",
+      "profile": "mature_guard",
+      "runs": 50,
+      "wins": 50,
+      "meanTurns": 4.42,
+      "meanNetHpCost": 5.46
+    },
+    {
+      "chapter": 1,
+      "kind": "battle",
+      "profile": "mature_blood",
+      "runs": 50,
+      "wins": 49,
+      "meanTurns": 6.8,
+      "meanNetHpCost": 16.86
+    },
+    {
+      "chapter": 1,
+      "kind": "elite",
+      "profile": "starting",
+      "runs": 50,
+      "wins": 1,
+      "meanTurns": 13.64,
+      "meanNetHpCost": 79.62
+    },
+    {
+      "chapter": 1,
+      "kind": "elite",
+      "profile": "developing",
+      "runs": 50,
+      "wins": 49,
+      "meanTurns": 11.46,
+      "meanNetHpCost": 29.72
+    },
+    {
+      "chapter": 1,
+      "kind": "elite",
+      "profile": "mature_strength",
+      "runs": 50,
+      "wins": 49,
+      "meanTurns": 7.38,
+      "meanNetHpCost": 22.72
+    },
+    {
+      "chapter": 1,
+      "kind": "elite",
+      "profile": "mature_guard",
+      "runs": 50,
+      "wins": 50,
+      "meanTurns": 4.7,
+      "meanNetHpCost": 4.8
+    },
+    {
+      "chapter": 1,
+      "kind": "elite",
+      "profile": "mature_blood",
+      "runs": 50,
+      "wins": 50,
+      "meanTurns": 7.26,
+      "meanNetHpCost": 14.32
+    },
+    {
+      "chapter": 1,
+      "kind": "boss",
+      "profile": "starting",
+      "runs": 50,
+      "wins": 0,
+      "meanTurns": 7,
+      "meanNetHpCost": 80
+    },
+    {
+      "chapter": 1,
+      "kind": "boss",
+      "profile": "developing",
+      "runs": 50,
+      "wins": 8,
+      "meanTurns": 12.14,
+      "meanNetHpCost": 77.52
+    },
+    {
+      "chapter": 1,
+      "kind": "boss",
+      "profile": "mature_strength",
+      "runs": 50,
+      "wins": 45,
+      "meanTurns": 8.86,
+      "meanNetHpCost": 51.9
+    },
+    {
+      "chapter": 1,
+      "kind": "boss",
+      "profile": "mature_guard",
+      "runs": 50,
+      "wins": 50,
+      "meanTurns": 6.58,
+      "meanNetHpCost": 8.1
+    },
+    {
+      "chapter": 1,
+      "kind": "boss",
+      "profile": "mature_blood",
+      "runs": 50,
+      "wins": 36,
+      "meanTurns": 10.5,
+      "meanNetHpCost": 55.58
+    },
+    {
+      "chapter": 2,
+      "kind": "battle",
+      "profile": "starting",
+      "runs": 50,
+      "wins": 17,
+      "meanTurns": 7.64,
+      "meanNetHpCost": 60.82
+    },
+    {
+      "chapter": 2,
+      "kind": "battle",
+      "profile": "developing",
+      "runs": 50,
+      "wins": 49,
+      "meanTurns": 8.34,
+      "meanNetHpCost": 22.82
+    },
+    {
+      "chapter": 2,
+      "kind": "battle",
+      "profile": "mature_strength",
+      "runs": 50,
+      "wins": 50,
+      "meanTurns": 6.12,
+      "meanNetHpCost": 22.44
+    },
+    {
+      "chapter": 2,
+      "kind": "battle",
+      "profile": "mature_guard",
+      "runs": 50,
+      "wins": 50,
+      "meanTurns": 4.92,
+      "meanNetHpCost": 3.2
+    },
+    {
+      "chapter": 2,
+      "kind": "battle",
+      "profile": "mature_blood",
+      "runs": 50,
+      "wins": 50,
+      "meanTurns": 5.78,
+      "meanNetHpCost": 16.94
+    },
+    {
+      "chapter": 2,
+      "kind": "elite",
+      "profile": "starting",
+      "runs": 50,
+      "wins": 0,
+      "meanTurns": 9.9,
+      "meanNetHpCost": 80
+    },
+    {
+      "chapter": 2,
+      "kind": "elite",
+      "profile": "developing",
+      "runs": 50,
+      "wins": 50,
+      "meanTurns": 10.2,
+      "meanNetHpCost": 24.64
+    },
+    {
+      "chapter": 2,
+      "kind": "elite",
+      "profile": "mature_strength",
+      "runs": 50,
+      "wins": 50,
+      "meanTurns": 6.8,
+      "meanNetHpCost": 25.22
+    },
+    {
+      "chapter": 2,
+      "kind": "elite",
+      "profile": "mature_guard",
+      "runs": 50,
+      "wins": 50,
+      "meanTurns": 5.38,
+      "meanNetHpCost": 4.48
+    },
+    {
+      "chapter": 2,
+      "kind": "elite",
+      "profile": "mature_blood",
+      "runs": 50,
+      "wins": 50,
+      "meanTurns": 7.12,
+      "meanNetHpCost": 14.86
+    },
+    {
+      "chapter": 2,
+      "kind": "boss",
+      "profile": "starting",
+      "runs": 50,
+      "wins": 0,
+      "meanTurns": 5.98,
+      "meanNetHpCost": 80
+    },
+    {
+      "chapter": 2,
+      "kind": "boss",
+      "profile": "developing",
+      "runs": 50,
+      "wins": 0,
+      "meanTurns": 9.34,
+      "meanNetHpCost": 80
+    },
+    {
+      "chapter": 2,
+      "kind": "boss",
+      "profile": "mature_strength",
+      "runs": 50,
+      "wins": 18,
+      "meanTurns": 9.96,
+      "meanNetHpCost": 73.46
+    },
+    {
+      "chapter": 2,
+      "kind": "boss",
+      "profile": "mature_guard",
+      "runs": 50,
+      "wins": 50,
+      "meanTurns": 10.26,
+      "meanNetHpCost": 24.16
+    },
+    {
+      "chapter": 2,
+      "kind": "boss",
+      "profile": "mature_blood",
+      "runs": 50,
+      "wins": 6,
+      "meanTurns": 11.5,
+      "meanNetHpCost": 77.68
+    },
+    {
+      "chapter": 3,
+      "kind": "battle",
+      "profile": "starting",
+      "runs": 50,
+      "wins": 0,
+      "meanTurns": 4.46,
+      "meanNetHpCost": 80
+    },
+    {
+      "chapter": 3,
+      "kind": "battle",
+      "profile": "developing",
+      "runs": 50,
+      "wins": 41,
+      "meanTurns": 7.78,
+      "meanNetHpCost": 47.58
+    },
+    {
+      "chapter": 3,
+      "kind": "battle",
+      "profile": "mature_strength",
+      "runs": 50,
+      "wins": 45,
+      "meanTurns": 5.18,
+      "meanNetHpCost": 41.9
+    },
+    {
+      "chapter": 3,
+      "kind": "battle",
+      "profile": "mature_guard",
+      "runs": 50,
+      "wins": 50,
+      "meanTurns": 4.96,
+      "meanNetHpCost": 10.94
+    },
+    {
+      "chapter": 3,
+      "kind": "battle",
+      "profile": "mature_blood",
+      "runs": 50,
+      "wins": 47,
+      "meanTurns": 5.38,
+      "meanNetHpCost": 32.96
+    },
+    {
+      "chapter": 3,
+      "kind": "elite",
+      "profile": "starting",
+      "runs": 50,
+      "wins": 0,
+      "meanTurns": 11.96,
+      "meanNetHpCost": 80
+    },
+    {
+      "chapter": 3,
+      "kind": "elite",
+      "profile": "developing",
+      "runs": 50,
+      "wins": 47,
+      "meanTurns": 9.2,
+      "meanNetHpCost": 21.24
+    },
+    {
+      "chapter": 3,
+      "kind": "elite",
+      "profile": "mature_strength",
+      "runs": 50,
+      "wins": 49,
+      "meanTurns": 5.9,
+      "meanNetHpCost": 16.38
+    },
+    {
+      "chapter": 3,
+      "kind": "elite",
+      "profile": "mature_guard",
+      "runs": 50,
+      "wins": 50,
+      "meanTurns": 5.42,
+      "meanNetHpCost": 2.12
+    },
+    {
+      "chapter": 3,
+      "kind": "elite",
+      "profile": "mature_blood",
+      "runs": 50,
+      "wins": 50,
+      "meanTurns": 6.48,
+      "meanNetHpCost": 10.42
+    },
+    {
+      "chapter": 3,
+      "kind": "boss",
+      "profile": "starting",
+      "runs": 50,
+      "wins": 0,
+      "meanTurns": 6.6,
+      "meanNetHpCost": 80
+    },
+    {
+      "chapter": 3,
+      "kind": "boss",
+      "profile": "developing",
+      "runs": 50,
+      "wins": 1,
+      "meanTurns": 13.62,
+      "meanNetHpCost": 79.52
+    },
+    {
+      "chapter": 3,
+      "kind": "boss",
+      "profile": "mature_strength",
+      "runs": 50,
+      "wins": 30,
+      "meanTurns": 9.52,
+      "meanNetHpCost": 64.32
+    },
+    {
+      "chapter": 3,
+      "kind": "boss",
+      "profile": "mature_guard",
+      "runs": 50,
+      "wins": 50,
+      "meanTurns": 8.14,
+      "meanNetHpCost": 10.58
+    },
+    {
+      "chapter": 3,
+      "kind": "boss",
+      "profile": "mature_blood",
+      "runs": 50,
+      "wins": 19,
+      "meanTurns": 10.46,
+      "meanNetHpCost": 68.58
+    }
+  ],
+  "masterGiftSamples": {
+    "runs": 5000,
+    "common": 3245,
+    "uncommon": 1521,
+    "rare": 234
+  },
+  "completed": [
+    {
+      "policy": "随缘",
+      "seed": 89,
+      "phase": "win",
+      "steps": 45,
+      "hp": 76,
+      "deck": 28,
+      "relics": 16,
+      "turns": 108
+    }
+  ],
+  "sourceHashes": {
+    "engine.js": "ce3ca0d4566cde9ceb75ae5d4cc71a75532d6f7c513f8f834292aa43ae416f58",
+    "enemy-tactics.js": "91e0c51a68a488dd39d0f4d457114c48a34dafa34e0d57329393d567a813e24d",
+    "difficulty.js": "abadcf02427e92002f9650fc136c00a516259c5258a85178618178adf29b2b09",
+    "data.js": "e96244aad88ce528eee7edcfcfb122fc8a761a48d2e63b7a23fa51899427c5d3",
+    "app.js": "3f7e1ed5c5ded0f12fa57575614d416022755ce01ad9127ba876865940bb60a4",
+    "tests/playthrough.mjs": "d9fe4bb1a0192766be869e2831200ff0b6f8f6eac32e83ee0e0f9cf890e01fc5"
+  }
+}
