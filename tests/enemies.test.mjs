@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {readFileSync} from 'node:fs';
+import {readFileSync,existsSync} from 'node:fs';
 import {Game,clone,SAVE_VERSION} from '../engine.js';
 import {ENEMIES,ENEMY,ENCOUNTERS} from '../enemies.js';
 import {CHAPTERS} from '../data.js';
@@ -61,9 +61,9 @@ test('pre-portrait battles map to novel characters without losing their HP, RNG 
  const g=duel('yucanghai');g.s.step=5;g.s.version=3;const e=g.s.b.enemies[0];delete e.id;e.name='黑风寨主';e.hp=42;e.maxHp=90;e.intent={label:'旧预告',damage:11};const saved=clone(g.s),restored=new Game(saved),newEnemy=restored.s.b.enemies[0];
  assert.equal(restored.s.version,SAVE_VERSION);assert.equal(newEnemy.id,'yucanghai');assert.equal(newEnemy.name,'余沧海');assert.equal(newEnemy.hp,42);assert.equal(newEnemy.maxHp,90);assert.deepEqual(newEnemy.intent,saved.b.enemies[0].intent);assert.equal(restored.s.rng,saved.rng);assert.equal(saved.b.enemies[0].name,'黑风寨主');
 });
-test('all 16 original and runtime portraits exist and each character has its own prompt',()=>{
- const prompts=JSON.parse(readFileSync(new URL('../art/enemy-prompts.json',import.meta.url),'utf8'));assert.equal(prompts.length,16);assert.equal(new Set(prompts.map(x=>x.id)).size,16);
- for(const d of ENEMIES){assert.ok(prompts.some(x=>x.id===d.id&&x.name===d.name&&x.prompt.includes('Subject:')));for(const path of [`assets/enemies/${d.id}.png`,d.art]){const bytes=readFileSync(new URL('../'+path,import.meta.url));if(bytes.subarray(1,4).toString()!=='PNG'){assert.equal(bytes.subarray(0,4).toString(),'RIFF');assert.equal(bytes.subarray(8,12).toString(),'WEBP');}assert.ok(bytes.length>10000,d.name);}}
+test('all enemy runtime portraits exist and each character has its own prompt',()=>{
+ const prompts=JSON.parse(readFileSync(new URL('../art/enemy-prompts.json',import.meta.url),'utf8'));assert.equal(prompts.length,ENEMIES.length);assert.equal(new Set(prompts.map(x=>x.id)).size,ENEMIES.length);
+ for(const d of ENEMIES){assert.ok(prompts.some(x=>x.id===d.id&&x.name===d.name&&x.prompt.includes('Subject:')));for(const path of [d.art,...(existsSync(new URL(`../assets/enemies/${d.id}.png`,import.meta.url))?[`assets/enemies/${d.id}.png`]:[])]){const bytes=readFileSync(new URL('../'+path,import.meta.url));if(bytes.subarray(1,4).toString()!=='PNG'){assert.equal(bytes.subarray(0,4).toString(),'RIFF');assert.equal(bytes.subarray(8,12).toString(),'WEBP');}assert.ok(bytes.length>10000,d.name);}}
 });
 
 test('defeating the last foe by reflect ends combat before a pending poison tick',()=>{

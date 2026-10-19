@@ -3,7 +3,7 @@ import {ENEMY} from './enemies.js';
 import {DIFFICULTY} from './difficulty.js';
 // Original battle adaptations. The rule object is captured on each newly spawned
 // enemy; existing battles without it keep their existing behaviour.
-const TACTIC_IDS=new Set(['mugaofeng','tianboguang','xuedaolaozu','hebiweng','luzhangke','chengkun','jinlun','yucanghai','dingchunqiu','ouyangfeng']);
+const TACTIC_IDS=new Set(['mugaofeng','tianboguang','xuedaolaozu','hebiweng','luzhangke','chengkun','jinlun','yucanghai','dingchunqiu','ouyangfeng','dingmian','azi','jiumozhi','zuolengchan','renwoxing','dongfangbubai']);
 export function attachEnemyTactics(game){
  const b=game.s.b;for(const e of b.enemies)if(TACTIC_IDS.has(e.id))e.tactics={kind:e.id,...(e.id==='yucanghai'?{sword:0}:{})};
  // Capture the revision on spawn. Never retrofit an ongoing saved battle.
@@ -15,6 +15,11 @@ export function attachEnemyTactics(game){
 const scaled=(e,n)=>Math.max(1,Math.round(n*(e.damageScale??1)));
 export function tacticalIntent(game,e,intent){
  const t=e.tactics;if(!t)return intent;const b=game.s.b;
+ if(t.kind==='dingmian'&&t.broken)return {label:'托塔气墙被破'};
+ if(t.kind==='azi'&&intent.poison)intent.poison+=(t.bags||0);
+ if(t.kind==='jiumozhi'&&intent.damage){if(t.lastType==='s')intent.damage+=scaled(e,3);if(t.lastType==='a')intent.weak=(intent.weak||0)+1;}
+ if(t.kind==='jiumozhi'&&intent.label==='小无相功'&&t.lastType==='p'){intent.str=1;intent.block+=8;}
+ if(t.kind==='dongfangbubai'&&intent.damage&&t.needles>0){intent.hits=(intent.hits||1)+t.needles;}
  if(t.kind==='mugaofeng'&&t.counterReady)return {label:'伏刀反扑',damage:scaled(e,12),vuln:1};
  if(t.kind==='tianboguang'){if(intent.label==='快刀三叠')intent.hits+=Math.floor(e.round/ENEMY[e.id].moves.length);if(intent.damage)intent.woundOnHit=1;}
  if(t.kind==='xuedaolaozu'&&intent.damage){delete intent.leech;intent.drainRatio=.5;}
@@ -51,6 +56,10 @@ export function tacticalIntent(game,e,intent){
 }
 export function onTacticalDamage(game,e,hpDamage,totalDamage){
  const t=e.tactics;if(!t||e.hp<=0)return;
+ if(t.kind==='dingmian'&&t.ward&&e.block===0&&totalDamage>0&&!t.broken){t.broken=true;t.ward=false;game.log(`${e.name} · 托塔气墙崩散`);}
+ if(t.kind==='azi'&&t.bags>0&&hpDamage>0){t.bagDamage=(t.bagDamage||0)+hpDamage;const n=Math.min(t.bags,Math.floor(t.bagDamage/15));if(n){t.bags-=n;t.bagDamage%=15;game.log(`${e.name} · 毒囊破损${n}层`);}}
+ if(t.kind==='zuolengchan'&&e.charge>0&&hpDamage>0){t.thaw=(t.thaw||0)+hpDamage;const n=Math.min(e.charge,Math.floor(t.thaw/8));if(n){e.charge-=n;t.thaw%=8;game.log(`${e.name} · 寒劲受挫，蓄力−${n}`);}}
+ if(t.kind==='renwoxing'&&t.stolen>0&&hpDamage>0){t.returnDamage=(t.returnDamage||0)+hpDamage;const n=Math.min(t.stolen,Math.floor(t.returnDamage/28));if(n){t.stolen-=n;t.returnDamage%=28;game.s.b.str+=n;e.str-=n;game.log(`${e.name} · 吸星失衡，归还劲力${n}`);}}
  if(t.kind==='mugaofeng'&&hpDamage>0){t.wounds=(t.wounds||0)+hpDamage;if(t.wounds>=18&&!t.counterReady){t.wounds%=18;t.counterReady=true;e.str++;game.log(`${e.name} · 衣袍染血，劲力+1`);}}
  if(t.kind==='chengkun'&&t.mines>0&&hpDamage>0){t.disarm=(t.disarm||0)+hpDamage;const layers=Math.floor(t.disarm/12);if(layers){t.disarm%=12;disarmMines(game,e,layers);}}
  if(['jinlun','ouyangfeng'].includes(t.kind)&&t.windup>0&&totalDamage>0){t.windup=Math.max(0,t.windup-totalDamage);if(t.windup===0){t.broken=true;e.charge=0;if(t.kind==='ouyangfeng')e.vuln+=2;game.log(`${e.name} · 架势崩散，踉跄失衡`);}}
@@ -62,13 +71,19 @@ export function onTacticalDamage(game,e,hpDamage,totalDamage){
 function disarmMines(game,e,n){const t=e.tactics,removed=Math.min(t.mines,n);t.mines-=removed;if(t.mines===0){t.fuse=0;t.disarm=0;}game.log(`拆除混元暗雷${removed}层 · 剩余${t.mines}层`);}
 export function onTacticalExhaust(game,card){
  for(const e of game.s.b.enemies.filter(e=>e.hp>0)){
+  if(e.tactics?.kind==='azi'&&e.tactics.bags>0&&['status','curse'].includes(CARD[card.id].type)){e.tactics.bags--;game.log(`${e.name} · 毒囊散去1层`);}
   if(e.tactics?.kind==='chengkun'&&e.tactics.mines>0)disarmMines(game,e,1);
   if(e.tactics?.kind==='dingchunqiu'&&['status','curse'].includes(CARD[card.id].type)){const b=game.s.b,n=Math.min(2,b.poison||0);b.poison=(b.poison||0)-n;if(n)game.log(`清除毒滞 · 中毒−${n}`);}
  }
 }
-export function onTacticalPlay(game,card){if(CARD[card.id].type==='a')for(const e of game.s.b.enemies)if(e.hp>0&&e.tactics?.kind==='ouyangfeng'&&e.tactics.windup>0){e.charge=(e.charge||0)+1;game.log(`${e.name} · 逆劲应招，蓄力+1`);}}
+export function onTacticalPlay(game,card){const type=CARD[card.id].type;for(const e of game.s.b.enemies){if(e.hp<=0||!e.tactics)continue;const t=e.tactics;
+ if(t.kind==='jiumozhi')t.lastType=type;
+ if(t.kind==='dongfangbubai'){t.plays=(t.plays||0)+1;if(t.plays%6===0){t.needles=(t.needles||0)+1;game.log(`${e.name} · 针势+1`);}}
+ if(type==='a'&&t.kind==='ouyangfeng'&&t.windup>0){e.charge=(e.charge||0)+1;game.log(`${e.name} · 逆劲应招，蓄力+1`);}
+}}
 export function onTacticalDeath(game,e){
  const b=game.s.b;
+ if(e.tactics?.kind==='renwoxing'&&e.tactics.stolen>0){b.str+=e.tactics.stolen;e.tactics.stolen=0;}
  if(['hebiweng','luzhangke'].includes(e.tactics?.kind))for(const x of b.enemies)if(x!==e&&x.hp>0&&['hebiweng','luzhangke'].includes(x.tactics?.kind)&&!x.tactics.partnerFallen){x.tactics.partnerFallen=true;x.tactics.revengePending=true;}
  if(e.id==='qingcheng')for(const x of b.enemies)if(x.hp>0&&x.tactics?.kind==='yucanghai'){x.tactics.sword=0;x.vuln+=2;game.log('青城剑阵被破 · 余沧海破绽+2');}
  if(e.tactics?.kind==='poisonDisciple')for(const x of b.enemies)if(x.hp>0&&x.tactics?.kind==='dingchunqiu'&&x.tactics.revision===2){
@@ -83,6 +98,10 @@ function summonPoisonDisciple(game,boss){
 }
 export function afterTacticalAction(game,e,intent,dealt){
  const t=e.tactics,b=game.s.b;if(!t||e.hp<=0)return;
+ if(t.kind==='dingmian'){if(t.broken){t.broken=false;}else if(intent.label==='托塔护阵')t.ward=true;else t.ward=false;}
+ if(t.kind==='azi'&&intent.poisonBags){t.bags=(t.bags||0)+intent.poisonBags;t.bagDamage=0;game.log(`${e.name} · 备下毒囊${t.bags}层`);}
+ if(t.kind==='renwoxing'&&intent.stealStrength){const n=Math.min(intent.stealStrength,Math.max(0,b.str));if(n){b.str-=n;e.str+=n;t.stolen=(t.stolen||0)+n;game.log(`${e.name} · 吸取劲力${n}`);}}
+ if(t.kind==='dongfangbubai'&&intent.damage)t.needles=0;
  if(t.kind==='mugaofeng'&&intent.label==='伏刀反扑')t.counterReady=false;
  if(t.kind==='xuedaolaozu'&&intent.drainRatio&&dealt>0){const n=Math.min(Math.floor(dealt*intent.drainRatio),e.maxHp-e.hp);if(n>0){e.hp+=n;e.str++;game.log(`${e.name} · 饮血回复${n}气血，劲力+1`);}}
  if(t.revengeReady&&intent.label==='孤掌追魂')t.revengeReady=false;

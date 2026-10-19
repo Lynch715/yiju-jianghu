@@ -8,7 +8,7 @@ qa/
 dist/*
 !dist/index.html
 !dist/一局江湖.html
-!dist/一局江湖-v0.16.3.html
+!dist/一局江湖-v0.17.0.html
 
 # Editable full-size card artwork stays local; publish lightweight runtime WebP only.
 assets/cards/originals/
@@ -21,3 +21,14 @@ assets/battles/originals/
 
 # Keep full-size journey scene paintings local.
 assets/journey/originals/
+
+# Full-size expansion portraits stay local; publish their runtime WebP.
+assets/enemies/qingchengguard.png
+assets/enemies/shenlong.png
+assets/enemies/riyueguard.png
+assets/enemies/dingmian.png
+assets/enemies/azi.png
+assets/enemies/jiumozhi.png
+assets/enemies/zuolengchan.png
+assets/enemies/renwoxing.png
+assets/enemies/dongfangbubai.png

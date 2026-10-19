@@ -1123,3 +1123,7 @@ html{overscroll-behavior-x:none;touch-action:pan-x pan-y}
 .journey-hero-copy{z-index:2}
 .journey-hero p{color:#d1d5bd}
 @media(max-width:600px){.journey-hero{min-height:210px}.journey-hero-copy{width:72%}.journey-hero .journey-scene{object-position:63% 52%}.journey-hero:before{background:linear-gradient(90deg,#13241bef,#15271cd6 35%,#18291c73 72%,#1c2d232c)}.journey-hero p{color:#d1d5bd}}
+
+.trial-options{display:grid;gap:10px;margin:20px 0}.trial-options button{text-align:left;padding:14px 16px;border:1px solid #a99b6940;border-radius:10px;background:#26382d}.trial-options button[aria-pressed="true"]{border-color:#c7b67e;background:#374733;box-shadow:inset 3px 0 #c7b67e}.trial-options button:disabled{opacity:.48}.trial-options button>span{display:flex;align-items:center;gap:12px}.trial-options b{display:grid;place-items:center;width:26px;height:26px;border:1px solid #b4a16f70;border-radius:50%;color:#d0bc7f}.trial-options strong{font-size:17px;font-weight:500}.trial-options small{display:block;color:#bfc7ae;font-size:12px;line-height:1.8;margin-top:7px}.trial-start{width:100%;margin-top:10px}
+
+.trial-options button{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 12px}.trial-options small{margin:0;text-align:right;font-size:11px}.trial-rule{padding:12px 14px;border:1px solid #a99b6935;border-radius:9px;background:#1b2b22}.trial-rule strong{color:#ddc995;font-size:14px;font-weight:500}.trial-rule p{font-size:12px;line-height:1.8;color:#c0c7b2;margin:7px 0 0}

@@ -15,7 +15,17 @@ const roster=[
  {id:'jinlun',name:'金轮法王',rank:'elite',chapter:2,hp:100,faction:'金轮法王',source:'神雕侠侣',trait:'轮刃多段攻击；龙象蓄力增长劲力，久战愈强。',moves:[{label:'五轮连击',damage:3,hits:3},{label:'龙象蓄力',block:10,str:2},{label:'金轮重击',damage:13},{label:'护轮式',damage:5,block:6}]},
  {id:'yucanghai',name:'余沧海',rank:'boss',chapter:0,hp:90,faction:'青城掌门',source:'笑傲江湖',trait:'松风剑试探，摧心掌施加2回合破绽，再以三峡剑重击；守势时可整备。',moves:[{label:'松风剑法',damage:5,hits:2},{label:'摧心掌',damage:6,vuln:2},{label:'三峡剑',damage:12},{label:'鹤唳九霄',block:12}]},
  {id:'dingchunqiu',name:'丁春秋',rank:'boss',chapter:1,hp:130,faction:'星宿老仙',source:'天龙八部',trait:'化功大法塞气滞并压制下回合真气，三笑逍遥散施毒；精简牌组和消耗状态可应对。',moves:[{label:'化功大法',status:1,chill:1},{label:'三笑逍遥散',damage:8,poison:2},{label:'星宿护身',block:12},{label:'腐骨掌',damage:12,status:1}]},
- {id:'ouyangfeng',name:'欧阳锋',rank:'boss',chapter:2,hp:185,faction:'西毒',source:'射雕英雄传',trait:'蓄势为下一次攻击增加4伤害；气血不高于一半时切换逆练阶段，清除旧蓄力并重置招式顺序。',moves:[{label:'灵蛇杖法',damage:7,hits:2},{label:'蛤蟆蓄势',block:14,charge:4},{label:'蛤蟆功',damage:19},{label:'白驼守势',block:10}],enragedMoves:[{label:'逆练蛤蟆功',block:10,str:1,charge:2},{label:'逆转经脉',damage:4,hits:3},{label:'疯魔蛇杖',damage:14,poison:1}]}
+ {id:'ouyangfeng',name:'欧阳锋',rank:'boss',chapter:2,hp:185,faction:'西毒',source:'射雕英雄传',trait:'蓄势为下一次攻击增加4伤害；气血不高于一半时切换逆练阶段，清除旧蓄力并重置招式顺序。',moves:[{label:'灵蛇杖法',damage:7,hits:2},{label:'蛤蟆蓄势',block:14,charge:4},{label:'蛤蟆功',damage:19},{label:'白驼守势',block:10}],enragedMoves:[{label:'逆练蛤蟆功',block:10,str:1,charge:2},{label:'逆转经脉',damage:4,hits:3},{label:'疯魔蛇杖',damage:14,poison:1}]},
+ {id:'qingchengguard',name:'青城剑卫',rank:'normal',chapter:0,hp:27,faction:'青城派',source:'笑傲江湖 · 游戏编队',trait:'剑卫护援与追击交替。',moves:[{label:'横剑护援',block:4,allyBlock:3},{label:'松风追剑',damage:4,hits:2},{label:'青城截脉',damage:5,weak:1}]},
+ {id:'shenlong',name:'神龙教众',rank:'normal',chapter:1,hp:30,faction:'神龙教',source:'鹿鼎记 · 游戏编队',trait:'毒掌与蓄势交替。',moves:[{label:'神龙毒掌',damage:5,poison:1},{label:'盘龙运劲',block:5,str:1},{label:'连环掌',damage:3,hits:2}]},
+ {id:'riyueguard',name:'日月刀卫',rank:'normal',chapter:2,hp:37,faction:'日月神教',source:'笑傲江湖 · 游戏编队',trait:'刀卫交替护援与扰脉。',moves:[{label:'黑木护阵',block:6,allyBlock:4},{label:'日月连刀',damage:4,hits:2},{label:'截脉刀',damage:7,status:1}]},
+ {id:'dingmian',name:'丁勉',rank:'elite',chapter:0,hp:58,faction:'嵩山派',source:'笑傲江湖',trait:'托塔掌势与护阵。',moves:[{label:'托塔护阵',block:12,allyBlock:5},{label:'嵩阳连掌',damage:4,hits:2},{label:'托塔重掌',damage:11,vuln:1}]},
+ {id:'azi',name:'阿紫',rank:'elite',chapter:1,hp:72,faction:'星宿派',source:'天龙八部',trait:'毒囊与毒掌。',moves:[{label:'藏毒入囊',block:12,poisonBags:2},{label:'腐尸毒',damage:8,poison:2},{label:'星宿扰脉',damage:7,status:1}]},
+ {id:'jiumozhi',name:'鸠摩智',rank:'elite',chapter:2,hp:94,faction:'大轮明王',source:'天龙八部',trait:'小无相功与火焰刀。',moves:[{label:'小无相功',block:14},{label:'火焰刀',damage:5,hits:3},{label:'无相掌',damage:12}]},
+ {id:'zuolengchan',name:'左冷禅',rank:'boss',chapter:0,hp:155,faction:'嵩山掌门',source:'笑傲江湖',phaseName:'寒冰凝势',trait:'寒冰真气与嵩山剑掌。',moves:[{label:'嵩山剑法',damage:7,hits:2},{label:'寒冰真气',block:16,charge:5,chill:1},{label:'大嵩阳掌',damage:17},{label:'回剑凝气',damage:6,block:12}],enragedMoves:[{label:'寒冰凝势',block:16,charge:6,chill:1},{label:'嵩阳追掌',damage:7,hits:2},{label:'寒冰掌',damage:20,weak:1},{label:'嵩山归元',damage:7,block:14}]},
+ {id:'renwoxing',name:'任我行',rank:'boss',chapter:1,hp:300,faction:'日月教主',source:'笑傲江湖',phaseName:'吸星归元',trait:'吸星大法与凌厉掌势。',moves:[{label:'吸星大法',damage:8,block:18,stealStrength:2,chill:1},{label:'日月追掌',damage:9,hits:2},{label:'教主掌势',damage:23},{label:'归元吐纳',damage:10,block:20}],enragedMoves:[{label:'吸星归元',damage:11,block:22,stealStrength:2},{label:'日月连掌',damage:8,hits:3},{label:'震脉掌',damage:25,chill:1},{label:'聚气回掌',damage:13,block:20}]},
+ {id:'dongfangbubai',name:'东方不败',rank:'boss',chapter:2,hp:500,faction:'日月教主',source:'笑傲江湖',phaseName:'葵花绣影',trait:'绣针与葵花身法。',moves:[{label:'绣针连刺',damage:7,hits:3},{label:'葵花回护',damage:8,block:24},{label:'飞针截脉',damage:10,hits:2,weak:1},{label:'穿云针',damage:27}],enragedMoves:[{label:'葵花绣影',damage:6,hits:4},{label:'绣针回护',damage:10,block:28},{label:'追魂飞针',damage:8,hits:3,vuln:1},{label:'葵花归元',damage:15,block:22}]}
+
 ];
 export const ENEMIES=roster.map(d=>({...d,art:`assets/enemies/runtime/${d.id}.webp`}));
 export const ENEMY=Object.fromEntries(ENEMIES.map(d=>[d.id,d]));
@@ -35,3 +45,9 @@ export const ENCOUNTER_GROUPS=[
 // Keep ID-only rosters for old-save identity migration and tooling.
 export const ENCOUNTERS=ENCOUNTER_GROUPS.map(ch=>({normal:ch.normal.map(x=>x.ids),elite:ch.elite.map(x=>x.ids),boss:ch.boss.ids}));
 export const ENEMY_RANK={normal:'普通',elite:'精英',boss:'首领'};
+
+// Revision-one expanded pools are opt-in per run, preserving every older run's pools.
+export const EXPANDED_ENCOUNTERS=ENCOUNTER_GROUPS.map((ch,i)=>{
+ const troop=['qingchengguard','shenlong','riyueguard'][i],old=['qingcheng','xingxiu','baituo'][i],elite=['dingmian','azi','jiumozhi'][i],boss=['zuolengchan','renwoxing','dongfangbubai'][i];
+ return {normal:[...ch.normal,group(['剑卫巡山','神龙伏哨','黑木巡卫'][i],[troop]),group(['护剑双行','毒掌夹击','刀杖夹击'][i],[troop,old]),group(['三剑护阵','三派伏击','黑木合围'][i],[old,troop,troop])],elite:[...ch.elite,group(ENEMY[elite].name,[elite]),group(['托塔双卫','毒囊护使','无相护阵'][i],[elite,troop],{escorts:true})],bosses:[ch.boss,group(['嵩山掌门与剑卫','日月教主与教众','黑木崖绣影'][i],[boss,troop],{escorts:true})]};
+});

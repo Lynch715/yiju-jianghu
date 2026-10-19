@@ -1,3 +1,4 @@
+import {restRate} from './expedition.js';
 import {CARD,RELIC} from './data.js';
 // Read only results already resolved by the engine; never roll or predict an event reward.
 export function journeyResultItems(state,message=''){
@@ -11,6 +12,6 @@ export function journeyResultItems(state,message=''){
  return {cards,relics:(state.relics||[]).filter(id=>RELIC[id]&&named(RELIC[id].name))};
 }
 export function restRecovery(game){
- const {hp,maxHp}=game.s,amount=Math.floor(maxHp*.25),blocked=game.has('R27');
+ const {hp,maxHp}=game.s,amount=Math.floor(maxHp*restRate(game.s)),blocked=game.has('R27');
  return {hp,maxHp,amount,gain:blocked?0:Math.max(0,Math.min(amount,maxHp-hp)),blocked,eligible:game.s.deck.filter(c=>!c.up&&!['status','curse'].includes(CARD[c.id].type))};
 }

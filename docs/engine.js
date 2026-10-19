@@ -1,11 +1,12 @@
-import {enemyActionView,enemyAttackTag} from './enemy-action.js?v=0.16.3';
-import {createClearRecord} from './records.js?v=0.16.3';
-import {attachEnemyTactics,tacticalIntent,onTacticalDamage,onTacticalExhaust,onTacticalPlay,onTacticalDeath,afterTacticalAction,afterTacticalFollowerAction} from './enemy-tactics.js?v=0.16.3';
-import {JOURNEY_FLOORS,JOURNEY_TOTAL,newJourney,journeyChapter} from './journey.js?v=0.16.3';
-import {PLAYERS,DEFAULT_PLAYER,cleanPlayerName,playerNameError,validPlayer,PLAYER_RETURN_PHASES} from './players.js?v=0.16.3';
-import {ENEMY,ENCOUNTERS,ENCOUNTER_GROUPS} from './enemies.js?v=0.16.3';
-import {DIFFICULTY,combatDefinition,encounterTuning} from './difficulty.js?v=0.16.3';
-import {CARDS,CARD,RELICS,RELIC,CHAPTERS,ROUTES,isEthereal,OPENING_BOONS,GAME_VERSION} from './data.js?v=0.16.3';
+import {newExpedition,validExpedition,trialLevel,encounterFor,restRate,trialPrice} from './expedition.js?v=0.17.0';
+import {enemyActionView,enemyAttackTag} from './enemy-action.js?v=0.17.0';
+import {createClearRecord} from './records.js?v=0.17.0';
+import {attachEnemyTactics,tacticalIntent,onTacticalDamage,onTacticalExhaust,onTacticalPlay,onTacticalDeath,afterTacticalAction,afterTacticalFollowerAction} from './enemy-tactics.js?v=0.17.0';
+import {JOURNEY_FLOORS,JOURNEY_TOTAL,newJourney,journeyChapter} from './journey.js?v=0.17.0';
+import {PLAYERS,DEFAULT_PLAYER,cleanPlayerName,playerNameError,validPlayer,PLAYER_RETURN_PHASES} from './players.js?v=0.17.0';
+import {ENEMY,ENCOUNTERS,ENCOUNTER_GROUPS} from './enemies.js?v=0.17.0';
+import {DIFFICULTY,combatDefinition,encounterTuning} from './difficulty.js?v=0.17.0';
+import {CARDS,CARD,RELICS,RELIC,CHAPTERS,ROUTES,isEthereal,OPENING_BOONS,GAME_VERSION} from './data.js?v=0.17.0';
 
 export const SAVE_VERSION=7;
 export const STARTING_DECK=Object.freeze([...Array(5).fill('W01'),...Array(4).fill('U01'),'U02']);
@@ -32,6 +33,7 @@ export class Game {
   this.s=state?clone(state):null;
   if(this.s){
    // Preserve existing cards, relics and combat progress; remove the old direction binding.
+   if(!validExpedition(this.s))throw Error('历练存档无效');
    this.s.version=SAVE_VERSION;delete this.s.legacy;
    if(!validPlayer(this.s.player))this.s.player={...DEFAULT_PLAYER};
    // An unfinished v0.3 selection has not entered the journey yet.
@@ -52,9 +54,9 @@ export class Game {
  encounterRecord(e){this.s.journal??={};return this.s.journal[e.id]??=( {moves:{},notes:[]} );}
  combatStep(step){this.onCombatStep?.(step);}
  recordEnemyAction(e,intent,damage){const action={key:e.key,label:intent.label,attacks:!!intent.damage,damage};this.s.b.lastEnemyActions.push(action);e.lastAction=action;const record=this.encounterRecord(e);record.moves[intent.label]=(record.moves[intent.label]||0)+1;}
- start(seed=Date.now(),{opening=true,character=opening,classic=false}={}){
+ start(seed=Date.now(),{opening=true,character=opening,classic=false,trialLevel:level=null}={}){
   this.s={version:SAVE_VERSION,phase:'map',player:{...DEFAULT_PLAYER},rng:Number(seed)>>>0,seed:Number(seed)>>>0,uid:0,hp:80,maxHp:80,gold:90,step:0,deck:[],relics:['R01'],b:null,scene:null,reward:null,history:[],stats:{turns:0,played:0,damage:0,exhausted:0,self:0,kills:0,wins:0},created:Date.now(),runInfo:{version:GAME_VERSION,activeMs:0,timed:true}};
-  if(!classic){this.s.journey=newJourney();this.s.ruleset=DIFFICULTY;}
+  if(!classic){this.s.journey=newJourney();this.s.ruleset=DIFFICULTY;if(level!==null)this.s.expedition=newExpedition(seed,level);}else if(level!==null)throw Error('历练需要四十五程行程');
   for(const id of STARTING_DECK)this.s.deck.push(this.make(id));
   if(character){this.s.character={name:'',portrait:null,editing:false,returnPhase:opening?'opening':'map'};this.s.phase='character';}
   else if(opening)this.beginOpening();
@@ -384,19 +386,19 @@ export class Game {
   if(oldVuln>0)b.vuln=Math.max(0,b.vuln-1);
   if((b.poison||0)>0){const poison=b.poison;this.s.hp-=poison;b.poison--;this.log(`毒发 · 失去${poison}气血（剩余中毒${b.poison}）`);this.bee();}
   this.combatStep({kind:'round-end',label:'回合收尾'});if(this.checkEnd())return true;
-  for(const e of b.enemies){e.weak=Math.max(0,e.weak-1);e.vuln=Math.max(0,e.vuln-1);e.pin=0;if(e.hp>0){if(e.bornTurn!==b.turn)e.round++;if(e.ruleset===DIFFICULTY&&e.kind==='boss'&&b.turn%4===0){e.str++;this.log(`${e.name} · 久战蓄劲，劲力+1`);}e.intent=this.enemyIntent(e);}}
+  for(const e of b.enemies){e.weak=Math.max(0,e.weak-1);e.vuln=Math.max(0,e.vuln-1);e.pin=0;if(e.hp>0){if(e.bornTurn!==b.turn)e.round++;if(e.ruleset===DIFFICULTY&&e.kind==='boss'&&b.turn%(e.escalationEvery||4)===0){e.str++;this.log(`${e.name} · 久战蓄劲，劲力+1`);}e.intent=this.enemyIntent(e);}}
   if(this.checkEnd())return true;this.beginTurn();return true;
  }
  enemyIntent(e){
   const base=ENEMY[e.id];if(!base)return this.legacyEnemyIntent(e);const d=combatDefinition(base,e.ruleset);
-  if(d.enragedMoves&&!e.enraged&&e.hp>0&&e.hp<=e.maxHp/2){e.enraged=true;e.round=0;e.charge=0;this.log(`${e.name} · 进入${d.phaseName||'逆练阶段'}，招式已改变`);}
+  if(d.enragedMoves&&!e.enraged&&e.hp>0&&e.hp<=e.maxHp*(e.phaseThreshold??.5)){e.enraged=true;e.round=0;e.charge=0;this.log(`${e.name} · 进入${d.phaseName||'逆练阶段'}，招式已改变`);}
   const moves=e.enraged?d.enragedMoves:d.moves,intent=clone(moves[e.round%moves.length]);
   // Store tuned numbers in the actual intent: preview and execution share them.
   for(const key of ['damage','leech'])if(intent[key])intent[key]=Math.max(1,Math.round(intent[key]*(e.damageScale??1)));
   for(const key of ['block','allyBlock'])if(intent[key])intent[key]=Math.max(1,Math.round(intent[key]*(e.guardScale??1)));
   return tacticalIntent(this,e,intent);
  }
- refreshEnemyPhases(){for(const e of this.s.b?.enemies||[])if(e.hp>0&&(e.tactics||combatDefinition(ENEMY[e.id]||{},e.ruleset).enragedMoves&&!e.enraged&&e.hp<=e.maxHp/2))e.intent=this.enemyIntent(e);}
+ refreshEnemyPhases(){for(const e of this.s.b?.enemies||[])if(e.hp>0&&(e.tactics||combatDefinition(ENEMY[e.id]||{},e.ruleset).enragedMoves&&!e.enraged&&e.hp<=e.maxHp*(e.phaseThreshold??.5)))e.intent=this.enemyIntent(e);}
  legacyEnemyIntent(e){
   const a=this.chapter;
   const patterns={
@@ -415,7 +417,7 @@ export class Game {
   this.s.phase=kind;
   if(kind==='shop'){
    const hard=this.s.ruleset===DIFFICULTY,stock={cards:this.offerCards(4).map(id=>({id,price:hard?({1:45,2:85,3:165}[CARD[id].rarity]):CARD[id].rarity===3?125:CARD[id].rarity===2?65:40,sold:false})),relic:this.offerRelics(1,[1,2])[0],relicPrice:120,removed:false};
-   if(hard){stock.removePrice=60+25*(this.s.shopRemovals||0);stock.relicPrice=stock.relic&&RELIC[stock.relic].tier===2?165:135;}this.s.scene.stock=stock;
+   if(hard){stock.removePrice=60+25*(this.s.shopRemovals||0);stock.relicPrice=stock.relic&&RELIC[stock.relic].tier===2?165:135;}if(this.s.expedition){for(const card of stock.cards)card.price=trialPrice(this.s,card.price);stock.relicPrice=trialPrice(this.s,stock.relicPrice);stock.removePrice=trialPrice(this.s,stock.removePrice); }this.s.scene.stock=stock;
   }
   if(kind==='event'){this.s.scene.event=this.pick(this.s.journey?['master','shrine','traveller','cliff','clinic','cache','stone','ferry']:['master','shrine','traveller','cliff']);if(this.s.ruleset===DIFFICULTY)this.s.scene.cliffCost=12+2*this.chapter;}
   if(kind==='treasure'){this.s.scene.relics=this.offerRelics(2,[1,2]);this.s.scene.claimed=null;}
@@ -430,7 +432,8 @@ export class Game {
  combat(kind){
   const a=this.chapter,encounter=ENCOUNTER_GROUPS[a],pool=kind==='elite'?encounter.elite:encounter.normal;
   // The first road can roll a duo; three-person formations enter after it.
-  const setup=kind==='boss'?encounter.boss:this.pick(kind==='battle'&&this.chapterStep===0?pool.filter(x=>x.ids.length<=2):pool),ids=setup.ids;
+  const setup=this.s.expedition?encounterFor(this,kind):kind==='boss'?encounter.boss:this.pick(kind==='battle'&&this.chapterStep===0?pool.filter(x=>x.ids.length<=2):pool),ids=setup.ids;
+  if(this.s.expedition){const seen=this.s.expedition.seen;this.s.expedition.seen=seen.filter(x=>x.step!==this.s.step);this.s.expedition.seen.push({step:this.s.step,chapter:a,kind,title:setup.title});}
   const normalHp=ids.length===3?[.48,.62,.70][a]:ids.length===2?[.63,.80,.90][a]:1;
   const normalDamage=ids.length===3?[.50,.60,.70][a]:ids.length===2?[.70,.80,.90][a]:1;
   const duplicates=new Map();
@@ -442,9 +445,10 @@ export class Game {
    let guardScale=kind==='battle'&&ids.length>1?.75:escort?.60:1;
    let hpBonus=kind==='battle'?Math.round(this.chapterStep/(this.chapterLength-1)*5)*2:0;
    if(this.s.ruleset===DIFFICULTY){const tuned=encounterTuning(a,kind,ids.length,escort,this.chapterStep/(this.chapterLength-1));({hpScale,damageScale,guardScale,hpBonus}=tuned);}
+   const level=trialLevel(this.s);if(level>=2&&kind==='elite')guardScale*=1.12;if(level>=4&&kind==='boss'&&!escort)hpScale*=1.08;
    const hp=Math.max(1,Math.round((d.hp+hpBonus)*hpScale));
    const round=kind==='battle'&&ids.length>1?i%d.moves.length:escort?(i+1)%d.moves.length:0;
-   return {...(this.s.ruleset===DIFFICULTY?{ruleset:DIFFICULTY,...(d.phaseName?{phaseName:d.phaseName}:{})}:{}),id,name:d.name+(callSign?'·'+callSign:''),callSign,role:escort?'随从':'',kind:d.rank==='normal'?'bandit':d.rank,hp,maxHp:hp,key:i,round,damageScale,guardScale,block:0,weak:0,vuln:0,str:0,pin:0,charge:0,enraged:false};
+   return {...(this.s.ruleset===DIFFICULTY?{ruleset:DIFFICULTY,...(d.phaseName?{phaseName:d.phaseName}:{})}:{}),...(level>=4&&d.rank==='boss'?{phaseThreshold:.6}:{}),...(level>=5&&d.rank==='boss'?{escalationEvery:3}:{}),id,name:d.name+(callSign?'·'+callSign:''),callSign,role:escort?'随从':'',kind:d.rank==='normal'?'bandit':d.rank,hp,maxHp:hp,key:i,round,damageScale,guardScale,block:0,weak:0,vuln:0,str:level>=5&&d.rank==='boss'?1:0,pin:0,charge:0,enraged:false};
   });
   this.s.b={enemies,draw:this.shuffle(this.s.deck.map(x=>clone(x))),hand:[],discard:[],exhaust:[],powers:{},qi:0,str:0,tempStr:0,block:0,weak:0,vuln:0,turn:0,nextDraw:0,repeat:false,discount:0,turnFlags:{},battleFlags:{bandage:0,blood:0},log:[],kind,formation:setup.title};
   if(this.s.ruleset===DIFFICULTY)attachEnemyTactics(this);
@@ -478,14 +482,14 @@ export class Game {
  leaveReward(){const r=this.s.reward;if(this.s.phase!=='reward'||!r.cardDone||!r.relicDone)return false;if(r.boss)this.heal(Math.floor(this.s.maxHp*.25),'章节整备');this.finishNode();return true;}
  finishNode(){
   if(!['event','shop','rest','reward','treasure'].includes(this.s.phase)||this.s.phase==='event'&&!this.s.scene?.result||this.s.phase==='reward'&&(!this.s.reward?.cardDone||!this.s.reward?.relicDone)||this.s.phase==='treasure'&&!this.s.scene?.claimed)return false;
-  const entry={step:this.s.step,kind:this.s.scene?.kind,hp:this.s.hp,deck:this.s.deck.length};
+  const entry={step:this.s.step,kind:this.s.scene?.kind,hp:this.s.hp,deck:this.s.deck.length,...(this.s.expedition&&this.s.b?.formation&&['battle','elite','boss'].includes(this.s.scene?.kind)?{formation:this.s.b.formation}: {})};
   if(this.s.journey){if(!this.s.journey.active)return false;entry.nodeId=this.s.journey.active;entry.place=this.s.scene.place;this.s.journey.path.push(this.s.journey.active);this.s.journey.active=null;}
   this.s.history.push(entry);this.s.step++;this.s.reward=null;this.s.scene=null;
   if(this.s.step>=this.totalSteps){this.s.phase='win';this.s.finished=Date.now();}else this.s.phase='map';return true;
  }
  rest(action,uid=null){
   if(this.s.phase!=='rest')return false;
-  if(action==='heal'){if(this.has('R27'))return false;this.heal(Math.floor(this.s.maxHp*.25),'山间歇脚');}
+  if(action==='heal'){if(this.has('R27'))return false;this.heal(Math.floor(this.s.maxHp*restRate(this.s)),'山间歇脚');}
   else if(action==='upgrade'){const c=this.s.deck.find(x=>x.uid===uid&&!x.up&&!['status','curse'].includes(CARD[x.id].type));if(!c)return false;c.up=true;}
   else if(action!=='leave')return false;this.finishNode();return true;
  }
