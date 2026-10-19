@@ -7,8 +7,11 @@ import {mkdir,stat} from 'node:fs/promises';
 import {ENEMIES} from '../enemies.js';
 import {PLAYERS} from '../players.js';
 import {CARD_ART_THEMES} from '../card-art.js';
+import {HOME_COVER} from '../home-art.js';
 const exec=promisify(execFile);
 const artJobs=[
+ // Preserve native cover detail; never use the 480px card derivative for the title screen.
+ {source:'assets/cards/originals/sword.png',target:HOME_COVER.art,options:['-q','86','-sharp_yuv']},
  ...ENEMIES.map(d=>({source:`assets/enemies/${d.id}.png`,target:d.art,options:['-q','76','-alpha_q','85','-resize','0','480']})),
  ...PLAYERS.map(p=>({source:`assets/players/${p.id}.png`,target:p.art,options:['-q','76','-alpha_q','85','-resize','0','480']})),
  ...Object.values(CARD_ART_THEMES).map(t=>({source:`assets/cards/originals/${t.id}.png`,target:t.art,options:['-q','72','-resize','480','320']}))

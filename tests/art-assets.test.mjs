@@ -8,6 +8,7 @@ import {ENEMIES} from '../enemies.js';
 import {PLAYERS} from '../players.js';
 import {BATTLE_SCENES} from '../battle-art.js';
 import {JOURNEY_SCENES} from '../journey-art.js';
+import {HOME_COVER} from '../home-art.js';
 const root=new URL('../',import.meta.url);
 test('every playable and temporary card has a deliberate illustration assignment',()=>{
  assert.deepEqual(Object.keys(CARD_ART).sort(),Object.keys(CARD).sort());
@@ -16,18 +17,19 @@ test('every playable and temporary card has a deliberate illustration assignment
  for(const theme of Object.values(CARD_ART_THEMES))assert.ok(prompts.some(p=>p.id===theme.id&&p.file===theme.art&&p.prompt.includes('Subject:')));
 });
 test('runtime artwork is valid WebP with a bounded mobile download budget',()=>{
- const art=[...ENEMIES,...PLAYERS,...Object.values(CARD_ART_THEMES),...BATTLE_SCENES,...JOURNEY_SCENES];let total=0;
- for(const d of art){const bytes=readFileSync(new URL(d.art,root));assert.equal(bytes.subarray(0,4).toString(),'RIFF');assert.equal(bytes.subarray(8,12).toString(),'WEBP');assert.ok(bytes.length<90000,d.art);if(JOURNEY_SCENES.includes(d))assert.ok(bytes.length<=48*1024,d.art);if(BATTLE_SCENES.includes(d))assert.ok(bytes.length<=72*1024,d.art);total+=bytes.length;}
- assert.ok(total<2600000,`all runtime art uses ${total} bytes`);
+ const art=[...ENEMIES,...PLAYERS,...Object.values(CARD_ART_THEMES),...BATTLE_SCENES,...JOURNEY_SCENES,HOME_COVER];let total=0;
+ for(const d of art){const bytes=readFileSync(new URL(d.art,root));assert.equal(bytes.subarray(0,4).toString(),'RIFF');assert.equal(bytes.subarray(8,12).toString(),'WEBP');assert.ok(bytes.length<(d===HOME_COVER?512*1024:90000),d.art);if(JOURNEY_SCENES.includes(d))assert.ok(bytes.length<=48*1024,d.art);if(BATTLE_SCENES.includes(d))assert.ok(bytes.length<=72*1024,d.art);total+=bytes.length;}
+ assert.ok(total<3100000,`all runtime art uses ${total} bytes`);
 });
 test('standalone embeds all art and Pages ships only the current lightweight assets',()=>{
  const html=readFileSync(new URL('dist/index.html',root),'utf8');
  assert.ok(html.includes('data:image/webp;base64,'));
  // PNG is reserved for platform icon links; gameplay illustrations must stay WebP.
  assert.ok(!html.slice(html.indexOf('<script type="module">')).includes('data:image/png;base64,'));
- assert.ok(!html.includes('art:`assets/'));assert.ok(Buffer.byteLength(html)<4000000);
+ assert.ok(!html.includes(HOME_COVER.art),'offline cover must be embedded');
+ assert.ok(!html.includes('art:`assets/'));assert.ok(Buffer.byteLength(html)<4500000);
  const manifest=JSON.parse(readFileSync(new URL('docs/release.json',root),'utf8'));
- const expected=[...[...ENEMIES,...PLAYERS,...Object.values(CARD_ART_THEMES),...BATTLE_SCENES,...JOURNEY_SCENES].map(d=>d.art),'assets/icons/icon.svg','assets/icons/icon-512.png','assets/icons/icon-192.png','assets/icons/apple-touch-icon.png','assets/icons/favicon-32.png'].sort();
+ const expected=[...[...ENEMIES,...PLAYERS,...Object.values(CARD_ART_THEMES),...BATTLE_SCENES,...JOURNEY_SCENES,HOME_COVER].map(d=>d.art),'assets/icons/icon.svg','assets/icons/icon-512.png','assets/icons/icon-192.png','assets/icons/apple-touch-icon.png','assets/icons/favicon-32.png'].sort();
  assert.deepEqual(manifest.files.filter(f=>f.path.startsWith('assets/')).map(f=>f.path).sort(),expected);
  for(const file of manifest.files)assert.equal(statSync(new URL('docs/'+file.path,root)).size,file.bytes);
 });
@@ -58,4 +60,13 @@ test('home-screen identity and platform icons resolve within the deployed projec
  for(const [name,size] of pngs){const bytes=readFileSync(new URL('docs/assets/icons/'+name,root));assert.equal(bytes.subarray(1,4).toString(),'PNG');assert.equal(bytes.readUInt32BE(16),size);assert.equal(bytes.readUInt32BE(20),size);assert.ok(bytes.length<50000);}
  for(const icon of app.icons)assert.ok(new URL(icon.src,base).pathname.startsWith('/yiju-jianghu/assets/icons/'));
  assert.ok(!/<link rel="manifest"/.test(offline));assert.ok(!/href="assets\/icons\//.test(offline));assert.match(offline,/rel="apple-touch-icon" href="data:image\/png;base64,/);
+});
+
+test('title art retains native resolution instead of reusing a card thumbnail',()=>{
+ const bytes=readFileSync(new URL(HOME_COVER.art,root));
+ assert.equal(bytes.subarray(12,16).toString(),'VP8 ');assert.equal(bytes.subarray(23,26).toString('hex'),'9d012a');
+ const width=bytes.readUInt16LE(26)&0x3fff,height=bytes.readUInt16LE(28)&0x3fff;
+ assert.ok(width>=1536&&height>=1024,'title illustration must retain the full-size source detail');
+ assert.equal(width,HOME_COVER.width);assert.equal(height,HOME_COVER.height);
+ assert.notEqual(HOME_COVER.art,cardArtwork('W03').art,'title and card download budgets must stay separate');
 });

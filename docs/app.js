@@ -1,22 +1,23 @@
-import {GAME_THEMES,gameTheme,readTheme,storeTheme,applyTheme} from './themes.js?v=0.19.1';
-import {TRIALS,unlockedTrial,validExpedition,trialLevel,restRate} from './expedition.js?v=0.19.1';
-import {battleBackdrop} from './battle-art.js?v=0.19.1';
-import {journeyScene,journeyIcon} from './journey-art.js?v=0.19.1';
-import {journeyResultItems,restRecovery} from './journey-ui.js?v=0.19.1';
-import {describeCombatCardHTML,cardCostHTML} from './card-preview.js?v=0.19.1';
-import {enemyActionView,enemyActionTagHTML} from './enemy-action.js?v=0.19.1';
-import {readRecords,storeRecords,mergeRecords,parseRecords,serializeRecords,clearRecordForState,recordGroup,eliteCount,deckSize,refinedCount,rankRecords,PlayClock} from './records.js?v=0.19.1';
-import {validJourney} from './journey.js?v=0.19.1';
-import {travelMark,travelTerrain} from './map-art.js?v=0.19.1';
-import {relicIcon} from './relic-art.js?v=0.19.1';
-import {cardArtwork} from './card-art.js?v=0.19.1';
-import {captureCombatAction,playCombatSteps,combatStepFeedback} from './combat-ui.js?v=0.19.1';
-import {HandScrub} from './hand-gesture.js?v=0.19.1';
-import {PLAYERS,PLAYER,validPlayer,validCharacterDraft,playerNameError,cleanPlayerName} from './players.js?v=0.19.1';
-import {ENEMIES,ENEMY,ENEMY_RANK} from './enemies.js?v=0.19.1';
-import {DIFFICULTY,combatDefinition} from './difficulty.js?v=0.19.1';
-import {CARDS,CARD,RELICS,RELIC,CHAPTERS,ROUTES,NODE_NAMES,TYPE,RARITY,describe,GAME_VERSION,OPENING_BOONS} from './data.js?v=0.19.1';
-import {Game,SAVE_VERSION,validOpening} from './engine.js?v=0.19.1';
+import {HOME_COVER} from './home-art.js?v=0.19.2';
+import {GAME_THEMES,gameTheme,readTheme,storeTheme,applyTheme} from './themes.js?v=0.19.2';
+import {TRIALS,unlockedTrial,validExpedition,trialLevel,restRate} from './expedition.js?v=0.19.2';
+import {battleBackdrop} from './battle-art.js?v=0.19.2';
+import {journeyScene,journeyIcon} from './journey-art.js?v=0.19.2';
+import {journeyResultItems,restRecovery} from './journey-ui.js?v=0.19.2';
+import {describeCombatCardHTML,cardCostHTML} from './card-preview.js?v=0.19.2';
+import {enemyActionView,enemyActionTagHTML} from './enemy-action.js?v=0.19.2';
+import {readRecords,storeRecords,mergeRecords,parseRecords,serializeRecords,clearRecordForState,recordGroup,eliteCount,deckSize,refinedCount,rankRecords,PlayClock} from './records.js?v=0.19.2';
+import {validJourney} from './journey.js?v=0.19.2';
+import {travelMark,travelTerrain} from './map-art.js?v=0.19.2';
+import {relicIcon} from './relic-art.js?v=0.19.2';
+import {cardArtwork} from './card-art.js?v=0.19.2';
+import {captureCombatAction,playCombatSteps,combatStepFeedback} from './combat-ui.js?v=0.19.2';
+import {HandScrub} from './hand-gesture.js?v=0.19.2';
+import {PLAYERS,PLAYER,validPlayer,validCharacterDraft,playerNameError,cleanPlayerName} from './players.js?v=0.19.2';
+import {ENEMIES,ENEMY,ENEMY_RANK} from './enemies.js?v=0.19.2';
+import {DIFFICULTY,combatDefinition} from './difficulty.js?v=0.19.2';
+import {CARDS,CARD,RELICS,RELIC,CHAPTERS,ROUTES,NODE_NAMES,TYPE,RARITY,describe,GAME_VERSION,OPENING_BOONS} from './data.js?v=0.19.2';
+import {Game,SAVE_VERSION,validOpening} from './engine.js?v=0.19.2';
 let activeTheme;try{activeTheme=readTheme(localStorage);}catch{activeTheme='dawn';}applyTheme(document,activeTheme);
 let themeStorageError=false;
 document.title=`一局一江湖 · v${GAME_VERSION}`;
@@ -146,7 +147,7 @@ function cardHTML(c,{action='',uid=null,read=false,battle=false,choice=false,com
 function relicHTML(id,action='',extra=''){const r=RELIC[id];return `<${action?'button':'article'} class="relic-option" ${action?`data-action="${action}" data-id="${id}"`:''} ${extra}><div class="relic-option-head">${relicIcon(id)}<div><div class="eyebrow">${['初始','随身','珍奇','镇派'][r.tier]}</div><h3>${r.name}</h3></div></div><p>${r.text}</p><small>${r.source}</small></${action?'button':'article'}>`;}
 function home(){
  const resumable=!!game.s,profile=resumable?`${escapeHTML(game.s.player.name)} · 第${game.chapter+1}章 · ${Math.min(game.s.step+1,game.totalSteps)}/${game.totalSteps}程`:'十招起步，沿途习武，自成一家';
- return `<div class="home"><nav class="home-nav" aria-label="首页导航"><div class="brand"><span class="seal">侠</span><div><strong>一局江湖</strong><small>武侠卡牌冒险</small></div></div><div class="home-links"><button class="small" data-action="appearance" aria-label="切换江湖配色">配色</button><button class="small" data-action="enemy-book">群敌录</button><button class="small" data-action="catalogue">图鉴 →</button></div></nav><section class="home-hero" aria-label="一局江湖封面"><img class="home-cover" src="${cardArtwork('W03').art}" alt="群山云海间的仗剑侠客" width="480" height="320" fetchpriority="high" decoding="async"><div class="home-cover-copy"><div class="eyebrow">以牌入江湖 · 以武问山河</div><h1><span>一局</span><span>一江湖</span></h1><p>从无名侠客，到华山论剑。</p></div><span class="home-cover-note" aria-hidden="true">牌由你组 · 路由你行</span></section><section class="home-entry" aria-label="开始冒险"><button class="primary home-start" data-action="${resumable?'continue':'new'}"><span><strong>${resumable?'继续此局':'踏入江湖'}</strong><small>${profile}</small></span><b aria-hidden="true">→</b></button><div class="intro-actions">${resumable?'<button data-action="new">另启新程</button>':''}<button data-action="help">初入须知</button><button data-action="records">通关榜</button></div></section><section class="home-bottom" aria-label="江湖一览"><div><strong>80<small> 招</small></strong><span>武学技法</span></div><div><strong>30<small> 件</small></strong><span>随身奇物</span></div><div><strong>45<small> 程</small></strong><span>三章江湖</span></div></section><footer class="home-footer"><span>一局一江湖，取舍皆由你</span><span>v${GAME_VERSION} · 自动存档</span></footer></div>`;
+ return `<div class="home"><nav class="home-nav" aria-label="首页导航"><div class="brand"><span class="seal">侠</span><div><strong>一局江湖</strong><small>武侠卡牌冒险</small></div></div><div class="home-links"><button class="small" data-action="appearance" aria-label="切换江湖配色">配色</button><button class="small" data-action="enemy-book">群敌录</button><button class="small" data-action="catalogue">图鉴 →</button></div></nav><section class="home-hero" aria-label="一局江湖封面"><img class="home-cover" src="${HOME_COVER.art}" alt="${HOME_COVER.label}" width="${HOME_COVER.width}" height="${HOME_COVER.height}" fetchpriority="high" decoding="async"><div class="home-cover-copy"><div class="eyebrow">以牌入江湖 · 以武问山河</div><h1><span>一局</span><span>一江湖</span></h1><p>从无名侠客，到华山论剑。</p></div><span class="home-cover-note" aria-hidden="true">牌由你组 · 路由你行</span></section><section class="home-entry" aria-label="开始冒险"><button class="primary home-start" data-action="${resumable?'continue':'new'}"><span><strong>${resumable?'继续此局':'踏入江湖'}</strong><small>${profile}</small></span><b aria-hidden="true">→</b></button><div class="intro-actions">${resumable?'<button data-action="new">另启新程</button>':''}<button data-action="help">初入须知</button><button data-action="records">通关榜</button></div></section><section class="home-bottom" aria-label="江湖一览"><div><strong>80<small> 招</small></strong><span>武学技法</span></div><div><strong>30<small> 件</small></strong><span>随身奇物</span></div><div><strong>45<small> 程</small></strong><span>三章江湖</span></div></section><footer class="home-footer"><span>一局一江湖，取舍皆由你</span><span>v${GAME_VERSION} · 自动存档</span></footer></div>`;
 }
 function header(){const s=game.s;return `<header class="topbar"><dl class="stats" aria-label="侠客状态"><div class="top-stat hp"><dt>气血</dt><dd><strong>${s.hp}</strong><small>/ ${s.maxHp}</small></dd></div><div class="top-stat gold-stat"><dt>银两</dt><dd><strong>${s.gold}</strong></dd></div><div class="top-stat journey-stat"><dt>行程</dt><dd><strong>${Math.min(s.step+1,game.totalSteps)}</strong><small>/ ${game.totalSteps}</small></dd></div></dl><div class="top-actions"><span class="build-badge" aria-label="游戏版本 v${GAME_VERSION}">v${GAME_VERSION}</span><button class="small" data-action="deck">牌组 ${s.deck.length}</button><button class="small" data-action="relics">奇物 ${s.relics.length}</button><button class="small desktop-only" data-action="help">须知</button><button class="small" data-action="menu">菜单</button></div></header>`;}
 function sidebar(){const s=game.s,ch=CHAPTERS[game.chapter];return `<aside class="side"><div class="brand"><span class="seal">侠</span><div><strong>一局江湖</strong><small>A MARTIAL JOURNEY</small></div></div><div class="side-chapter"><span class="eyebrow">第 ${game.chapter+1} 章 / 共三章${trialLevel(s)?' · 历练'+trialLevel(s)+'阶':''}</span><h3>${ch.name}</h3><small>${ch.place}</small><div class="journey-bar">${Array.from({length:game.totalSteps},(_,i)=>`<i class="${i<s.step?'done':''}"></i>`).join('')}</div></div><nav><button data-action="map"><b>⌁</b> 江湖行程</button><button data-action="deck"><b>▤</b> 我的武学 <small>${s.deck.length}</small></button><button data-action="relics"><b>◇</b> 随身奇物 <small>${s.relics.length}</small></button><button data-action="catalogue"><b>冊</b> 武学图鉴</button><button data-action="edit-player"><b>侠</b> 姓名与立绘</button><button data-action="enemy-book"><b>劍</b> 江湖群敌</button><button data-action="help"><b>?</b> 初入须知</button></nav><div class="side-foot">${ch.quote}<br>牌由你组，路由你行<br><span class="version">v${GAME_VERSION} · ${saveError?'存档受限':'进度已自动保存'}</span></div></aside>`;}
