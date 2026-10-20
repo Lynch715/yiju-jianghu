@@ -311,8 +311,8 @@
  .battlefield .player-name{font-size:14px;margin-bottom:3px}
 }
 
-/* Card size contract: ordinary 160x240, expanded 260x390, both 2:3.
-   Only the description scrolls; content length never changes the outer dimensions. */
+/* Base card dimensions. Complete browsing/desktop faces and the mobile inspection dock
+   are sized by their shared content contracts below; the original fan remains separate. */
 :root{--card-small-width:160px;--card-small-height:240px;--card-large-width:260px;--card-large-height:390px}
 .card,.collection .card,.reward-cards .card,.shop-product .card,.hand .card,.opening-cards .card{
  width:var(--card-small-width);min-width:var(--card-small-width);max-width:var(--card-small-width);
@@ -1326,4 +1326,75 @@ html:is([data-theme="dawn"],[data-theme="jade"]){--status-bg:#e3f0df;--status-te
 @media(max-width:900px) and (max-height:700px) and (min-height:561px){
  .layout[data-phase="battle"] .battlefield[data-enemies="1"]{--enemy-columns:1}
  .layout[data-phase="battle"] .battlefield[data-enemies="2"]{--enemy-columns:2}
+}
+
+/* All cards in one collection use the space needed by its longest complete effect. */
+:is(.modal,.opening-page) .collection,.journey-card-grid,.journey-shop-grid{grid-auto-rows:1fr;align-items:stretch}
+:is(.modal,.opening-page) .collection .card,.journey-card-grid>.card{height:100%;align-self:stretch}
+:is(.modal,.opening-page) .collection .card .description,.journey-page .card .description{flex:1 0 auto}
+:is(.modal,.opening-page) .collection .card h3,.journey-page .card h3{height:48px;min-height:48px;flex-shrink:0}
+.journey-product>.card{flex:1 0 auto;height:auto;margin:0 auto}
+@media(max-width:600px){:is(.modal,.opening-page) .collection .card h3,.journey-page .card h3{height:40px;min-height:40px}}
+/* Desktop hand cards share a size too, with larger uncropped illustrations and full text. */
+@media(min-width:901px){
+ .hand{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));grid-auto-rows:1fr;gap:10px;align-items:stretch}
+ .hand .card{width:100%;min-width:0;max-width:none;height:100%;min-height:0;max-height:none;overflow:visible;flex:none;padding:10px}
+ .hand .card h3{height:40px;min-height:40px;max-height:none;font-size:16px;line-height:20px;margin:4px 0 7px}
+ .hand .card .card-art{height:auto;min-height:0;max-height:none;aspect-ratio:3/2;object-fit:contain}
+ .hand .card .description{flex:1 0 auto;overflow:visible;font-size:12px;line-height:1.6}
+ .hand .card .unplayable{font-size:10px;line-height:1.5}
+}
+/* Keep the original fan. Its expanded face occupies its own dock, clear of the battlefield. */
+@media(max-width:900px){
+ .layout[data-phase="battle"] .main{margin:0 0 var(--battle-dock-height,274px);padding:10px 14px 8px;overflow:auto;max-width:none}
+ .layout.has-hand-preview .hand-panel{display:none}
+ .hand-preview.compact-preview{position:relative;inset:auto;left:auto;right:auto;top:auto;bottom:auto;transform:none;display:grid!important;width:calc(100% - 24px);margin:2px 12px 8px;height:auto;min-height:0;max-height:none;padding:8px;contain:none;overflow:visible;touch-action:pan-y;user-select:none;-webkit-user-select:none}
+ .hand-preview.compact-preview[hidden]{display:none!important}
+ .hand-preview.compact-preview .hand-preview-card{grid-area:1/1;position:relative;display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:auto auto auto;gap:8px;min-height:0;height:auto}
+ .hand-preview.compact-preview .hand-preview-card[hidden]{display:grid!important;visibility:hidden;pointer-events:none}
+ .hand-preview.compact-preview .preview-card-title{grid-column:1/-1;grid-row:1;min-height:30px;padding-right:30px;align-items:center}
+ .hand-preview.compact-preview .preview-card-title h3{font-size:15px;line-height:20px;white-space:normal;overflow-wrap:anywhere}
+ .hand-preview.compact-preview .preview-card-body{grid-column:1/-1;grid-row:2;grid-template-columns:minmax(100px,.8fr) minmax(0,1.2fr);gap:10px;align-items:start}
+ .hand-preview.compact-preview .preview-card-body img{width:100%;height:auto;min-height:0;aspect-ratio:3/2;object-fit:contain;align-self:start}
+ .hand-preview.compact-preview .preview-effect{font-size:13px;line-height:1.6;overflow:visible;max-height:none;align-self:start}
+ .hand-preview.compact-preview .preview-switcher{grid-column:1;grid-row:3;position:static;height:36px;display:flex;gap:5px;justify-content:flex-start;align-self:end}
+ .hand-preview.compact-preview .preview-switcher button{width:32px;height:36px;min-height:36px}
+ .hand-preview.compact-preview .preview-switcher small{min-width:24px;font-size:11px}
+ .hand-preview.compact-preview .hand-preview-action{grid-column:2;grid-row:3;min-height:36px;height:auto;gap:6px;justify-content:flex-end;align-self:end}
+ .hand-preview.compact-preview .hand-preview-action>small{font-size:10px;line-height:1.4;max-height:none;max-width:90px;overflow:visible}
+ .hand-preview.compact-preview .hand-preview-action>button{height:36px;min-height:36px;min-width:90px;padding:5px 10px;font-size:14px}
+ .hand-preview.compact-preview .preview-close{top:8px;right:8px}
+ body:has(.layout[data-phase="battle"]) #toast{bottom:calc(var(--battle-dock-height,274px) + 8px)}
+}
+/* Very short landscape screens scroll as one page; no fixed panels can cover the fight. */
+@media(max-width:900px) and (max-height:560px){
+ body:has(.layout[data-phase="battle"]){overflow:auto}
+ .layout[data-phase="battle"]{height:auto;min-height:100dvh}
+ .layout[data-phase="battle"]>div{height:auto;min-height:100dvh}
+ .layout[data-phase="battle"] .main{margin:0;overflow:visible;flex:none}
+ .layout[data-phase="battle"] .battle-bottom{position:static;margin-top:10px;width:100%}
+}
+@media(max-width:900px) and (max-height:620px) and (min-height:561px){
+ .layout[data-phase="battle"] .battlefield[data-enemies] .enemy{height:128px;min-height:128px;grid-template-rows:40px 12px 30px 20px 10px;gap:1px;padding:8px 4px 4px}
+ .layout[data-phase="battle"] .battlefield[data-enemies] .enemy .enemy-art{width:40px;height:40px}
+ .layout[data-phase="battle"] .battlefield[data-enemies] .enemy h3{font-size:11px;line-height:12px;height:12px}
+ .layout[data-phase="battle"] .battlefield[data-enemies] .enemy .fighter-intent{height:30px}
+ .layout[data-phase="battle"] .battlefield[data-enemies] .enemy .combat-vitals{grid-template-rows:9px 9px;gap:2px}
+ .layout[data-phase="battle"] .battlefield[data-enemies] .enemy .combat-vitals>div{height:9px}
+}
+@media(min-width:901px){
+ .battle-bottom{grid-template-columns:minmax(0,1fr);gap:12px}
+ .battle-bottom>.hand-panel{grid-row:2}
+ .battle-bottom>.turn-panel{grid-row:1;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;padding:8px 0;border-bottom:1px solid var(--line)}
+ .battle-bottom>.turn-panel .energy{padding:0;gap:10px;min-width:120px}
+ .battle-bottom>.turn-panel .energy-orb{width:44px;height:44px;font-size:27px}
+ .battle-bottom>.turn-panel .piles{min-width:220px}
+ .battle-bottom>.turn-panel [data-action="end-turn"]{min-height:42px;min-width:140px}
+ .battle-bottom>.turn-panel [data-action="auto-turn"]{min-height:40px}
+}
+@media(max-width:900px){
+ .hand-preview.compact-preview .preview-card-body{grid-template-columns:clamp(100px,28vw,132px) minmax(0,1fr)}
+}
+@media(max-width:900px) and (max-height:700px){
+ .layout.has-hand-preview .battle-top>.eyebrow{display:none}
 }
