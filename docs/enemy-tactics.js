@@ -1,6 +1,6 @@
-import {CARD} from './data.js?v=0.25.5';
-import {ENEMY} from './enemies.js?v=0.25.5';
-import {DIFFICULTY,SKIRMISH_REVISION,CHALLENGE_REVISION,talentChallenge} from './difficulty.js?v=0.25.5';
+import {CARD} from './data.js?v=0.25.6';
+import {ENEMY} from './enemies.js?v=0.25.6';
+import {DIFFICULTY,SKIRMISH_REVISION,CHALLENGE_REVISION,talentChallenge} from './difficulty.js?v=0.25.6';
 // Original battle adaptations. The rule object is captured on each newly spawned
 // enemy; existing battles without it keep their existing behaviour.
 const TACTIC_IDS=new Set(['mugaofeng','tianboguang','xuedaolaozu','hebiweng','luzhangke','chengkun','jinlun','yucanghai','dingchunqiu','ouyangfeng','dingmian','azi','jiumozhi','zuolengchan','renwoxing','dongfangbubai']);

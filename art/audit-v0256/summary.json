@@ -1,0 +1,39 @@
+{
+  "date": "2026-10-20",
+  "baseline_version": "0.25.5",
+  "release_version": "0.25.6",
+  "raster_images": 137,
+  "relic_svgs": 30,
+  "core_views": 52,
+  "fix_regression_cases": 5,
+  "automatic_tests_passed": 741,
+  "image_decode_failures": 0,
+  "original_gameplay_restored": true,
+  "play_clock_delta_ms": 212,
+  "findings": [
+    {
+      "severity": "P2",
+      "issue": "短屏未选牌时，牌名旧外边距挤掉卡图",
+      "status": "fixed",
+      "after_min_image_height_px": 24
+    },
+    {
+      "severity": "P2",
+      "issue": "深色界面浅色卡面关闭按钮对比不足",
+      "status": "fixed",
+      "old_min_contrast": 1.49,
+      "new_min_contrast": 7.43,
+      "keyboard_focus_verified": true
+    }
+  ],
+  "notes": [
+    "长列表中未进入视口的卡图采用原有按需加载；完整素材页的137张图均成功解码。",
+    "手机检查为应用内浏览器尺寸模拟。"
+  ],
+  "source_sha256": {
+    "style.css": "813e4c16f63cd71e685b36288460ad0366947c33baa292ce99c6af7971724345",
+    "app.js": "5358b6e9f76220d2c6fa9717ecec1e0c42c7f5fb177ca543e4f70352e6879779",
+    "data.js": "95771556e68d8bd5f882fdb02e1ce0c3d1af512cc9efd8cbff1439a1cc92042a",
+    "package.json": "26558a74ca5a6f4ff2a0f71231ba8f6e79c5a998c4b9ac24ec98a0ead65b84e4"
+  }
+}
