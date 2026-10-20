@@ -1250,17 +1250,25 @@ html:is([data-theme="dawn"],[data-theme="jade"]){--status-bg:#e3f0df;--status-te
 @media(max-width:560px){.rule-list dd{font-size:14px}.enemy-info-heading .enemy-art{width:76px;height:105px}.enemy-info-tabs{gap:6px}.enemy-info-tabs button{flex:1;min-width:80px}.guide-actions button{flex:1}.help-topic summary{font-size:15px}}
 @media(max-width:900px){.layout[data-phase="battle"] .battle-top button{min-height:32px;min-width:44px;font-size:11px;padding:5px 8px}}
 
-/* Browsing and permanent choices must show the whole effect before a tap commits. */
-:is(.modal,.opening-page) .collection{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));align-items:stretch;gap:14px}
-:is(.modal,.opening-page) .collection .card{width:100%;min-width:0;max-width:none;aspect-ratio:auto;height:auto;min-height:284px;max-height:none;padding:12px;overflow:visible}
-:is(.modal,.opening-page) .collection .card h3{height:auto;min-height:42px;max-height:none;overflow:visible;font-size:17px;line-height:1.4;margin:8px 0}
-:is(.modal,.opening-page) .collection .card .card-art{height:78px;min-height:78px;max-height:78px}
-:is(.modal,.opening-page) .collection .card .description,.journey-page .card .description,.collection-card-detail>.card .description{flex:1 0 auto;min-height:0;height:auto;max-height:none;overflow:visible;font-size:13px;line-height:1.75}
-:is(.modal,.opening-page) .collection .card footer{height:auto;min-height:20px;max-height:none;flex-shrink:0;margin-top:12px;padding-top:6px;font-size:10px}
-.journey-page .card{height:auto;min-height:284px;max-height:none;overflow:visible}.journey-page .card h3{height:auto;min-height:36px;max-height:none;overflow:visible}
-.collection-card-detail>.card{height:auto;min-height:390px;max-height:none;overflow:visible}
+/* Let the illustration and full effect determine browsing-card height. */
+:is(.modal,.opening-page) .collection{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));align-items:start;gap:12px}
+:is(.modal,.opening-page) .collection .card,.journey-page .card,.collection-card-detail>.card{width:100%;min-width:0;aspect-ratio:auto;height:auto;min-height:0;max-height:none;padding:11px;overflow:visible}
+:is(.modal,.opening-page) .collection .card{max-width:none}
+.collection-card-detail>.card{width:min(260px,100%);min-width:min(260px,100%);flex:0 0 auto;padding:14px}
+:is(.modal,.opening-page) .collection .card .type,.journey-page .card .type{height:20px;min-height:20px;padding:0;line-height:20px;flex-shrink:0}
+:is(.modal,.opening-page) .collection .card h3,.journey-page .card h3{height:auto;min-height:36px;max-height:none;overflow:visible;font-size:17px;line-height:1.4;margin:5px 0 8px}
+:is(.modal,.opening-page) .collection .card .card-art,.journey-page .card .card-art,.collection-card-detail>.card .card-art{width:100%;height:auto;min-height:0;max-height:none;aspect-ratio:3/2;object-fit:contain;flex-shrink:0;margin:0 0 8px}
+:is(.modal,.opening-page) .collection .card .description,.journey-page .card .description,.collection-card-detail>.card .description{flex:0 0 auto;min-height:0;height:auto;max-height:none;overflow:visible;font-size:13px;line-height:1.7}
+:is(.modal,.opening-page) .collection .card footer,.journey-page .card footer,.collection-card-detail>.card footer{height:auto;min-height:0;max-height:none;flex-shrink:0;margin-top:8px;padding-top:5px;font-size:10px;line-height:1.4}
 @media(max-width:900px){:is(.modal,.opening-page) .collection{grid-template-columns:repeat(3,minmax(0,1fr))}}
-@media(max-width:600px){:is(.modal,.opening-page) .collection{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}:is(.modal,.opening-page) .collection .card{padding:10px;min-height:274px}:is(.modal,.opening-page) .collection .card h3{font-size:15px;min-height:42px}:is(.modal,.opening-page) .collection .card .card-art{height:64px;min-height:64px;max-height:64px}:is(.modal,.opening-page) .collection .card .description,.journey-page .card .description{font-size:12px;line-height:1.75}.journey-page .card{min-height:264px}}
+@media(max-width:600px){
+ :is(.modal,.opening-page) .collection{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+ :is(.modal,.opening-page) .collection .card,.journey-page .card{padding:9px}
+ :is(.modal,.opening-page) .collection .card h3,.journey-page .card h3{font-size:15px;line-height:1.3;min-height:36px;margin:4px 0 6px}
+ :is(.modal,.opening-page) .collection .card .description,.journey-page .card .description{font-size:12px;line-height:1.65}
+ :is(.modal,.opening-page) .collection .card footer,.journey-page .card footer{font-size:9px;margin-top:7px;padding-top:4px}
+ .modal:has(.collection){padding:14px}.modal:has(.collection) .modal-head{top:-14px;padding-bottom:10px}.modal:has(.collection)>p{font-size:13px;line-height:1.65;margin-bottom:12px}
+}
 
 /* The inspection drawer replaces the fan; it never borrows space from fighters. */
 .preview-switcher{display:none}
