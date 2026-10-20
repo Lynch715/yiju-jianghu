@@ -12,8 +12,8 @@ function create(id='linghu',talent='steady'){
 function duel(id,talent){const g=create(id,talent);g.s.phase='map';g.combat('battle');g.s.hp=60;g.s.relics=[];const b=g.s.b;b.enemies=b.enemies.slice(0,1);Object.assign(b.enemies[0],{hp:10000,maxHp:10000,block:0,tactics:undefined});delete b.enemies[0].tactics;b.hand=[];b.draw=Array.from({length:30},()=>g.make('W01'));b.discard=[];b.qi=100;return g;}
 function cast(g,id){const c=g.make(id);g.s.b.hand.push(c);assert.ok(g.play(c.uid).ok);return c;}
 function reset(g){g.s.b.hand=[];g.s.b.draw=Array.from({length:30},()=>g.make('W01'));g.beginTurn();g.s.b.qi=100;}
-test('six distinct named heroes cover both genders, with exclusive talents and unchanged opening RNG',()=>{
- assert.equal(HEROES.filter(h=>h.gender==='male').length,3);assert.equal(HEROES.filter(h=>h.gender==='female').length,3);assert.equal(new Set(HEROES.map(h=>h.talent)).size,6);
+test('eight distinct named heroes cover both genders, with exclusive talents and unchanged opening RNG',()=>{
+ assert.equal(HEROES.filter(h=>h.gender==='male').length,4);assert.equal(HEROES.filter(h=>h.gender==='female').length,4);assert.equal(new Set(HEROES.map(h=>h.talent)).size,8);
  let baseline;for(const h of HEROES){const g=create(h.id);assert.equal(g.s.player.name,h.name);assert.equal(g.s.player.talent,h.talent);assert.ok(validPlayer(g.s.player));assert.deepEqual(g.s.deck.map(c=>c.id),STARTING_DECK);assert.equal(g.s.maxHp,80);assert.equal(g.s.gold,90);if(!baseline)baseline=clone(g.s);assert.deepEqual(g.s.opening,baseline.opening);assert.equal(g.s.rng,baseline.rng);}
 });
 test('selection saves and resumes; invalid heroes, foreign talents and mid-run switching are rejected',()=>{
@@ -52,6 +52,21 @@ test('talent damage/block previews match actual settlement and never mutate the 
 });
 test('Guo Xiang victory healing respects max HP and does not replay on reload',()=>{
  const g=duel('guoxiang');g.s.hp=79;g.s.b.enemies[0].hp=1;cast(g,'W01');assert.equal(g.s.phase,'reward');assert.equal(g.s.hp,80);g.s.hp=50;const h=new Game(g.s);assert.equal(h.s.hp,50);
+});
+test('Yang Guo boosts one hit of the first heavy attack, across segments, targets, repeats and reload',()=>{
+ const g=duel('yangguo'),e=g.s.b.enemies[0];cast(g,'W01');const hp=e.hp;g.s.b.repeat=2;cast(g,'W08');assert.equal(hp-e.hp,6*6+5);
+ const h=new Game(g.s),next=h.s.b.enemies[0].hp;cast(h,'W08');assert.equal(next-h.s.b.enemies[0].hp,12);
+ reset(h);const a=h.s.b.enemies[0];h.s.b.enemies.push({...clone(a),key:'second'});const before=h.s.b.enemies.map(x=>x.hp);cast(h,'W10');assert.deepEqual(h.s.b.enemies.map((x,i)=>before[i]-x.hp),[15,10]);
+});
+test('Yang Guo uses actual energy spent, previews match, and failed casts consume no talent',()=>{
+ const g=duel('yangguo'),b=g.s.b,c=g.make('W08');b.hand.push(c);b.qi=1;const before=clone(g.s);assert.equal(g.play(c.uid).ok,false);assert.deepEqual(g.s,before);
+ b.qi=10;const snapshot=clone(g.s);assert.match(describeCombatCard(g,c,0),/11.*6/);assert.deepEqual(g.s,snapshot);const hp=b.enemies[0].hp;g.play(c.uid);assert.equal(hp-b.enemies[0].hp,17);
+ reset(g);b.qi=1;cast(g,'W59');assert.equal(b.turnFlags.talentIron,undefined);b.qi=2;cast(g,'W59');assert.equal(b.turnFlags.talentIron,true);
+});
+test('A Qing draws once on a skill-to-attack transition; powers interrupt and repeats add no triggers',()=>{
+ const g=duel('aqing');cast(g,'W01');assert.equal(g.s.b.hand.length,0);cast(g,'U01');cast(g,'W28');cast(g,'W01');assert.equal(g.s.b.hand.length,0);
+ cast(g,'U01');g.s.b.repeat=2;cast(g,'W08');assert.equal(g.s.b.hand.length,1);const h=new Game(g.s);cast(h,'U01');cast(h,'W01');assert.equal(h.s.b.hand.length,1);
+ reset(h);const n=h.s.b.hand.length;cast(h,'U01');cast(h,'W01');assert.equal(h.s.b.hand.length,n+1);
 });
 for(const [id,block,qi,hand] of [['steady',6,3,5],['breath',0,4,5],['insight',0,3,6]])test(`custom ${id} applies on the first turn of each battle only`,()=>{
  const g=create('custom',id);g.s.phase='map';g.combat('battle');assert.equal(g.s.b.block,block);assert.equal(g.s.b.qi,qi);assert.equal(g.s.b.hand.length,hand);const before=clone(g.s),h=new Game(g.s);assert.deepEqual(h.s,before);h.beginTurn();assert.equal(h.s.b.block,0);assert.equal(h.s.b.qi,3);assert.equal(h.s.b.hand.length,10);h.s.phase='map';h.combat('battle');assert.equal(h.s.b.block,block);assert.equal(h.s.b.hand.length,hand);

@@ -17,6 +17,8 @@ export const TALENTS=[
  {id:'wit',name:'玲珑机变',text:'每回合打出第3张牌后，抽1张牌。'},
  {id:'jade',name:'玉女清心',text:'每回合首张攻击牌的首段伤害增加3。'},
  {id:'kindness',name:'襄心向善',text:'每场战斗获胜后，额外回复2气血。'},
+ {id:'iron-sword',name:'玄铁重剑',text:'每回合首张消耗至少2真气的攻击牌，首段伤害增加5。'},
+ {id:'yue-sword',name:'越女剑心',text:'每回合首次在技法后打出攻击牌时，抽1张牌。'},
  {id:'steady',name:'稳扎稳打',text:'每场战斗首回合，获得6格挡。',common:true},
  {id:'vigor',name:'根骨强健',text:'开局气血上限与当前气血增加8。',common:true},
  {id:'insight',name:'过目不忘',text:'每场战斗首回合，多抽1张牌。',common:true},
@@ -27,9 +29,11 @@ export const HEROES=[
  {id:'linghu',name:'令狐冲',gender:'male',portrait:'male-qing',talent:'free-sword',description:'洒脱不羁，悟剑于无招之间。'},
  {id:'qiao',name:'乔峰',gender:'male',portrait:'male-xuan',talent:'dragon',description:'豪气干云，以连招催动掌势。'},
  {id:'guojing',name:'郭靖',gender:'male',portrait:'male-bai',talent:'steadfast',description:'笃实守正，进退之间护己安人。'},
+ {id:'yangguo',name:'杨过',gender:'male',portrait:'male-xuan',talent:'iron-sword',description:'孤傲深情，重剑无锋亦有千钧。'},
  {id:'huangrong',name:'黄蓉',gender:'female',portrait:'female-qing',talent:'wit',description:'聪慧灵动，数招之间另生机变。'},
  {id:'long',name:'小龙女',gender:'female',portrait:'female-bai',talent:'jade',description:'清心凝神，出手便见锋芒。'},
- {id:'guoxiang',name:'郭襄',gender:'female',portrait:'female-fei',talent:'kindness',description:'明秀率真，心怀善意行走江湖。'}
+ {id:'guoxiang',name:'郭襄',gender:'female',portrait:'female-fei',talent:'kindness',description:'明秀率真，心怀善意行走江湖。'},
+ {id:'aqing',name:'阿青',gender:'female',portrait:'female-qing',talent:'yue-sword',description:'质朴轻灵，一枝青竹自有剑心。'}
 ].map(h=>({...h,art:`assets/heroes/runtime/${h.id}.webp`}));
 export const HERO=Object.fromEntries(HEROES.map(h=>[h.id,h]));
 // Keep saved cosmetic IDs stable; a named hero's original appearance now resolves

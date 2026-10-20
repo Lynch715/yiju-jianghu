@@ -1,12 +1,12 @@
-import {newExpedition,validExpedition,trialLevel,encounterFor,restRate,trialPrice} from './expedition.js?v=0.22.0';
-import {enemyActionView,enemyAttackTag} from './enemy-action.js?v=0.22.0';
-import {createClearRecord} from './records.js?v=0.22.0';
-import {attachEnemyTactics,tacticalIntent,onTacticalDamage,onTacticalExhaust,onTacticalPlay,onTacticalDeath,afterTacticalAction,afterTacticalFollowerAction} from './enemy-tactics.js?v=0.22.0';
-import {JOURNEY_FLOORS,JOURNEY_TOTAL,newJourney,journeyChapter} from './journey.js?v=0.22.0';
-import {PLAYERS,HEROES,TALENTS,DEFAULT_PLAYER,cleanPlayerName,playerNameError,validPlayer,validPlayerTalent,PLAYER_RETURN_PHASES} from './players.js?v=0.22.0';
-import {ENEMY,ENCOUNTERS,ENCOUNTER_GROUPS} from './enemies.js?v=0.22.0';
-import {DIFFICULTY,combatDefinition,encounterTuning,SKIRMISH_REVISION,CHALLENGE_REVISION,validChallenge,talentChallenge} from './difficulty.js?v=0.22.0';
-import {CARDS,CARD,RELICS,RELIC,CHAPTERS,ROUTES,isEthereal,OPENING_BOONS,GAME_VERSION} from './data.js?v=0.22.0';
+import {newExpedition,validExpedition,trialLevel,encounterFor,restRate,trialPrice} from './expedition.js?v=0.25.0';
+import {enemyActionView,enemyAttackTag} from './enemy-action.js?v=0.25.0';
+import {createClearRecord} from './records.js?v=0.25.0';
+import {attachEnemyTactics,tacticalIntent,onTacticalDamage,onTacticalExhaust,onTacticalPlay,onTacticalDeath,afterTacticalAction,afterTacticalFollowerAction} from './enemy-tactics.js?v=0.25.0';
+import {JOURNEY_FLOORS,JOURNEY_TOTAL,newJourney,journeyChapter} from './journey.js?v=0.25.0';
+import {PLAYERS,HEROES,TALENTS,DEFAULT_PLAYER,cleanPlayerName,playerNameError,validPlayer,validPlayerTalent,PLAYER_RETURN_PHASES} from './players.js?v=0.25.0';
+import {ENEMY,ENCOUNTERS,ENCOUNTER_GROUPS} from './enemies.js?v=0.25.0';
+import {DIFFICULTY,combatDefinition,encounterTuning,SKIRMISH_REVISION,CHALLENGE_REVISION,validChallenge,talentChallenge} from './difficulty.js?v=0.25.0';
+import {CARDS,CARD,RELICS,RELIC,CHAPTERS,ROUTES,isEthereal,OPENING_BOONS,GAME_VERSION} from './data.js?v=0.25.0';
 
 export const SAVE_VERSION=8;
 export const STARTING_DECK=Object.freeze([...Array(5).fill('W01'),...Array(4).fill('U01'),'U02']);
@@ -201,6 +201,7 @@ export class Game {
   const b=this.s.b;for(let i=0;i<times;i++){
    if(!e||e.hp<=0)break;let n=Math.max(0,base+b.str*str);
    if(ctx?.jade&&!ctx.jadeUsed){n+=3;ctx.jadeUsed=true;this.talentLog('玉女清心 · 首段伤害+3');}
+   if(ctx?.ironSword&&!ctx.ironSwordUsed){n+=5;ctx.ironSwordUsed=true;this.talentLog('玄铁重剑 · 首段伤害+5');}
    if(ctx?.goldSnake)n++;
    if(ctx?.heavy&&!ctx.heavyUsed){n+=8;ctx.heavyUsed=true;}
    if(b.weak>0)n*=.75;if(e.vuln>0)n*=1.5;n=Math.floor(n);
@@ -238,6 +239,7 @@ export class Game {
   b.hand.splice(b.hand.findIndex(x=>x.uid===uid),1);b.qi-=paid;if(d.type==='s')b.discount=0;
   const extra=d.type==='a'?(Number(b.repeat)||0):0;if(d.type==='a')b.repeat=false;
   const ctx={paid,previous,attacks,plays,hitSequence:{value:0},hitTargets:new Set(),blockBoosted:false,goldSnake:false,heavy:false,jade:d.type==='a'&&attacks===0&&this.talent('jade')};
+  if(d.type==='a'&&paid>=2&&this.talent('iron-sword')&&!b.turnFlags.talentIron){ctx.ironSword=true;b.turnFlags.talentIron=true;}
   if(d.type==='a'){
    if(this.has('R13')&&paid>=2&&!b.turnFlags.heavy){ctx.heavy=true;b.turnFlags.heavy=true;}
    if(this.has('R20')&&multi.has(c.id)&&!b.turnFlags.snake){ctx.goldSnake=true;b.turnFlags.snake=true;}
@@ -246,7 +248,7 @@ export class Game {
   this.combatStep({kind:'player-begin',actor:'player',label:d.name+(c.up?'·精进':''),type:d.type});onTacticalPlay(this,c);this.resolve(c,target,ctx,selections);
   for(let copy=0;copy<extra&&this.s.hp>0&&b.enemies.some(e=>e.hp>0);copy++){
    const next=target.hp>0?target:b.enemies.find(e=>e.hp>0);
-   if(this.actualSelf(c)<this.s.hp){this.log('左右互搏 · 额外结算');this.resolve(c,next,{...ctx,jade:false,heavy:false,heavyUsed:true,blockBoosted:false},[]);}else{this.log('气血不足 · 取消剩余额外结算');break;}
+   if(this.actualSelf(c)<this.s.hp){this.log('左右互搏 · 额外结算');this.resolve(c,next,{...ctx,jade:false,ironSword:false,heavy:false,heavyUsed:true,blockBoosted:false},[]);}else{this.log('气血不足 · 取消剩余额外结算');break;}
   }
   if(d.type==='p'){
    this.addPower(c);
@@ -260,6 +262,7 @@ export class Game {
   }
   if(d.type==='s'){this.block(this.powerSum('W28',4,6));if(!b.turnFlags.skill){b.turnFlags.skill=true;if(this.has('R29'))this.draw(2);if(this.has('R30'))this.energy(1);if(this.talent('free-sword')){this.talentLog('独孤悟剑 · 抽1张');this.draw(1);}}}
   if(this.talent('wit')&&b.turnFlags.plays===3){this.talentLog('玲珑机变 · 抽1张');this.draw(1);}
+  if(this.talent('yue-sword')&&d.type==='a'&&previous==='s'&&!b.turnFlags.talentYue){b.turnFlags.talentYue=true;this.talentLog('越女剑心 · 抽1张');this.draw(1);}
   b.turnFlags.last=d.type;this.refreshEnemyPhases();this.combatStep({kind:'player',actor:'player',label:d.name+(c.up?'·精进':''),type:d.type});this.checkEnd();return {ok:true};
  }
  resolve(c,e,ctx,selected){

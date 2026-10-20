@@ -841,28 +841,10 @@ html{overscroll-behavior-x:none;touch-action:pan-x pan-y}
 }
 @media(max-width:359px){.preview-card-title h3{font-size:12px}.preview-card-title{gap:5px}.preview-card-body{grid-template-columns:60px minmax(0,1fr);gap:8px}.preview-card-body img{width:60px}}
 @media(max-width:900px) and (max-height:740px){
- .layout.has-hand-preview[data-phase="battle"] .battlefield[data-enemies="3"] .enemy{height:62px;min-height:62px;grid-template-columns:44px minmax(0,1fr);grid-template-rows:14px 9px 22px;gap:2px 10px;padding:4px 10px}
- .layout.has-hand-preview[data-phase="battle"] .battlefield[data-enemies="3"] .enemy .enemy-art{width:44px;height:44px}
- .layout.has-hand-preview[data-phase="battle"] .battlefield[data-enemies="3"] .enemy h3{font-size:13px;line-height:14px;height:14px}
- .layout.has-hand-preview[data-phase="battle"] .battlefield[data-enemies="3"] .enemy-faction{font-size:7px;line-height:9px;height:9px}
- .layout.has-hand-preview[data-phase="battle"] .battlefield[data-enemies="3"] .enemy .combat-vitals{grid-template-rows:10px 10px;gap:2px}
- .layout.has-hand-preview[data-phase="battle"] .battlefield[data-enemies="3"] .enemy .combat-vitals .health-bar,.layout.has-hand-preview[data-phase="battle"] .battlefield[data-enemies="3"] .enemy .combat-vitals .block-bar{height:10px}
- .layout.has-hand-preview[data-phase="battle"] .battlefield[data-enemies="3"] .enemy .fighter-intent{top:4px}
 }
 @media(prefers-reduced-motion:reduce){.hand .card{transition:none}}
 /* On short portrait screens three opponents share one row while inspecting. */
 @media(max-width:900px) and (max-height:700px) and (min-height:561px){
- .layout.has-hand-preview[data-phase="battle"] .battlefield[data-enemies="3"] .enemies{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;order:0;width:100%}
- .layout.has-hand-preview[data-phase="battle"] .battlefield[data-enemies="3"] .enemy{height:132px;min-height:132px;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:13px 36px 14px 12px 22px;gap:3px;padding:6px 4px;align-content:center}
- .layout.has-hand-preview[data-phase="battle"] .battlefield[data-enemies="3"] .enemy .fighter-intent{position:static;grid-column:1;grid-row:1;width:100%;max-width:100%;height:13px;min-height:0;text-align:center}
- .layout.has-hand-preview[data-phase="battle"] .battlefield[data-enemies="3"] .enemy .intent{font-size:8px;line-height:13px;min-height:0;height:13px;overflow:hidden}
- .layout.has-hand-preview[data-phase="battle"] .battlefield[data-enemies="3"] .enemy .enemy-art{grid-column:1;grid-row:2;width:36px;height:36px;justify-self:center}
- .layout.has-hand-preview[data-phase="battle"] .battlefield[data-enemies="3"] .enemy h3{grid-column:1;grid-row:3;font-size:12px;line-height:14px;height:14px;text-align:center;max-width:100%}
- .layout.has-hand-preview[data-phase="battle"] .battlefield[data-enemies="3"] .enemy .enemy-faction{display:none}
- .layout.has-hand-preview[data-phase="battle"] .battlefield[data-enemies="3"] .enemy .status-row{grid-column:1;grid-row:4;max-width:100%;height:12px;justify-content:center;position:static;transform:none}
- .layout.has-hand-preview[data-phase="battle"] .battlefield[data-enemies="3"] .enemy .status-chip{font-size:7px;padding:1px 2px}
- .layout.has-hand-preview[data-phase="battle"] .battlefield[data-enemies="3"] .enemy .combat-vitals{grid-column:1;grid-row:5}
- .layout.has-hand-preview[data-phase="battle"] .battlefield[data-enemies="3"] .enemy .target-marker{top:22px;left:4px;font-size:7px}
 }
 @media(max-width:900px) and (max-height:560px){.hand-preview.compact-preview{top:8px;bottom:auto;width:min(340px,calc(100vw - 24px));left:auto;right:12px}}
 
@@ -954,13 +936,6 @@ html{overscroll-behavior-x:none;touch-action:pan-x pan-y}
 }
 @media(max-width:900px) and (max-height:740px){.layout[data-phase="battle"] .battlefield .enemy .fighter-intent{top:5px;min-height:22px}.enemy-plan-tags{gap:1px}.enemy-action-tag{font-size:8px;line-height:9px;padding:0 2px}}
 @media(max-width:900px) and (max-height:700px) and (min-height:561px){
- .layout.has-hand-preview[data-phase="battle"] .battlefield[data-enemies="3"] .enemy{height:126px;min-height:126px;grid-template-rows:26px 28px 14px 10px 22px;gap:2px;padding:4px}
- .layout.has-hand-preview[data-phase="battle"] .battlefield[data-enemies="3"] .enemy .fighter-intent{position:static;width:100%;height:26px;min-height:0;grid-row:1;align-items:center;justify-content:center}
- .layout.has-hand-preview[data-phase="battle"] .battlefield[data-enemies="3"] .enemy .enemy-plan-tags{justify-content:center}
- .layout.has-hand-preview[data-phase="battle"] .battlefield[data-enemies="3"] .enemy .enemy-art{width:28px;height:28px}
- .layout.has-hand-preview[data-phase="battle"] .battlefield[data-enemies="3"] .enemy .target-marker{top:35px;left:3px}
- .layout.has-hand-preview[data-phase="battle"] .battlefield[data-enemies="3"] .enemy .status-row{height:10px}
- .layout.has-hand-preview[data-phase="battle"] .battlefield[data-enemies="3"] .enemy .status-chip{line-height:8px;padding:0 1px}
 }
 .selection-live-preview{font-size:13px;line-height:1.8;color:#e0cb94;padding:12px;border:1px solid #a98c4f66;border-radius:7px;background:#b39a5910}
 
@@ -1130,13 +1105,8 @@ html{overscroll-behavior-x:none;touch-action:pan-x pan-y}
 
 /* Allow current stance hints alongside attacks without touching the vitals. */
 @media(max-width:900px) and (max-height:700px){
- .layout:not(.has-hand-preview)[data-phase="battle"] .battlefield[data-enemies="3"] .enemy .fighter-intent{top:2px}
 }
 @media(max-width:900px) and (max-height:700px) and (min-height:561px){
- .layout.has-hand-preview[data-phase="battle"] .battlefield[data-enemies="3"] .enemy{grid-template-rows:36px 22px 14px 10px 22px}
- .layout.has-hand-preview[data-phase="battle"] .battlefield[data-enemies="3"] .enemy .fighter-intent{height:36px}
- .layout.has-hand-preview[data-phase="battle"] .battlefield[data-enemies="3"] .enemy .enemy-art{height:22px;width:22px}
- .layout.has-hand-preview[data-phase="battle"] .battlefield[data-enemies="3"] .enemy .target-marker{top:44px}
 }
 
 /* v0.19: Three selectable palettes. Gameplay and art geometry stay shared. */
@@ -1267,6 +1237,85 @@ html:is([data-theme="dawn"],[data-theme="jade"]){--status-bg:#e3f0df;--status-te
 
 .layout[data-phase="battle"] .battlefield .player-intent .player-talent-chip{font-size:10px;line-height:14px;height:18px;min-height:0;margin:0;padding:1px 7px;white-space:nowrap}
 /* Give named-character faces and equipment room to read on narrow screens. */
+.portrait-grid.named-heroes{grid-template-columns:repeat(4,minmax(0,1fr))}
 .named-heroes .portrait-choice .player-art{height:270px}
 @media(max-width:700px){.portrait-grid.named-heroes{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.named-heroes .portrait-choice .player-art{height:240px}.named-heroes .hero-talent-text{min-height:56px}.named-heroes .portrait-choice{padding:12px 8px}}
 @media(max-width:360px){.named-heroes .portrait-choice .player-art{height:205px}.named-heroes .hero-talent-text{min-height:68px}}
+
+/* Explanations live beside the decision, with readable touch targets. */
+.enemy-info-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 18px}.enemy-info-tabs button{min-height:44px;padding:9px 12px;font-size:13px}.enemy-info-tabs [aria-pressed=true]{border-color:var(--gold);color:var(--gold);background:var(--soft)}
+.enemy-info-heading{display:flex;align-items:center;gap:18px;margin-bottom:20px}.enemy-info-heading .enemy-art{width:90px;height:120px;object-fit:contain}.enemy-info-heading h3{margin:0 0 8px;font-size:23px}.enemy-info-heading p{margin:0 0 8px}.enemy-info-heading span{font-size:12px;color:var(--muted)}
+.rule-list{margin:12px 0 22px}.rule-list>div{padding:13px 0;border-bottom:1px solid var(--line)}.rule-list dt{font-size:15px;font-weight:600;margin-bottom:7px;color:var(--gold)}.rule-list dd{margin:0;font-size:14px;line-height:1.85;overflow-wrap:anywhere;color:var(--ink)}
+.guide-actions{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}.guide-actions button,.help-topic button{min-height:44px}.help-topic{padding:15px 0;border-bottom:1px solid var(--line)}.help-topic summary{cursor:pointer;font-size:16px;line-height:1.5;padding:6px 0;color:var(--ink)}.help-topic p,.quick-start li{font-size:14px;line-height:1.85}.quick-start ol{padding-left:22px}.quick-start h3{font-size:18px;margin:8px 0}.status-row button.status-chip{cursor:pointer;text-decoration:underline;text-underline-offset:3px}.enemy-entry .small{margin-top:10px}.enemy-moves details{margin-top:12px}.enemy-moves summary{cursor:pointer;padding:8px 0}
+@media(max-width:560px){.rule-list dd{font-size:14px}.enemy-info-heading .enemy-art{width:76px;height:105px}.enemy-info-tabs{gap:6px}.enemy-info-tabs button{flex:1;min-width:80px}.guide-actions button{flex:1}.help-topic summary{font-size:15px}}
+@media(max-width:900px){.layout[data-phase="battle"] .battle-top button{min-height:32px;min-width:44px;font-size:11px;padding:5px 8px}}
+
+/* Browsing and permanent choices must show the whole effect before a tap commits. */
+:is(.modal,.opening-page) .collection{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));align-items:stretch;gap:14px}
+:is(.modal,.opening-page) .collection .card{width:100%;min-width:0;max-width:none;aspect-ratio:auto;height:auto;min-height:284px;max-height:none;padding:12px;overflow:visible}
+:is(.modal,.opening-page) .collection .card h3{height:auto;min-height:42px;max-height:none;overflow:visible;font-size:17px;line-height:1.4;margin:8px 0}
+:is(.modal,.opening-page) .collection .card .card-art{height:78px;min-height:78px;max-height:78px}
+:is(.modal,.opening-page) .collection .card .description,.journey-page .card .description,.collection-card-detail>.card .description{flex:1 0 auto;min-height:0;height:auto;max-height:none;overflow:visible;font-size:13px;line-height:1.75}
+:is(.modal,.opening-page) .collection .card footer{height:auto;min-height:20px;max-height:none;flex-shrink:0;margin-top:12px;padding-top:6px;font-size:10px}
+.journey-page .card{height:auto;min-height:284px;max-height:none;overflow:visible}.journey-page .card h3{height:auto;min-height:36px;max-height:none;overflow:visible}
+.collection-card-detail>.card{height:auto;min-height:390px;max-height:none;overflow:visible}
+@media(max-width:900px){:is(.modal,.opening-page) .collection{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:600px){:is(.modal,.opening-page) .collection{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}:is(.modal,.opening-page) .collection .card{padding:10px;min-height:274px}:is(.modal,.opening-page) .collection .card h3{font-size:15px;min-height:42px}:is(.modal,.opening-page) .collection .card .card-art{height:64px;min-height:64px;max-height:64px}:is(.modal,.opening-page) .collection .card .description,.journey-page .card .description{font-size:12px;line-height:1.75}.journey-page .card{min-height:264px}}
+
+/* The inspection drawer replaces the fan; it never borrows space from fighters. */
+.preview-switcher{display:none}
+@media(max-width:900px){
+ .hand-preview.compact-preview{height:172px;min-height:172px;max-height:172px;touch-action:pan-y}
+ .hand-preview-card{position:relative;grid-template-rows:34px minmax(0,1fr) 36px}
+ .preview-card-title{padding-right:122px}.preview-card-title h3{font-size:13px;line-height:16px;white-space:normal}.preview-card-title>small{display:none}
+ .preview-switcher{display:flex;align-items:center;gap:3px;position:absolute;top:0;right:34px;height:30px}.preview-switcher button{width:28px;height:30px;min-height:30px;padding:0;font-size:21px;line-height:1}.preview-switcher small{font-size:10px;min-width:20px;text-align:center}
+ .hand-preview .preview-close{width:30px;height:30px;min-height:30px;top:8px;right:8px}
+}
+@media(max-width:900px) and (max-height:700px) and (min-height:561px){
+ .layout[data-phase="battle"] .battlefield[data-enemies]{height:auto;min-height:0;flex:0 0 auto;gap:6px;padding-bottom:2px}
+ .layout[data-phase="battle"] .battlefield[data-enemies] .enemies{display:grid;grid-template-columns:repeat(var(--enemy-columns,3),minmax(0,1fr));gap:6px;order:0;width:100%}
+ .layout[data-phase="battle"] .battlefield[data-enemies] .enemy{height:184px;min-height:184px;display:grid;grid-template-columns:minmax(0,1fr);grid-template-rows:64px 16px 40px 24px 12px;gap:2px;padding:14px 4px 6px;align-content:start}
+ .layout[data-phase="battle"] .battlefield[data-enemies] .enemy .enemy-art{grid-column:1;grid-row:1;width:64px;height:64px;justify-self:center;margin:0}
+ .layout[data-phase="battle"] .battlefield[data-enemies] .enemy h3{grid-column:1;grid-row:2;font-size:12px;line-height:16px;height:16px;margin:0;text-align:center;max-width:100%}
+ .layout[data-phase="battle"] .battlefield[data-enemies] .enemy .fighter-intent{position:static;grid-column:1;grid-row:3;width:100%;max-width:100%;height:40px;min-height:0;align-items:center;justify-content:center}
+ .layout[data-phase="battle"] .battlefield[data-enemies] .enemy .enemy-plan-tags{justify-content:center}.layout[data-phase="battle"] .battlefield[data-enemies] .enemy .enemy-action-tag{font-size:9px;line-height:11px}
+ .layout[data-phase="battle"] .battlefield[data-enemies] .enemy .combat-vitals{grid-column:1;grid-row:4;grid-template-rows:11px 11px;gap:2px}.layout[data-phase="battle"] .battlefield[data-enemies] .enemy .combat-vitals>div{height:11px}
+ .layout[data-phase="battle"] .battlefield[data-enemies] .enemy .enemy-faction{display:none}.layout[data-phase="battle"] .battlefield[data-enemies] .enemy .status-row{grid-column:1;grid-row:5;height:12px;margin:0;position:static;transform:none;justify-content:center}.layout[data-phase="battle"] .battlefield[data-enemies] .enemy .status-chip{font-size:8px;line-height:10px;padding:0 2px}
+ .layout[data-phase="battle"] .battlefield[data-enemies] .enemy .target-marker{top:3px;left:4px;font-size:8px;line-height:10px}
+ .layout[data-phase="battle"] .battlefield[data-enemies] .player{height:56px;min-height:56px;display:grid;grid-template-columns:44px minmax(0,1fr);grid-template-rows:1fr;gap:8px;padding:3px 8px;margin-top:0}
+ .layout[data-phase="battle"] .battlefield[data-enemies] .player .player-art{grid-column:1;grid-row:1;width:42px;height:48px;margin:0;align-self:center}
+ .layout[data-phase="battle"] .battlefield[data-enemies] .player .player-details{grid-column:2;grid-row:1;display:grid;grid-template-rows:14px 22px 10px;gap:1px}.layout[data-phase="battle"] .battlefield[data-enemies] .player-name{font-size:12px;line-height:14px;height:14px;margin:0;text-align:left;max-width:calc(100% - 55px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ .layout[data-phase="battle"] .battlefield[data-enemies] .player .fighter-intent{position:absolute;top:2px;right:4px;width:auto;height:18px;min-height:0}.layout[data-phase="battle"] .battlefield[data-enemies] .player .fighter-intent small{display:none}.layout[data-phase="battle"] .battlefield[data-enemies] .player .combat-vitals{grid-template-rows:10px 10px;gap:2px}.layout[data-phase="battle"] .battlefield[data-enemies] .player .combat-vitals>div{height:10px}.layout[data-phase="battle"] .battlefield[data-enemies] .player .status-row{height:10px;margin:0;justify-content:flex-start}
+}
+
+@media(max-width:900px) and (max-height:620px) and (min-height:561px){
+ .layout[data-phase="battle"]{--hand-card-height:80px}
+ .hand .card .folded-name{writing-mode:horizontal-tb;height:auto;max-height:32px;margin-top:29px;font-size:11px;line-height:14px}
+ .hand-preview.compact-preview{height:132px;min-height:132px;max-height:132px}
+ .hand-preview-card{grid-template-rows:30px minmax(0,1fr) 32px;gap:4px}
+ .compact-preview .hand-preview-action,.compact-preview .hand-preview-action>button{height:32px;min-height:32px}
+ .layout[data-phase="battle"] .battlefield[data-enemies] .enemy{height:154px;min-height:154px;grid-template-rows:48px 14px 34px 22px 10px;padding:10px 4px 6px}
+ .layout[data-phase="battle"] .battlefield[data-enemies] .enemy .enemy-art{width:48px;height:48px}
+ .layout[data-phase="battle"] .battlefield[data-enemies] .enemy .fighter-intent{height:34px}
+ .layout[data-phase="battle"] .battlefield[data-enemies] .enemy .combat-vitals{grid-template-rows:10px 10px}
+ .layout[data-phase="battle"] .battlefield[data-enemies] .enemy .combat-vitals>div{height:10px}
+}
+@media(max-width:900px) and (max-height:620px) and (min-height:561px){
+ .layout[data-phase="battle"] .battlefield[data-enemies] .player{height:46px;min-height:46px;padding:2px 8px;grid-template-columns:38px minmax(0,1fr)}
+ .layout[data-phase="battle"] .battlefield[data-enemies] .player .player-art{width:36px;height:40px}
+ .layout[data-phase="battle"] .battlefield[data-enemies] .player .player-details{grid-template-rows:12px 20px 8px;gap:0}
+ .layout[data-phase="battle"] .battlefield[data-enemies] .player .player-name{font-size:11px;line-height:12px;height:12px}
+}
+@media(max-width:900px) and (max-height:700px) and (min-height:561px){
+ .layout[data-phase="battle"] .battlefield[data-enemies] .player:before{display:none}
+ .layout[data-phase="battle"] .battlefield[data-enemies] .player .player-details{grid-template-columns:minmax(0,1fr);align-self:center;margin:0}
+ .layout[data-phase="battle"] .battlefield[data-enemies] .player .player-name{grid-column:1;grid-row:1}
+ .layout[data-phase="battle"] .battlefield[data-enemies] .player .combat-vitals{grid-column:1;grid-row:2;width:100%;height:22px;max-width:none}
+ .layout[data-phase="battle"] .battlefield[data-enemies] .player .combat-vitals>div{width:100%;max-width:none}
+ .layout[data-phase="battle"] .battlefield[data-enemies] .player .status-row{grid-column:1;grid-row:3;max-width:100%}
+ .hand-preview.compact-preview{-webkit-user-select:none;user-select:none}
+}
+@media(max-width:900px) and (max-height:700px) and (min-height:561px){
+ .layout[data-phase="battle"] .battlefield[data-enemies="1"]{--enemy-columns:1}
+ .layout[data-phase="battle"] .battlefield[data-enemies="2"]{--enemy-columns:2}
+}

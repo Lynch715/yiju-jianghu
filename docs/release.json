@@ -1,16 +1,16 @@
 {
-  "version": "0.22.0",
+  "version": "0.25.0",
   "entry": "index.html",
   "files": [
     {
       "path": "index.html",
       "bytes": 1491,
-      "sha256": "a6856fd0ee4a8d198d96e9f56e9f559872a77d66a0d7319993a48950bcec16c4"
+      "sha256": "fb4343aba35dcd512cd4861bd1d6cfec349eeeb55c420ae0e766dda622c78fdf"
     },
     {
       "path": "manifest.webmanifest",
       "bytes": 755,
-      "sha256": "821a0912f3aeeee1390f869c8d1cb82593d81d2c4201b0a35fb100f515b3bbce"
+      "sha256": "913536a558ec286fc669a4621b25a784192ba73aef8849d8fb402f9bef5454db"
     },
     {
       "path": "assets/icons/icon.svg",
@@ -39,13 +39,13 @@
     },
     {
       "path": "app.js",
-      "bytes": 94224,
-      "sha256": "66e42b592e6b7b7c2b3ec0ce6f4d6078c75a4cea43bb51fa2846caa1442e4e57"
+      "bytes": 92663,
+      "sha256": "1de6a06d9e7a5051b4d898a9b45c293f885f1cdc28a169d045d634ec5009de4a"
     },
     {
       "path": "data.js",
       "bytes": 16352,
-      "sha256": "138c5212d85b39534e96fe87a042b7989df8954020408a629d0fbefd42deb118"
+      "sha256": "28783de9a7c19ada635276d16de2fb9f2e0c7b276b94cf589dd55335fb75109d"
     },
     {
       "path": "journey.js",
@@ -70,42 +70,47 @@
     {
       "path": "journey-ui.js",
       "bytes": 1056,
-      "sha256": "0a15fb462f8748b66199ce3c070e742aada9391bd3c9fae0f4e5f63e27895bfd"
+      "sha256": "4c964b5c98345d4716469b84d98de2415382c38a7a13d2805f2a678ac8794c54"
     },
     {
       "path": "card-art.js",
-      "bytes": 1220,
-      "sha256": "bdd34a42258a013f4b37a6973239b320322d60ce86e189f22644463417a9ce7f"
+      "bytes": 1008,
+      "sha256": "3f7a2000df53adfc977cf38866ba11144bce7b7733135ac94edffc8aee13f29d"
     },
     {
       "path": "relic-art.js",
       "bytes": 12406,
-      "sha256": "780dcd15947fa19d5725a4687db724448501c897c1163fdd62efa39a81f645c9"
+      "sha256": "fadf030c5a9f2760e202b545e250f0ea5251c6f7aa6d20d74065963ad16c069c"
     },
     {
       "path": "enemy-tactics.js",
       "bytes": 16274,
-      "sha256": "11e0b6f32d1f9b78f8222926cb730d1ee9dfd5b6900723c0e6b5b07a1993a845"
+      "sha256": "69600d359d289cbf66dc857ca6078d64f1231392f6235a74dbf8804790a243b0"
     },
     {
       "path": "enemy-action.js",
-      "bytes": 3673,
-      "sha256": "6d0688f7c5ec31c4a4202365de2514e5f34f16983280273bde1d40c7a1732053"
+      "bytes": 3966,
+      "sha256": "0be8634062c375df3dec735a0a75dbc50748221a571e21e6176fc5d0e513d0fe"
+    },
+    {
+      "path": "combat-guide.js",
+      "bytes": 8788,
+      "sha256": "67b1faf8ab07d00a5c5cc44523aa3b0bd3e89b8fe2f05a3831ec73431861368e"
     },
     {
       "path": "records.js",
       "bytes": 6475,
-      "sha256": "27ea9c80e05a4504435f88835d415b6c059e0b249262ecdc1b95433ef0f1653c"
+      "sha256": "2ec4cd09a9d03e81cf4a5d953f7128ddce10516f25438517a95788c5cff030d5"
     },
     {
       "path": "engine.js",
-      "bytes": 51566,
-      "sha256": "d1a3867e15d8a97b629183f251ebc31da786659853f0515584b4092d56183acf"
+      "bytes": 52001,
+      "sha256": "8deb23d66a70911fc051572c621e358f21afddaf901cd79ed19069de3a88e23c"
     },
     {
       "path": "card-preview.js",
       "bytes": 7512,
-      "sha256": "700862398d2c1b45324eb3f53d197b0d83ea8ab888d8594a3d6f810b550ef520"
+      "sha256": "8fe15dd3d6d816e831467213428d0b9b86be8540cc15504db591293a59202254"
     },
     {
       "path": "difficulty.js",
@@ -115,17 +120,17 @@
     {
       "path": "expedition.js",
       "bytes": 3084,
-      "sha256": "9e1e1390997cda3dba7a69a8320fbdecf4dfc6f379c2a5591923c3728f05d2ad"
+      "sha256": "a96e41689861c983b79d1203ecee9df3f19ba8b718ba0b606c33e5c8179da9c6"
     },
     {
       "path": "enemies.js",
-      "bytes": 11831,
-      "sha256": "0bc11cd2ccde2dc2dffe21ca83581936d62180bebdd9e88e5e8deffc4d262a6c"
+      "bytes": 12039,
+      "sha256": "c5ceef5e1e8507936852f22cb511d6e6f013f911832c0a2a1851c4be7da87a3b"
     },
     {
       "path": "players.js",
-      "bytes": 4887,
-      "sha256": "b40f184de74bf601c6963cf6ec13f0a2e40b8390f030d7decd815d051e6dad63"
+      "bytes": 5401,
+      "sha256": "245cac49691371967dd5ccefd8c7c4f81b3bfc20c929f456c6cd40af268f53cc"
     },
     {
       "path": "combat-ui.js",
@@ -139,8 +144,8 @@
     },
     {
       "path": "themes.js",
-      "bytes": 1415,
-      "sha256": "c07761412d9bd1a1183dd35e05b89812c929ed4e0162ceeb3433c88edaa908ee"
+      "bytes": 1325,
+      "sha256": "ee1cac829c2e1202139558a199249468d58ad98334ce9e895b087a9c64d544ae"
     },
     {
       "path": "home-art.js",
@@ -149,8 +154,8 @@
     },
     {
       "path": "style.css",
-      "bytes": 168974,
-      "sha256": "66d9c7bb445fe95e31ae0154aef052538f5890e414f743108a0ba8aa17fedf26"
+      "bytes": 175415,
+      "sha256": "01a460766486157efa0ee6389fb202e8afdd40f9bcb54b77ebdc974e4b20d2cf"
     },
     {
       "path": "assets/home/runtime/cover.webp",
@@ -238,24 +243,24 @@
       "sha256": "b02153c68e3e93b86ef23a42c5ba8cc668292c0a9c8f95302344d03f3ff76b2a"
     },
     {
-      "path": "assets/enemies/runtime/qingchengguard.webp",
-      "bytes": 34418,
-      "sha256": "c676c0ed8353cc6284b04eac2da239a8a395a018ceeb927c283336ba55e85d10"
+      "path": "assets/enemies/runtime/qingchengguard-v0250.webp",
+      "bytes": 20556,
+      "sha256": "092a5b861b048b53d4694ae725520132387d0077dab1e776e19f6928f356f17b"
     },
     {
-      "path": "assets/enemies/runtime/shenlong.webp",
-      "bytes": 33620,
-      "sha256": "e93efe0a74a2fc304f62d23808d6548f36318b166e5a263ac23745306a124333"
+      "path": "assets/enemies/runtime/shenlong-v0250.webp",
+      "bytes": 25792,
+      "sha256": "f4b9a4a3fafcf6fefd9bee3ad6f0366d72d58710dac812b7846ae2bd702dba26"
     },
     {
-      "path": "assets/enemies/runtime/riyueguard.webp",
-      "bytes": 28576,
-      "sha256": "e09f798865b0241020363e092eaa440ce2d8bae1d6e5a9ee58d42e9087911a40"
+      "path": "assets/enemies/runtime/riyueguard-v0250.webp",
+      "bytes": 19144,
+      "sha256": "60a07ce1cf3701657f259d148a580070b37084c6020033f436fa6c50d0403cc1"
     },
     {
-      "path": "assets/enemies/runtime/dingmian.webp",
-      "bytes": 37888,
-      "sha256": "5f0f07a69268c6b4ab90b5d861ad9308b82236a9105ddffe12728ea3328dbeda"
+      "path": "assets/enemies/runtime/dingmian-v0250.webp",
+      "bytes": 20852,
+      "sha256": "99bbcd661db4f79f4f5ff280912901be0cd446e5cf5120b748cd1e08d625092f"
     },
     {
       "path": "assets/enemies/runtime/azi.webp",
@@ -328,6 +333,11 @@
       "sha256": "aff628b9faf67b8a45c79a1a05e6e4e103d6acc3e6eba72e17af8de2f942e1c1"
     },
     {
+      "path": "assets/heroes/runtime/yangguo.webp",
+      "bytes": 29654,
+      "sha256": "537052fab41589804499efaa35a96f75f45d7c5742f4eb2c7d235c8751ae3ba0"
+    },
+    {
       "path": "assets/heroes/runtime/huangrong.webp",
       "bytes": 40764,
       "sha256": "1ce7f5ab322e3aca248639f198117725b9767f3647ee6fa5315ecc9933c60843"
@@ -341,6 +351,11 @@
       "path": "assets/heroes/runtime/guoxiang.webp",
       "bytes": 29314,
       "sha256": "67ee5d88a2a743bf2c36478b6ca168e6419e47323c59ecbb6e43af930c58e161"
+    },
+    {
+      "path": "assets/heroes/runtime/aqing.webp",
+      "bytes": 32956,
+      "sha256": "bced1a07675be8bae3193a41f703cfa8e720b7886c7b2bf67a922b7211bb4e6f"
     },
     {
       "path": "assets/cards/runtime/fist.webp",
@@ -406,6 +421,351 @@
       "path": "assets/cards/runtime/blade.webp",
       "bytes": 41040,
       "sha256": "94de66afc7fed9ea9a1e7f12e31bfd9061505a4d84f43b45e6118a55a4b089c4"
+    },
+    {
+      "path": "assets/cards/runtime/tech-W02.webp",
+      "bytes": 14560,
+      "sha256": "eb7547986c808a16bba49292d645e3e3471b94c7375ee7e5b86ea40c9dfd379f"
+    },
+    {
+      "path": "assets/cards/runtime/tech-W04.webp",
+      "bytes": 13370,
+      "sha256": "a4a4537ec6514070324d648eda1f6148cbd2794d0191200c9bd0a48cfc417149"
+    },
+    {
+      "path": "assets/cards/runtime/tech-W06.webp",
+      "bytes": 17934,
+      "sha256": "b83ee71bcd9285718b09f9e3e5542b76bc15da87d8e114aad22786b72c13e93c"
+    },
+    {
+      "path": "assets/cards/runtime/tech-W08.webp",
+      "bytes": 19002,
+      "sha256": "60490e1c141052945ec6404d98f2573e648857770e65a325f46af62f22419919"
+    },
+    {
+      "path": "assets/cards/runtime/tech-W09.webp",
+      "bytes": 20028,
+      "sha256": "c6f185d14505b257a4d377d2a867729936bbdd1390f059a3b44705d0854cbf60"
+    },
+    {
+      "path": "assets/cards/runtime/tech-W10.webp",
+      "bytes": 21234,
+      "sha256": "6e25e1992a3f135b81e5191be2c51179457090087a4b88f8ba4d3ab26ed1671e"
+    },
+    {
+      "path": "assets/cards/runtime/tech-W11.webp",
+      "bytes": 19740,
+      "sha256": "3206a6b84e0a18637c6794c2036137dfcc8089f56ac81f6298bb43ba794b3db8"
+    },
+    {
+      "path": "assets/cards/runtime/tech-W12.webp",
+      "bytes": 16402,
+      "sha256": "7d2077f669e9b83b4abd0020367d425d11e0f30b8af54c5130a21c2f0979bd67"
+    },
+    {
+      "path": "assets/cards/runtime/tech-W13.webp",
+      "bytes": 19764,
+      "sha256": "f3424211f4b8c95db27385cd24a322f068e76a9542fcaa79d3fb04791508be80"
+    },
+    {
+      "path": "assets/cards/runtime/tech-W14.webp",
+      "bytes": 18678,
+      "sha256": "95952e9d99bfe5338e14450f00ea6fe5874fa01ad2f955ae5dbb820672efce36"
+    },
+    {
+      "path": "assets/cards/runtime/tech-W16.webp",
+      "bytes": 18394,
+      "sha256": "51b787cd099fdeaf21a59b0a96ca9018cf774158f48b48111fa01719d195312c"
+    },
+    {
+      "path": "assets/cards/runtime/tech-W17.webp",
+      "bytes": 18946,
+      "sha256": "c90136dd3f5fb7782f671d2cdffdcecd0980e4258f5d68264c7eaeebba624f33"
+    },
+    {
+      "path": "assets/cards/runtime/tech-W18.webp",
+      "bytes": 22398,
+      "sha256": "f8f810f31b8ee07b37e45cbd8328e6eca9c846a60fb1bbb6ba3fed4c8dddb1e3"
+    },
+    {
+      "path": "assets/cards/runtime/tech-W20.webp",
+      "bytes": 16100,
+      "sha256": "3e98c133103aaf1ccd65f5675b9a93bf05de8b288e5667114ac740f02a17a566"
+    },
+    {
+      "path": "assets/cards/runtime/tech-W21.webp",
+      "bytes": 16736,
+      "sha256": "7475c7d068c42ea50c34965062a283075e84d6f4c52cc59ce3ef7097d1979dbb"
+    },
+    {
+      "path": "assets/cards/runtime/tech-W22.webp",
+      "bytes": 18268,
+      "sha256": "42dc20fa153a80161d30c5d94b31f99d8f8f82c90cc0ccbecd064f878140decd"
+    },
+    {
+      "path": "assets/cards/runtime/tech-W23.webp",
+      "bytes": 20446,
+      "sha256": "91d0972db84318fd9279bf0e524670f85c8d081e398ced47707aa406de088a77"
+    },
+    {
+      "path": "assets/cards/runtime/tech-W24.webp",
+      "bytes": 20580,
+      "sha256": "ab645e4c824e756cb5a10d74e6c42265a5599dd1ceb63fe5f5f3906ffc82bb54"
+    },
+    {
+      "path": "assets/cards/runtime/tech-W25.webp",
+      "bytes": 19554,
+      "sha256": "a7fb6457d2fa8d4461e2ed237a10ff2a89bffa40966d148ab28d23caa132f12e"
+    },
+    {
+      "path": "assets/cards/runtime/tech-W26.webp",
+      "bytes": 13616,
+      "sha256": "b3dc3fb761c72c911c4b47f801c39aeb9fc8f455f77d0fc91189afc163e18719"
+    },
+    {
+      "path": "assets/cards/runtime/tech-W27.webp",
+      "bytes": 14268,
+      "sha256": "184f546360304aec689c447cad51234477f322757b84c8c5da837a83dc3e5839"
+    },
+    {
+      "path": "assets/cards/runtime/tech-W28.webp",
+      "bytes": 17226,
+      "sha256": "f8244d2710b9408f83cb86af7d165773793c1bfdaece58f48d5133e2cf97324c"
+    },
+    {
+      "path": "assets/cards/runtime/tech-W29.webp",
+      "bytes": 16142,
+      "sha256": "a0a9d0a0189a6cf53641dfa86a8c61a42a8701f2fdc27c2f67c80b0df00784a6"
+    },
+    {
+      "path": "assets/cards/runtime/tech-W30.webp",
+      "bytes": 14390,
+      "sha256": "39462adec8cfc9541b168024dcf766f1c6130c9baa6087cf59cbe49b14534342"
+    },
+    {
+      "path": "assets/cards/runtime/tech-W31.webp",
+      "bytes": 18132,
+      "sha256": "c3254d64fbac5b1e3b2e0d75d6cb0dd1fcb21676f5c7901ae0228696ec2855a1"
+    },
+    {
+      "path": "assets/cards/runtime/tech-W32.webp",
+      "bytes": 18078,
+      "sha256": "2c6ea816667e3a3d46b807abfc7f5ae372d0d1c8cfdda87068143bc0899c5bac"
+    },
+    {
+      "path": "assets/cards/runtime/tech-W33.webp",
+      "bytes": 17566,
+      "sha256": "2bae3ddeabe51a778f274563725d5706fd9d29762c5d140b1bb0ec9e87d2b67d"
+    },
+    {
+      "path": "assets/cards/runtime/tech-W34.webp",
+      "bytes": 13694,
+      "sha256": "01227243e74a518f194f0633fbbd40657f5c0af7b20936ad7d24e18da28db059"
+    },
+    {
+      "path": "assets/cards/runtime/tech-W35.webp",
+      "bytes": 17794,
+      "sha256": "5589695fee58dacdd41a89c7b91387ee4e9bdc49cc74c89175118b91e7d1e0c6"
+    },
+    {
+      "path": "assets/cards/runtime/tech-W36.webp",
+      "bytes": 16430,
+      "sha256": "5b462d7de91c26b116c8f9fa43bd09519acaa8bf4ddf668a7cf316d8f5830e31"
+    },
+    {
+      "path": "assets/cards/runtime/tech-W37.webp",
+      "bytes": 15692,
+      "sha256": "1a62def07e40d62d1f71a418393bf9f1595eb3d006056cf469480f8293943683"
+    },
+    {
+      "path": "assets/cards/runtime/tech-W38.webp",
+      "bytes": 14354,
+      "sha256": "ad3ce3ffe6f18ae81e081f9a83441f5d1b85d2fed252e6b89d8e610d793ba020"
+    },
+    {
+      "path": "assets/cards/runtime/tech-W40.webp",
+      "bytes": 14170,
+      "sha256": "7f2886b39d91c097f86d45bac80f3c7d246755d90be3bf07f6b8dc0c0d719fa1"
+    },
+    {
+      "path": "assets/cards/runtime/tech-W41.webp",
+      "bytes": 13576,
+      "sha256": "eb9d084a8a23b3abe4c7c05614849ae3c1b426036bdc2b88687189d55469a51f"
+    },
+    {
+      "path": "assets/cards/runtime/tech-W42.webp",
+      "bytes": 19740,
+      "sha256": "2acc88eb2218298a73e440a7e2ccbe782725d9b701c1264c6ac3d5f4e4b946c6"
+    },
+    {
+      "path": "assets/cards/runtime/tech-W43.webp",
+      "bytes": 19778,
+      "sha256": "795e848341ffae1993f15b3e1a0277f91b5978f6515aad6b9bd2d78a722e84b0"
+    },
+    {
+      "path": "assets/cards/runtime/tech-W44.webp",
+      "bytes": 23428,
+      "sha256": "6d149068d18cb1f748ba0be317469efbcecfcc2153371fd8eb3318170dcd59bf"
+    },
+    {
+      "path": "assets/cards/runtime/tech-W45.webp",
+      "bytes": 20794,
+      "sha256": "7982b420f65af50180aa312ee98347347130f05c982243260b024f6e08b4f0c7"
+    },
+    {
+      "path": "assets/cards/runtime/tech-W46.webp",
+      "bytes": 17648,
+      "sha256": "a45bee440870bfcf8f824c8aa9bff6b541985c4455d75577715c99dd045099e2"
+    },
+    {
+      "path": "assets/cards/runtime/tech-W47.webp",
+      "bytes": 16598,
+      "sha256": "c0f7664b9a7734ef24b6631441c119816e27b1c6125b19e8b5c6bc55c94f568b"
+    },
+    {
+      "path": "assets/cards/runtime/tech-W48.webp",
+      "bytes": 15444,
+      "sha256": "c500972b9fe331c96f0ec8ff516d4918e3ab28cb2150de3b7da22aa668630701"
+    },
+    {
+      "path": "assets/cards/runtime/tech-W51.webp",
+      "bytes": 21118,
+      "sha256": "7d1fa5a9aa645fba6d95438d2478d4aac758b85ea57f95503582982a9933954a"
+    },
+    {
+      "path": "assets/cards/runtime/tech-W53.webp",
+      "bytes": 16248,
+      "sha256": "798242f4005efb64b3a695b2c6252fab2c678a739e41224e349ca48e5cb42f85"
+    },
+    {
+      "path": "assets/cards/runtime/tech-W54.webp",
+      "bytes": 16294,
+      "sha256": "56a5cda9c64c4be88a3c24345b138d2168db02961e9daa520307c20565b27b53"
+    },
+    {
+      "path": "assets/cards/runtime/tech-W55.webp",
+      "bytes": 16788,
+      "sha256": "4b3a2b8bc2f74f4cd18e7001a8d6617c9effb26a51748532760ee06e39e3c732"
+    },
+    {
+      "path": "assets/cards/runtime/tech-W56.webp",
+      "bytes": 14188,
+      "sha256": "a2dd3c5efda6acc81c0e4283e945e196b45d9ceffd9a3170ab12612c48b16913"
+    },
+    {
+      "path": "assets/cards/runtime/tech-W57.webp",
+      "bytes": 22000,
+      "sha256": "c4b2da34f706662895d441b7ef653b168c69af2b8a83a489e379de80c4dfe916"
+    },
+    {
+      "path": "assets/cards/runtime/tech-W58.webp",
+      "bytes": 18998,
+      "sha256": "656dd9d490b3408eea5fbe5a2715c5498e4551a40166fc3e8b379bb307e5be6f"
+    },
+    {
+      "path": "assets/cards/runtime/tech-W59.webp",
+      "bytes": 13968,
+      "sha256": "160e0728e38900c26649ffebea7c3119bcf6304cda02a7508ccb0ef5778f89ff"
+    },
+    {
+      "path": "assets/cards/runtime/tech-U03.webp",
+      "bytes": 15708,
+      "sha256": "d5774cd968f92263204000d2ce948f32a7897d23e772be11c93eb57f3c90a7f4"
+    },
+    {
+      "path": "assets/cards/runtime/tech-U04.webp",
+      "bytes": 16804,
+      "sha256": "9bc4512c28dd38c08ccee1598af2e252be7680157bc8a9b170f86d3542a1ad8a"
+    },
+    {
+      "path": "assets/cards/runtime/tech-U05.webp",
+      "bytes": 9290,
+      "sha256": "4f3d59da5a4913959b01515a53416deab5213a47a21e65d5d646d51675912265"
+    },
+    {
+      "path": "assets/cards/runtime/tech-U06.webp",
+      "bytes": 14662,
+      "sha256": "55333fefa15fc7441c0d6be7706af5eb17e4bb56ce9bb499616eb0b2acaf0b55"
+    },
+    {
+      "path": "assets/cards/runtime/tech-U07.webp",
+      "bytes": 18928,
+      "sha256": "424bbc709f435842c23db91326ed1aca916daa9c28a37e8404a62a664aec6d94"
+    },
+    {
+      "path": "assets/cards/runtime/tech-U08.webp",
+      "bytes": 17652,
+      "sha256": "6f22ccbb45d23d93b1d40c0edff3c2baef18d57342c2be9e23dbef3633a0ad7d"
+    },
+    {
+      "path": "assets/cards/runtime/tech-U09.webp",
+      "bytes": 13598,
+      "sha256": "7e7e6482f18430b203b20bc6a36901e0fad6d3547c7eae69ee7372ce4101b782"
+    },
+    {
+      "path": "assets/cards/runtime/tech-U10.webp",
+      "bytes": 12820,
+      "sha256": "04b00ee4b31c1ad89e4176bbd5ac364516a7e070f0e0f2768816b4c10f789091"
+    },
+    {
+      "path": "assets/cards/runtime/tech-U11.webp",
+      "bytes": 19176,
+      "sha256": "acb9ca7e68d476402886be8ae549e15d8776eb7d82672a3e24fddbccadcdaf37"
+    },
+    {
+      "path": "assets/cards/runtime/tech-U12.webp",
+      "bytes": 19846,
+      "sha256": "03621d0a15361ae3c1d7211f4a0a8165e3a58a7f8b21447e6698103fc102264f"
+    },
+    {
+      "path": "assets/cards/runtime/tech-U13.webp",
+      "bytes": 17804,
+      "sha256": "748d0d9165be175a9c63144608b21361b39b0aab07e8230ab8d244e791d4fcdb"
+    },
+    {
+      "path": "assets/cards/runtime/tech-U14.webp",
+      "bytes": 18474,
+      "sha256": "d0d55c3c0509c99db19136fe4dc2e73b35519a661da50730d7d6833893232404"
+    },
+    {
+      "path": "assets/cards/runtime/tech-U15.webp",
+      "bytes": 14484,
+      "sha256": "03da15131567a9ff1f3d5141957fad266c95a93ba16be811a303fd956449c120"
+    },
+    {
+      "path": "assets/cards/runtime/tech-U16.webp",
+      "bytes": 16184,
+      "sha256": "85202227588e499ebe01bc84bc945c307441160ea492d0de53189314fd2fc749"
+    },
+    {
+      "path": "assets/cards/runtime/tech-U17.webp",
+      "bytes": 13186,
+      "sha256": "10f320c6dcb4dd3f231ea3336acfee600600450a86c3cb372b63aee1838e6b1b"
+    },
+    {
+      "path": "assets/cards/runtime/tech-U18.webp",
+      "bytes": 15294,
+      "sha256": "4e373b463ea8aae16577870dd628b4df07ce74b1d05ee3d7660e09f7a8472d14"
+    },
+    {
+      "path": "assets/cards/runtime/tech-U19.webp",
+      "bytes": 14928,
+      "sha256": "a39834e8cbc30b716fe8ebf79b472490e760ca495857c44c99378d4b4321990e"
+    },
+    {
+      "path": "assets/cards/runtime/tech-U20.webp",
+      "bytes": 16646,
+      "sha256": "0ec848569f0a33dc6923c66dc6d939c69f4c8f06ff38c63781b331ed3f6cb8b4"
+    },
+    {
+      "path": "assets/cards/runtime/tech-QI.webp",
+      "bytes": 16722,
+      "sha256": "b4428a8ef4c40d7e7dfb5dcadcf72367875f2bff145b8a2a61a853ef9787960d"
+    },
+    {
+      "path": "assets/cards/runtime/tech-CURSE.webp",
+      "bytes": 17532,
+      "sha256": "396d9b84215efcaf6e4b7e666cb47c59fa154d8e80c38148025015f79153a1b5"
     },
     {
       "path": "assets/battles/runtime/jiangnan.webp",

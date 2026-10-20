@@ -1,4 +1,5 @@
 import test from 'node:test';
+import {createHash} from 'node:crypto';
 import assert from 'node:assert/strict';
 import {readFileSync,statSync} from 'node:fs';
 import {CARD,RELICS} from '../data.js';
@@ -19,7 +20,7 @@ test('every playable and temporary card has a deliberate illustration assignment
 test('runtime artwork is valid WebP with a bounded mobile download budget',()=>{
  const art=[...ENEMIES,...PLAYERS,...HEROES,...Object.values(CARD_ART_THEMES),...BATTLE_SCENES,...JOURNEY_SCENES,HOME_COVER];let total=0;
  for(const d of art){const bytes=readFileSync(new URL(d.art,root));assert.equal(bytes.subarray(0,4).toString(),'RIFF');assert.equal(bytes.subarray(8,12).toString(),'WEBP');assert.ok(bytes.length<(d===HOME_COVER?512*1024:90000),d.art);if(JOURNEY_SCENES.includes(d))assert.ok(bytes.length<=48*1024,d.art);if(BATTLE_SCENES.includes(d))assert.ok(bytes.length<=72*1024,d.art);total+=bytes.length;}
- assert.ok(total<3400000,`all runtime art uses ${total} bytes`);
+ assert.ok(total<4800000,`all runtime art uses ${total} bytes`);
 });
 test('standalone embeds all art and Pages ships only the current lightweight assets',()=>{
  const html=readFileSync(new URL('dist/index.html',root),'utf8');
@@ -27,7 +28,7 @@ test('standalone embeds all art and Pages ships only the current lightweight ass
  // PNG is reserved for platform icon links; gameplay illustrations must stay WebP.
  assert.ok(!html.slice(html.indexOf('<script type="module">')).includes('data:image/png;base64,'));
  assert.ok(!html.includes(HOME_COVER.art),'offline cover must be embedded');
- assert.ok(!html.includes('art:`assets/'));assert.ok(Buffer.byteLength(html)<4900000);
+ assert.ok(!html.includes('art:`assets/'));assert.ok(Buffer.byteLength(html)<6900000);
  const manifest=JSON.parse(readFileSync(new URL('docs/release.json',root),'utf8'));
  const expected=[...[...ENEMIES,...PLAYERS,...HEROES,...Object.values(CARD_ART_THEMES),...BATTLE_SCENES,...JOURNEY_SCENES,HOME_COVER].map(d=>d.art),'assets/icons/icon.svg','assets/icons/icon-512.png','assets/icons/icon-192.png','assets/icons/apple-touch-icon.png','assets/icons/favicon-32.png'].sort();
  assert.deepEqual(manifest.files.filter(f=>f.path.startsWith('assets/')).map(f=>f.path).sort(),expected);
@@ -69,4 +70,11 @@ test('title art retains native resolution instead of reusing a card thumbnail',(
  assert.ok(width>=1536&&height>=1024,'title illustration must retain the full-size source detail');
  assert.equal(width,HOME_COVER.width);assert.equal(height,HOME_COVER.height);
  assert.notEqual(HOME_COVER.art,cardArtwork('W03').art,'title and card download budgets must stay separate');
+});
+
+test('different techniques have distinct composition files and image bytes',()=>{
+ const art=Object.keys(CARD).map(id=>cardArtwork(id).art);
+ assert.equal(art.length,82);assert.equal(new Set(art).size,82);
+ const hashes=art.map(path=>createHash('sha256').update(readFileSync(new URL(path,root))).digest('hex'));
+ assert.equal(new Set(hashes).size,82);
 });

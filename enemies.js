@@ -27,7 +27,8 @@ const roster=[
  {id:'dongfangbubai',name:'东方不败',rank:'boss',chapter:2,hp:500,faction:'日月教主',source:'笑傲江湖',phaseName:'葵花绣影',trait:'绣针与葵花身法。',moves:[{label:'绣针连刺',damage:7,hits:3},{label:'葵花回护',damage:8,block:24},{label:'飞针截脉',damage:10,hits:2,weak:1},{label:'穿云针',damage:27}],enragedMoves:[{label:'葵花绣影',damage:6,hits:4},{label:'绣针回护',damage:10,block:28},{label:'追魂飞针',damage:8,hits:3,vuln:1},{label:'葵花归元',damage:15,block:22}]}
 
 ];
-export const ENEMIES=roster.map(d=>({...d,art:`assets/enemies/runtime/${d.id}.webp`}));
+const redrawn=new Set(['qingchengguard','shenlong','riyueguard','dingmian']);
+export const ENEMIES=roster.map(d=>({...d,original:redrawn.has(d.id)?`assets/enemies/redraw-v0250/${d.id}.png`:`assets/enemies/${d.id}.png`,art:`assets/enemies/runtime/${redrawn.has(d.id)?d.id+'-v0250':d.id}.webp`}));
 export const ENEMY=Object.fromEntries(ENEMIES.map(d=>[d.id,d]));
 // Encounter lineups are original game scenarios, rather than claims of novel alliances.
 const group=(title,ids,extra={})=>({title,ids,...extra});

@@ -5,10 +5,10 @@ import {createHash} from 'node:crypto';
 import {HEROES,PLAYERS,playerArtwork,validPlayer} from '../players.js';
 import {Game,clone} from '../engine.js';
 const root=new URL('../',import.meta.url);
-test('all six named heroes have unique dedicated source art, runtime art and saved prompts',()=>{
- const prompts=JSON.parse(readFileSync(new URL('art/hero-prompts.json',root)));assert.equal(prompts.length,6);const hashes=new Set();
+test('all eight named heroes have unique dedicated source art, runtime art and saved prompts',()=>{
+ const prompts=JSON.parse(readFileSync(new URL('art/hero-prompts.json',root)));assert.equal(prompts.length,HEROES.length);const hashes=new Set();
  for(const h of HEROES){assert.ok(h.art.startsWith('assets/heroes/runtime/'));const source=readFileSync(new URL(`assets/heroes/originals/${h.id}.png`,root)),runtime=readFileSync(new URL(h.art,root));assert.equal(source.subarray(1,4).toString(),'PNG');assert.ok(source.readUInt32BE(16)>=1024);assert.ok(source.readUInt32BE(20)>source.readUInt32BE(16));assert.equal(source[25],6,'RGBA source is required');assert.equal(runtime.subarray(0,4).toString(),'RIFF');assert.equal(runtime.subarray(8,12).toString(),'WEBP');assert.ok(runtime.length<70000);hashes.add(createHash('sha256').update(runtime).digest('hex'));const p=prompts.find(p=>p.id===h.id);assert.equal(p.source,`assets/heroes/originals/${h.id}.png`);assert.ok(p.transparent_background);assert.ok(p.prompt.includes(h.name));assert.ok(p.prompt.includes('Pose:'));}
- assert.equal(hashes.size,6);assert.equal(PLAYERS.length,6);
+ assert.equal(hashes.size,HEROES.length);assert.equal(PLAYERS.length,6);
 });
 test('old named profiles resolve new art without rewriting saved identity or game progress',()=>{
  for(const h of HEROES){const g=new Game();g.start(42);g.chooseHero(h.id);g.finishCharacter();g.s.phase='map';g.combat('battle');const before=clone(g.s);assert.equal(playerArtwork(g.s.player).art,h.art);assert.equal(playerArtwork(g.s.player).title,h.name);assert.deepEqual(g.s,before);const loaded=new Game(before);assert.deepEqual(loaded.s,before);assert.equal(playerArtwork(loaded.s.player).art,h.art);assert.ok(validPlayer(loaded.s.player));}
