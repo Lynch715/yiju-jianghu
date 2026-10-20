@@ -5,7 +5,7 @@ import {promisify} from 'node:util';
 import {fileURLToPath} from 'node:url';
 import {mkdir,stat} from 'node:fs/promises';
 import {ENEMIES} from '../enemies.js';
-import {PLAYERS} from '../players.js';
+import {PLAYERS,HEROES} from '../players.js';
 import {CARD_ART_THEMES} from '../card-art.js';
 import {HOME_COVER} from '../home-art.js';
 const exec=promisify(execFile);
@@ -14,6 +14,7 @@ const artJobs=[
  {source:'assets/cards/originals/sword.png',target:HOME_COVER.art,options:['-q','86','-sharp_yuv']},
  ...ENEMIES.map(d=>({source:`assets/enemies/${d.id}.png`,target:d.art,options:['-q','76','-alpha_q','85','-resize','0','480']})),
  ...PLAYERS.map(p=>({source:`assets/players/${p.id}.png`,target:p.art,options:['-q','76','-alpha_q','85','-resize','0','480']})),
+ ...HEROES.map(h=>({source:`assets/heroes/originals/${h.id}.png`,target:h.art,options:['-q','80','-alpha_q','90','-resize','0','560']})),
  ...Object.values(CARD_ART_THEMES).map(t=>({source:`assets/cards/originals/${t.id}.png`,target:t.art,options:['-q','72','-resize','480','320']}))
 ];
 for(const job of artJobs){

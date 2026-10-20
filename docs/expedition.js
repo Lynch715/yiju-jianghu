@@ -1,5 +1,5 @@
-import {EXPANDED_ENCOUNTERS} from './enemies.js?v=0.19.2';
-import {DIFFICULTY} from './difficulty.js?v=0.19.2';
+import {EXPANDED_ENCOUNTERS} from './enemies.js?v=0.22.0';
+import {DIFFICULTY} from './difficulty.js?v=0.22.0';
 export const TRIALS=[
  {level:1,name:'初涉风波',text:'三章四十五程，各门派有可拆解的招法，每章首领与途中遭遇随此局变化。'},
  {level:2,name:'群敌环伺',text:'沿用前阶变化；途中更常遇到结伴敌人，普通敌人逐阶加压，精英护势更强。'},

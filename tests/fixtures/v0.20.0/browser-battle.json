@@ -1,0 +1,315 @@
+{
+  "version": 8,
+  "phase": "battle",
+  "player": {
+    "name": "柳听雪",
+    "portrait": "female-qing",
+    "hero": "custom",
+    "talent": "breath"
+  },
+  "rng": 1181139192,
+  "seed": 1500845177,
+  "uid": 10,
+  "hp": 80,
+  "maxHp": 80,
+  "gold": 165,
+  "step": 0,
+  "deck": [
+    {
+      "id": "W01",
+      "up": false,
+      "uid": 1
+    },
+    {
+      "id": "W01",
+      "up": false,
+      "uid": 2
+    },
+    {
+      "id": "W01",
+      "up": false,
+      "uid": 3
+    },
+    {
+      "id": "W01",
+      "up": false,
+      "uid": 4
+    },
+    {
+      "id": "W01",
+      "up": false,
+      "uid": 5
+    },
+    {
+      "id": "U01",
+      "up": false,
+      "uid": 6
+    },
+    {
+      "id": "U01",
+      "up": false,
+      "uid": 7
+    },
+    {
+      "id": "U01",
+      "up": false,
+      "uid": 8
+    },
+    {
+      "id": "U01",
+      "up": false,
+      "uid": 9
+    },
+    {
+      "id": "U02",
+      "up": false,
+      "uid": 10
+    }
+  ],
+  "relics": [
+    "R01"
+  ],
+  "b": {
+    "enemies": [
+      {
+        "ruleset": "jianghu-2",
+        "skirmishRevision": 1,
+        "id": "qingcheng",
+        "name": "青城弟子·甲",
+        "callSign": "甲",
+        "role": "",
+        "kind": "bandit",
+        "hp": 21,
+        "maxHp": 21,
+        "key": 0,
+        "round": 0,
+        "damageScale": 0.792,
+        "guardScale": 1,
+        "block": 0,
+        "weak": 0,
+        "vuln": 0,
+        "str": 0,
+        "pin": 0,
+        "charge": 0,
+        "enraged": false,
+        "tactics": {
+          "kind": "qingcheng",
+          "skirmish": true,
+          "sword": 0,
+          "venom": 0,
+          "frenzy": 0,
+          "pressure": 0
+        },
+        "intent": {
+          "label": "松风剑",
+          "damage": 4
+        }
+      },
+      {
+        "ruleset": "jianghu-2",
+        "skirmishRevision": 1,
+        "id": "qingcheng",
+        "name": "青城弟子·乙",
+        "callSign": "乙",
+        "role": "",
+        "kind": "bandit",
+        "hp": 21,
+        "maxHp": 21,
+        "key": 1,
+        "round": 1,
+        "damageScale": 0.792,
+        "guardScale": 1,
+        "block": 0,
+        "weak": 0,
+        "vuln": 0,
+        "str": 0,
+        "pin": 0,
+        "charge": 0,
+        "enraged": false,
+        "tactics": {
+          "kind": "qingcheng",
+          "skirmish": true,
+          "sword": 0,
+          "venom": 0,
+          "frenzy": 0,
+          "pressure": 0
+        },
+        "intent": {
+          "label": "摧心掌",
+          "damage": 5,
+          "vuln": 1
+        }
+      }
+    ],
+    "draw": [
+      {
+        "id": "U01",
+        "up": false,
+        "uid": 9
+      },
+      {
+        "id": "U01",
+        "up": false,
+        "uid": 8
+      },
+      {
+        "id": "W01",
+        "up": false,
+        "uid": 1
+      },
+      {
+        "id": "W01",
+        "up": false,
+        "uid": 5
+      },
+      {
+        "id": "W01",
+        "up": false,
+        "uid": 4
+      }
+    ],
+    "hand": [
+      {
+        "id": "W01",
+        "up": false,
+        "uid": 3
+      },
+      {
+        "id": "W01",
+        "up": false,
+        "uid": 2
+      },
+      {
+        "id": "U02",
+        "up": false,
+        "uid": 10
+      },
+      {
+        "id": "U01",
+        "up": false,
+        "uid": 7
+      },
+      {
+        "id": "U01",
+        "up": false,
+        "uid": 6
+      }
+    ],
+    "discard": [],
+    "exhaust": [],
+    "powers": {},
+    "qi": 4,
+    "str": 0,
+    "tempStr": 0,
+    "block": 0,
+    "weak": 0,
+    "vuln": 0,
+    "turn": 1,
+    "nextDraw": 0,
+    "repeat": false,
+    "discount": 0,
+    "turnFlags": {
+      "plays": 0,
+      "attacks": 0,
+      "last": null,
+      "retired": 0,
+      "badRetired": 0,
+      "self": false
+    },
+    "battleFlags": {
+      "bandage": 0,
+      "blood": 0
+    },
+    "log": [
+      "天赋 · 气脉悠长 · 回复1真气",
+      "回复1真气",
+      "—— 第1回合 · 4真气 ——"
+    ],
+    "kind": "battle",
+    "formation": "松风双剑",
+    "qiPenalty": 0,
+    "nextQiLoss": 0,
+    "reflectNext": 0,
+    "reflectPool": 0,
+    "reflectNextStacks": 0,
+    "reflectRoundStacks": 0
+  },
+  "scene": {
+    "kind": "battle",
+    "chapter": 0,
+    "step": 0,
+    "nodeId": "j1-0-0-0",
+    "place": "烟柳渡西路"
+  },
+  "reward": null,
+  "history": [],
+  "stats": {
+    "turns": 1,
+    "played": 0,
+    "damage": 0,
+    "exhausted": 0,
+    "self": 0,
+    "kills": 0,
+    "wins": 0
+  },
+  "created": 1792502207609,
+  "runInfo": {
+    "version": "0.20.0",
+    "activeMs": 58352,
+    "timed": true
+  },
+  "journey": {
+    "version": 1,
+    "path": [],
+    "active": "j1-0-0-0"
+  },
+  "ruleset": "jianghu-2",
+  "skirmishRevision": 1,
+  "expedition": {
+    "revision": 1,
+    "level": 1,
+    "bosses": [
+      "zuolengchan",
+      "renwoxing",
+      "ouyangfeng"
+    ],
+    "seen": [
+      {
+        "step": 0,
+        "chapter": 0,
+        "kind": "battle",
+        "title": "松风双剑"
+      }
+    ]
+  },
+  "opening": {
+    "options": [
+      {
+        "id": "relicWound",
+        "relic": "R06"
+      },
+      {
+        "id": "coins"
+      },
+      {
+        "id": "insight",
+        "cards": [
+          "W20",
+          "W03",
+          "U10"
+        ]
+      },
+      {
+        "id": "vitality"
+      }
+    ],
+    "selected": "coins",
+    "result": "获得75银两，现有165银两。"
+  },
+  "journal": {
+    "qingcheng": {
+      "moves": {},
+      "notes": []
+    }
+  }
+}

@@ -5,7 +5,7 @@ import {CARD,RELICS} from '../data.js';
 import {RELIC_ART,relicIcon} from '../relic-art.js';
 import {CARD_ART,CARD_ART_THEMES,cardArtwork} from '../card-art.js';
 import {ENEMIES} from '../enemies.js';
-import {PLAYERS} from '../players.js';
+import {PLAYERS,HEROES} from '../players.js';
 import {BATTLE_SCENES} from '../battle-art.js';
 import {JOURNEY_SCENES} from '../journey-art.js';
 import {HOME_COVER} from '../home-art.js';
@@ -17,9 +17,9 @@ test('every playable and temporary card has a deliberate illustration assignment
  for(const theme of Object.values(CARD_ART_THEMES))assert.ok(prompts.some(p=>p.id===theme.id&&p.file===theme.art&&p.prompt.includes('Subject:')));
 });
 test('runtime artwork is valid WebP with a bounded mobile download budget',()=>{
- const art=[...ENEMIES,...PLAYERS,...Object.values(CARD_ART_THEMES),...BATTLE_SCENES,...JOURNEY_SCENES,HOME_COVER];let total=0;
+ const art=[...ENEMIES,...PLAYERS,...HEROES,...Object.values(CARD_ART_THEMES),...BATTLE_SCENES,...JOURNEY_SCENES,HOME_COVER];let total=0;
  for(const d of art){const bytes=readFileSync(new URL(d.art,root));assert.equal(bytes.subarray(0,4).toString(),'RIFF');assert.equal(bytes.subarray(8,12).toString(),'WEBP');assert.ok(bytes.length<(d===HOME_COVER?512*1024:90000),d.art);if(JOURNEY_SCENES.includes(d))assert.ok(bytes.length<=48*1024,d.art);if(BATTLE_SCENES.includes(d))assert.ok(bytes.length<=72*1024,d.art);total+=bytes.length;}
- assert.ok(total<3100000,`all runtime art uses ${total} bytes`);
+ assert.ok(total<3400000,`all runtime art uses ${total} bytes`);
 });
 test('standalone embeds all art and Pages ships only the current lightweight assets',()=>{
  const html=readFileSync(new URL('dist/index.html',root),'utf8');
@@ -27,9 +27,9 @@ test('standalone embeds all art and Pages ships only the current lightweight ass
  // PNG is reserved for platform icon links; gameplay illustrations must stay WebP.
  assert.ok(!html.slice(html.indexOf('<script type="module">')).includes('data:image/png;base64,'));
  assert.ok(!html.includes(HOME_COVER.art),'offline cover must be embedded');
- assert.ok(!html.includes('art:`assets/'));assert.ok(Buffer.byteLength(html)<4500000);
+ assert.ok(!html.includes('art:`assets/'));assert.ok(Buffer.byteLength(html)<4900000);
  const manifest=JSON.parse(readFileSync(new URL('docs/release.json',root),'utf8'));
- const expected=[...[...ENEMIES,...PLAYERS,...Object.values(CARD_ART_THEMES),...BATTLE_SCENES,...JOURNEY_SCENES,HOME_COVER].map(d=>d.art),'assets/icons/icon.svg','assets/icons/icon-512.png','assets/icons/icon-192.png','assets/icons/apple-touch-icon.png','assets/icons/favicon-32.png'].sort();
+ const expected=[...[...ENEMIES,...PLAYERS,...HEROES,...Object.values(CARD_ART_THEMES),...BATTLE_SCENES,...JOURNEY_SCENES,HOME_COVER].map(d=>d.art),'assets/icons/icon.svg','assets/icons/icon-512.png','assets/icons/icon-192.png','assets/icons/apple-touch-icon.png','assets/icons/favicon-32.png'].sort();
  assert.deepEqual(manifest.files.filter(f=>f.path.startsWith('assets/')).map(f=>f.path).sort(),expected);
  for(const file of manifest.files)assert.equal(statSync(new URL('docs/'+file.path,root)).size,file.bytes);
 });

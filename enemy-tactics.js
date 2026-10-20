@@ -1,6 +1,6 @@
 import {CARD} from './data.js';
 import {ENEMY} from './enemies.js';
-import {DIFFICULTY,SKIRMISH_REVISION} from './difficulty.js';
+import {DIFFICULTY,SKIRMISH_REVISION,CHALLENGE_REVISION,talentChallenge} from './difficulty.js';
 // Original battle adaptations. The rule object is captured on each newly spawned
 // enemy; existing battles without it keep their existing behaviour.
 const TACTIC_IDS=new Set(['mugaofeng','tianboguang','xuedaolaozu','hebiweng','luzhangke','chengkun','jinlun','yucanghai','dingchunqiu','ouyangfeng','dingmian','azi','jiumozhi','zuolengchan','renwoxing','dongfangbubai']);
@@ -97,7 +97,8 @@ export function onTacticalDeath(game,e){
 }
 function summonPoisonDisciple(game,boss){
  const b=game.s.b;if(b.enemies.filter(e=>e.hp>0&&e.tactics?.kind==='poisonDisciple').length>=2)return;
- const key=Math.max(...b.enemies.map(e=>e.key))+1,d=ENEMY.xingxiu,hp=Math.round(d.hp*.75),e={id:d.id,name:`星宿毒徒·${key+1}`,callSign:String(key+1),role:'毒徒',kind:'bandit',hp,maxHp:hp,key,round:0,damageScale:.85,guardScale:.85,block:0,weak:0,vuln:0,str:0,pin:0,charge:0,enraged:false,ruleset:boss.ruleset,summoned:true,bornTurn:b.turn,tactics:{kind:'poisonDisciple',actions:0}};
+ const challenge=boss.challengeRevision===CHALLENGE_REVISION?talentChallenge(game.chapter,'boss',game.chapterStep,game.s.expedition?.level||1):null;
+ const key=Math.max(...b.enemies.map(e=>e.key))+1,d=ENEMY.xingxiu,hp=Math.round(d.hp*.75*(challenge?.hpScale||1)),e={...(challenge?{challengeRevision:CHALLENGE_REVISION}:{}),id:d.id,name:`星宿毒徒·${key+1}`,callSign:String(key+1),role:'毒徒',kind:'bandit',hp,maxHp:hp,key,round:0,damageScale:.85*(challenge?.damageScale||1),guardScale:.85*(challenge?.guardScale||1),block:0,weak:0,vuln:0,str:0,pin:0,charge:0,enraged:false,ruleset:boss.ruleset,summoned:true,bornTurn:b.turn,tactics:{kind:'poisonDisciple',actions:0}};
  const empty=b.enemies.findIndex(x=>x.hp<=0);if(empty>=0)b.enemies[empty]=e;else if(b.enemies.length<3)b.enemies.push(e);else return;e.intent=game.enemyIntent(e);game.log(`丁春秋 · 召来${e.name}`);
 }
 export function afterTacticalAction(game,e,intent,dealt){

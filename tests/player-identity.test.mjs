@@ -34,7 +34,7 @@ test('partially completed creation resumes from saved name and portrait without 
  const same=create('柳青禾','female-fei',123);assert.deepEqual(restored.s.opening,same.s.opening);
 });
 test('editing identity in battle preserves every gameplay field and returns to the same round',()=>{
- const g=create();claim(g);g.enter('battle');g.endTurn();const before=clone(g.s);assert.equal(g.editCharacter(),true);assert.equal(g.s.phase,'character');assert.equal(g.s.character.editing,true);assert.equal(g.editCharacter(),false);g.setCharacterName('沈行舟');g.choosePlayerPortrait('male-xuan');const resumed=new Game(g.s);assert.equal(resumed.finishCharacter(),true);assert.deepEqual(resumed.s.player,{name:'沈行舟',portrait:'male-xuan'});
+ const g=create();claim(g);g.enter('battle');g.endTurn();const before=clone(g.s);assert.equal(g.editCharacter(),true);assert.equal(g.s.phase,'character');assert.equal(g.s.character.editing,true);assert.equal(g.editCharacter(),false);g.setCharacterName('沈行舟');g.choosePlayerPortrait('male-xuan');const resumed=new Game(g.s);assert.equal(resumed.finishCharacter(),true);assert.deepEqual(resumed.s.player,{name:'沈行舟',portrait:'male-xuan',hero:'custom',talent:'steady'});
  for(const key of ['phase','deck','relics','hp','maxHp','gold','rng','b','stats','step','history','scene','reward','opening'])assert.deepEqual(resumed.s[key],before[key],key);
 });
 test('canceling an appearance edit restores the exact original game',()=>{

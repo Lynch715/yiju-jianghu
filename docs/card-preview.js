@@ -1,5 +1,5 @@
-import {CARD,describe} from './data.js?v=0.19.2';
-import {Game} from './engine.js?v=0.19.2';
+import {CARD,describe} from './data.js?v=0.22.0';
+import {Game} from './engine.js?v=0.22.0';
 function cardHitPattern(values,base,value){const runs=[];for(const n of values){if(runs.at(-1)?.amount===n)runs.at(-1).count++;else runs.push({amount:n,count:1});}return runs.map(r=>r.count>1?`${value(r.amount,base)}×${r.count}`:value(r.amount,base)).join('＋');}
 // Resolve one cast on a private copy. Only public damage/block values leave this copy;
 // RNG, draws, choices, tactics, histories and the live save are never mutated or exposed.

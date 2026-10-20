@@ -3,6 +3,16 @@
 export const DIFFICULTY='jianghu-2';
 // Captured by new runs and foes, independently of the older boss ruleset.
 export const SKIRMISH_REVISION=1;
+// Captured at character creation; missing markers preserve pre-talent balance.
+export const CHALLENGE_REVISION=1;
+export const validChallenge=s=>s?.challengeRevision===undefined||s.challengeRevision===CHALLENGE_REVISION;
+export function talentChallenge(chapter,kind,progress,level=1){
+ const opening=kind==='battle'&&chapter===0&&progress===0;
+ const tier=.02*Math.max(0,level-1);
+ const hp=kind==='boss'?[1.18,1.22,1.26]:kind==='elite'?[1.14,1.18,1.22]:[1.10,1.16,1.20];
+ const damage=kind==='boss'?[1.08,1.12,1.16]:kind==='elite'?[1.10,1.14,1.18]:[1.06,1.10,1.14];
+ return {hpScale:opening?1.05:hp[chapter]+tier,damageScale:opening?1:damage[chapter]+tier,guardScale:opening?1:1.08+.04*chapter+tier,openingBlock:kind==='boss'?[4,8,12][chapter]:0};
+}
 const skirmish={
  qingcheng:{moves:[{label:'松风剑',damage:5},{label:'摧心掌',damage:6,vuln:1},{label:'回风护剑',damage:2,block:4}]},
  songshan:{moves:[{label:'嵩山剑法',damage:6},{label:'嵩阳架势',damage:2,block:7,brace:true},{label:'大嵩阳掌',damage:9,weak:1,heavyPalm:true}]},
