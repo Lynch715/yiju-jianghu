@@ -1,24 +1,24 @@
-import {HOME_COVER} from './home-art.js?v=0.25.6';
-import {GAME_THEMES,gameTheme,readTheme,storeTheme,applyTheme} from './themes.js?v=0.25.6';
-import {TRIALS,unlockedTrial,validExpedition,trialLevel,restRate} from './expedition.js?v=0.25.6';
-import {battleBackdrop} from './battle-art.js?v=0.25.6';
-import {journeyScene,journeyIcon} from './journey-art.js?v=0.25.6';
-import {journeyResultItems,restRecovery} from './journey-ui.js?v=0.25.6';
-import {describeCombatCardHTML,cardCostHTML} from './card-preview.js?v=0.25.6';
-import {COMBAT_RULES,COMBAT_RULE,enemyReadout} from './combat-guide.js?v=0.25.6';
-import {enemyActionView,enemyActionTagHTML} from './enemy-action.js?v=0.25.6';
-import {readRecords,storeRecords,mergeRecords,parseRecords,serializeRecords,clearRecordForState,recordGroup,eliteCount,deckSize,refinedCount,rankRecords,PlayClock} from './records.js?v=0.25.6';
-import {validJourney} from './journey.js?v=0.25.6';
-import {travelMark,travelTerrain} from './map-art.js?v=0.25.6';
-import {relicIcon} from './relic-art.js?v=0.25.6';
-import {cardArtwork} from './card-art.js?v=0.25.6';
-import {captureCombatAction,playCombatSteps,combatStepFeedback} from './combat-ui.js?v=0.25.6';
-import {HandScrub} from './hand-gesture.js?v=0.25.6';
-import {PLAYERS,PLAYER,HEROES,HERO,TALENTS,playerTalent,playerArtwork,validPlayer,validCharacterDraft,playerNameError,cleanPlayerName} from './players.js?v=0.25.6';
-import {ENEMIES,ENEMY,ENEMY_RANK} from './enemies.js?v=0.25.6';
-import {DIFFICULTY,combatDefinition,validChallenge} from './difficulty.js?v=0.25.6';
-import {CARDS,CARD,RELICS,RELIC,CHAPTERS,ROUTES,NODE_NAMES,TYPE,RARITY,describe,GAME_VERSION,OPENING_BOONS} from './data.js?v=0.25.6';
-import {Game,SAVE_VERSION,validOpening} from './engine.js?v=0.25.6';
+import {HOME_COVER} from './home-art.js?v=0.25.7';
+import {GAME_THEMES,gameTheme,readTheme,storeTheme,applyTheme} from './themes.js?v=0.25.7';
+import {TRIALS,unlockedTrial,validExpedition,trialLevel,restRate} from './expedition.js?v=0.25.7';
+import {battleBackdrop} from './battle-art.js?v=0.25.7';
+import {journeyScene,journeyIcon} from './journey-art.js?v=0.25.7';
+import {journeyResultItems,restRecovery} from './journey-ui.js?v=0.25.7';
+import {describeCombatCardHTML,cardCostHTML} from './card-preview.js?v=0.25.7';
+import {COMBAT_RULES,COMBAT_RULE,enemyReadout} from './combat-guide.js?v=0.25.7';
+import {enemyActionView,enemyActionTagHTML} from './enemy-action.js?v=0.25.7';
+import {readRecords,storeRecords,mergeRecords,parseRecords,serializeRecords,clearRecordForState,recordGroup,eliteCount,deckSize,refinedCount,rankRecords,PlayClock} from './records.js?v=0.25.7';
+import {validJourney} from './journey.js?v=0.25.7';
+import {travelMark,travelTerrain} from './map-art.js?v=0.25.7';
+import {relicIcon} from './relic-art.js?v=0.25.7';
+import {cardArtwork} from './card-art.js?v=0.25.7';
+import {captureCombatAction,playCombatSteps,combatStepFeedback} from './combat-ui.js?v=0.25.7';
+import {HandScrub} from './hand-gesture.js?v=0.25.7';
+import {PLAYERS,PLAYER,HEROES,HERO,TALENTS,playerTalent,playerArtwork,validPlayer,validCharacterDraft,playerNameError,cleanPlayerName} from './players.js?v=0.25.7';
+import {ENEMIES,ENEMY,ENEMY_RANK} from './enemies.js?v=0.25.7';
+import {DIFFICULTY,combatDefinition,validChallenge} from './difficulty.js?v=0.25.7';
+import {CARDS,CARD,RELICS,RELIC,CHAPTERS,ROUTES,NODE_NAMES,TYPE,RARITY,describe,GAME_VERSION,OPENING_BOONS} from './data.js?v=0.25.7';
+import {Game,SAVE_VERSION,validOpening} from './engine.js?v=0.25.7';
 let activeTheme;try{activeTheme=readTheme(localStorage);}catch{activeTheme='dawn';}applyTheme(document,activeTheme);
 let themeStorageError=false;
 document.title=`一局一江湖 · v${GAME_VERSION}`;
@@ -33,7 +33,11 @@ let game=new Game(),view='home',modal=null,target=0,selected=[],pending=null,fil
 let toastTimer,combatBusy=false,inspectedCard=null,mapViewChapter=null;
 let combatDescriptionCache=new Map();
 const handScrub=new HandScrub();let scrubHand=null,selectionFrame=0,queuedCard=null,previewRoot=null,previewCards=new Map(),handCards=new Map();
-let battleDockObserver=null;
+let battleDockObserver=null,handInspectionOpen=false,inspectionFaceHeight=0;
+function syncHandPlayButton(){
+ const button=$('.turn-controls [data-action="play-inspected"]');if(!button)return;
+ const card=game.s?.b?.hand.find(c=>c.uid===inspectedCard);button.dataset.uid=card?.uid??'';button.disabled=!card||!!game.reason(card);
+}
 function flushHandSelection(){
  if(selectionFrame)cancelAnimationFrame(selectionFrame);selectionFrame=0;
  const uid=queuedCard;queuedCard=null;if(uid!==null)inspectHandCard(uid);
@@ -45,19 +49,27 @@ function cancelHandScrub(time=performance.now()){
 }
 function positionHandPreview(){
  const layout=$('.layout[data-phase="battle"]'),dock=$('.battle-bottom');
- if(layout&&dock&&matchMedia('(max-width:900px)').matches)layout.style.setProperty('--battle-dock-height',`${Math.ceil(dock.getBoundingClientRect().height)}px`);
+ if(layout&&dock&&matchMedia('(max-width:900px)').matches){
+  if(handInspectionOpen){
+   inspectionFaceHeight=Math.max(inspectionFaceHeight,...[...dock.querySelectorAll('.preview-card-face')].map(face=>Math.ceil(face.getBoundingClientRect().height)));
+   layout.style.setProperty('--inspection-face-height',`${inspectionFaceHeight}px`);
+  }
+  layout.style.setProperty('--battle-dock-height',`${Math.ceil(dock.getBoundingClientRect().height)}px`);
+ }
 }
 function closeHandPreview(){
  handCards.get(inspectedCard)?.classList.remove('inspected');handCards.get(inspectedCard)?.setAttribute('aria-expanded','false');
  previewCards.get(inspectedCard)?.setAttribute('hidden','');inspectedCard=null;
- if(previewRoot)previewRoot.hidden=true;$('.layout')?.classList.remove('has-hand-preview');positionHandPreview();
+ handInspectionOpen=false;inspectionFaceHeight=0;
+ if(previewRoot)previewRoot.hidden=true;$('.layout')?.classList.remove('has-hand-preview');$('.layout')?.style.removeProperty('--inspection-face-height');syncHandPlayButton();positionHandPreview();
 }
 function inspectHandCard(uid){
  if(combatBusy||modal||game.s?.phase!=='battle'||!previewCards.has(uid)||inspectedCard===uid)return;
  handCards.get(inspectedCard)?.classList.remove('inspected');handCards.get(inspectedCard)?.setAttribute('aria-expanded','false');
  previewCards.get(inspectedCard)?.setAttribute('hidden','');inspectedCard=uid;
  const card=handCards.get(uid),panel=previewCards.get(uid);card?.classList.add('inspected');card?.setAttribute('aria-expanded','true');panel.hidden=false;
- previewRoot.hidden=false;previewRoot.setAttribute('aria-label',panel.dataset.label);$('.layout')?.classList.add('has-hand-preview');positionHandPreview();
+ handInspectionOpen=true;previewRoot.querySelector('[data-preview-empty]')?.setAttribute('hidden','');
+ previewRoot.hidden=false;previewRoot.setAttribute('aria-label',panel.dataset.label);$('.layout')?.classList.add('has-hand-preview');syncHandPlayButton();positionHandPreview();
 }
 document.addEventListener('pointerdown',ev=>{
  if(!ev.isPrimary){cancelHandScrub(ev.timeStamp);return;}
@@ -86,7 +98,7 @@ for(const type of ['pointercancel','lostpointercapture'])document.addEventListen
 document.addEventListener('click',ev=>{
  if(ev.detail!==0&&handScrub.consumesClick({pointerId:ev.pointerId,x:ev.clientX,y:ev.clientY,time:ev.timeStamp})){ev.preventDefault();ev.stopImmediatePropagation();}
 },true);
-window.addEventListener('resize',()=>{cancelHandScrub();positionHandPreview();});
+window.addEventListener('resize',()=>{cancelHandScrub();inspectionFaceHeight=0;$('.layout')?.style.removeProperty('--inspection-face-height');positionHandPreview();});
 function validSave(s){
  if(!s||![1,2,3,4,5,6,7,SAVE_VERSION].includes(s.version)||!Array.isArray(s.deck)||!s.deck.every(c=>CARD[c.id]&&Number.isInteger(c.uid))||!Array.isArray(s.relics)||!s.relics.every(id=>RELIC[id])||!Number.isFinite(s.hp)||!Number.isFinite(s.rng)||!Number.isInteger(s.step)||s.step<0||s.step>(s.journey?45:18)||!validJourney(s)||!validExpedition(s)||!validChallenge(s)||(s.skirmishRevision!==undefined&&s.skirmishRevision!==1))return false;
  if(!['character','opening','draft','map','battle','reward','rest','shop','event','treasure','win','lost'].includes(s.phase))return false;
@@ -190,9 +202,9 @@ function handPreview(){
  const enemy=game.s.b.enemies.find(e=>e.key===target&&e.hp>0)||game.s.b.enemies.find(e=>e.hp>0);
  const panels=game.s.b.hand.map((c,index)=>{
   const d=CARD[c.id],reason=game.reason(c),art=cardArtwork(c.id),label=`${d.name} · 完整牌面`;
-  return `<article class="hand-preview-card" data-preview-uid="${c.uid}" data-label="${label}" ${c.uid===inspectedCard?'':'hidden'}><div class="preview-card-face ${c.up?'up':''}"><div class="preview-card-title">${cardCostHTML(game,c,{live:true,preview:true})}<h3>${d.name}${c.up?'·精进':''}</h3><small>${TYPE[d.type]}</small></div><div class="preview-card-body">${art?`<img src="${art.art}" alt="${art.label}意境插画" width="72" height="70" draggable="false" decoding="async">`:''}<div class="preview-effect" tabindex="0" aria-label="招式效果">${combatCardDescription(c)}</div></div></div><div class="preview-card-controls"><div class="preview-switcher"><button data-action="inspect-prev" aria-label="上一张手牌" ${game.s.b.hand.length<2?'disabled':''}>‹</button><small>${index+1}/${game.s.b.hand.length}</small><button data-action="inspect-next" aria-label="下一张手牌" ${game.s.b.hand.length<2?'disabled':''}>›</button></div><div class="hand-preview-action"><small>${escapeHTML(reason||(d.type==='a'?'目标：'+(enemy?.name||'无'):'选定后出招'))}</small><button class="primary" data-action="play-inspected" data-uid="${c.uid}" ${reason?'disabled':''}>${reason?'暂不能出招':'出招 →'}</button></div></div></article>`;
+  return `<article class="hand-preview-card" data-preview-uid="${c.uid}" data-label="${label}" ${c.uid===inspectedCard?'':'hidden'}><div class="preview-card-face ${c.up?'up':''}"><div class="preview-card-title">${cardCostHTML(game,c,{live:true,preview:true})}<h3>${d.name}${c.up?'·精进':''}</h3><small>${TYPE[d.type]}</small></div><div class="preview-card-body">${art?`<img src="${art.art}" alt="${art.label}意境插画" width="72" height="70" draggable="false" decoding="async">`:''}<div class="preview-effect" tabindex="0" aria-label="招式效果">${combatCardDescription(c)}</div></div></div><div class="preview-card-controls"><div class="preview-switcher"><button data-action="inspect-prev" aria-label="上一张手牌" ${game.s.b.hand.length<2?'disabled':''}>‹</button><small>${index+1}/${game.s.b.hand.length}</small><button data-action="inspect-next" aria-label="下一张手牌" ${game.s.b.hand.length<2?'disabled':''}>›</button></div><div class="hand-preview-action"><small>${escapeHTML(reason||(d.type==='a'?'目标：'+(enemy?.name||'无'):'选定后出招'))}</small></div></div></article>`;
  }).join('');
- return `<section class="hand-preview compact-preview" role="region" aria-label="${game.s.b.hand.find(c=>c.uid===inspectedCard)?CARD[game.s.b.hand.find(c=>c.uid===inspectedCard).id].name+' · 完整牌面':'手牌预览'}" ${inspectedCard===null?'hidden':''}><button class="preview-close quiet" data-action="close-card-preview" aria-label="收起牌面">✕</button>${panels}</section>`;
+ return `<section class="hand-preview compact-preview" role="region" aria-label="${game.s.b.hand.find(c=>c.uid===inspectedCard)?CARD[game.s.b.hand.find(c=>c.uid===inspectedCard).id].name+' · 完整牌面':'手牌预览'}" ${handInspectionOpen?'':'hidden'}><button class="preview-close quiet" data-action="close-card-preview" aria-label="收起牌面">✕</button>${panels}<article class="hand-preview-card hand-preview-empty" data-preview-empty ${inspectedCard===null?'':'hidden'}><div class="preview-card-face"><p>${game.s.b.hand.length?'选择下一张手牌':'手中无招'}</p><small>${game.s.b.hand.length?'点选或左右滑动手牌，查看招式':'可结束回合，等待下轮抽牌'}</small></div><div class="preview-card-controls"><div class="preview-switcher"><button data-action="inspect-prev" aria-label="上一张手牌" ${game.s.b.hand.length?'':'disabled'}>‹</button><small>待选牌</small><button data-action="inspect-next" aria-label="下一张手牌" ${game.s.b.hand.length?'':'disabled'}>›</button></div><div class="hand-preview-action"><small>选定后确认出招</small></div></div></article></section>`;
 }
 function vitalsHTML(hp,maxHp,block){
  const safeHp=Math.max(0,hp),safeBlock=Math.max(0,block||0),blockMax=Math.max(maxHp,safeBlock);
@@ -204,7 +216,7 @@ function enemyActionHTML(action,heading='当前意图'){
  return `<div class="enemy-plan" role="group" aria-label="${escapeHTML(title+(action.tags.length?'：'+action.tags.map(t=>t.text).join('，'):''))}"><small class="enemy-plan-heading">${escapeHTML(title)}</small><div class="enemy-plan-tags">${action.tags.map(t=>`<span class="enemy-action-tag ${t.kind}">${enemyActionTagHTML(t)}</span>`).join('')}</div></div>`;
 }
 function battlePage(){const s=game.s,b=s.b;if(!b.enemies.some(e=>e.key===target&&e.hp>0))target=b.enemies.find(e=>e.hp>0)?.key||0;
- return `<div class="battle-top"><span class="eyebrow">${escapeHTML(s.scene?.place||CHAPTERS[game.chapter].place)}${b.formation?' · '+b.formation:''}</span><span class="round">第 ${b.turn} 回合</span><span class="tag">${NODE_NAMES[b.kind]} · ${b.enemies.filter(e=>e.hp>0).length}人</span><button class="quiet small" data-action="enemy-info">敌情</button><button class="quiet small" data-action="battle-log">查看战报</button></div>${b.openDart?'<div class="info-box" style="padding:12px;margin-bottom:15px">金蛇锥待发：先选中一名敌人，再 <button class="small gold-btn" data-action="dart">投出金蛇锥 · 8伤害</button></div>':''}<div class="battlefield" data-enemies="${b.enemies.length}">${battleBackdrop(game.chapter)}<div class="player"><div class="fighter-intent player-intent">${playerTalent(s.player)?`<button class="player-talent-chip" data-action="talent-detail" aria-label="查看天赋${playerTalent(s.player).name}">${playerTalent(s.player).name}</button>`:''}${playerTalent(s.player)?'':'<span>你的回合</span>'}<small>你的回合 · 见招拆招</small></div>${playerFigure()}<div class="player-details"><div class="player-name">${escapeHTML(s.player.name)}</div>${vitalsHTML(s.hp,s.maxHp,b.block)}<div class="status-row">${statusHTML()}</div></div></div><div class="enemies">${b.enemies.map((e,i)=>`<button class="enemy rank-${ENEMY[e.id]?.rank||'normal'} ${e.hp<=0?'dead':''} ${e.key===target?'selected':''}" data-action="target" data-key="${e.key}" aria-label="选中${e.name}" ${e.hp<=0?'disabled':''}><span class="target-marker" aria-label="敌方出手序号${i+1}${e.key===target?'，已选中':''}">${i+1}${e.key===target?' · 已选中':''}${e.callSign?' · '+e.callSign:''}</span><div class="fighter-intent">${enemyActionHTML(enemyActionView(game,e))}</div>${enemyFigure(e)}<h3>${ENEMY[e.id]?.name||e.name}</h3><span class="enemy-faction">${ENEMY[e.id]?.faction||''}${e.role?' · '+e.role:''}${e.enraged?' · '+(e.phaseName||'逆练阶段'):''}</span>${vitalsHTML(e.hp,e.maxHp,e.block)}<div class="status-row">${e.str?`<span class="status-chip">劲力 ${e.str}</span>`:''}${e.weak?`<span class="status-chip red">虚弱 ${e.weak}</span>`:''}${e.vuln?`<span class="status-chip red">破绽 ${e.vuln}</span>`:''}${e.charge?`<span class="status-chip">蓄力 ${e.charge}</span>`:''}${e.pin?`<span class="status-chip">首击−${e.pin}</span>`:''}</div></button>`).join('')}</div></div><div class="powers">${powersHTML()}</div><div class="battle-bottom">${handPreview()}<div class="hand-panel"><div class="hand-title"><span>手牌 ${b.hand.length} / 10 · ${matchMedia('(max-width:900px)').matches?'左右滑选牌，再确认出招':'点击武学出招'}</span><button class="quiet small hand-inspect" data-action="pile" data-id="hand" aria-label="查看手牌完整说明">完整说明 →</button></div><div class="hand" style="--hand-count:${Math.max(1,b.hand.length)}" data-count="${b.hand.length}">${b.hand.map((c,i)=>cardHTML(c,{action:'play',uid:c.uid,battle:true,handIndex:i})).join('')||'<div class="empty">手中无招，静待下一回合。</div>'}</div><div class="battle-help">${game.has('R29')?'广陵散：首回合少抽2张　':''}${game.has('R30')?'鸳鸯刀：每回合少抽1张　':''}</div></div><div class="turn-panel"><div class="turn-controls" role="group" aria-label="回合操作"><div class="energy"><div class="energy-orb">${b.qi}</div><div><span>真气</span><small>每回合恢复 ${game.qiMax}</small></div></div><button class="primary" data-action="end-turn">结束回合 →</button></div><button class="small" data-action="auto-turn">辅助出招一回合</button><div class="piles"><button data-action="pile" data-id="draw">抽牌 ${b.draw.length}</button><button data-action="pile" data-id="discard">弃牌 ${b.discard.length}</button><button data-action="pile" data-id="exhaust">消耗 ${b.exhaust.length}</button></div></div></div><details class="combat-log"><summary>本场战报 · 最近行动</summary><div class="log-lines">${b.log.slice(-18).reverse().map(x=>`<div>${x}</div>`).join('')}</div></details>`;
+ return `<div class="battle-top"><span class="eyebrow">${escapeHTML(s.scene?.place||CHAPTERS[game.chapter].place)}${b.formation?' · '+b.formation:''}</span><span class="round">第 ${b.turn} 回合</span><span class="tag">${NODE_NAMES[b.kind]} · ${b.enemies.filter(e=>e.hp>0).length}人</span><button class="quiet small" data-action="enemy-info">敌情</button><button class="quiet small" data-action="battle-log">查看战报</button></div>${b.openDart?'<div class="info-box" style="padding:12px;margin-bottom:15px">金蛇锥待发：先选中一名敌人，再 <button class="small gold-btn" data-action="dart">投出金蛇锥 · 8伤害</button></div>':''}<div class="battlefield" data-enemies="${b.enemies.length}">${battleBackdrop(game.chapter)}<div class="player"><div class="fighter-intent player-intent">${playerTalent(s.player)?`<button class="player-talent-chip" data-action="talent-detail" aria-label="查看天赋${playerTalent(s.player).name}">${playerTalent(s.player).name}</button>`:''}${playerTalent(s.player)?'':'<span>你的回合</span>'}<small>你的回合 · 见招拆招</small></div>${playerFigure()}<div class="player-details"><div class="player-name">${escapeHTML(s.player.name)}</div>${vitalsHTML(s.hp,s.maxHp,b.block)}<div class="status-row">${statusHTML()}</div></div></div><div class="enemies">${b.enemies.map((e,i)=>`<button class="enemy rank-${ENEMY[e.id]?.rank||'normal'} ${e.hp<=0?'dead':''} ${e.key===target?'selected':''}" data-action="target" data-key="${e.key}" aria-label="选中${e.name}" ${e.hp<=0?'disabled':''}><span class="target-marker" aria-label="敌方出手序号${i+1}${e.key===target?'，已选中':''}">${i+1}${e.key===target?' · 已选中':''}${e.callSign?' · '+e.callSign:''}</span><div class="fighter-intent">${enemyActionHTML(enemyActionView(game,e))}</div>${enemyFigure(e)}<h3>${ENEMY[e.id]?.name||e.name}</h3><span class="enemy-faction">${ENEMY[e.id]?.faction||''}${e.role?' · '+e.role:''}${e.enraged?' · '+(e.phaseName||'逆练阶段'):''}</span>${vitalsHTML(e.hp,e.maxHp,e.block)}<div class="status-row">${e.str?`<span class="status-chip">劲力 ${e.str}</span>`:''}${e.weak?`<span class="status-chip red">虚弱 ${e.weak}</span>`:''}${e.vuln?`<span class="status-chip red">破绽 ${e.vuln}</span>`:''}${e.charge?`<span class="status-chip">蓄力 ${e.charge}</span>`:''}${e.pin?`<span class="status-chip">首击−${e.pin}</span>`:''}</div></button>`).join('')}</div></div><div class="powers">${powersHTML()}</div><div class="battle-bottom">${handPreview()}<div class="hand-panel"><div class="hand-title"><span>手牌 ${b.hand.length} / 10 · ${matchMedia('(max-width:900px)').matches?'左右滑选牌，再确认出招':'点击武学出招'}</span><button class="quiet small hand-inspect" data-action="pile" data-id="hand" aria-label="查看手牌完整说明">完整说明 →</button></div><div class="hand" style="--hand-count:${Math.max(1,b.hand.length)}" data-count="${b.hand.length}">${b.hand.map((c,i)=>cardHTML(c,{action:'play',uid:c.uid,battle:true,handIndex:i})).join('')||'<div class="empty">手中无招，静待下一回合。</div>'}</div><div class="battle-help">${game.has('R29')?'广陵散：首回合少抽2张　':''}${game.has('R30')?'鸳鸯刀：每回合少抽1张　':''}</div></div><div class="turn-panel"><div class="turn-controls" role="group" aria-label="回合操作"><div class="energy"><div class="energy-orb">${b.qi}</div><div><span>真气</span><small>每回合恢复 ${game.qiMax}</small></div></div><button class="primary hand-play-button" data-action="play-inspected" disabled>出招 →</button><button data-action="end-turn">结束回合</button></div><button class="small" data-action="auto-turn">辅助出招一回合</button><div class="piles"><button data-action="pile" data-id="draw">抽牌 ${b.draw.length}</button><button data-action="pile" data-id="discard">弃牌 ${b.discard.length}</button><button data-action="pile" data-id="exhaust">消耗 ${b.exhaust.length}</button></div></div></div><details class="combat-log"><summary>本场战报 · 最近行动</summary><div class="log-lines">${b.log.slice(-18).reverse().map(x=>`<div>${x}</div>`).join('')}</div></details>`;
 }
 function journeyHero(kind,kicker,title,text){return `<header class="journey-hero"><div class="journey-hero-copy"><div class="eyebrow">${escapeHTML(kicker)}</div><h2>${escapeHTML(title)}</h2><p>${escapeHTML(text)}</p></div>${journeyScene(kind)}</header>`;}
 function journeyHeading(title,note=''){return `<div class="journey-section-head"><h3>${title}</h3>${note?`<small>${note}</small>`:''}</div>`;}
@@ -269,7 +281,7 @@ function render(){
  const previousPhase=$('.layout')?.dataset.phase,wasMap=previousPhase==='map';
  const oldTravel=$('.travel-map-scroll'),travelScroll=oldTravel?{key:oldTravel.dataset.mapKey,top:oldTravel.scrollTop}:null;
  const wasBattle=!!$('.layout[data-phase="battle"]'),handScroll=$('.hand')?.scrollLeft||0;
- const s=game.s;if(s?.phase==='map'&&!wasMap)mapViewChapter=null;if(view==='home'||s?.phase!=='battle'||!s.b.hand.some(c=>c.uid===inspectedCard))inspectedCard=null;let content;
+ const s=game.s;if(s?.phase==='map'&&!wasMap)mapViewChapter=null;if(view==='home'||s?.phase!=='battle'){inspectedCard=null;handInspectionOpen=false;inspectionFaceHeight=0;}else if(!s.b.hand.some(c=>c.uid===inspectedCard))inspectedCard=null;let content;
  if(view==='home')content=home();else if(!s){view='home';content=home();}else{const pages={character:characterPage,opening:openingPage,map:mapPage,battle:battlePage,reward:rewardPage,event:eventPage,treasure:treasurePage,rest:restPage,shop:shopPage,win:endPage,lost:endPage};content=`<div class="layout" data-phase="${s.phase}">${sidebar()}<div>${header()}${saveError?'<div class="save-warning">自动存档不可用，请从菜单导出副本。</div>':''}<main class="main">${pages[s.phase]()}</main></div></div>`;}
  $('#app').innerHTML=content+modalBody();
  if(modal?.scrollTop&&$('.modal'))$('.modal').scrollTop=modal.scrollTop;
@@ -278,7 +290,7 @@ function render(){
  if(previousPhase&&s&&previousPhase!==s.phase)window.scrollTo(0,0);
  const surface=$('.layout')||$('.home');if(surface)surface.inert=!!modal;
  previewRoot=$('.hand-preview');previewCards=new Map([...document.querySelectorAll('[data-preview-uid]')].map(el=>[Number(el.dataset.previewUid),el]));handCards=new Map([...document.querySelectorAll('.hand .card')].map(el=>[Number(el.dataset.uid),el]));
- $('.layout')?.classList.toggle('has-hand-preview',inspectedCard!==null);
+ $('.layout')?.classList.toggle('has-hand-preview',handInspectionOpen);syncHandPlayButton();
  battleDockObserver?.disconnect();const dock=$('.battle-bottom');if(dock){battleDockObserver??=new ResizeObserver(positionHandPreview);battleDockObserver.observe(dock);}positionHandPreview();
 }
 function focusTravelMap(){const el=$('.travel-map-scroll');if(el)el.scrollTop=Number(el.dataset.mapFocus)-el.clientHeight*.7;}
@@ -298,6 +310,8 @@ async function battleAction(action,{label='',type='',enemyTurn=false,auto=false}
  if(combatBusy)return;
  const scroll=$('.hand')?.scrollLeft||0,{result,before,after,steps}=captureCombatAction(game,action);
  if(result?.ok===false){toast(result.error);return result;}
+ // Keep the inspection dock open, but require a fresh selection after every action.
+ inspectedCard=null;
  save(); // Resolve and save exactly once; playback never runs combat logic again.
  combatBusy=true;const surface=$('.layout');surface?.classList.add('combat-busy');surface?.setAttribute('aria-busy','true');
  const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -379,21 +393,21 @@ document.addEventListener('click',async ev=>{
   case 'enemy-info':modal={type:'enemy-info',key:Number.isInteger(key)?key:target};render();return;
   case 'combat-rules':modal={type:'combat-rules',id,back:modal};render();return;
   case 'target':target=key;render();return;
-  case 'inspect-prev':case 'inspect-next':{const hand=game.s?.b?.hand||[],i=hand.findIndex(c=>c.uid===inspectedCard);if(i>=0&&hand.length)inspectHandCard(hand[(i+(a==='inspect-next'?1:hand.length-1))%hand.length].uid);return;}
+  case 'inspect-prev':case 'inspect-next':{const hand=game.s?.b?.hand||[],i=hand.findIndex(c=>c.uid===inspectedCard);if(hand.length)inspectHandCard(hand[i<0?(a==='inspect-next'?0:hand.length-1):(i+(a==='inspect-next'?1:hand.length-1))%hand.length].uid);return;}
   case 'close-card-preview':closeHandPreview();return;
   case 'play':case 'play-inspected':{
    const c=game.s.b.hand.find(x=>x.uid===uid);if(!c)return;
    if(a==='play'&&matchMedia('(max-width:900px)').matches){if(inspectedCard===uid)closeHandPreview();else inspectHandCard(uid);return;}
    const why=game.reason(c);if(why){toast(why);return;}
-   inspectedCard=null;render();const spec=game.selection(c);
+   const spec=game.selection(c);
    if(spec.kind&&spec.candidates.length){pending=uid;selected=[];modal={type:'select'};render();return;}
    await battleAction(()=>game.play(uid,target,[]),{label:CARD[c.id].name+(c.up?'·精进':''),type:CARD[c.id].type});return;
   }
   case 'select-card':{const c=game.s.b.hand.find(x=>x.uid===pending),spec=game.selection(c);if(selected.includes(uid))selected=selected.filter(x=>x!==uid);else if(selected.length<spec.max)selected.push(uid);else toast(`最多选择${spec.max}张`);render();return;}
   case 'confirm-play':{const card=game.s.b.hand.find(c=>c.uid===pending),chosen=selected.slice(),playUid=pending;modal=null;pending=null;selected=[];render();await battleAction(()=>game.play(playUid,target,chosen),{label:CARD[card.id].name+(card.up?'·精进':''),type:CARD[card.id].type});return;}
-  case 'end-turn':inspectedCard=null;render();await battleAction(()=>game.endTurn(),{enemyTurn:true});return;
-  case 'auto-turn':inspectedCard=null;render();await battleAction(()=>game.autoPlayTurn(),{label:'连招',enemyTurn:true,auto:true});return;
-  case 'dart':inspectedCard=null;render();await battleAction(()=>game.useDart(target),{label:'金蛇锥',type:'a'});return;
+  case 'end-turn':await battleAction(()=>game.endTurn(),{enemyTurn:true});return;
+  case 'auto-turn':await battleAction(()=>game.autoPlayTurn(),{label:'连招',enemyTurn:true,auto:true});return;
+  case 'dart':await battleAction(()=>game.useDart(target),{label:'金蛇锥',type:'a'});return;
   case 'pile':modal={type:'pile',id};render();return;
   case 'battle-log':modal={type:'log'};render();return;
   case 'take-card':game.chooseRewardCard(id);break;
@@ -415,7 +429,7 @@ document.addEventListener('click',async ev=>{
  update();
  }catch(error){console.error(error);toast('操作未完成，请关闭窗口后重试；当前进度仍保留。');}
 });
-document.addEventListener('keydown',e=>{if(combatBusy||e.key!=='Escape')return;if(modal){modal=modal.back||null;pending=null;selected=[];render();}else if(inspectedCard!==null){inspectedCard=null;render();}});
+document.addEventListener('keydown',e=>{if(combatBusy||e.key!=='Escape')return;if(modal){modal=modal.back||null;pending=null;selected=[];render();}else if(handInspectionOpen){closeHandPreview();}});
 document.addEventListener('input',e=>{if(e.target.id==='hero-name'){game.setCharacterName(e.target.value);save();const name=cleanPlayerName(e.target.value),error=game.characterError();$('#hero-name-count').textContent=Array.from(name).length+' / 12';$('#hero-form-error').textContent=error||'已选好侠客';$('#hero-confirm').disabled=!!error;e.target.setAttribute('aria-invalid',String(!!playerNameError(e.target.value)));}if(e.target.id==='catalogue-search'){filter=e.target.value.replace(/[<>"&]/g,'');const cards=CARDS.filter(d=>(!pathFilter||d.path===pathFilter)&&(!filter||(d.name+d.source+describe({id:d.id,up:showUp})).includes(filter)));$('#catalogue-results').innerHTML=cards.map(d=>cardHTML({id:d.id,up:showUp},{read:true,compact:true})).join('')||'<p class="empty">未找到相关武学</p>';}});
 document.addEventListener('change',async e=>{
  if(e.target.id==='record-group'){recordGroupSelection=e.target.value;recordPage=0;render();return;}
