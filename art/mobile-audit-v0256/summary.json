@@ -1,0 +1,51 @@
+{
+  "date": "2026-10-20",
+  "version": "0.25.6",
+  "sourceCommit": "29acead72b1f9e4eddc13e08b6ce11604865ad08",
+  "browser": "Codex in-app browser",
+  "scope": "mobile viewport simulation; not physical devices; dedicated UI fixtures are not complete campaign simulations",
+  "viewports": [
+    [
+      320,
+      480
+    ],
+    [
+      320,
+      568
+    ],
+    [
+      360,
+      640
+    ],
+    [
+      390,
+      844
+    ],
+    [
+      568,
+      320
+    ],
+    [
+      844,
+      390
+    ]
+  ],
+  "localScreens": 82,
+  "combatCards": 82,
+  "allEffectsComplete": true,
+  "allCombatImagesLoaded": true,
+  "minimumFixedBattleStageHeight": 164,
+  "horizontalOverflow": 0,
+  "missingVisibleImages": 0,
+  "automatedTests": {
+    "pass": 741,
+    "fail": 0
+  },
+  "runtimeBuildFiles": 168,
+  "runtimeBuildChanged": false,
+  "newDefects": [],
+  "liveSaveByteEqual": true,
+  "localProgressEqualExceptClock": true,
+  "localClockDeltaMs": 203,
+  "fanGesture": "selected card switched by dragging from right to left; fan transforms and stack order unchanged"
+}

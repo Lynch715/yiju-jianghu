@@ -1,0 +1,1314 @@
+[
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 262,
+    "effect": "对全体攻击（1号 18；2号 18；3号 18）。以上为首次结算，互搏额外2次。",
+    "full": true,
+    "id": "20",
+    "name": "震惊百里·精进",
+    "overlap": false,
+    "stageHeight": 200,
+    "width": 320,
+    "batch": 0
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 262,
+    "effect": "造成11伤害。获得7格挡。以上为首次结算，互搏额外2次。",
+    "full": true,
+    "id": "19",
+    "name": "见龙在田·精进",
+    "overlap": false,
+    "stageHeight": 200,
+    "width": 320,
+    "batch": 0
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 269,
+    "effect": "造成12×2伤害。以上为首次结算，互搏额外2次。",
+    "full": true,
+    "id": "18",
+    "name": "飞龙在天·精进",
+    "overlap": false,
+    "stageHeight": 207,
+    "width": 320,
+    "batch": 0
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 480
+    },
+    "dockTop": 262,
+    "effect": "造成34伤害。本次已计入4倍劲力加成。以上为首次结算，互搏额外2次。",
+    "full": true,
+    "id": "17",
+    "name": "亢龙有悔·精进",
+    "overlap": false,
+    "stageHeight": 200,
+    "width": 320,
+    "batch": 0
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 269,
+    "effect": "获得11格挡，抽1张。",
+    "full": true,
+    "id": "16",
+    "name": "神行百变·精进",
+    "overlap": false,
+    "stageHeight": 207,
+    "width": 320,
+    "batch": 0
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 480
+    },
+    "dockTop": 269,
+    "effect": "获得10格挡。",
+    "full": true,
+    "id": "15",
+    "name": "金雁功·精进",
+    "overlap": false,
+    "stageHeight": 207,
+    "width": 320,
+    "batch": 0
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 262,
+    "effect": "造成14伤害。；上一张手动牌为技法时，抽1张。以上为首次结算，互搏额外2次。",
+    "full": true,
+    "id": "14",
+    "name": "全真剑法·精进",
+    "overlap": false,
+    "stageHeight": 200,
+    "width": 320,
+    "batch": 0
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 480
+    },
+    "dockTop": 269,
+    "effect": "造成16伤害。以上为首次结算，互搏额外2次。",
+    "full": true,
+    "id": "13",
+    "name": "华山剑法·精进",
+    "overlap": false,
+    "stageHeight": 207,
+    "width": 320,
+    "batch": 0
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 262,
+    "effect": "造成12伤害。获得6格挡。以上为首次结算，互搏额外2次。",
+    "full": true,
+    "id": "12",
+    "name": "罗汉拳·精进",
+    "overlap": false,
+    "stageHeight": 200,
+    "width": 320,
+    "batch": 0
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 480
+    },
+    "dockTop": 269,
+    "effect": "造成13伤害。以上为首次结算，互搏额外2次。",
+    "full": true,
+    "id": "11",
+    "name": "太祖长拳·精进",
+    "overlap": false,
+    "stageHeight": 207,
+    "width": 320,
+    "batch": 0
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 269,
+    "effect": "获得9格挡。目标上次出招含攻击时，格挡还会提升。",
+    "full": true,
+    "id": "20",
+    "name": "揽雀尾·精进",
+    "overlap": false,
+    "stageHeight": 207,
+    "width": 320,
+    "batch": 1
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 480
+    },
+    "dockTop": 262,
+    "effect": "造成11伤害。获得10格挡。以上为首次结算，互搏额外2次。",
+    "full": true,
+    "id": "19",
+    "name": "太极拳·精进",
+    "overlap": false,
+    "stageHeight": 200,
+    "width": 320,
+    "batch": 1
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 262,
+    "effect": "下一张攻击本回合额外结算一次；重复打出可累加额外次数。消耗。",
+    "full": true,
+    "id": "18",
+    "name": "左右互搏·精进",
+    "overlap": false,
+    "stageHeight": 200,
+    "width": 320,
+    "batch": 1
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 269,
+    "effect": "所有敌人虚弱3回合。",
+    "full": true,
+    "id": "17",
+    "name": "狮子吼·精进",
+    "overlap": false,
+    "stageHeight": 207,
+    "width": 320,
+    "batch": 1
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 269,
+    "effect": "本回合获得5临时劲力。",
+    "full": true,
+    "id": "16",
+    "name": "蛤蟆功·精进",
+    "overlap": false,
+    "stageHeight": 207,
+    "width": 320,
+    "batch": 1
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 480
+    },
+    "dockTop": 244,
+    "effect": "造成24伤害。气血不高于一半时，基础伤害再加10。以上为首次结算，互搏额外2次。",
+    "full": true,
+    "id": "15",
+    "name": "黯然销魂掌·精进",
+    "overlap": false,
+    "stageHeight": 182,
+    "width": 320,
+    "batch": 1
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 269,
+    "effect": "造成18伤害。虚无。以上为首次结算，互搏额外2次。",
+    "full": true,
+    "id": "14",
+    "name": "大力金刚掌·精进",
+    "overlap": false,
+    "stageHeight": 207,
+    "width": 320,
+    "batch": 1
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 269,
+    "effect": "立即获得3劲力。同名心法效果可叠加。",
+    "full": true,
+    "id": "13",
+    "name": "龙象般若功·精进",
+    "overlap": false,
+    "stageHeight": 207,
+    "width": 320,
+    "batch": 1
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 269,
+    "effect": "每个后续回合开始，获得3劲力。同名心法效果可叠加。",
+    "full": true,
+    "id": "12",
+    "name": "紫霞神功·精进",
+    "overlap": false,
+    "stageHeight": 207,
+    "width": 320,
+    "batch": 1
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 262,
+    "effect": "造成13伤害。然后获得1劲力。以上为首次结算，互搏额外2次。",
+    "full": true,
+    "id": "11",
+    "name": "龙战于野·精进",
+    "overlap": false,
+    "stageHeight": 200,
+    "width": 320,
+    "batch": 1
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 269,
+    "effect": "获得12格挡，可令另一张手牌本回合保留。",
+    "full": true,
+    "id": "20",
+    "name": "梯云纵·精进",
+    "overlap": false,
+    "stageHeight": 207,
+    "width": 320,
+    "batch": 2
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 262,
+    "effect": "每张牌直接给予的格挡额外增加3，每次结算一次。同名心法效果可叠加。",
+    "full": true,
+    "id": "19",
+    "name": "纯阳无极功·精进",
+    "overlap": false,
+    "stageHeight": 200,
+    "width": 320,
+    "batch": 2
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 262,
+    "effect": "每次手动打出技法后，获得6格挡。同名心法效果可叠加。",
+    "full": true,
+    "id": "18",
+    "name": "武当九阳功·精进",
+    "overlap": false,
+    "stageHeight": 200,
+    "width": 320,
+    "batch": 2
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 244,
+    "effect": "造成18伤害。无上限；不消耗格挡，不受劲力加成。以上为首次结算，互搏额外2次。",
+    "full": true,
+    "id": "17",
+    "name": "太极剑·精进",
+    "overlap": false,
+    "stageHeight": 182,
+    "width": 320,
+    "batch": 2
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 269,
+    "effect": "额外获得13格挡，已计入当前格挡的75%与加成。",
+    "full": true,
+    "id": "16",
+    "name": "空明拳·精进",
+    "overlap": false,
+    "stageHeight": 207,
+    "width": 320,
+    "batch": 2
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 244,
+    "effect": "获得16格挡；本轮每段敌方攻击，按实际抵挡量反震，无上限。重复打出可叠加反震倍数。",
+    "full": true,
+    "id": "15",
+    "name": "斗转星移·精进",
+    "overlap": false,
+    "stageHeight": 182,
+    "width": 320,
+    "batch": 2
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 244,
+    "effect": "获得10格挡；本轮下一段敌方攻击，按实际抵挡量反震，无上限。重复打出可叠加反震倍数。",
+    "full": true,
+    "id": "14",
+    "name": "乾坤大挪移·精进",
+    "overlap": false,
+    "stageHeight": 182,
+    "width": 320,
+    "batch": 2
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 269,
+    "effect": "获得24格挡。",
+    "full": true,
+    "id": "13",
+    "name": "罗汉伏魔神功·精进",
+    "overlap": false,
+    "stageHeight": 207,
+    "width": 320,
+    "batch": 2
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 269,
+    "effect": "本场战斗中，格挡不会在你的回合开始时消失。",
+    "full": true,
+    "id": "12",
+    "name": "金刚不坏体·精进",
+    "overlap": false,
+    "stageHeight": 207,
+    "width": 320,
+    "batch": 2
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 269,
+    "effect": "获得8格挡，抽2张。",
+    "full": true,
+    "id": "11",
+    "name": "白鹤亮翅·精进",
+    "overlap": false,
+    "stageHeight": 207,
+    "width": 320,
+    "batch": 2
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 269,
+    "effect": "目标虚弱3回合；可消耗另一张手牌并抽1张。本牌消耗。",
+    "full": true,
+    "id": "20",
+    "name": "化功大法·精进",
+    "overlap": false,
+    "stageHeight": 207,
+    "width": 320,
+    "batch": 3
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 480
+    },
+    "dockTop": 262,
+    "effect": "消耗其他所有非攻击手牌，本次获得36格挡。本牌消耗。",
+    "full": true,
+    "id": "19",
+    "name": "吸星大法·精进",
+    "overlap": false,
+    "stageHeight": 200,
+    "width": 320,
+    "batch": 3
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 269,
+    "effect": "每消耗一张牌，获得4格挡。同名心法效果可叠加。",
+    "full": true,
+    "id": "18",
+    "name": "易筋经·精进",
+    "overlap": false,
+    "stageHeight": 207,
+    "width": 320,
+    "batch": 3
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 269,
+    "effect": "每消耗一张牌，回复1真气。同名心法效果可叠加。",
+    "full": true,
+    "id": "17",
+    "name": "北冥神功·精进",
+    "overlap": false,
+    "stageHeight": 207,
+    "width": 320,
+    "batch": 3
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 269,
+    "effect": "每消耗一张牌，抽2张。同名心法效果可叠加。",
+    "full": true,
+    "id": "16",
+    "name": "小无相功·精进",
+    "overlap": false,
+    "stageHeight": 207,
+    "width": 320,
+    "batch": 3
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 262,
+    "effect": "消耗至多2张其他手牌，每张给予8格挡。选牌后显示本次总格挡。",
+    "full": true,
+    "id": "15",
+    "name": "天山折梅手·精进",
+    "overlap": false,
+    "stageHeight": 200,
+    "width": 320,
+    "batch": 3
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 262,
+    "effect": "造成28伤害。；本回合消耗过牌时无视格挡。以上为首次结算，互搏额外2次。",
+    "full": true,
+    "id": "14",
+    "name": "独孤九剑·破气式·精进",
+    "overlap": false,
+    "stageHeight": 200,
+    "width": 320,
+    "batch": 3
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 244,
+    "effect": "造成15伤害。使目标虚弱2回合。本回合消耗过牌时，基础伤害再加4。以上为首次结算，互搏额外2次。",
+    "full": true,
+    "id": "13",
+    "name": "独孤九剑·破掌式·精进",
+    "overlap": false,
+    "stageHeight": 182,
+    "width": 320,
+    "batch": 3
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 262,
+    "effect": "造成16伤害。可消耗另一张手牌，基础伤害再加8。以上为首次结算，互搏额外2次。",
+    "full": true,
+    "id": "12",
+    "name": "独孤九剑·破剑式·精进",
+    "overlap": false,
+    "stageHeight": 200,
+    "width": 320,
+    "batch": 3
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 269,
+    "effect": "消耗另一张手牌，抽3张。",
+    "full": true,
+    "id": "11",
+    "name": "独孤九剑·总诀式·精进",
+    "overlap": false,
+    "stageHeight": 207,
+    "width": 320,
+    "batch": 3
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 480
+    },
+    "dockTop": 262,
+    "effect": "造成16伤害。；每次击杀非召唤敌人，回复4气血。以上为首次结算，互搏额外2次。",
+    "full": true,
+    "id": "20",
+    "name": "血刀大法·精进",
+    "overlap": false,
+    "stageHeight": 200,
+    "width": 320,
+    "batch": 4
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 480
+    },
+    "dockTop": 269,
+    "effect": "回复9气血。消耗。",
+    "full": true,
+    "id": "19",
+    "name": "神照经·精进",
+    "overlap": false,
+    "stageHeight": 207,
+    "width": 320,
+    "batch": 4
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 262,
+    "effect": "每次支付卡牌自损后获得8格挡；胜利后回复5气血。同名心法效果可叠加。",
+    "full": true,
+    "id": "18",
+    "name": "九阳神功·精进",
+    "overlap": false,
+    "stageHeight": 200,
+    "width": 320,
+    "batch": 4
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 262,
+    "effect": "造成9×2伤害。本回合自损过时多攻击一次。以上为首次结算，互搏额外2次。",
+    "full": true,
+    "id": "17",
+    "name": "九阴白骨爪·精进",
+    "overlap": false,
+    "stageHeight": 200,
+    "width": 320,
+    "batch": 4
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 262,
+    "effect": "造成16伤害。本回合自损过时，基础伤害再加8。以上为首次结算，互搏额外2次。",
+    "full": true,
+    "id": "16",
+    "name": "摧心掌·精进",
+    "overlap": false,
+    "stageHeight": 200,
+    "width": 320,
+    "batch": 4
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 269,
+    "effect": "自损3气血，获得4劲力。消耗。",
+    "full": true,
+    "id": "15",
+    "name": "逆运九阴·精进",
+    "overlap": false,
+    "stageHeight": 207,
+    "width": 320,
+    "batch": 4
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 262,
+    "effect": "自损3气血，造成12×3伤害。以上为首次结算，互搏额外2次。",
+    "full": true,
+    "id": "14",
+    "name": "七伤拳·七伤俱发†·精进",
+    "overlap": false,
+    "stageHeight": 200,
+    "width": 320,
+    "batch": 4
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 262,
+    "effect": "自损2气血，造成20伤害。以上为首次结算，互搏额外2次。",
+    "full": true,
+    "id": "13",
+    "name": "七伤拳·精进",
+    "overlap": false,
+    "stageHeight": 200,
+    "width": 320,
+    "batch": 4
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 262,
+    "effect": "消耗至多2张状态或诅咒手牌，每张让你抽2张。本牌消耗。",
+    "full": true,
+    "id": "12",
+    "name": "易筋锻骨篇·精进",
+    "overlap": false,
+    "stageHeight": 200,
+    "width": 320,
+    "batch": 4
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 262,
+    "effect": "消耗其他所有手牌，造成11×9伤害。本牌消耗。以上为首次结算，互搏额外2次。",
+    "full": true,
+    "id": "11",
+    "name": "无招胜有招†·精进",
+    "overlap": false,
+    "stageHeight": 200,
+    "width": 320,
+    "batch": 4
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 480
+    },
+    "dockTop": 226,
+    "effect": "对全体攻击（1号 9×2；2号 9×2；3号 9×2）。此前本回合打出至少两张攻击时多攻击一次。以上为首次结算，互搏额外2次。",
+    "full": true,
+    "id": "20",
+    "name": "天下无狗·精进",
+    "overlap": false,
+    "stageHeight": 164,
+    "width": 320,
+    "batch": 5
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 262,
+    "effect": "消耗全部真气，造成9×10伤害。以上为首次结算，互搏额外2次。",
+    "full": true,
+    "id": "19",
+    "name": "六脉神剑·精进",
+    "overlap": false,
+    "stageHeight": 200,
+    "width": 320,
+    "batch": 5
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 226,
+    "effect": "造成14伤害。；本回合下一张技法费用减少1，最低为0；重复打出可累加减费。以上为首次结算，互搏额外2次。",
+    "full": true,
+    "id": "18",
+    "name": "天山六阳掌·精进",
+    "overlap": false,
+    "stageHeight": 164,
+    "width": 320,
+    "batch": 5
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 262,
+    "effect": "获得10格挡，抽1张；此前本回合打出至少两张攻击时，再抽1张。",
+    "full": true,
+    "id": "17",
+    "name": "凌波微步·精进",
+    "overlap": false,
+    "stageHeight": 200,
+    "width": 320,
+    "batch": 5
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 244,
+    "effect": "造成10伤害。抽1张，弃牌堆加入1张气滞。本牌消耗。以上为首次结算，互搏额外2次。",
+    "full": true,
+    "id": "16",
+    "name": "辟邪剑法·精进",
+    "overlap": false,
+    "stageHeight": 182,
+    "width": 320,
+    "batch": 5
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 244,
+    "effect": "造成9×2伤害。上一张手动牌为技法时，每段基础伤害再加2。以上为首次结算，互搏额外2次。",
+    "full": true,
+    "id": "15",
+    "name": "玉女素心剑法·精进",
+    "overlap": false,
+    "stageHeight": 182,
+    "width": 320,
+    "batch": 5
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 269,
+    "effect": "自损2气血，回复2真气。消耗。",
+    "full": true,
+    "id": "14",
+    "name": "先天功·强运†·精进",
+    "overlap": false,
+    "stageHeight": 207,
+    "width": 320,
+    "batch": 5
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 262,
+    "effect": "造成9伤害。气血不高于一半时，基础伤害再加4。以上为首次结算，互搏额外2次。",
+    "full": true,
+    "id": "13",
+    "name": "弹指神通·精进",
+    "overlap": false,
+    "stageHeight": 200,
+    "width": 320,
+    "batch": 5
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 480
+    },
+    "dockTop": 262,
+    "effect": "造成15伤害。；本回合自损过时抽2张。以上为首次结算，互搏额外2次。",
+    "full": true,
+    "id": "12",
+    "name": "一阳指·精进",
+    "overlap": false,
+    "stageHeight": 200,
+    "width": 320,
+    "batch": 5
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 262,
+    "effect": "每次支付卡牌自损后，获得2劲力。同名心法效果可叠加。",
+    "full": true,
+    "id": "11",
+    "name": "蛤蟆功·逆练†·精进",
+    "overlap": false,
+    "stageHeight": 200,
+    "width": 320,
+    "batch": 5
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 269,
+    "effect": "获得5格挡。消耗。虚无。",
+    "full": true,
+    "id": "20",
+    "name": "侧身闪避·精进",
+    "overlap": false,
+    "stageHeight": 207,
+    "width": 320,
+    "batch": 6
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 262,
+    "effect": "目标下回合第一段攻击伤害减少9，最低为0；重复打出可累加减伤。",
+    "full": true,
+    "id": "19",
+    "name": "点穴截脉·精进",
+    "overlap": false,
+    "stageHeight": 200,
+    "width": 320,
+    "batch": 6
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 262,
+    "effect": "造成9伤害。使目标虚弱1回合。消耗。以上为首次结算，互搏额外2次。",
+    "full": true,
+    "id": "18",
+    "name": "虚晃一招·精进",
+    "overlap": false,
+    "stageHeight": 200,
+    "width": 320,
+    "batch": 6
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 269,
+    "effect": "所有敌人虚弱2回合。",
+    "full": true,
+    "id": "17",
+    "name": "喝止·精进",
+    "overlap": false,
+    "stageHeight": 207,
+    "width": 320,
+    "batch": 6
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 269,
+    "effect": "使目标破绽3回合，抽1张。",
+    "full": true,
+    "id": "16",
+    "name": "探虚·精进",
+    "overlap": false,
+    "stageHeight": 207,
+    "width": 320,
+    "batch": 6
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 269,
+    "effect": "抽2张。消耗。",
+    "full": true,
+    "id": "15",
+    "name": "审势·精进",
+    "overlap": false,
+    "stageHeight": 207,
+    "width": 320,
+    "batch": 6
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 269,
+    "effect": "回复3真气。消耗。",
+    "full": true,
+    "id": "14",
+    "name": "运气·精进",
+    "overlap": false,
+    "stageHeight": 207,
+    "width": 320,
+    "batch": 6
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 269,
+    "effect": "下回合额外抽2张。消耗。",
+    "full": true,
+    "id": "13",
+    "name": "凝神·精进",
+    "overlap": false,
+    "stageHeight": 207,
+    "width": 320,
+    "batch": 6
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 480
+    },
+    "dockTop": 269,
+    "effect": "抽3张。",
+    "full": true,
+    "id": "12",
+    "name": "吐纳·精进",
+    "overlap": false,
+    "stageHeight": 207,
+    "width": 320,
+    "batch": 6
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 480
+    },
+    "dockTop": 269,
+    "effect": "获得8格挡。",
+    "full": true,
+    "id": "11",
+    "name": "抱元守一·精进",
+    "overlap": false,
+    "stageHeight": 207,
+    "width": 320,
+    "batch": 6
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 269,
+    "effect": "获得11格挡；气血不高于一半时，抽2张。",
+    "full": true,
+    "id": "20",
+    "name": "临危不乱·精进",
+    "overlap": false,
+    "stageHeight": 207,
+    "width": 320,
+    "batch": 7
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 262,
+    "effect": "先移除目标至多18格挡，再造成12伤害。以上为首次结算，互搏额外2次。",
+    "full": true,
+    "id": "19",
+    "name": "卸甲破防·精进",
+    "overlap": false,
+    "stageHeight": 200,
+    "width": 320,
+    "batch": 7
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 244,
+    "effect": "造成10伤害。此前本回合手动打出至少三张牌时，基础伤害再加6。以上为首次结算，互搏额外2次。",
+    "full": true,
+    "id": "18",
+    "name": "乘胜追击·精进",
+    "overlap": false,
+    "stageHeight": 182,
+    "width": 320,
+    "batch": 7
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 269,
+    "effect": "使2张其他手牌本回合保留。消耗。",
+    "full": true,
+    "id": "17",
+    "name": "屏息藏锋·精进",
+    "overlap": false,
+    "stageHeight": 207,
+    "width": 320,
+    "batch": 7
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 269,
+    "effect": "精进2张其他手牌，仅本场有效。消耗。",
+    "full": true,
+    "id": "16",
+    "name": "临阵磨砺·精进",
+    "overlap": false,
+    "stageHeight": 207,
+    "width": 320,
+    "batch": 7
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 269,
+    "effect": "消耗另一张手牌，抽2张。本牌消耗。",
+    "full": true,
+    "id": "15",
+    "name": "弃繁就简·精进",
+    "overlap": false,
+    "stageHeight": 207,
+    "width": 320,
+    "batch": 7
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 269,
+    "effect": "自损2气血，回复2真气。消耗。",
+    "full": true,
+    "id": "14",
+    "name": "破釜沉舟·精进",
+    "overlap": false,
+    "stageHeight": 207,
+    "width": 320,
+    "batch": 7
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 269,
+    "effect": "获得8格挡，下回合额外抽1张。",
+    "full": true,
+    "id": "13",
+    "name": "以逸待劳·精进",
+    "overlap": false,
+    "stageHeight": 207,
+    "width": 320,
+    "batch": 7
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 269,
+    "effect": "造成13伤害。抽1张。以上为首次结算，互搏额外2次。",
+    "full": true,
+    "id": "12",
+    "name": "顺水推舟·精进",
+    "overlap": false,
+    "stageHeight": 207,
+    "width": 320,
+    "batch": 7
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 262,
+    "effect": "造成14伤害。；当前格挡不少于10时，抽1张。以上为首次结算，互搏额外2次。",
+    "full": true,
+    "id": "11",
+    "name": "借势追击·精进",
+    "overlap": false,
+    "stageHeight": 200,
+    "width": 320,
+    "batch": 7
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 242.0546875,
+    "effect": "无法使用。回合结束仍在手中时失去2气血。消耗仅本场有效。",
+    "full": true,
+    "id": "12",
+    "name": "心魔·精进",
+    "overlap": false,
+    "stageHeight": 180,
+    "width": 320,
+    "batch": 8
+  },
+  {
+    "art": {
+      "complete": true,
+      "height": 74,
+      "natural": 360
+    },
+    "dockTop": 242.0546875,
+    "effect": "无法使用。可以弃掉或消耗；战后消失。",
+    "full": true,
+    "id": "11",
+    "name": "气滞·精进",
+    "overlap": false,
+    "stageHeight": 180,
+    "width": 320,
+    "batch": 8
+  }
+]
