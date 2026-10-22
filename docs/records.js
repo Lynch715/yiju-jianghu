@@ -1,8 +1,8 @@
-import {validChallenge} from './difficulty.js?v=0.26.1';
-import {validTrialLevel} from './expedition.js?v=0.26.1';
-import {ENEMY} from './enemies.js?v=0.26.1';
-import {CARD,RELIC,GAME_VERSION} from './data.js?v=0.26.1';
-import {validPlayer,HERO_TALENT_REVISION} from './players.js?v=0.26.1';
+import {validChallenge} from './difficulty.js?v=0.26.2';
+import {validTrialLevel} from './expedition.js?v=0.26.2';
+import {ENEMY} from './enemies.js?v=0.26.2';
+import {CARD,RELIC,GAME_VERSION} from './data.js?v=0.26.2';
+import {validPlayer,HERO_TALENT_REVISION} from './players.js?v=0.26.2';
 export const RECORDS_KEY='yiju-jianghu-clears-v1';
 const copy=value=>JSON.parse(JSON.stringify(value));
 const whole=n=>Number.isFinite(n)&&Number.isInteger(n)&&n>=0;

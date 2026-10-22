@@ -1,16 +1,16 @@
 {
-  "version": "0.26.1",
+  "version": "0.26.2",
   "entry": "index.html",
   "files": [
     {
       "path": "index.html",
       "bytes": 1491,
-      "sha256": "dd003e06b0e59a0fd58d045e801da209ef17f22d3e5325b40cc3e5752afd47b1"
+      "sha256": "2eebedc9c75d80d85f13c6f6265e81aa795d6958a9d1e2b678997372c79b4bf5"
     },
     {
       "path": "manifest.webmanifest",
       "bytes": 755,
-      "sha256": "1efdaadc78e57479592eba4b489b81585663b382f0a64d0559eb7926a062bf31"
+      "sha256": "17abc762e1ddf2f19e8b8f1b8a0a74589427c6fc85dbfa343a59d41f1f202c3e"
     },
     {
       "path": "assets/icons/icon.svg",
@@ -40,12 +40,12 @@
     {
       "path": "app.js",
       "bytes": 94603,
-      "sha256": "b2811b908cad738b4f3a20f28c9affbfdcfedb046f04e98aa876daa33b483a36"
+      "sha256": "17ac10ecb25f03773538b76afafd2ac055d331e8b79cb43b7991d5d05a6c1e99"
     },
     {
       "path": "data.js",
       "bytes": 16352,
-      "sha256": "fc54eed4ea86f510d736f5029887965cbf957b4f49cea024eddcfee3b954c5b0"
+      "sha256": "dce20b1edbb3acecaf7074efb0d706b397c79235894a08eb6e2430eeafb6f863"
     },
     {
       "path": "journey.js",
@@ -70,22 +70,22 @@
     {
       "path": "journey-ui.js",
       "bytes": 1056,
-      "sha256": "ca1fd0534c6d87eb1c727b8d95dd80357d8f2f1539e60e1962eca3efc38973bf"
+      "sha256": "3bfd272027c8b566738feece04513e8129396fac8126dfb8d740f4fb9046a112"
     },
     {
       "path": "card-art.js",
       "bytes": 1008,
-      "sha256": "aa040f53fe71965e436cfb298f712420ee6631dda1517857494d9bf2e077cde7"
+      "sha256": "e22a0e6bbc05fb5b1a534f65d2c9fb62ec9b4a25f515506931995abdd0932e4d"
     },
     {
       "path": "relic-art.js",
       "bytes": 12406,
-      "sha256": "05c19774c006e1724674db14a4c14524e0687547bf4ea61cae929477281bd19e"
+      "sha256": "3d33ce2ee7a1c1407c98aa289fbf7c59698c9164245278101de3443678ee2c0f"
     },
     {
       "path": "enemy-tactics.js",
       "bytes": 16274,
-      "sha256": "c6355778be1199e7842ad0055b246bce8e8dabe6ca9ec0017481f1e5f9e24200"
+      "sha256": "6d296e9daf17cf68db6c86d9f7fb5951f5d92e66d70186ad6bcfa6486a829820"
     },
     {
       "path": "enemy-action.js",
@@ -95,22 +95,22 @@
     {
       "path": "combat-guide.js",
       "bytes": 8788,
-      "sha256": "b90253e4c81d23b00deb5fb0614239ba0d368d8d1726ca66200b48fa9345b853"
+      "sha256": "42397bdc045f16a60cb3f79afc0e7bd406b2d7f16698b0615c32e0522f389de5"
     },
     {
       "path": "records.js",
       "bytes": 6698,
-      "sha256": "704daa4a637aa48425587036cdd3e7b7804d7189a0c3a94e31555cf9946e7847"
+      "sha256": "716602375e37cc537af34f93270dc67f22ea77e791027048d018b9c22637995a"
     },
     {
       "path": "engine.js",
       "bytes": 54019,
-      "sha256": "32433b7da9a52061b293282b50ae587ccb2038f521c1236d87f369282996beec"
+      "sha256": "87c3cbed98d0190507b46d58979daa14df49d43432e99fde6555eaed8334538b"
     },
     {
       "path": "card-preview.js",
       "bytes": 7512,
-      "sha256": "0d79a0a991df85859031f642abbaf5f285d44a44c8d5c06cfa4923143c908ca3"
+      "sha256": "89092f74228847afbbc78d6d2f38b6f929043475d1ce0ce9514babc9dc12899d"
     },
     {
       "path": "difficulty.js",
@@ -120,12 +120,12 @@
     {
       "path": "expedition.js",
       "bytes": 3084,
-      "sha256": "01ab3c2c121a246fcb22f3ebd2abff586cc87fb9c52428fa7519e906905241e2"
+      "sha256": "a6e525b4362028c4f7e3effffcb235578fd27d2988390cb32cb3e4c6546b1102"
     },
     {
       "path": "enemies.js",
-      "bytes": 12039,
-      "sha256": "c5ceef5e1e8507936852f22cb511d6e6f013f911832c0a2a1851c4be7da87a3b"
+      "bytes": 12275,
+      "sha256": "46ba7f08da7224121e9a9e05a0e7f4789222db840d92851e2fdf89c45eefd5d6"
     },
     {
       "path": "players.js",
@@ -163,34 +163,34 @@
       "sha256": "78f3117fc5801f029c7ac9234c296e0f4c2aa41e6535aaf0e3c46b681cb340c0"
     },
     {
-      "path": "assets/enemies/runtime/qingcheng.webp",
-      "bytes": 38264,
-      "sha256": "fe3380f0521890764fefe2ecd9b6168527f86f3cc1b30b293bb6b0c2413705b2"
+      "path": "assets/enemies/runtime/qingcheng-v0262.webp",
+      "bytes": 17874,
+      "sha256": "928521a85950a7860fcbdc875c6f57adffe4c04d3ae000632cdfa24cd26b163a"
     },
     {
-      "path": "assets/enemies/runtime/songshan.webp",
-      "bytes": 41918,
-      "sha256": "698d9f7e5b048036853d5cc975be872ed58036ae6442c5203fc0dc892b4897cb"
+      "path": "assets/enemies/runtime/songshan-v0262.webp",
+      "bytes": 15382,
+      "sha256": "1ffbb79901f72560f90a089ed2439800af1790ed875bae4c736155bc6ab76ad0"
     },
     {
-      "path": "assets/enemies/runtime/xingxiu.webp",
-      "bytes": 49604,
-      "sha256": "8bb5e86e9ebb0aaf0f8a35187deb079a9982387418920cff0f8c51cad382f979"
+      "path": "assets/enemies/runtime/xingxiu-v0262.webp",
+      "bytes": 21722,
+      "sha256": "2eeb9937652d9a2ab5f57a7c6b6a0963bfbff91f174997acaec788568e0a99d0"
     },
     {
-      "path": "assets/enemies/runtime/xuedao.webp",
-      "bytes": 37338,
-      "sha256": "b67f277468c5a5fa5061a3e7c165f48634404f11ec7fcb5269fa36727fee35ce"
+      "path": "assets/enemies/runtime/xuedao-v0262.webp",
+      "bytes": 18694,
+      "sha256": "c1d8f1cc8504240b51adf2762460296757998333734898ce313df7a0d5adaa7b"
     },
     {
-      "path": "assets/enemies/runtime/baituo.webp",
-      "bytes": 43602,
-      "sha256": "64f0f5b8c7cf4d1170e64952f0ffecfa1ffb4c9ffe8286f2474a2fd86ea18316"
+      "path": "assets/enemies/runtime/baituo-v0262.webp",
+      "bytes": 20142,
+      "sha256": "3b7dd46f03355b62d731349215c6943c59893bb19a4fab83e27fc6f316088506"
     },
     {
-      "path": "assets/enemies/runtime/riyue.webp",
-      "bytes": 39792,
-      "sha256": "012fe594b2cf5ea7177702806c82ca6f688418786aa70a89cccf52886309f659"
+      "path": "assets/enemies/runtime/riyue-v0262.webp",
+      "bytes": 16576,
+      "sha256": "6ff6328260e35333c5865f18deef4a4c09680de33221085552849a9411d9dfd5"
     },
     {
       "path": "assets/enemies/runtime/mugaofeng.webp",
@@ -243,19 +243,19 @@
       "sha256": "b02153c68e3e93b86ef23a42c5ba8cc668292c0a9c8f95302344d03f3ff76b2a"
     },
     {
-      "path": "assets/enemies/runtime/qingchengguard-v0250.webp",
-      "bytes": 20556,
-      "sha256": "092a5b861b048b53d4694ae725520132387d0077dab1e776e19f6928f356f17b"
+      "path": "assets/enemies/runtime/qingchengguard-v0262.webp",
+      "bytes": 17484,
+      "sha256": "23e80bb55f635f3c953cefbe9c381c028a01f005dedda7ffb41d5adb06cb7a65"
     },
     {
-      "path": "assets/enemies/runtime/shenlong-v0250.webp",
-      "bytes": 25792,
-      "sha256": "f4b9a4a3fafcf6fefd9bee3ad6f0366d72d58710dac812b7846ae2bd702dba26"
+      "path": "assets/enemies/runtime/shenlong-v0262.webp",
+      "bytes": 22214,
+      "sha256": "9a28f001baa2a692752c2966c91b863a3ee86eb064b6aae36c676629d37c7560"
     },
     {
-      "path": "assets/enemies/runtime/riyueguard-v0250.webp",
-      "bytes": 19144,
-      "sha256": "60a07ce1cf3701657f259d148a580070b37084c6020033f436fa6c50d0403cc1"
+      "path": "assets/enemies/runtime/riyueguard-v0262.webp",
+      "bytes": 18552,
+      "sha256": "bcbc84784978d06b4565e04b40fcad7937ed2c1874b85861ba7f6a32d1e6ef05"
     },
     {
       "path": "assets/enemies/runtime/dingmian-v0250.webp",

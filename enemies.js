@@ -28,7 +28,8 @@ const roster=[
 
 ];
 const redrawn=new Set(['qingchengguard','shenlong','riyueguard','dingmian']);
-export const ENEMIES=roster.map(d=>({...d,original:redrawn.has(d.id)?`assets/enemies/redraw-v0250/${d.id}.png`:`assets/enemies/${d.id}.png`,art:`assets/enemies/runtime/${redrawn.has(d.id)?d.id+'-v0250':d.id}.webp`}));
+const normalRedrawn=new Set(['qingcheng','songshan','xingxiu','xuedao','baituo','riyue','qingchengguard','shenlong','riyueguard']);
+export const ENEMIES=roster.map(d=>({...d,original:normalRedrawn.has(d.id)?`assets/enemies/redraw-v0262/${d.id}.png`:redrawn.has(d.id)?`assets/enemies/redraw-v0250/${d.id}.png`:`assets/enemies/${d.id}.png`,art:`assets/enemies/runtime/${normalRedrawn.has(d.id)?d.id+'-v0262':redrawn.has(d.id)?d.id+'-v0250':d.id}.webp`}));
 export const ENEMY=Object.fromEntries(ENEMIES.map(d=>[d.id,d]));
 // Encounter lineups are original game scenarios, rather than claims of novel alliances.
 const group=(title,ids,extra={})=>({title,ids,...extra});
