@@ -1,4 +1,4 @@
-import {enemyActionView} from './enemy-action.js?v=0.25.8';
+import {enemyActionView} from './enemy-action.js?v=0.25.9';
 
 // Presentation only: describe the chosen action and active states. Never generate
 // another intent or inspect an enemy's future move list.

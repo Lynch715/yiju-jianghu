@@ -1,12 +1,12 @@
-import {newExpedition,validExpedition,trialLevel,encounterFor,restRate,trialPrice} from './expedition.js?v=0.25.8';
-import {enemyActionView,enemyAttackTag} from './enemy-action.js?v=0.25.8';
-import {createClearRecord} from './records.js?v=0.25.8';
-import {attachEnemyTactics,tacticalIntent,onTacticalDamage,onTacticalExhaust,onTacticalPlay,onTacticalDeath,afterTacticalAction,afterTacticalFollowerAction} from './enemy-tactics.js?v=0.25.8';
-import {JOURNEY_FLOORS,JOURNEY_TOTAL,newJourney,journeyChapter} from './journey.js?v=0.25.8';
-import {PLAYERS,HEROES,TALENTS,DEFAULT_PLAYER,cleanPlayerName,playerNameError,validPlayer,validPlayerTalent,PLAYER_RETURN_PHASES} from './players.js?v=0.25.8';
-import {ENEMY,ENCOUNTERS,ENCOUNTER_GROUPS} from './enemies.js?v=0.25.8';
-import {DIFFICULTY,combatDefinition,encounterTuning,SKIRMISH_REVISION,CHALLENGE_REVISION,validChallenge,talentChallenge} from './difficulty.js?v=0.25.8';
-import {CARDS,CARD,RELICS,RELIC,CHAPTERS,ROUTES,isEthereal,OPENING_BOONS,GAME_VERSION} from './data.js?v=0.25.8';
+import {newExpedition,validExpedition,trialLevel,encounterFor,restRate,trialPrice} from './expedition.js?v=0.25.9';
+import {enemyActionView,enemyAttackTag} from './enemy-action.js?v=0.25.9';
+import {createClearRecord} from './records.js?v=0.25.9';
+import {attachEnemyTactics,tacticalIntent,onTacticalDamage,onTacticalExhaust,onTacticalPlay,onTacticalDeath,afterTacticalAction,afterTacticalFollowerAction} from './enemy-tactics.js?v=0.25.9';
+import {JOURNEY_FLOORS,JOURNEY_TOTAL,newJourney,journeyChapter} from './journey.js?v=0.25.9';
+import {PLAYERS,HEROES,TALENTS,DEFAULT_PLAYER,cleanPlayerName,playerNameError,validPlayer,validPlayerTalent,PLAYER_RETURN_PHASES} from './players.js?v=0.25.9';
+import {ENEMY,ENCOUNTERS,ENCOUNTER_GROUPS} from './enemies.js?v=0.25.9';
+import {DIFFICULTY,combatDefinition,encounterTuning,SKIRMISH_REVISION,CHALLENGE_REVISION,validChallenge,talentChallenge} from './difficulty.js?v=0.25.9';
+import {CARDS,CARD,RELICS,RELIC,CHAPTERS,ROUTES,isEthereal,OPENING_BOONS,GAME_VERSION} from './data.js?v=0.25.9';
 
 export const SAVE_VERSION=8;
 export const STARTING_DECK=Object.freeze([...Array(5).fill('W01'),...Array(4).fill('U01'),'U02']);
