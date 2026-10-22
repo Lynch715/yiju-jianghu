@@ -9,7 +9,9 @@ function create(id='linghu',talent='steady'){
  if(id==='custom'){g.setCharacterName('柳听风');g.choosePlayerPortrait('female-qing');assert.ok(g.chooseTalent(talent));}
  assert.ok(g.finishCharacter());return g;
 }
-function duel(id,talent){const g=create(id,talent);g.s.phase='map';g.combat('battle');g.s.hp=60;g.s.relics=[];const b=g.s.b;b.enemies=b.enemies.slice(0,1);Object.assign(b.enemies[0],{hp:10000,maxHp:10000,block:0,tactics:undefined});delete b.enemies[0].tactics;b.hand=[];b.draw=Array.from({length:30},()=>g.make('W01'));b.discard=[];b.qi=100;return g;}
+// These original settlement assertions deliberately exercise unmarked old battles.
+// The strengthened rules have a separate suite in hero-talent-buffs.test.mjs.
+function duel(id,talent){const g=create(id,talent);g.s.phase='map';g.combat('battle');g.s.hp=60;g.s.relics=[];const b=g.s.b;delete b.heroTalentRevision;b.block=0;b.enemies=b.enemies.slice(0,1);Object.assign(b.enemies[0],{hp:10000,maxHp:10000,block:0,tactics:undefined});delete b.enemies[0].tactics;b.hand=[];b.draw=Array.from({length:30},()=>g.make('W01'));b.discard=[];b.qi=100;return g;}
 function cast(g,id){const c=g.make(id);g.s.b.hand.push(c);assert.ok(g.play(c.uid).ok);return c;}
 function reset(g){g.s.b.hand=[];g.s.b.draw=Array.from({length:30},()=>g.make('W01'));g.beginTurn();g.s.b.qi=100;}
 test('eight distinct named heroes cover both genders, with exclusive talents and unchanged opening RNG',()=>{

@@ -1,16 +1,16 @@
 {
-  "version": "0.25.9",
+  "version": "0.26.1",
   "entry": "index.html",
   "files": [
     {
       "path": "index.html",
       "bytes": 1491,
-      "sha256": "8d76ac593b0faafa03a40393e48e8df549324e3c38c527ad86e1e9fb7196a9ed"
+      "sha256": "dd003e06b0e59a0fd58d045e801da209ef17f22d3e5325b40cc3e5752afd47b1"
     },
     {
       "path": "manifest.webmanifest",
       "bytes": 755,
-      "sha256": "891ffcc1064f4702e7ae4f6916ed747fe3febc2496769b2de7beca30556b4c3e"
+      "sha256": "1efdaadc78e57479592eba4b489b81585663b382f0a64d0559eb7926a062bf31"
     },
     {
       "path": "assets/icons/icon.svg",
@@ -39,13 +39,13 @@
     },
     {
       "path": "app.js",
-      "bytes": 94012,
-      "sha256": "5fb6ce11ae50e9ea91fa19d4286bca058aeb976947dc498dc933e09eb4e27488"
+      "bytes": 94603,
+      "sha256": "b2811b908cad738b4f3a20f28c9affbfdcfedb046f04e98aa876daa33b483a36"
     },
     {
       "path": "data.js",
       "bytes": 16352,
-      "sha256": "e964670f870983d0e1bc80472e4f4d5f5c5478670e23908df9244accfeb9b365"
+      "sha256": "fc54eed4ea86f510d736f5029887965cbf957b4f49cea024eddcfee3b954c5b0"
     },
     {
       "path": "journey.js",
@@ -70,22 +70,22 @@
     {
       "path": "journey-ui.js",
       "bytes": 1056,
-      "sha256": "30db64f239a3e35f47c0a66bd64d73503d329747060fe7750317e08d536ef169"
+      "sha256": "ca1fd0534c6d87eb1c727b8d95dd80357d8f2f1539e60e1962eca3efc38973bf"
     },
     {
       "path": "card-art.js",
       "bytes": 1008,
-      "sha256": "56452d3a21189b5a332958bad41ece33bf7750746d3fd61c694df0e8fddbe47f"
+      "sha256": "aa040f53fe71965e436cfb298f712420ee6631dda1517857494d9bf2e077cde7"
     },
     {
       "path": "relic-art.js",
       "bytes": 12406,
-      "sha256": "76e1e669c31ef05c6c9e3c48e042fc1433920d48db29460857d4d51c9050c41c"
+      "sha256": "05c19774c006e1724674db14a4c14524e0687547bf4ea61cae929477281bd19e"
     },
     {
       "path": "enemy-tactics.js",
       "bytes": 16274,
-      "sha256": "77432eebd5e85fb25f124687aafab54f977c353f073b7ef91b10bac6b2448faf"
+      "sha256": "c6355778be1199e7842ad0055b246bce8e8dabe6ca9ec0017481f1e5f9e24200"
     },
     {
       "path": "enemy-action.js",
@@ -95,22 +95,22 @@
     {
       "path": "combat-guide.js",
       "bytes": 8788,
-      "sha256": "770be774c436fc1fb5edafc53eff46eb576dbc1c202abdd8c1cf8486781ef0c4"
+      "sha256": "b90253e4c81d23b00deb5fb0614239ba0d368d8d1726ca66200b48fa9345b853"
     },
     {
       "path": "records.js",
-      "bytes": 6475,
-      "sha256": "f7a0aea9786ed44d7b70ba38af0115a2b412ffef0990ece92d7b4441f76aa808"
+      "bytes": 6698,
+      "sha256": "704daa4a637aa48425587036cdd3e7b7804d7189a0c3a94e31555cf9946e7847"
     },
     {
       "path": "engine.js",
-      "bytes": 52001,
-      "sha256": "45a2858eb9e45dce80f807e1a2283675e67650ffb633ecfed2b9ec408d76852e"
+      "bytes": 54019,
+      "sha256": "32433b7da9a52061b293282b50ae587ccb2038f521c1236d87f369282996beec"
     },
     {
       "path": "card-preview.js",
       "bytes": 7512,
-      "sha256": "6c059c203348898e73c3b670e4ae8d3c56cb9e621bfe7576dc0ab10960400d47"
+      "sha256": "0d79a0a991df85859031f642abbaf5f285d44a44c8d5c06cfa4923143c908ca3"
     },
     {
       "path": "difficulty.js",
@@ -120,7 +120,7 @@
     {
       "path": "expedition.js",
       "bytes": 3084,
-      "sha256": "24cd0f1fe836cbbd186992530b3aa78d88afbeedac43e164ef5579ec2e23d494"
+      "sha256": "01ab3c2c121a246fcb22f3ebd2abff586cc87fb9c52428fa7519e906905241e2"
     },
     {
       "path": "enemies.js",
@@ -129,8 +129,8 @@
     },
     {
       "path": "players.js",
-      "bytes": 5401,
-      "sha256": "245cac49691371967dd5ccefd8c7c4f81b3bfc20c929f456c6cd40af268f53cc"
+      "bytes": 6564,
+      "sha256": "05e7056493ab1601ca3f949786dfb9151fa2392a5639c60abdee904c5c477b32"
     },
     {
       "path": "combat-ui.js",

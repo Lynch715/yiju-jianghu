@@ -3,8 +3,13 @@ import assert from 'node:assert/strict';
 import {runGame,VIABILITY_SEEDS} from './playthrough.mjs';
 import {Game} from '../engine.js';
 // These fixed winning seeds are the shipped v0.17 resource regressions.
-// Current encounter rules have separate acquisition and counterplay regressions.
-class LegacyJourney extends Game{start(seed,options){const state=super.start(seed,options);delete state.skirmishRevision;return state;}}
+// Current encounter/recovery rules have separate regressions. Freeze the shipped
+// v0.17 quarter-HP recovery here as well: extra HP changes the policy's route,
+// purchases and reward RNG, so its fixed historical winning seeds would drift.
+class LegacyJourney extends Game{
+ start(seed,options){const state=super.start(seed,options);delete state.skirmishRevision;return state;}
+ heal(n,source){return super.heal(source==='章节整备'?Math.floor(this.s.maxHp*.25):n,source);}
+}
 const winningSeeds=VIABILITY_SEEDS;
 for(const policy of Object.keys(winningSeeds))for(const seed of [7,42,123,2026,1016,winningSeeds[policy]])test(`v0.17 journey compatibility: ${policy}, seed ${seed}, uses real resource and reward rules`,()=>{
  const r=runGame(policy,seed,true,{Engine:LegacyJourney});

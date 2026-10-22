@@ -10,15 +10,18 @@ const avatars=[
 export const PLAYERS=avatars.map(p=>({...p,art:`assets/players/runtime/${p.id}.webp`}));
 export const PLAYER=Object.fromEntries(PLAYERS.map(p=>[p.id,p]));
 export const DEFAULT_PLAYER=Object.freeze({name:'无名侠客',portrait:'male-qing'});
+// A battle without this marker always keeps the original talent settlement.
+export const HERO_TALENT_REVISION=1;
+export function validHeroTalentRules(s){return s?.b?.heroTalentRevision===undefined||s.b.heroTalentRevision===HERO_TALENT_REVISION;}
 export const TALENTS=[
- {id:'free-sword',name:'独孤悟剑',text:'每回合首次打出技法后，抽1张牌。'},
- {id:'dragon',name:'降龙豪气',text:'每回合每打出3张攻击牌，回复1真气。'},
- {id:'steadfast',name:'侠之大者',text:'每回合首次通过出牌直接获得格挡时，额外获得3格挡。'},
- {id:'wit',name:'玲珑机变',text:'每回合打出第3张牌后，抽1张牌。'},
- {id:'jade',name:'玉女清心',text:'每回合首张攻击牌的首段伤害增加3。'},
- {id:'kindness',name:'襄心向善',text:'每场战斗获胜后，额外回复2气血。'},
- {id:'iron-sword',name:'玄铁重剑',text:'每回合首张消耗至少2真气的攻击牌，首段伤害增加5。'},
- {id:'yue-sword',name:'越女剑心',text:'每回合首次在技法后打出攻击牌时，抽1张牌。'},
+ {id:'free-sword',name:'独孤悟剑',text:'每回合首次打出技法后，抽2张牌。',legacyText:'每回合首次打出技法后，抽1张牌。'},
+ {id:'dragon',name:'降龙豪气',text:'每回合每打出3张攻击牌，回复1真气并抽1张牌。',legacyText:'每回合每打出3张攻击牌，回复1真气。'},
+ {id:'steadfast',name:'侠之大者',text:'每回合开始获得3格挡；首次通过出牌直接获得格挡时，额外获得6格挡。',legacyText:'每回合首次通过出牌直接获得格挡时，额外获得3格挡。'},
+ {id:'wit',name:'玲珑机变',text:'每回合打出第3张牌后，抽2张牌；打出第6张牌后，回复1真气。',legacyText:'每回合打出第3张牌后，抽1张牌。'},
+ {id:'jade',name:'玉女清心',text:'每回合首张攻击牌的首段伤害增加6，结算后获得3格挡。',legacyText:'每回合首张攻击牌的首段伤害增加3。'},
+ {id:'kindness',name:'襄心向善',text:'战斗获胜后额外回复5气血；每场首次气血降至一半及以下且仍存活时，立即回复6气血。',legacyText:'每场战斗获胜后，额外回复2气血。'},
+ {id:'iron-sword',name:'玄铁重剑',text:'每回合首张攻击牌首段伤害增加3；首张实际消耗至少2真气的攻击牌首段再增加8，可叠加。',legacyText:'每回合首张消耗至少2真气的攻击牌，首段伤害增加5。'},
+ {id:'yue-sword',name:'越女剑心',text:'每回合首次紧接技法打出攻击牌时，首段伤害增加4，结算后抽1张牌并回复1真气。',legacyText:'每回合首次在技法后打出攻击牌时，抽1张牌。'},
  {id:'steady',name:'稳扎稳打',text:'每场战斗首回合，获得6格挡。',common:true},
  {id:'vigor',name:'根骨强健',text:'开局气血上限与当前气血增加8。',common:true},
  {id:'insight',name:'过目不忘',text:'每场战斗首回合，多抽1张牌。',common:true},
@@ -39,7 +42,7 @@ export const HERO=Object.fromEntries(HEROES.map(h=>[h.id,h]));
 // Keep saved cosmetic IDs stable; a named hero's original appearance now resolves
 // to dedicated art. Deliberate costume changes still use the chosen custom art.
 export function playerArtwork(profile){const hero=HEROES.find(h=>h.id===profile?.hero&&h.portrait===profile.portrait);return hero?{...hero,title:hero.name}:PLAYERS.find(p=>p.id===profile?.portrait)||PLAYER[DEFAULT_PLAYER.portrait];}
-export function playerTalent(p){return TALENTS.find(t=>t.id===p?.talent)||null;}
+export function playerTalent(p,{revision=HERO_TALENT_REVISION}={}){const t=TALENTS.find(t=>t.id===p?.talent);return t?(revision===0&&t.legacyText?{...t,text:t.legacyText}:t):null;}
 export function validPlayerTalent(p){
  if(p.hero===undefined&&p.talent===undefined)return true; // Old saves gain no retroactive talent.
  if(p.hero==='custom')return TALENTS.some(t=>t.common&&t.id===p.talent);

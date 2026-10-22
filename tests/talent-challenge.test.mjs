@@ -49,5 +49,5 @@ test('unknown challenge revisions are rejected rather than silently changing dif
  const g=fresh();assert.ok(validChallenge(g.s));assert.ok(validChallenge({}));const bad={...g.s,challengeRevision:2};assert.equal(validChallenge(bad),false);assert.throws(()=>new Game(bad),/天赋挑战规则无效/);const c=new Game();c.start(42);c.s.character.challengeRevision=2;assert.equal(validCharacterDraft(c.s.character),false);
 });
 test('player stacking, repeat, energy and damage remain uncapped under the harder rules',()=>{
- const g=fresh('long','steady',5);g.s.step=44;g.combat('boss');const b=g.s.b;b.enemies=[b.enemies[0]];b.block=100000;b.hand=[g.make('W27',true)];b.qi=100000;assert.ok(g.play(b.hand[0].uid,0).ok);assert.equal(g.s.phase,'reward');assert.equal(b.block,100000);assert.equal(b.qi,100000);
+ const g=fresh('long','steady',5);g.s.step=44;g.combat('boss');const b=g.s.b;b.enemies=[b.enemies[0]];b.block=100000;b.hand=[g.make('W27',true)];b.qi=100000;assert.ok(g.play(b.hand[0].uid,0).ok);assert.equal(g.s.phase,'reward');assert.equal(b.block,100003);assert.equal(b.qi,100000);
 });

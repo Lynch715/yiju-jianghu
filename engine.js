@@ -3,7 +3,7 @@ import {enemyActionView,enemyAttackTag} from './enemy-action.js';
 import {createClearRecord} from './records.js';
 import {attachEnemyTactics,tacticalIntent,onTacticalDamage,onTacticalExhaust,onTacticalPlay,onTacticalDeath,afterTacticalAction,afterTacticalFollowerAction} from './enemy-tactics.js';
 import {JOURNEY_FLOORS,JOURNEY_TOTAL,newJourney,journeyChapter} from './journey.js';
-import {PLAYERS,HEROES,TALENTS,DEFAULT_PLAYER,cleanPlayerName,playerNameError,validPlayer,validPlayerTalent,PLAYER_RETURN_PHASES} from './players.js';
+import {PLAYERS,HEROES,TALENTS,DEFAULT_PLAYER,cleanPlayerName,playerNameError,validPlayer,validPlayerTalent,PLAYER_RETURN_PHASES,HERO_TALENT_REVISION,validHeroTalentRules} from './players.js';
 import {ENEMY,ENCOUNTERS,ENCOUNTER_GROUPS} from './enemies.js';
 import {DIFFICULTY,combatDefinition,encounterTuning,SKIRMISH_REVISION,CHALLENGE_REVISION,validChallenge,talentChallenge} from './difficulty.js';
 import {CARDS,CARD,RELICS,RELIC,CHAPTERS,ROUTES,isEthereal,OPENING_BOONS,GAME_VERSION} from './data.js';
@@ -33,6 +33,7 @@ export class Game {
   this.s=state?clone(state):null;
   if(this.s){
    if(!validChallenge(this.s))throw Error('天赋挑战规则无效');
+   if(!validHeroTalentRules(this.s))throw Error('名侠天赋规则无效');
    if(this.s.skirmishRevision!==undefined&&this.s.skirmishRevision!==SKIRMISH_REVISION)throw Error('普通遭遇规则无效');
    // Preserve existing cards, relics and combat progress; remove the old direction binding.
    if(!validExpedition(this.s))throw Error('历练存档无效');
@@ -146,6 +147,7 @@ export class Game {
  }
  get qiMax(){return 3+['R25','R26','R27','R28'].filter(x=>this.has(x)).length;}
  talent(id){return this.s.player?.talent===id;}
+ get empoweredTalents(){return this.s.b?.heroTalentRevision===HERO_TALENT_REVISION;}
  talentLog(text){this.log('天赋 · '+text);}
  powerCopies(id){const b=this.s.b,copies=b?.powerStacks?.[id];return Array.isArray(copies)?copies:(b?.powers[id]===undefined?[]:[!!b.powers[id]]);}
  power(id){const copies=this.powerCopies(id);return copies.length?(copies.some(Boolean)?1:0):null;}
@@ -158,11 +160,18 @@ export class Game {
  block(n,direct=false,ctx=null){
   const b=this.s.b;
   n=Math.max(0,Math.floor(n));
-  if(direct&&ctx&&!ctx.blockBoosted){n+=this.powerSum('W29',2,3);if(this.has('R06')&&!b.turnFlags.glove){n+=3;b.turnFlags.glove=true;this.log('金丝手套 · 额外格挡3');}if(this.talent('steadfast')&&!b.turnFlags.talentGuard){n+=3;b.turnFlags.talentGuard=true;this.talentLog('侠之大者 · 额外格挡3');}ctx.blockBoosted=true;}
+  if(direct&&ctx&&!ctx.blockBoosted){n+=this.powerSum('W29',2,3);if(this.has('R06')&&!b.turnFlags.glove){n+=3;b.turnFlags.glove=true;this.log('金丝手套 · 额外格挡3');}if(this.talent('steadfast')&&!b.turnFlags.talentGuard){const bonus=this.empoweredTalents?6:3;n+=bonus;b.turnFlags.talentGuard=true;this.talentLog(`侠之大者 · 额外格挡${bonus}`);}ctx.blockBoosted=true;}
   b.block+=n;if(n)this.log(`获得${n}格挡（现有${b.block}）`);
  }
  low(){return this.s.hp<=this.s.maxHp/2;}
- bee(){const b=this.s.b;if(this.s.phase==='battle'&&this.s.hp>0&&this.low()&&this.has('R22')&&!b.battleFlags.bee){b.battleFlags.bee=true;this.heal(6,'玉蜂浆');}}
+ bee(){
+  const b=this.s.b;if(this.s.phase!=='battle'||this.s.hp<=0||!this.low())return;
+  // Both effects see the same threshold crossing; neither suppresses the other.
+  const kindness=this.empoweredTalents&&this.talent('kindness')&&!b.battleFlags.talentKindness;
+  const bee=this.has('R22')&&!b.battleFlags.bee;
+  if(kindness){b.battleFlags.talentKindness=true;this.heal(6,'天赋 · 襄心向善');this.combatStep({kind:'player-effect',actor:'player',label:'襄心向善 · 回复6气血'});}
+  if(bee){b.battleFlags.bee=true;this.heal(6,'玉蜂浆');}
+ }
  actualSelf(card){let n=selfCost[card.id]||0;if(card.id==='W54'&&card.up)n=2;if(n&&this.has('R08')&&this.s.b.battleFlags.bandage<2)n=Math.max(1,n-1);return n;}
  paySelf(card){
   const n=this.actualSelf(card);if(!n)return true;if(this.s.hp<=n)return false;
@@ -200,8 +209,10 @@ export class Game {
  hit(e,base,card,ctx,{times=1,str=1,ignore=false}={}){
   const b=this.s.b;for(let i=0;i<times;i++){
    if(!e||e.hp<=0)break;let n=Math.max(0,base+b.str*str);
-   if(ctx?.jade&&!ctx.jadeUsed){n+=3;ctx.jadeUsed=true;this.talentLog('玉女清心 · 首段伤害+3');}
-   if(ctx?.ironSword&&!ctx.ironSwordUsed){n+=5;ctx.ironSwordUsed=true;this.talentLog('玄铁重剑 · 首段伤害+5');}
+   if(ctx?.jade&&!ctx.jadeUsed){const bonus=this.empoweredTalents?6:3;n+=bonus;ctx.jadeUsed=true;this.talentLog(`玉女清心 · 首段伤害+${bonus}`);}
+   if(ctx?.ironFirst&&!ctx.ironFirstUsed){n+=3;ctx.ironFirstUsed=true;this.talentLog('玄铁重剑 · 首攻伤害+3');}
+   if(ctx?.ironSword&&!ctx.ironSwordUsed){const bonus=this.empoweredTalents?8:5;n+=bonus;ctx.ironSwordUsed=true;this.talentLog(`玄铁重剑 · 首段伤害+${bonus}`);}
+   if(ctx?.yue&&!ctx.yueUsed){n+=4;ctx.yueUsed=true;this.talentLog('越女剑心 · 首段伤害+4');}
    if(ctx?.goldSnake)n++;
    if(ctx?.heavy&&!ctx.heavyUsed){n+=8;ctx.heavyUsed=true;}
    if(b.weak>0)n*=.75;if(e.vuln>0)n*=1.5;n=Math.floor(n);
@@ -239,6 +250,8 @@ export class Game {
   b.hand.splice(b.hand.findIndex(x=>x.uid===uid),1);b.qi-=paid;if(d.type==='s')b.discount=0;
   const extra=d.type==='a'?(Number(b.repeat)||0):0;if(d.type==='a')b.repeat=false;
   const ctx={paid,previous,attacks,plays,hitSequence:{value:0},hitTargets:new Set(),blockBoosted:false,goldSnake:false,heavy:false,jade:d.type==='a'&&attacks===0&&this.talent('jade')};
+  ctx.ironFirst=this.empoweredTalents&&d.type==='a'&&attacks===0&&this.talent('iron-sword');
+  ctx.yue=this.empoweredTalents&&d.type==='a'&&previous==='s'&&this.talent('yue-sword')&&!b.turnFlags.talentYue;
   if(d.type==='a'&&paid>=2&&this.talent('iron-sword')&&!b.turnFlags.talentIron){ctx.ironSword=true;b.turnFlags.talentIron=true;}
   if(d.type==='a'){
    if(this.has('R13')&&paid>=2&&!b.turnFlags.heavy){ctx.heavy=true;b.turnFlags.heavy=true;}
@@ -248,7 +261,7 @@ export class Game {
   this.combatStep({kind:'player-begin',actor:'player',label:d.name+(c.up?'·精进':''),type:d.type});onTacticalPlay(this,c);this.resolve(c,target,ctx,selections);
   for(let copy=0;copy<extra&&this.s.hp>0&&b.enemies.some(e=>e.hp>0);copy++){
    const next=target.hp>0?target:b.enemies.find(e=>e.hp>0);
-   if(this.actualSelf(c)<this.s.hp){this.log('左右互搏 · 额外结算');this.resolve(c,next,{...ctx,jade:false,ironSword:false,heavy:false,heavyUsed:true,blockBoosted:false},[]);}else{this.log('气血不足 · 取消剩余额外结算');break;}
+   if(this.actualSelf(c)<this.s.hp){this.log('左右互搏 · 额外结算');this.resolve(c,next,{...ctx,jade:false,ironFirst:false,ironSword:false,yue:false,heavy:false,heavyUsed:true,blockBoosted:false},[]);}else{this.log('气血不足 · 取消剩余额外结算');break;}
   }
   if(d.type==='p'){
    this.addPower(c);
@@ -258,11 +271,13 @@ export class Game {
   if(d.type==='a'){
    b.turnFlags.attacks++;
    if(b.turnFlags.attacks===1){if(this.has('R14'))for(const key of ctx.hitTargets){const e=b.enemies.find(x=>x.key===key);if(e.hp>0)e.vuln+=1;}if(this.has('R30'))this.energy(1);}
-   if(b.turnFlags.attacks%3===0){if(this.has('R03'))this.block(6);if(this.has('R16')){this.draw(1);this.energy(1);}if(this.talent('dragon')){this.talentLog('降龙豪气 · 回复1真气');this.energy(1);}}
+   if(b.turnFlags.attacks%3===0){if(this.has('R03'))this.block(6);if(this.has('R16')){this.draw(1);this.energy(1);}if(this.talent('dragon')){this.talentLog('降龙豪气 · 回复1真气'+(this.empoweredTalents?'，抽1张':''));this.energy(1);if(this.empoweredTalents)this.draw(1);}}
+   if(ctx.jade&&this.empoweredTalents){this.talentLog('玉女清心 · 获得3格挡');this.block(3);}
   }
-  if(d.type==='s'){this.block(this.powerSum('W28',4,6));if(!b.turnFlags.skill){b.turnFlags.skill=true;if(this.has('R29'))this.draw(2);if(this.has('R30'))this.energy(1);if(this.talent('free-sword')){this.talentLog('独孤悟剑 · 抽1张');this.draw(1);}}}
-  if(this.talent('wit')&&b.turnFlags.plays===3){this.talentLog('玲珑机变 · 抽1张');this.draw(1);}
-  if(this.talent('yue-sword')&&d.type==='a'&&previous==='s'&&!b.turnFlags.talentYue){b.turnFlags.talentYue=true;this.talentLog('越女剑心 · 抽1张');this.draw(1);}
+  if(d.type==='s'){this.block(this.powerSum('W28',4,6));if(!b.turnFlags.skill){b.turnFlags.skill=true;if(this.has('R29'))this.draw(2);if(this.has('R30'))this.energy(1);if(this.talent('free-sword')){const n=this.empoweredTalents?2:1;this.talentLog(`独孤悟剑 · 抽${n}张`);this.draw(n);}}}
+  if(this.talent('wit')&&b.turnFlags.plays===3){const n=this.empoweredTalents?2:1;this.talentLog(`玲珑机变 · 抽${n}张`);this.draw(n);}
+  if(this.empoweredTalents&&this.talent('wit')&&b.turnFlags.plays===6){this.talentLog('玲珑机变 · 回复1真气');this.energy(1);}
+  if(this.talent('yue-sword')&&d.type==='a'&&previous==='s'&&!b.turnFlags.talentYue){b.turnFlags.talentYue=true;this.talentLog('越女剑心 · 抽1张'+(this.empoweredTalents?'，回复1真气':''));this.draw(1);if(this.empoweredTalents)this.energy(1);}
   b.turnFlags.last=d.type;this.refreshEnemyPhases();this.combatStep({kind:'player',actor:'player',label:d.name+(c.up?'·精进':''),type:d.type});this.checkEnd();return {ok:true};
  }
  resolve(c,e,ctx,selected){
@@ -357,6 +372,7 @@ export class Game {
   const b=this.s.b;b.turn++;this.s.stats.turns++;
   if(this.power('W22')===null)b.block=0;
   b.turnFlags={plays:0,attacks:0,last:null,retired:0,badRetired:0,self:false};b.qiPenalty=Math.min(this.qiMax,b.nextQiLoss||0);b.qi=Math.max(0,this.qiMax-b.qiPenalty);b.nextQiLoss=0;b.discount=0;b.repeat=false;b.reflectNext=0;b.reflectPool=0;b.reflectNextStacks=0;b.reflectRoundStacks=0;
+  if(this.empoweredTalents&&this.talent('steadfast')){this.talentLog('侠之大者 · 回合开始获得3格挡');this.block(3);}
   const strength=this.powerSum('W12',2,3);if(strength){b.str+=strength;this.log(`紫霞神功 · 劲力+${strength}`);}
   if(first){if(this.has('R02'))b.str++;if(this.has('R04'))b.str+=2;if(this.has('R05'))this.block(8);if(this.talent('steady')){this.talentLog('稳扎稳打 · 获得6格挡');this.block(6);}if(this.talent('breath')){this.talentLog('气脉悠长 · 回复1真气');this.energy(1);}if(this.talent('insight'))this.talentLog('过目不忘 · 多抽1张');}
   let n=5+b.nextDraw+(first&&this.talent('insight')?1:0)-(this.has('R28')?1:0)-(this.has('R30')?1:0)-(first&&this.has('R29')?2:0)-(first&&this.has('R04')?1:0)-(first&&this.has('R26')?2:0);b.nextDraw=0;this.draw(Math.max(0,n));this.log(`—— 第${b.turn}回合 · ${b.qi}真气 ——`);if(b.qiPenalty)this.log(`寒气压制 · 本回合少${b.qiPenalty}真气`);this.combatStep({kind:'player-start',label:'你的回合'});
@@ -474,7 +490,8 @@ export class Game {
   this.s.b={enemies,draw:this.shuffle(this.s.deck.map(x=>clone(x))),hand:[],discard:[],exhaust:[],powers:{},qi:0,str:0,tempStr:0,block:0,weak:0,vuln:0,turn:0,nextDraw:0,repeat:false,discount:0,turnFlags:{},battleFlags:{bandage:0,blood:0},log:[],kind,formation:setup.title};
   if(this.s.ruleset===DIFFICULTY)attachEnemyTactics(this);
   for(const e of enemies){this.encounterRecord(e);e.intent=this.enemyIntent(e);}
-  if(this.has('R25'))this.addStatus(2);this.s.phase='battle';this.beginTurn(true);
+  if(HEROES.some(h=>h.id===this.s.player.hero&&h.talent===this.s.player.talent))this.s.b.heroTalentRevision=HERO_TALENT_REVISION;
+  if(this.has('R25'))this.addStatus(2);this.s.phase='battle';this.beginTurn(true);if(this.empoweredTalents&&this.talent('kindness'))this.bee();
   if(this.has('R21'))this.s.b.openDart=true;
  }
  useDart(key){const b=this.s.b;if(this.s.phase!=='battle'||!b.openDart)return false;const e=b.enemies.find(x=>x.key===key&&x.hp>0);if(!e)return false;b.openDart=false;this.direct(e,8,'金蛇锥');this.refreshEnemyPhases();this.combatStep({kind:'player',actor:'player',label:'金蛇锥',type:'a'});this.checkEnd();return true;}
@@ -492,7 +509,7 @@ export class Game {
  }
  offerRelics(n=1,tiers=[1,2]){const pool=RELICS.filter(x=>tiers.includes(x.tier)&&!this.has(x.id));return this.shuffle(pool).slice(0,n).map(x=>x.id);}
  winBattle(){
-  const b=this.s.b;this.s.stats.wins++;if(b.kind==='boss'&&this.s.step===this.totalSteps-1&&!this.s.clearRecord)this.s.clearRecord=createClearRecord(this.s);if(this.has('R01'))this.heal(4,'粗布药囊');this.heal(this.powerSum('W48',3,5),'九阳神功');if(this.talent('kindness'))this.heal(2,'天赋 · 襄心向善');
+  const b=this.s.b;this.s.stats.wins++;if(b.kind==='boss'&&this.s.step===this.totalSteps-1&&!this.s.clearRecord)this.s.clearRecord=createClearRecord(this.s);if(this.has('R01'))this.heal(4,'粗布药囊');this.heal(this.powerSum('W48',3,5),'九阳神功');if(this.talent('kindness'))this.heal(this.empoweredTalents?5:2,'天赋 · 襄心向善');
   const boss=b.kind==='boss',elite=b.kind==='elite';const gold=boss?65:elite?40:25;this.s.gold+=gold;
   const cards=this.offerCards(3,{absolute:boss,elite});
   this.s.reward={gold,cards,cardDone:false,relics:boss?this.offerRelics(3,[3]):elite?this.offerRelics(1,[1,2]):[],relicDone:!boss&&!elite,boss,elite};
@@ -500,7 +517,7 @@ export class Game {
  }
  chooseRewardCard(id=null){const r=this.s.reward;if(this.s.phase!=='reward'||r.cardDone||id&&!r.cards.includes(id))return false;if(id)this.s.deck.push(this.make(id));r.cardDone=true;return true;}
  chooseRewardRelic(id=null){const r=this.s.reward;if(this.s.phase!=='reward'||r.relicDone||id&&!r.relics.includes(id))return false;if(id&&!this.has(id))this.s.relics.push(id);r.relicDone=true;return true;}
- leaveReward(){const r=this.s.reward;if(this.s.phase!=='reward'||!r.cardDone||!r.relicDone)return false;if(r.boss)this.heal(Math.floor(this.s.maxHp*.25),'章节整备');this.finishNode();return true;}
+ leaveReward(){const r=this.s.reward;if(this.s.phase!=='reward'||!r.cardDone||!r.relicDone)return false;if(r.boss)this.heal(this.s.maxHp-this.s.hp,'章节整备');this.finishNode();return true;}
  finishNode(){
   if(!['event','shop','rest','reward','treasure'].includes(this.s.phase)||this.s.phase==='event'&&!this.s.scene?.result||this.s.phase==='reward'&&(!this.s.reward?.cardDone||!this.s.reward?.relicDone)||this.s.phase==='treasure'&&!this.s.scene?.claimed)return false;
   const entry={step:this.s.step,kind:this.s.scene?.kind,hp:this.s.hp,deck:this.s.deck.length,...(this.s.expedition&&this.s.b?.formation&&['battle','elite','boss'].includes(this.s.scene?.kind)?{formation:this.s.b.formation}: {})};

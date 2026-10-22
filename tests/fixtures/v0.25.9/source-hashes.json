@@ -1,0 +1,9 @@
+{
+  "version": "0.25.9",
+  "files": {
+    "engine.js": "cd9b46e0fdcc14daa47cd6bb81a5d67d5d448b06dd504011c050669254ab743c",
+    "players.js": "245cac49691371967dd5ccefd8c7c4f81b3bfc20c929f456c6cd40af268f53cc",
+    "app.js": "104e43d364b30bc6331091672ef4a3a7c75e20f7f9074c35f46eb6505870f14c",
+    "data.js": "e964670f870983d0e1bc80472e4f4d5f5c5478670e23908df9244accfeb9b365"
+  }
+}

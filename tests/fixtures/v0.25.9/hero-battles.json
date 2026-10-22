@@ -1,0 +1,3694 @@
+{
+  "version": "0.25.9",
+  "note": "Captured from untouched pre-buff source before implementation; hashes cover the entire JSON state after each action.",
+  "fixtures": [
+    {
+      "hero": "linghu",
+      "state": {
+        "version": 8,
+        "phase": "battle",
+        "player": {
+          "name": "令狐冲",
+          "portrait": "male-qing",
+          "hero": "linghu",
+          "talent": "free-sword"
+        },
+        "rng": 1135789069,
+        "seed": 123,
+        "uid": 50,
+        "hp": 42,
+        "maxHp": 80,
+        "gold": 90,
+        "step": 0,
+        "deck": [
+          {
+            "id": "W01",
+            "up": false,
+            "uid": 1
+          },
+          {
+            "id": "W01",
+            "up": false,
+            "uid": 2
+          },
+          {
+            "id": "W01",
+            "up": false,
+            "uid": 3
+          },
+          {
+            "id": "W01",
+            "up": false,
+            "uid": 4
+          },
+          {
+            "id": "W01",
+            "up": false,
+            "uid": 5
+          },
+          {
+            "id": "U01",
+            "up": false,
+            "uid": 6
+          },
+          {
+            "id": "U01",
+            "up": false,
+            "uid": 7
+          },
+          {
+            "id": "U01",
+            "up": false,
+            "uid": 8
+          },
+          {
+            "id": "U01",
+            "up": false,
+            "uid": 9
+          },
+          {
+            "id": "U02",
+            "up": false,
+            "uid": 10
+          }
+        ],
+        "relics": [
+          "R06",
+          "R13",
+          "R16",
+          "R22"
+        ],
+        "b": {
+          "enemies": [
+            {
+              "ruleset": "jianghu-2",
+              "skirmishRevision": 1,
+              "challengeRevision": 1,
+              "id": "songshan",
+              "name": "嵩山门人·甲",
+              "callSign": "甲",
+              "role": "",
+              "kind": "bandit",
+              "hp": 10000,
+              "maxHp": 10000,
+              "key": 0,
+              "round": 0,
+              "damageScale": 0.792,
+              "guardScale": 1,
+              "block": 0,
+              "weak": 0,
+              "vuln": 0,
+              "str": 0,
+              "pin": 0,
+              "charge": 0,
+              "enraged": false,
+              "intent": {
+                "label": "嵩山剑法",
+                "damage": 5
+              }
+            }
+          ],
+          "draw": [
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 11
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 12
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 13
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 14
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 15
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 16
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 17
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 18
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 19
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 20
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 21
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 22
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 23
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 24
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 25
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 26
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 27
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 28
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 29
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 30
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 31
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 32
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 33
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 34
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 35
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 36
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 37
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 38
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 39
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 40
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 41
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 42
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 43
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 44
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 45
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 46
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 47
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 48
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 49
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 50
+            }
+          ],
+          "hand": [],
+          "discard": [],
+          "exhaust": [],
+          "powers": {},
+          "qi": 100,
+          "str": 0,
+          "tempStr": 0,
+          "block": 0,
+          "weak": 0,
+          "vuln": 0,
+          "turn": 1,
+          "nextDraw": 0,
+          "repeat": false,
+          "discount": 0,
+          "turnFlags": {
+            "plays": 0,
+            "attacks": 0,
+            "last": null,
+            "retired": 0,
+            "badRetired": 0,
+            "self": false
+          },
+          "battleFlags": {
+            "bandage": 0,
+            "blood": 0
+          },
+          "log": [
+            "—— 第1回合 · 3真气 ——"
+          ],
+          "kind": "battle",
+          "formation": "嵩山双卫",
+          "qiPenalty": 0,
+          "nextQiLoss": 0,
+          "reflectNext": 0,
+          "reflectPool": 0,
+          "reflectNextStacks": 0,
+          "reflectRoundStacks": 0
+        },
+        "scene": {
+          "kind": "battle",
+          "chapter": 0,
+          "step": 0,
+          "nodeId": "j1-0-0-0",
+          "place": "烟柳渡西路"
+        },
+        "reward": null,
+        "history": [],
+        "stats": {
+          "turns": 1,
+          "played": 0,
+          "damage": 0,
+          "exhausted": 0,
+          "self": 0,
+          "kills": 0,
+          "wins": 0
+        },
+        "created": 1700000000000,
+        "runInfo": {
+          "version": "0.25.9",
+          "activeMs": 0,
+          "timed": true
+        },
+        "journey": {
+          "version": 1,
+          "path": [],
+          "active": "j1-0-0-0"
+        },
+        "ruleset": "jianghu-2",
+        "skirmishRevision": 1,
+        "challengeRevision": 1,
+        "journal": {
+          "songshan": {
+            "moves": {},
+            "notes": []
+          }
+        }
+      },
+      "steps": [
+        {
+          "action": {
+            "card": "U01"
+          },
+          "sha256": "57df26e9dc1f81cd6d62ea0172c9f6a63919a04d041b6cdbd4dbc4aa8826cdb8"
+        },
+        {
+          "action": {
+            "card": "W01"
+          },
+          "sha256": "f235dd2fd2e7c1306fd7917af4cfc4caee3d2ce357d56b34489e9b6f2c79d22c"
+        },
+        {
+          "action": {
+            "card": "W08",
+            "repeat": 2
+          },
+          "sha256": "7d42e3199f80be7e099c3d80b4baf57cd02561b2ca090ee4988b6559074bf0da"
+        },
+        {
+          "action": {
+            "card": "U01"
+          },
+          "sha256": "18ea58108cf5bf81c0e7c7553bb3847298e907ff03a1877f25ce5deebffc37ca"
+        },
+        {
+          "action": {
+            "card": "W01"
+          },
+          "sha256": "e32558d6c1cf31da1a754033f3f3345195a86f61589cd716807236b46d02486d"
+        },
+        {
+          "action": {
+            "card": "W01"
+          },
+          "sha256": "c2bc0dbb3cbf8eb252a77665905f48af4da99f3b785255f444275b78fca7e06d"
+        },
+        {
+          "action": {
+            "card": "W08"
+          },
+          "sha256": "63e10fbe30bd6d49b94e3cb09e92c1c0727caef644b68e4cbef17d9ebb75f892"
+        },
+        {
+          "action": {
+            "endTurn": true
+          },
+          "sha256": "86462bb2d6eb4b3c83b08bba68aaf6fcc67f555b02fe43ffea75f3d1de264987"
+        },
+        {
+          "action": {
+            "card": "W43"
+          },
+          "sha256": "101f6452d81a8f28adc1290eb11d7fc59e1d650287c9fa8a432d7951fdaea228"
+        },
+        {
+          "action": {
+            "card": "U01"
+          },
+          "sha256": "0570ddd06eb5f14da0a41e1ed2e02d677191dc75ea218e5effc1b49a2eba29a2"
+        },
+        {
+          "action": {
+            "card": "W08"
+          },
+          "sha256": "56e4bde7db15d0e5555f9efac9f68179a90dcbfaad28aa2cebd74d892856e372"
+        },
+        {
+          "action": {
+            "endTurn": true
+          },
+          "sha256": "ddfbf5413e23b9be9f03b23650515b7da6a4cab14ca32fec1837c260d0bd2802"
+        }
+      ]
+    },
+    {
+      "hero": "qiao",
+      "state": {
+        "version": 8,
+        "phase": "battle",
+        "player": {
+          "name": "乔峰",
+          "portrait": "male-xuan",
+          "hero": "qiao",
+          "talent": "dragon"
+        },
+        "rng": 1135789069,
+        "seed": 123,
+        "uid": 50,
+        "hp": 42,
+        "maxHp": 80,
+        "gold": 90,
+        "step": 0,
+        "deck": [
+          {
+            "id": "W01",
+            "up": false,
+            "uid": 1
+          },
+          {
+            "id": "W01",
+            "up": false,
+            "uid": 2
+          },
+          {
+            "id": "W01",
+            "up": false,
+            "uid": 3
+          },
+          {
+            "id": "W01",
+            "up": false,
+            "uid": 4
+          },
+          {
+            "id": "W01",
+            "up": false,
+            "uid": 5
+          },
+          {
+            "id": "U01",
+            "up": false,
+            "uid": 6
+          },
+          {
+            "id": "U01",
+            "up": false,
+            "uid": 7
+          },
+          {
+            "id": "U01",
+            "up": false,
+            "uid": 8
+          },
+          {
+            "id": "U01",
+            "up": false,
+            "uid": 9
+          },
+          {
+            "id": "U02",
+            "up": false,
+            "uid": 10
+          }
+        ],
+        "relics": [
+          "R06",
+          "R13",
+          "R16",
+          "R22"
+        ],
+        "b": {
+          "enemies": [
+            {
+              "ruleset": "jianghu-2",
+              "skirmishRevision": 1,
+              "challengeRevision": 1,
+              "id": "songshan",
+              "name": "嵩山门人·甲",
+              "callSign": "甲",
+              "role": "",
+              "kind": "bandit",
+              "hp": 10000,
+              "maxHp": 10000,
+              "key": 0,
+              "round": 0,
+              "damageScale": 0.792,
+              "guardScale": 1,
+              "block": 0,
+              "weak": 0,
+              "vuln": 0,
+              "str": 0,
+              "pin": 0,
+              "charge": 0,
+              "enraged": false,
+              "intent": {
+                "label": "嵩山剑法",
+                "damage": 5
+              }
+            }
+          ],
+          "draw": [
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 11
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 12
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 13
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 14
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 15
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 16
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 17
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 18
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 19
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 20
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 21
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 22
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 23
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 24
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 25
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 26
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 27
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 28
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 29
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 30
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 31
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 32
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 33
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 34
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 35
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 36
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 37
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 38
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 39
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 40
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 41
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 42
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 43
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 44
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 45
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 46
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 47
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 48
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 49
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 50
+            }
+          ],
+          "hand": [],
+          "discard": [],
+          "exhaust": [],
+          "powers": {},
+          "qi": 100,
+          "str": 0,
+          "tempStr": 0,
+          "block": 0,
+          "weak": 0,
+          "vuln": 0,
+          "turn": 1,
+          "nextDraw": 0,
+          "repeat": false,
+          "discount": 0,
+          "turnFlags": {
+            "plays": 0,
+            "attacks": 0,
+            "last": null,
+            "retired": 0,
+            "badRetired": 0,
+            "self": false
+          },
+          "battleFlags": {
+            "bandage": 0,
+            "blood": 0
+          },
+          "log": [
+            "—— 第1回合 · 3真气 ——"
+          ],
+          "kind": "battle",
+          "formation": "嵩山双卫",
+          "qiPenalty": 0,
+          "nextQiLoss": 0,
+          "reflectNext": 0,
+          "reflectPool": 0,
+          "reflectNextStacks": 0,
+          "reflectRoundStacks": 0
+        },
+        "scene": {
+          "kind": "battle",
+          "chapter": 0,
+          "step": 0,
+          "nodeId": "j1-0-0-0",
+          "place": "烟柳渡西路"
+        },
+        "reward": null,
+        "history": [],
+        "stats": {
+          "turns": 1,
+          "played": 0,
+          "damage": 0,
+          "exhausted": 0,
+          "self": 0,
+          "kills": 0,
+          "wins": 0
+        },
+        "created": 1700000000000,
+        "runInfo": {
+          "version": "0.25.9",
+          "activeMs": 0,
+          "timed": true
+        },
+        "journey": {
+          "version": 1,
+          "path": [],
+          "active": "j1-0-0-0"
+        },
+        "ruleset": "jianghu-2",
+        "skirmishRevision": 1,
+        "challengeRevision": 1,
+        "journal": {
+          "songshan": {
+            "moves": {},
+            "notes": []
+          }
+        }
+      },
+      "steps": [
+        {
+          "action": {
+            "card": "U01"
+          },
+          "sha256": "8ad9742bdfa9ab89cbd2a94db0c34d4d116beb241a583405cf7f1945c5125d81"
+        },
+        {
+          "action": {
+            "card": "W01"
+          },
+          "sha256": "0029262f326b99fd79753748641bb51f81d6db5bcfacfeb667c8c8f2306cfa4c"
+        },
+        {
+          "action": {
+            "card": "W08",
+            "repeat": 2
+          },
+          "sha256": "be22d6dfe9213a0d0d119b14ae0cd2e485627ce3f0b981489321f5ccb307a031"
+        },
+        {
+          "action": {
+            "card": "U01"
+          },
+          "sha256": "101963acdbeb00665b7724f9475ae67d2bdef882244b981644c8c1405ed9c5d0"
+        },
+        {
+          "action": {
+            "card": "W01"
+          },
+          "sha256": "f281d94041f93c1354093d396827401cb4afc733d455ca17819932e6fe643175"
+        },
+        {
+          "action": {
+            "card": "W01"
+          },
+          "sha256": "94b19e50f2a100cb95a1c78179d08bb3f591cfc3df28b723f4bd26f376525022"
+        },
+        {
+          "action": {
+            "card": "W08"
+          },
+          "sha256": "fcd77ec3de9018ccd0118160570df21cff146e72d51fb92cdeba603c9e630ad8"
+        },
+        {
+          "action": {
+            "endTurn": true
+          },
+          "sha256": "8476afdbdcc9eb0422d42d5d84db5eb01a07d0e8f43316e94cf076a67a3d4eae"
+        },
+        {
+          "action": {
+            "card": "W43"
+          },
+          "sha256": "59e31a56d55ccd306a25a094df76b0a883460c5f9757ca11c8348ec86f122aec"
+        },
+        {
+          "action": {
+            "card": "U01"
+          },
+          "sha256": "90b563c0840df023106c56260cb4772b80edb46fe5810ff4f75b8e9bce282dbe"
+        },
+        {
+          "action": {
+            "card": "W08"
+          },
+          "sha256": "3bef24b6ee067d58c9a36268bd589672e99065b4282f97816b27841edebcaf8b"
+        },
+        {
+          "action": {
+            "endTurn": true
+          },
+          "sha256": "9767ffd58b07debbda115108ecf11625248e610d496b07fb16f89700d71f5473"
+        }
+      ]
+    },
+    {
+      "hero": "guojing",
+      "state": {
+        "version": 8,
+        "phase": "battle",
+        "player": {
+          "name": "郭靖",
+          "portrait": "male-bai",
+          "hero": "guojing",
+          "talent": "steadfast"
+        },
+        "rng": 1135789069,
+        "seed": 123,
+        "uid": 50,
+        "hp": 42,
+        "maxHp": 80,
+        "gold": 90,
+        "step": 0,
+        "deck": [
+          {
+            "id": "W01",
+            "up": false,
+            "uid": 1
+          },
+          {
+            "id": "W01",
+            "up": false,
+            "uid": 2
+          },
+          {
+            "id": "W01",
+            "up": false,
+            "uid": 3
+          },
+          {
+            "id": "W01",
+            "up": false,
+            "uid": 4
+          },
+          {
+            "id": "W01",
+            "up": false,
+            "uid": 5
+          },
+          {
+            "id": "U01",
+            "up": false,
+            "uid": 6
+          },
+          {
+            "id": "U01",
+            "up": false,
+            "uid": 7
+          },
+          {
+            "id": "U01",
+            "up": false,
+            "uid": 8
+          },
+          {
+            "id": "U01",
+            "up": false,
+            "uid": 9
+          },
+          {
+            "id": "U02",
+            "up": false,
+            "uid": 10
+          }
+        ],
+        "relics": [
+          "R06",
+          "R13",
+          "R16",
+          "R22"
+        ],
+        "b": {
+          "enemies": [
+            {
+              "ruleset": "jianghu-2",
+              "skirmishRevision": 1,
+              "challengeRevision": 1,
+              "id": "songshan",
+              "name": "嵩山门人·甲",
+              "callSign": "甲",
+              "role": "",
+              "kind": "bandit",
+              "hp": 10000,
+              "maxHp": 10000,
+              "key": 0,
+              "round": 0,
+              "damageScale": 0.792,
+              "guardScale": 1,
+              "block": 0,
+              "weak": 0,
+              "vuln": 0,
+              "str": 0,
+              "pin": 0,
+              "charge": 0,
+              "enraged": false,
+              "intent": {
+                "label": "嵩山剑法",
+                "damage": 5
+              }
+            }
+          ],
+          "draw": [
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 11
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 12
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 13
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 14
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 15
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 16
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 17
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 18
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 19
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 20
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 21
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 22
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 23
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 24
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 25
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 26
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 27
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 28
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 29
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 30
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 31
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 32
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 33
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 34
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 35
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 36
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 37
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 38
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 39
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 40
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 41
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 42
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 43
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 44
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 45
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 46
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 47
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 48
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 49
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 50
+            }
+          ],
+          "hand": [],
+          "discard": [],
+          "exhaust": [],
+          "powers": {},
+          "qi": 100,
+          "str": 0,
+          "tempStr": 0,
+          "block": 0,
+          "weak": 0,
+          "vuln": 0,
+          "turn": 1,
+          "nextDraw": 0,
+          "repeat": false,
+          "discount": 0,
+          "turnFlags": {
+            "plays": 0,
+            "attacks": 0,
+            "last": null,
+            "retired": 0,
+            "badRetired": 0,
+            "self": false
+          },
+          "battleFlags": {
+            "bandage": 0,
+            "blood": 0
+          },
+          "log": [
+            "—— 第1回合 · 3真气 ——"
+          ],
+          "kind": "battle",
+          "formation": "嵩山双卫",
+          "qiPenalty": 0,
+          "nextQiLoss": 0,
+          "reflectNext": 0,
+          "reflectPool": 0,
+          "reflectNextStacks": 0,
+          "reflectRoundStacks": 0
+        },
+        "scene": {
+          "kind": "battle",
+          "chapter": 0,
+          "step": 0,
+          "nodeId": "j1-0-0-0",
+          "place": "烟柳渡西路"
+        },
+        "reward": null,
+        "history": [],
+        "stats": {
+          "turns": 1,
+          "played": 0,
+          "damage": 0,
+          "exhausted": 0,
+          "self": 0,
+          "kills": 0,
+          "wins": 0
+        },
+        "created": 1700000000000,
+        "runInfo": {
+          "version": "0.25.9",
+          "activeMs": 0,
+          "timed": true
+        },
+        "journey": {
+          "version": 1,
+          "path": [],
+          "active": "j1-0-0-0"
+        },
+        "ruleset": "jianghu-2",
+        "skirmishRevision": 1,
+        "challengeRevision": 1,
+        "journal": {
+          "songshan": {
+            "moves": {},
+            "notes": []
+          }
+        }
+      },
+      "steps": [
+        {
+          "action": {
+            "card": "U01"
+          },
+          "sha256": "22aaa11683044fca539d6c32c54419ce985776baf38069f82bde7e9337ecb5be"
+        },
+        {
+          "action": {
+            "card": "W01"
+          },
+          "sha256": "21a8d0fcdda012c68d6df3eb027bd725155ce0c146a1ea4d2d5c6e87652c56dc"
+        },
+        {
+          "action": {
+            "card": "W08",
+            "repeat": 2
+          },
+          "sha256": "40d9d3c1935763b60a9f82987be6c8ded04873b225f42581641b21a27299c341"
+        },
+        {
+          "action": {
+            "card": "U01"
+          },
+          "sha256": "4d6d58c1cc2b69249cbacc69a12b1869574b3ff207018d9c63e2a98117072bce"
+        },
+        {
+          "action": {
+            "card": "W01"
+          },
+          "sha256": "47dc2548df7310bce653cee01b821a89af36662288807ad42bb69ad2b5a96687"
+        },
+        {
+          "action": {
+            "card": "W01"
+          },
+          "sha256": "b26fd3daa13197277e634fd666f0f1bdb60455d53a47831485b489a3163a6534"
+        },
+        {
+          "action": {
+            "card": "W08"
+          },
+          "sha256": "ab10d4295eb9fd2f921172c658feb34bbd45a2dfcd152a9f659c4b3e524bea62"
+        },
+        {
+          "action": {
+            "endTurn": true
+          },
+          "sha256": "5215581520d9f9845c17757aba2c66e2bb70d03f33d215ef3aafe56182c96cfa"
+        },
+        {
+          "action": {
+            "card": "W43"
+          },
+          "sha256": "5f0aef97fe3c48605bf4378e3db8133316d95ea6cd32d0a59a33b02b2dfdaae5"
+        },
+        {
+          "action": {
+            "card": "U01"
+          },
+          "sha256": "db09918fcc3d17c8f34376894c6b76f320030769aea3a2012fffd84dcfe220b4"
+        },
+        {
+          "action": {
+            "card": "W08"
+          },
+          "sha256": "c439e0d07d839304e10946415f037ae51a0aee31b193f710bbcfdccd1962e552"
+        },
+        {
+          "action": {
+            "endTurn": true
+          },
+          "sha256": "c2df91c7bf7c6c532428bb676f475aa52d86b618b4739903d884ff1a0fbe8977"
+        }
+      ]
+    },
+    {
+      "hero": "yangguo",
+      "state": {
+        "version": 8,
+        "phase": "battle",
+        "player": {
+          "name": "杨过",
+          "portrait": "male-xuan",
+          "hero": "yangguo",
+          "talent": "iron-sword"
+        },
+        "rng": 1135789069,
+        "seed": 123,
+        "uid": 50,
+        "hp": 42,
+        "maxHp": 80,
+        "gold": 90,
+        "step": 0,
+        "deck": [
+          {
+            "id": "W01",
+            "up": false,
+            "uid": 1
+          },
+          {
+            "id": "W01",
+            "up": false,
+            "uid": 2
+          },
+          {
+            "id": "W01",
+            "up": false,
+            "uid": 3
+          },
+          {
+            "id": "W01",
+            "up": false,
+            "uid": 4
+          },
+          {
+            "id": "W01",
+            "up": false,
+            "uid": 5
+          },
+          {
+            "id": "U01",
+            "up": false,
+            "uid": 6
+          },
+          {
+            "id": "U01",
+            "up": false,
+            "uid": 7
+          },
+          {
+            "id": "U01",
+            "up": false,
+            "uid": 8
+          },
+          {
+            "id": "U01",
+            "up": false,
+            "uid": 9
+          },
+          {
+            "id": "U02",
+            "up": false,
+            "uid": 10
+          }
+        ],
+        "relics": [
+          "R06",
+          "R13",
+          "R16",
+          "R22"
+        ],
+        "b": {
+          "enemies": [
+            {
+              "ruleset": "jianghu-2",
+              "skirmishRevision": 1,
+              "challengeRevision": 1,
+              "id": "songshan",
+              "name": "嵩山门人·甲",
+              "callSign": "甲",
+              "role": "",
+              "kind": "bandit",
+              "hp": 10000,
+              "maxHp": 10000,
+              "key": 0,
+              "round": 0,
+              "damageScale": 0.792,
+              "guardScale": 1,
+              "block": 0,
+              "weak": 0,
+              "vuln": 0,
+              "str": 0,
+              "pin": 0,
+              "charge": 0,
+              "enraged": false,
+              "intent": {
+                "label": "嵩山剑法",
+                "damage": 5
+              }
+            }
+          ],
+          "draw": [
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 11
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 12
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 13
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 14
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 15
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 16
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 17
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 18
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 19
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 20
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 21
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 22
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 23
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 24
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 25
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 26
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 27
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 28
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 29
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 30
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 31
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 32
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 33
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 34
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 35
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 36
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 37
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 38
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 39
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 40
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 41
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 42
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 43
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 44
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 45
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 46
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 47
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 48
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 49
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 50
+            }
+          ],
+          "hand": [],
+          "discard": [],
+          "exhaust": [],
+          "powers": {},
+          "qi": 100,
+          "str": 0,
+          "tempStr": 0,
+          "block": 0,
+          "weak": 0,
+          "vuln": 0,
+          "turn": 1,
+          "nextDraw": 0,
+          "repeat": false,
+          "discount": 0,
+          "turnFlags": {
+            "plays": 0,
+            "attacks": 0,
+            "last": null,
+            "retired": 0,
+            "badRetired": 0,
+            "self": false
+          },
+          "battleFlags": {
+            "bandage": 0,
+            "blood": 0
+          },
+          "log": [
+            "—— 第1回合 · 3真气 ——"
+          ],
+          "kind": "battle",
+          "formation": "嵩山双卫",
+          "qiPenalty": 0,
+          "nextQiLoss": 0,
+          "reflectNext": 0,
+          "reflectPool": 0,
+          "reflectNextStacks": 0,
+          "reflectRoundStacks": 0
+        },
+        "scene": {
+          "kind": "battle",
+          "chapter": 0,
+          "step": 0,
+          "nodeId": "j1-0-0-0",
+          "place": "烟柳渡西路"
+        },
+        "reward": null,
+        "history": [],
+        "stats": {
+          "turns": 1,
+          "played": 0,
+          "damage": 0,
+          "exhausted": 0,
+          "self": 0,
+          "kills": 0,
+          "wins": 0
+        },
+        "created": 1700000000000,
+        "runInfo": {
+          "version": "0.25.9",
+          "activeMs": 0,
+          "timed": true
+        },
+        "journey": {
+          "version": 1,
+          "path": [],
+          "active": "j1-0-0-0"
+        },
+        "ruleset": "jianghu-2",
+        "skirmishRevision": 1,
+        "challengeRevision": 1,
+        "journal": {
+          "songshan": {
+            "moves": {},
+            "notes": []
+          }
+        }
+      },
+      "steps": [
+        {
+          "action": {
+            "card": "U01"
+          },
+          "sha256": "18e140ec3bb4f20c39ee76f4a6f20ead853c65c6f17c0973a240dfa067b8f835"
+        },
+        {
+          "action": {
+            "card": "W01"
+          },
+          "sha256": "97114032d21952837add0d0e5bdce2263e86cb03dfd25bcee238efa5935bcba4"
+        },
+        {
+          "action": {
+            "card": "W08",
+            "repeat": 2
+          },
+          "sha256": "e127313c6dc31443ef3e4cc50c4a5690f052a43e0c591ae3ebcad99b0e36f6ac"
+        },
+        {
+          "action": {
+            "card": "U01"
+          },
+          "sha256": "ff09bf77ffdc19e79d129ff5a570358cfa01d9582a1eff8a36d1510d6dd4a1b5"
+        },
+        {
+          "action": {
+            "card": "W01"
+          },
+          "sha256": "9825acbb668ded9d1d8cc47b25b4004b35ccb717c4837942f3f6b5112d0497ee"
+        },
+        {
+          "action": {
+            "card": "W01"
+          },
+          "sha256": "f77de46e522f879c881ed2c20cf771dd4a7d6d1a9d65bcb50ae83def8d9473c0"
+        },
+        {
+          "action": {
+            "card": "W08"
+          },
+          "sha256": "7d349145c6532485c4e9bfc9c016e26c6c701f7c6513d9ca50197d54d726924a"
+        },
+        {
+          "action": {
+            "endTurn": true
+          },
+          "sha256": "b6d3484a91aa9393f4a458c298bc72f6a358df14de9ac9c8c8d526ed424928c7"
+        },
+        {
+          "action": {
+            "card": "W43"
+          },
+          "sha256": "f62d54e83daa9f1551a7afdef8af9f883ebab9fbb401b4d342eba53f761cd426"
+        },
+        {
+          "action": {
+            "card": "U01"
+          },
+          "sha256": "e59b0ccc492e277ecf7daf672e729a4600d5f109dec254fd7dcd20d2d70bbf54"
+        },
+        {
+          "action": {
+            "card": "W08"
+          },
+          "sha256": "850bb329d64d9dae7e8db7989d696b65d4084caccf638aac23739d8676e175ea"
+        },
+        {
+          "action": {
+            "endTurn": true
+          },
+          "sha256": "7015db024b39664478ba4b90ed06db17c5d81381e21b0d5b3ff59742465fecf7"
+        }
+      ]
+    },
+    {
+      "hero": "huangrong",
+      "state": {
+        "version": 8,
+        "phase": "battle",
+        "player": {
+          "name": "黄蓉",
+          "portrait": "female-qing",
+          "hero": "huangrong",
+          "talent": "wit"
+        },
+        "rng": 1135789069,
+        "seed": 123,
+        "uid": 50,
+        "hp": 42,
+        "maxHp": 80,
+        "gold": 90,
+        "step": 0,
+        "deck": [
+          {
+            "id": "W01",
+            "up": false,
+            "uid": 1
+          },
+          {
+            "id": "W01",
+            "up": false,
+            "uid": 2
+          },
+          {
+            "id": "W01",
+            "up": false,
+            "uid": 3
+          },
+          {
+            "id": "W01",
+            "up": false,
+            "uid": 4
+          },
+          {
+            "id": "W01",
+            "up": false,
+            "uid": 5
+          },
+          {
+            "id": "U01",
+            "up": false,
+            "uid": 6
+          },
+          {
+            "id": "U01",
+            "up": false,
+            "uid": 7
+          },
+          {
+            "id": "U01",
+            "up": false,
+            "uid": 8
+          },
+          {
+            "id": "U01",
+            "up": false,
+            "uid": 9
+          },
+          {
+            "id": "U02",
+            "up": false,
+            "uid": 10
+          }
+        ],
+        "relics": [
+          "R06",
+          "R13",
+          "R16",
+          "R22"
+        ],
+        "b": {
+          "enemies": [
+            {
+              "ruleset": "jianghu-2",
+              "skirmishRevision": 1,
+              "challengeRevision": 1,
+              "id": "songshan",
+              "name": "嵩山门人·甲",
+              "callSign": "甲",
+              "role": "",
+              "kind": "bandit",
+              "hp": 10000,
+              "maxHp": 10000,
+              "key": 0,
+              "round": 0,
+              "damageScale": 0.792,
+              "guardScale": 1,
+              "block": 0,
+              "weak": 0,
+              "vuln": 0,
+              "str": 0,
+              "pin": 0,
+              "charge": 0,
+              "enraged": false,
+              "intent": {
+                "label": "嵩山剑法",
+                "damage": 5
+              }
+            }
+          ],
+          "draw": [
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 11
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 12
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 13
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 14
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 15
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 16
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 17
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 18
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 19
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 20
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 21
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 22
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 23
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 24
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 25
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 26
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 27
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 28
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 29
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 30
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 31
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 32
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 33
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 34
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 35
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 36
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 37
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 38
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 39
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 40
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 41
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 42
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 43
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 44
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 45
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 46
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 47
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 48
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 49
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 50
+            }
+          ],
+          "hand": [],
+          "discard": [],
+          "exhaust": [],
+          "powers": {},
+          "qi": 100,
+          "str": 0,
+          "tempStr": 0,
+          "block": 0,
+          "weak": 0,
+          "vuln": 0,
+          "turn": 1,
+          "nextDraw": 0,
+          "repeat": false,
+          "discount": 0,
+          "turnFlags": {
+            "plays": 0,
+            "attacks": 0,
+            "last": null,
+            "retired": 0,
+            "badRetired": 0,
+            "self": false
+          },
+          "battleFlags": {
+            "bandage": 0,
+            "blood": 0
+          },
+          "log": [
+            "—— 第1回合 · 3真气 ——"
+          ],
+          "kind": "battle",
+          "formation": "嵩山双卫",
+          "qiPenalty": 0,
+          "nextQiLoss": 0,
+          "reflectNext": 0,
+          "reflectPool": 0,
+          "reflectNextStacks": 0,
+          "reflectRoundStacks": 0
+        },
+        "scene": {
+          "kind": "battle",
+          "chapter": 0,
+          "step": 0,
+          "nodeId": "j1-0-0-0",
+          "place": "烟柳渡西路"
+        },
+        "reward": null,
+        "history": [],
+        "stats": {
+          "turns": 1,
+          "played": 0,
+          "damage": 0,
+          "exhausted": 0,
+          "self": 0,
+          "kills": 0,
+          "wins": 0
+        },
+        "created": 1700000000000,
+        "runInfo": {
+          "version": "0.25.9",
+          "activeMs": 0,
+          "timed": true
+        },
+        "journey": {
+          "version": 1,
+          "path": [],
+          "active": "j1-0-0-0"
+        },
+        "ruleset": "jianghu-2",
+        "skirmishRevision": 1,
+        "challengeRevision": 1,
+        "journal": {
+          "songshan": {
+            "moves": {},
+            "notes": []
+          }
+        }
+      },
+      "steps": [
+        {
+          "action": {
+            "card": "U01"
+          },
+          "sha256": "73008fa957bd6321fdbdaccd3b607ec171c3eddfa30554228357e4864432993a"
+        },
+        {
+          "action": {
+            "card": "W01"
+          },
+          "sha256": "a04737384b937e0a3cb9e4f4d50f75ecbed6aff07953be2f88becdfaef7eeb73"
+        },
+        {
+          "action": {
+            "card": "W08",
+            "repeat": 2
+          },
+          "sha256": "9399e4f0911bf2bdb1ea0cab6f5e07e7b50e4c5f28137032c2fee76bfd78db27"
+        },
+        {
+          "action": {
+            "card": "U01"
+          },
+          "sha256": "f572d3a655138fac9fce91467e8f80ba82838cc59ce28150594ab2266097c6a8"
+        },
+        {
+          "action": {
+            "card": "W01"
+          },
+          "sha256": "a84fa87737892a559c9f6c15b93b341f4477ec933f54e14732bca4d7cfa59e1c"
+        },
+        {
+          "action": {
+            "card": "W01"
+          },
+          "sha256": "d624f9b6a5ec9cb91fc2944c6b98fc2a9a8f5490db51b9c045e21beed78c8626"
+        },
+        {
+          "action": {
+            "card": "W08"
+          },
+          "sha256": "4c2bc6e0db550ef47585af7649c1fce76d6b5519f170b03e27af4f13339d25af"
+        },
+        {
+          "action": {
+            "endTurn": true
+          },
+          "sha256": "82183120efaa221410d53f041dfd660ef01bf52625911db14106b5c637f87787"
+        },
+        {
+          "action": {
+            "card": "W43"
+          },
+          "sha256": "da8130f4e04924e48f8237b79dca74de225a20ac82337a6d8632eb623827206d"
+        },
+        {
+          "action": {
+            "card": "U01"
+          },
+          "sha256": "8da472b6d13177da49f14cc1bfbc2ea4d112d4ce98e9e24cabef1b35d9f65bd6"
+        },
+        {
+          "action": {
+            "card": "W08"
+          },
+          "sha256": "ef5cc9ca66baacbd59d00e18ddae63394489162a35ffc521d91185c38ce16097"
+        },
+        {
+          "action": {
+            "endTurn": true
+          },
+          "sha256": "f71125556297c38fc9fb6d660e5c6fa9b12c928673b7ed9764dc4e212367d912"
+        }
+      ]
+    },
+    {
+      "hero": "long",
+      "state": {
+        "version": 8,
+        "phase": "battle",
+        "player": {
+          "name": "小龙女",
+          "portrait": "female-bai",
+          "hero": "long",
+          "talent": "jade"
+        },
+        "rng": 1135789069,
+        "seed": 123,
+        "uid": 50,
+        "hp": 42,
+        "maxHp": 80,
+        "gold": 90,
+        "step": 0,
+        "deck": [
+          {
+            "id": "W01",
+            "up": false,
+            "uid": 1
+          },
+          {
+            "id": "W01",
+            "up": false,
+            "uid": 2
+          },
+          {
+            "id": "W01",
+            "up": false,
+            "uid": 3
+          },
+          {
+            "id": "W01",
+            "up": false,
+            "uid": 4
+          },
+          {
+            "id": "W01",
+            "up": false,
+            "uid": 5
+          },
+          {
+            "id": "U01",
+            "up": false,
+            "uid": 6
+          },
+          {
+            "id": "U01",
+            "up": false,
+            "uid": 7
+          },
+          {
+            "id": "U01",
+            "up": false,
+            "uid": 8
+          },
+          {
+            "id": "U01",
+            "up": false,
+            "uid": 9
+          },
+          {
+            "id": "U02",
+            "up": false,
+            "uid": 10
+          }
+        ],
+        "relics": [
+          "R06",
+          "R13",
+          "R16",
+          "R22"
+        ],
+        "b": {
+          "enemies": [
+            {
+              "ruleset": "jianghu-2",
+              "skirmishRevision": 1,
+              "challengeRevision": 1,
+              "id": "songshan",
+              "name": "嵩山门人·甲",
+              "callSign": "甲",
+              "role": "",
+              "kind": "bandit",
+              "hp": 10000,
+              "maxHp": 10000,
+              "key": 0,
+              "round": 0,
+              "damageScale": 0.792,
+              "guardScale": 1,
+              "block": 0,
+              "weak": 0,
+              "vuln": 0,
+              "str": 0,
+              "pin": 0,
+              "charge": 0,
+              "enraged": false,
+              "intent": {
+                "label": "嵩山剑法",
+                "damage": 5
+              }
+            }
+          ],
+          "draw": [
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 11
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 12
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 13
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 14
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 15
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 16
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 17
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 18
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 19
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 20
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 21
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 22
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 23
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 24
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 25
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 26
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 27
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 28
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 29
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 30
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 31
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 32
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 33
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 34
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 35
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 36
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 37
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 38
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 39
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 40
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 41
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 42
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 43
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 44
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 45
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 46
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 47
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 48
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 49
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 50
+            }
+          ],
+          "hand": [],
+          "discard": [],
+          "exhaust": [],
+          "powers": {},
+          "qi": 100,
+          "str": 0,
+          "tempStr": 0,
+          "block": 0,
+          "weak": 0,
+          "vuln": 0,
+          "turn": 1,
+          "nextDraw": 0,
+          "repeat": false,
+          "discount": 0,
+          "turnFlags": {
+            "plays": 0,
+            "attacks": 0,
+            "last": null,
+            "retired": 0,
+            "badRetired": 0,
+            "self": false
+          },
+          "battleFlags": {
+            "bandage": 0,
+            "blood": 0
+          },
+          "log": [
+            "—— 第1回合 · 3真气 ——"
+          ],
+          "kind": "battle",
+          "formation": "嵩山双卫",
+          "qiPenalty": 0,
+          "nextQiLoss": 0,
+          "reflectNext": 0,
+          "reflectPool": 0,
+          "reflectNextStacks": 0,
+          "reflectRoundStacks": 0
+        },
+        "scene": {
+          "kind": "battle",
+          "chapter": 0,
+          "step": 0,
+          "nodeId": "j1-0-0-0",
+          "place": "烟柳渡西路"
+        },
+        "reward": null,
+        "history": [],
+        "stats": {
+          "turns": 1,
+          "played": 0,
+          "damage": 0,
+          "exhausted": 0,
+          "self": 0,
+          "kills": 0,
+          "wins": 0
+        },
+        "created": 1700000000000,
+        "runInfo": {
+          "version": "0.25.9",
+          "activeMs": 0,
+          "timed": true
+        },
+        "journey": {
+          "version": 1,
+          "path": [],
+          "active": "j1-0-0-0"
+        },
+        "ruleset": "jianghu-2",
+        "skirmishRevision": 1,
+        "challengeRevision": 1,
+        "journal": {
+          "songshan": {
+            "moves": {},
+            "notes": []
+          }
+        }
+      },
+      "steps": [
+        {
+          "action": {
+            "card": "U01"
+          },
+          "sha256": "8eec500cc67f0d3d48affb26af026e14e9a9e053d293cf4fd01037ae8ff6fb90"
+        },
+        {
+          "action": {
+            "card": "W01"
+          },
+          "sha256": "13204a8a6b34de84b0b77b0ff97b424d04c80a73ed9dc32799500cb38c712f17"
+        },
+        {
+          "action": {
+            "card": "W08",
+            "repeat": 2
+          },
+          "sha256": "1d14daf0236a7f828c71563c60c712e55485b251f5e3aef7a95b1a23aed75bc9"
+        },
+        {
+          "action": {
+            "card": "U01"
+          },
+          "sha256": "a6159d496a0e9eb9700f86e0ad72e520467c76eca487f2b264f1c47f1f344f8e"
+        },
+        {
+          "action": {
+            "card": "W01"
+          },
+          "sha256": "4ecccb48c0c60d22944f22bbcf8fcc789c48d3810c332ec42871d7170b8f3696"
+        },
+        {
+          "action": {
+            "card": "W01"
+          },
+          "sha256": "ef7ca9e31272c598ab81b037a4a3b55ded47a9dca2fc840f1c784fc0934b6ec4"
+        },
+        {
+          "action": {
+            "card": "W08"
+          },
+          "sha256": "6730e13794fc78a0e704a0ca71dc2749ba8f32dde96656d341ad291867b71da0"
+        },
+        {
+          "action": {
+            "endTurn": true
+          },
+          "sha256": "1b85aac2e9452fcb43b4a114592b25d1af6fe43179828fe4ae310a28e5e4e483"
+        },
+        {
+          "action": {
+            "card": "W43"
+          },
+          "sha256": "3be4d502e651d60c50b1e857a3c0978e6d5e0bea843e17fcba0b4c2e7ee107c9"
+        },
+        {
+          "action": {
+            "card": "U01"
+          },
+          "sha256": "fbfdbedf4606c26a184ecd3f115afa51723ebe337eae3472e6a1389fe2f1023e"
+        },
+        {
+          "action": {
+            "card": "W08"
+          },
+          "sha256": "107bdb06001ef1b6a523490156763f003ee1d0e4b626f9c4008dfff4a260476f"
+        },
+        {
+          "action": {
+            "endTurn": true
+          },
+          "sha256": "c8986aabaf80925a02c947d9649cf33dbcb435b3b5f23928d65a03b75f5dc9fb"
+        }
+      ]
+    },
+    {
+      "hero": "guoxiang",
+      "state": {
+        "version": 8,
+        "phase": "battle",
+        "player": {
+          "name": "郭襄",
+          "portrait": "female-fei",
+          "hero": "guoxiang",
+          "talent": "kindness"
+        },
+        "rng": 1135789069,
+        "seed": 123,
+        "uid": 50,
+        "hp": 42,
+        "maxHp": 80,
+        "gold": 90,
+        "step": 0,
+        "deck": [
+          {
+            "id": "W01",
+            "up": false,
+            "uid": 1
+          },
+          {
+            "id": "W01",
+            "up": false,
+            "uid": 2
+          },
+          {
+            "id": "W01",
+            "up": false,
+            "uid": 3
+          },
+          {
+            "id": "W01",
+            "up": false,
+            "uid": 4
+          },
+          {
+            "id": "W01",
+            "up": false,
+            "uid": 5
+          },
+          {
+            "id": "U01",
+            "up": false,
+            "uid": 6
+          },
+          {
+            "id": "U01",
+            "up": false,
+            "uid": 7
+          },
+          {
+            "id": "U01",
+            "up": false,
+            "uid": 8
+          },
+          {
+            "id": "U01",
+            "up": false,
+            "uid": 9
+          },
+          {
+            "id": "U02",
+            "up": false,
+            "uid": 10
+          }
+        ],
+        "relics": [
+          "R06",
+          "R13",
+          "R16",
+          "R22"
+        ],
+        "b": {
+          "enemies": [
+            {
+              "ruleset": "jianghu-2",
+              "skirmishRevision": 1,
+              "challengeRevision": 1,
+              "id": "songshan",
+              "name": "嵩山门人·甲",
+              "callSign": "甲",
+              "role": "",
+              "kind": "bandit",
+              "hp": 10000,
+              "maxHp": 10000,
+              "key": 0,
+              "round": 0,
+              "damageScale": 0.792,
+              "guardScale": 1,
+              "block": 0,
+              "weak": 0,
+              "vuln": 0,
+              "str": 0,
+              "pin": 0,
+              "charge": 0,
+              "enraged": false,
+              "intent": {
+                "label": "嵩山剑法",
+                "damage": 5
+              }
+            }
+          ],
+          "draw": [
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 11
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 12
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 13
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 14
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 15
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 16
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 17
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 18
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 19
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 20
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 21
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 22
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 23
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 24
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 25
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 26
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 27
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 28
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 29
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 30
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 31
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 32
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 33
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 34
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 35
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 36
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 37
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 38
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 39
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 40
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 41
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 42
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 43
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 44
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 45
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 46
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 47
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 48
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 49
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 50
+            }
+          ],
+          "hand": [],
+          "discard": [],
+          "exhaust": [],
+          "powers": {},
+          "qi": 100,
+          "str": 0,
+          "tempStr": 0,
+          "block": 0,
+          "weak": 0,
+          "vuln": 0,
+          "turn": 1,
+          "nextDraw": 0,
+          "repeat": false,
+          "discount": 0,
+          "turnFlags": {
+            "plays": 0,
+            "attacks": 0,
+            "last": null,
+            "retired": 0,
+            "badRetired": 0,
+            "self": false
+          },
+          "battleFlags": {
+            "bandage": 0,
+            "blood": 0
+          },
+          "log": [
+            "—— 第1回合 · 3真气 ——"
+          ],
+          "kind": "battle",
+          "formation": "嵩山双卫",
+          "qiPenalty": 0,
+          "nextQiLoss": 0,
+          "reflectNext": 0,
+          "reflectPool": 0,
+          "reflectNextStacks": 0,
+          "reflectRoundStacks": 0
+        },
+        "scene": {
+          "kind": "battle",
+          "chapter": 0,
+          "step": 0,
+          "nodeId": "j1-0-0-0",
+          "place": "烟柳渡西路"
+        },
+        "reward": null,
+        "history": [],
+        "stats": {
+          "turns": 1,
+          "played": 0,
+          "damage": 0,
+          "exhausted": 0,
+          "self": 0,
+          "kills": 0,
+          "wins": 0
+        },
+        "created": 1700000000000,
+        "runInfo": {
+          "version": "0.25.9",
+          "activeMs": 0,
+          "timed": true
+        },
+        "journey": {
+          "version": 1,
+          "path": [],
+          "active": "j1-0-0-0"
+        },
+        "ruleset": "jianghu-2",
+        "skirmishRevision": 1,
+        "challengeRevision": 1,
+        "journal": {
+          "songshan": {
+            "moves": {},
+            "notes": []
+          }
+        }
+      },
+      "steps": [
+        {
+          "action": {
+            "card": "U01"
+          },
+          "sha256": "e61cd29fe41776adb29799910a0576148b1b4f56efb84467da265083a4848412"
+        },
+        {
+          "action": {
+            "card": "W01"
+          },
+          "sha256": "61956a3e1006124e486d597303395fc99e6594fb33c786ea4ff7e2aa72bc9d54"
+        },
+        {
+          "action": {
+            "card": "W08",
+            "repeat": 2
+          },
+          "sha256": "608a49ac5ee3b24da35124df07d368beca6b5bf9a2edd5f999ebe41efccb0110"
+        },
+        {
+          "action": {
+            "card": "U01"
+          },
+          "sha256": "a214a91c8f577639df0e0b8cba4fcedec5f3578aa34dcf6754cb25ca0aa2ea77"
+        },
+        {
+          "action": {
+            "card": "W01"
+          },
+          "sha256": "f110d420c242e5ed3686c783590cb011eab670928f92775b0cf7f60d84a6235e"
+        },
+        {
+          "action": {
+            "card": "W01"
+          },
+          "sha256": "ccea8b6e0abf6bfa627d71742b942ef03085542997d6150dfcdb2872b80de17f"
+        },
+        {
+          "action": {
+            "card": "W08"
+          },
+          "sha256": "d7425df870f38de2e3217607baa78c06368ef4bccb7152020791820c3e563109"
+        },
+        {
+          "action": {
+            "endTurn": true
+          },
+          "sha256": "4c82c442ee50ed339080aad09ebf50e1c2e9c34bf8ea800e86367042b22f0c66"
+        },
+        {
+          "action": {
+            "card": "W43"
+          },
+          "sha256": "49119288083e84891d0e589e669d2aebdfc465a4aa19373ed9adf5d43eae7a33"
+        },
+        {
+          "action": {
+            "card": "U01"
+          },
+          "sha256": "fac7bbf3fec1bd42f2bd8acd81bd4afe776e3f4958f2601951ed0ecb4bf6cad4"
+        },
+        {
+          "action": {
+            "card": "W08"
+          },
+          "sha256": "55906b5aef835d7f84bf07a302bd07d3bb7755d7c9ef6df358e96b9a0fd1e7d9"
+        },
+        {
+          "action": {
+            "endTurn": true
+          },
+          "sha256": "477fddbac913d0fc30aa13bf40c809f35336e755b302ff17376004bf3acf158c"
+        }
+      ]
+    },
+    {
+      "hero": "aqing",
+      "state": {
+        "version": 8,
+        "phase": "battle",
+        "player": {
+          "name": "阿青",
+          "portrait": "female-qing",
+          "hero": "aqing",
+          "talent": "yue-sword"
+        },
+        "rng": 1135789069,
+        "seed": 123,
+        "uid": 50,
+        "hp": 42,
+        "maxHp": 80,
+        "gold": 90,
+        "step": 0,
+        "deck": [
+          {
+            "id": "W01",
+            "up": false,
+            "uid": 1
+          },
+          {
+            "id": "W01",
+            "up": false,
+            "uid": 2
+          },
+          {
+            "id": "W01",
+            "up": false,
+            "uid": 3
+          },
+          {
+            "id": "W01",
+            "up": false,
+            "uid": 4
+          },
+          {
+            "id": "W01",
+            "up": false,
+            "uid": 5
+          },
+          {
+            "id": "U01",
+            "up": false,
+            "uid": 6
+          },
+          {
+            "id": "U01",
+            "up": false,
+            "uid": 7
+          },
+          {
+            "id": "U01",
+            "up": false,
+            "uid": 8
+          },
+          {
+            "id": "U01",
+            "up": false,
+            "uid": 9
+          },
+          {
+            "id": "U02",
+            "up": false,
+            "uid": 10
+          }
+        ],
+        "relics": [
+          "R06",
+          "R13",
+          "R16",
+          "R22"
+        ],
+        "b": {
+          "enemies": [
+            {
+              "ruleset": "jianghu-2",
+              "skirmishRevision": 1,
+              "challengeRevision": 1,
+              "id": "songshan",
+              "name": "嵩山门人·甲",
+              "callSign": "甲",
+              "role": "",
+              "kind": "bandit",
+              "hp": 10000,
+              "maxHp": 10000,
+              "key": 0,
+              "round": 0,
+              "damageScale": 0.792,
+              "guardScale": 1,
+              "block": 0,
+              "weak": 0,
+              "vuln": 0,
+              "str": 0,
+              "pin": 0,
+              "charge": 0,
+              "enraged": false,
+              "intent": {
+                "label": "嵩山剑法",
+                "damage": 5
+              }
+            }
+          ],
+          "draw": [
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 11
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 12
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 13
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 14
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 15
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 16
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 17
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 18
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 19
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 20
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 21
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 22
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 23
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 24
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 25
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 26
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 27
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 28
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 29
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 30
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 31
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 32
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 33
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 34
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 35
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 36
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 37
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 38
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 39
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 40
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 41
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 42
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 43
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 44
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 45
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 46
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 47
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 48
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 49
+            },
+            {
+              "id": "W01",
+              "up": false,
+              "uid": 50
+            }
+          ],
+          "hand": [],
+          "discard": [],
+          "exhaust": [],
+          "powers": {},
+          "qi": 100,
+          "str": 0,
+          "tempStr": 0,
+          "block": 0,
+          "weak": 0,
+          "vuln": 0,
+          "turn": 1,
+          "nextDraw": 0,
+          "repeat": false,
+          "discount": 0,
+          "turnFlags": {
+            "plays": 0,
+            "attacks": 0,
+            "last": null,
+            "retired": 0,
+            "badRetired": 0,
+            "self": false
+          },
+          "battleFlags": {
+            "bandage": 0,
+            "blood": 0
+          },
+          "log": [
+            "—— 第1回合 · 3真气 ——"
+          ],
+          "kind": "battle",
+          "formation": "嵩山双卫",
+          "qiPenalty": 0,
+          "nextQiLoss": 0,
+          "reflectNext": 0,
+          "reflectPool": 0,
+          "reflectNextStacks": 0,
+          "reflectRoundStacks": 0
+        },
+        "scene": {
+          "kind": "battle",
+          "chapter": 0,
+          "step": 0,
+          "nodeId": "j1-0-0-0",
+          "place": "烟柳渡西路"
+        },
+        "reward": null,
+        "history": [],
+        "stats": {
+          "turns": 1,
+          "played": 0,
+          "damage": 0,
+          "exhausted": 0,
+          "self": 0,
+          "kills": 0,
+          "wins": 0
+        },
+        "created": 1700000000000,
+        "runInfo": {
+          "version": "0.25.9",
+          "activeMs": 0,
+          "timed": true
+        },
+        "journey": {
+          "version": 1,
+          "path": [],
+          "active": "j1-0-0-0"
+        },
+        "ruleset": "jianghu-2",
+        "skirmishRevision": 1,
+        "challengeRevision": 1,
+        "journal": {
+          "songshan": {
+            "moves": {},
+            "notes": []
+          }
+        }
+      },
+      "steps": [
+        {
+          "action": {
+            "card": "U01"
+          },
+          "sha256": "7d8e8154772794dd611602be6cc312fa69efde841eddb3de37fd282956b353a4"
+        },
+        {
+          "action": {
+            "card": "W01"
+          },
+          "sha256": "30464f83ba56b779ad732c87c349f071b54a7878bf3c38234e10d9271a9a466d"
+        },
+        {
+          "action": {
+            "card": "W08",
+            "repeat": 2
+          },
+          "sha256": "3bc62816eee323052aca53b53b875a6eda2c9f648db084d98370f7230f0226f3"
+        },
+        {
+          "action": {
+            "card": "U01"
+          },
+          "sha256": "e63674a0d12a9bf592d17567b55fdb47426012185c3573663b90408cafd71e9b"
+        },
+        {
+          "action": {
+            "card": "W01"
+          },
+          "sha256": "cefdf3773b82e779a9f17a4e875d469c4e9280205201c69fd19db56051e40130"
+        },
+        {
+          "action": {
+            "card": "W01"
+          },
+          "sha256": "ef121b93953653614d1ea4f99bccd83c210723319af081ff2d0dd6c0556ebcba"
+        },
+        {
+          "action": {
+            "card": "W08"
+          },
+          "sha256": "c0caf48dca864783e1bea12076698d5956387ffbbb346c84910c4a737b8456c9"
+        },
+        {
+          "action": {
+            "endTurn": true
+          },
+          "sha256": "e6cccee229958e81d7629e6302d094807788511f2d7163c15a1a6dd50d229d4c"
+        },
+        {
+          "action": {
+            "card": "W43"
+          },
+          "sha256": "65f6818aa936aa033a8ae7fcbdabeb528c754eb00e5e9679c2b004b32f5ffe57"
+        },
+        {
+          "action": {
+            "card": "U01"
+          },
+          "sha256": "0491199799a8cdec428a041b42b6ea78e77d71157bc7acfecc0724304da81733"
+        },
+        {
+          "action": {
+            "card": "W08"
+          },
+          "sha256": "a8beb756908b8e221e44c9716b23ba8373a3060d9c007823f9d7818b693ba840"
+        },
+        {
+          "action": {
+            "endTurn": true
+          },
+          "sha256": "41954d27e78ff7432ce61c239abb419a173bcc634298d68b89e1b09e55e9c4cc"
+        }
+      ]
+    }
+  ]
+}
