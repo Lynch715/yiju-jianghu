@@ -8,8 +8,8 @@ export function enemyActionView(game,enemy){
  if(current.allyBlock)add('block',`护援 +${current.allyBlock}`);
  if(current.charge)add('charge',`蓄力 +${current.charge}`);else if(current.windup)add('charge','蓄力');
  if(current.str)add('buff',`劲力 +${current.str}`);
- for(const [key,name] of [['weak','虚弱'],['vuln','破绽'],['poison',current.poisonOnHit?'伤血施毒':'施毒'],['chill','寒气'],['status','气滞']])if(current[key])add('debuff',`${name} ${current[key]}`);
- if(current.woundOnHit)add('debuff',`伤血添气滞 ${current.woundOnHit}`);
+ for(const [key,name] of [['weak','虚弱'],['vuln','破绽'],['poison',current.poisonOnHit?'破防施毒':'施毒'],['chill','寒气'],['status','气滞']])if(current[key])add('debuff',`${name} ${current[key]}`);
+ if(current.woundOnHit)add('debuff',`破防添气滞 ${current.woundOnHit}`);
  if(current.leech||current.drainRatio)add('special','饮血');
  if(current.summonPoison)add('special','召援');
  if(current.plantMines)add('special','布雷');
@@ -22,18 +22,18 @@ export function enemyActionView(game,enemy){
  if(current.probe)add('special','试剑');
  const t=enemy.tactics;
  if(t?.skirmish){
-  if(enemy.id==='qingcheng')add('special',`剑势 ${t.sword} · 伤血6削1`);
-  if(t.braced)add('special','架势 · 破盾削掌');
+  if(enemy.id==='qingcheng')add('special',`剑势 ${t.sword} · 每伤其6血减1`);
+  if(t.braced)add('special','架势 · 打穿格挡可削弱');
   if(t.staggered)add('special','架势已破 · 重掌削弱');
   if(current.prepareVenom)add('special',`备毒 +${current.prepareVenom}`);
-  if(t.venom>0)add('special',`备毒 ${t.venom} · 伤血8拆1`);
+  if(t.venom>0)add('special',`备毒 ${t.venom} · 每伤其8血拆1`);
   if(t.frenzy>0)add('special',`血势 ${t.frenzy} · 全挡可清除`);
   if(t.coil>0)add('special',`盘蛇 ${t.coil} · 攻击削势`);
   if(t.coilBroken)add('special','盘蛇已破 · 毒劲散去');
   if(t.opening&&current.pursuit)add('special','试剑得隙 · 追剑增强');
   if(current.focus)add('special',`运劲 +${current.focus}`);
   if(t.focus>0)add('special','运劲 · 虚弱或点穴可压制');
-  if(current.cover&&current.allyBlock)add('special',`受击${Math.max(0,(enemy.id==='qingchengguard'?8:16)-(t.pressure||0))}截断护援`);
+  if(current.cover&&current.allyBlock)add('special',`再打${Math.max(0,(enemy.id==='qingchengguard'?8:16)-(t.pressure||0))}伤害可破护援`);
   if(current.cover&&t.coverBroken)add('special','护援已截断');
  }
  if(!tags.length)add('special',/被破/.test(current.label||'')?'架势受挫':'本轮不出招');

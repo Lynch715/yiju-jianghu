@@ -1,0 +1,5 @@
+import test from 'node:test';import assert from 'node:assert/strict';
+import {Game} from '../engine.js';import {CARD} from '../data.js';
+const run=seed=>{const g=new Game();g.start(seed,{opening:false,trialLevel:1});return g;};
+test('new runs offer one attack and three different paths in normal and elite rewards',()=>{let spread=0;for(let seed=0;seed<400;seed++){const g=run(seed);assert.equal(g.s.rewardRevision,1);for(const elite of [false,true]){const ids=g.offerCards(3,{elite});assert.equal(ids.length,3);assert.equal(new Set(ids).size,3);assert.ok(ids.some(id=>CARD[id].type==='a'),ids.join());if(new Set(ids.map(id=>CARD[id].path)).size===3)spread++;}}assert.ok(spread>=700,String(spread));});
+test('saves without the reward revision keep the original offer sequence',()=>{const a=run(11),b=run(11);delete b.s.rewardRevision;let differs=false;for(let i=0;i<40;i++){const x=a.offerCards(3),y=b.offerCards(3);if(x.join()!==y.join())differs=true;}assert.ok(differs);const legacy=new Game();legacy.start(5,{opening:false,classic:true});assert.equal(legacy.s.rewardRevision,undefined);});

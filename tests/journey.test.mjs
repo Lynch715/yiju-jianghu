@@ -7,7 +7,7 @@ import {Game} from '../engine.js';
 // v0.17 quarter-HP recovery here as well: extra HP changes the policy's route,
 // purchases and reward RNG, so its fixed historical winning seeds would drift.
 class LegacyJourney extends Game{
- start(seed,options){const state=super.start(seed,options);delete state.skirmishRevision;return state;}
+ start(seed,options){const state=super.start(seed,options);delete state.skirmishRevision;delete state.rewardRevision;return state;}
  heal(n,source){return super.heal(source==='章节整备'?Math.floor(this.s.maxHp*.25):n,source);}
 }
 const winningSeeds=VIABILITY_SEEDS;

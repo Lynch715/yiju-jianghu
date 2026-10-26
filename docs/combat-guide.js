@@ -1,4 +1,4 @@
-import {enemyActionView} from './enemy-action.js?v=0.26.2';
+import {enemyActionView} from './enemy-action.js?v=0.27.0';
 
 // Presentation only: describe the chosen action and active states. Never generate
 // another intent or inspect an enemy's future move list.
@@ -28,10 +28,10 @@ export function explainActionTag(tag,e){
  if(s.startsWith('劲力'))return COMBAT_RULE.str.text;
  if(s.startsWith('虚弱'))return '对你施加所示层数的虚弱。'+COMBAT_RULE.weak.text;
  if(s.startsWith('破绽'))return '对你施加所示层数的破绽。'+COMBAT_RULE.vuln.text;
- if(s.startsWith('施毒')||s.startsWith('伤血施毒'))return (i.poisonOnHit?'本招伤及你的气血时，才会施加中毒。':'本招施加中毒，即使攻击被格挡也会生效。')+COMBAT_RULE.poison.text;
+ if(s.startsWith('施毒')||s.startsWith('破防施毒'))return (i.poisonOnHit?'本招伤及你的气血时，才会施加中毒。':'本招施加中毒，即使攻击被格挡也会生效。')+COMBAT_RULE.poison.text;
  if(s.startsWith('寒气'))return COMBAT_RULE.chill.text;
  if(s.startsWith('气滞'))return '将所示数量的气滞放入你的弃牌堆，随后可能被抽到。';
- if(s.startsWith('伤血添气滞'))return '每一击伤及你的气血时，将所示数量的气滞放入弃牌堆。完整格挡该击可阻止塞牌。';
+ if(s.startsWith('破防添气滞'))return '每一击伤及你的气血时，将所示数量的气滞放入弃牌堆。完整格挡该击可阻止塞牌。';
  if(s==='饮血')return i.drainRatio?`回复本招实际造成气血伤害的${Math.round(i.drainRatio*100)}%（向下取整）；成功回血还会获得1劲力。完整格挡可阻止。`:`回复不超过${i.leech}气血，且不超过本招实际造成的气血伤害。完整格挡可阻止。`;
  if(s==='召援')return '召来毒徒，存活毒徒最多2人；新到的毒徒从下一轮开始行动。';
  if(s==='布雷')return '布下暗雷，后续引爆会造成伤害。每消耗一张牌可拆1层；对成昆每累计造成12气血伤害也可拆1层。';
@@ -42,7 +42,7 @@ export function explainActionTag(tag,e){
  if(s==='立起掌势')return '立起掌势，强化重掌。在其出掌前击破格挡，可以削弱重掌并阻止附带的虚弱。';
  if(s==='盘蛇蓄势')return '立起盘蛇架势。后续攻击可削减架势与蓄力，击破架势后清空蓄力并阻止毒劲。';
  if(s==='试剑')return '本招伤及你的气血后，追剑会增强。完整格挡可以阻止强化。';
- if(s.startsWith('剑势'))return '剑势提高青城弟子的攻击伤害。累计造成6点气血伤害可削1层；格挡吸收的伤害不计入。';
+ if(s.startsWith('剑势'))return '剑势提高青城弟子的攻击伤害。对它累计打掉6点气血可削1层；被格挡挡住的伤害不计入。';
  if(s.startsWith('架势 ·'))return '击破当前格挡，可削弱重掌并阻止其附带的虚弱。';
  if(s.startsWith('架势已破')||s==='架势受挫')return '架势已被打断，当前招式已削弱。以现在显示的意图为准。';
  if(s.startsWith('备毒 +'))return '为后续施毒备下所示层数，可在其出手前拆除。';
@@ -53,7 +53,7 @@ export function explainActionTag(tag,e){
  if(s.startsWith('试剑得隙'))return '此前试探伤及气血，本次追剑已增强。强化伤害已计入当前意图。';
  if(s.startsWith('运劲 +'))return '运劲会强化之后的掌招。对手出掌前，施加虚弱或点穴可以压制这股劲力。';
  if(s.startsWith('运劲 ·'))return '让该敌人带着虚弱或点穴出手，即可阻止运劲提供的额外伤害。';
- if(s.startsWith('受击'))return '在其行动前累计造成所示伤害，可截断本次护援；格挡吸收的伤害也计入。';
+ if(s.startsWith('再打'))return '在它行动前，对它再造成所示伤害（打在格挡上也算），它就无法给同伴加格挡。';
  if(s==='护援已截断')return '本次不再为同伴提供格挡，自身获得的格挡也已减少。';
  if(s==='本轮不出招')return '当前没有攻击或其他已显示的效果。';
  return '以当前显示的效果为准。';

@@ -19,7 +19,7 @@ export function visibleTurn(g,{counterplay=true}={}){
     if(counterplay&&living.some(e=>e.tactics?.skirmish)){
      const threat=(engine,enemies)=>enemies.reduce((sum,e)=>sum+enemyActionView(engine,e).tags.reduce((n,t)=>n+(t.kind==='attack'?(t.segments||[]).reduce((v,x)=>v+x.amount*x.count,0):t.kind==='debuff'&&/施毒/.test(t.text)?Number(t.text.match(/\d+/)?.[0]||0)*3:t.kind==='block'&&/护援/.test(t.text)?Number(t.text.match(/\d+/)?.[0]||0)*.7:0),0),0);
      value+=Math.max(0,threat(g,living)-threat(copy,nb.enemies.filter(e=>e.hp>0)))*1.25;
-     value+=living.reduce((sum,e)=>{const next=nb.enemies.find(x=>x.key===e.key),breakable=enemyActionView(g,e).tags.some(t=>/破盾削掌|截断护援/.test(t.text));return sum+(breakable&&next?Math.max(0,e.block-next.block)*1.5:0);},0);
+     value+=living.reduce((sum,e)=>{const next=nb.enemies.find(x=>x.key===e.key),breakable=enemyActionView(g,e).tags.some(t=>/打穿格挡可削弱|可破护援/.test(t.text));return sum+(breakable&&next?Math.max(0,e.block-next.block)*1.5:0);},0);
     }
     value+=(nb.str-b.str)*Math.min(7,2+own.filter(x=>CARD[x.id].type==='a').length*.45);
     value+=living.reduce((n,e)=>{const next=nb.enemies.find(x=>x.key===e.key);return n+(next?Math.max(0,next.weak-e.weak)*4+Math.max(0,next.vuln-e.vuln)*2+Math.max(0,next.pin-e.pin)*.6:0);},0);

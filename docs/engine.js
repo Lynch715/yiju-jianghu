@@ -1,12 +1,12 @@
-import {newExpedition,validExpedition,trialLevel,encounterFor,restRate,trialPrice} from './expedition.js?v=0.26.2';
-import {enemyActionView,enemyAttackTag} from './enemy-action.js?v=0.26.2';
-import {createClearRecord} from './records.js?v=0.26.2';
-import {attachEnemyTactics,tacticalIntent,onTacticalDamage,onTacticalExhaust,onTacticalPlay,onTacticalDeath,afterTacticalAction,afterTacticalFollowerAction} from './enemy-tactics.js?v=0.26.2';
-import {JOURNEY_FLOORS,JOURNEY_TOTAL,newJourney,journeyChapter} from './journey.js?v=0.26.2';
-import {PLAYERS,HEROES,TALENTS,DEFAULT_PLAYER,cleanPlayerName,playerNameError,validPlayer,validPlayerTalent,PLAYER_RETURN_PHASES,HERO_TALENT_REVISION,validHeroTalentRules} from './players.js?v=0.26.2';
-import {ENEMY,ENCOUNTERS,ENCOUNTER_GROUPS} from './enemies.js?v=0.26.2';
-import {DIFFICULTY,combatDefinition,encounterTuning,SKIRMISH_REVISION,CHALLENGE_REVISION,validChallenge,talentChallenge} from './difficulty.js?v=0.26.2';
-import {CARDS,CARD,RELICS,RELIC,CHAPTERS,ROUTES,isEthereal,OPENING_BOONS,GAME_VERSION} from './data.js?v=0.26.2';
+import {newExpedition,validExpedition,trialLevel,encounterFor,restRate,trialPrice} from './expedition.js?v=0.27.0';
+import {enemyActionView,enemyAttackTag} from './enemy-action.js?v=0.27.0';
+import {createClearRecord} from './records.js?v=0.27.0';
+import {attachEnemyTactics,tacticalIntent,onTacticalDamage,onTacticalExhaust,onTacticalPlay,onTacticalDeath,afterTacticalAction,afterTacticalFollowerAction} from './enemy-tactics.js?v=0.27.0';
+import {JOURNEY_FLOORS,JOURNEY_TOTAL,newJourney,journeyChapter} from './journey.js?v=0.27.0';
+import {PLAYERS,HEROES,TALENTS,DEFAULT_PLAYER,cleanPlayerName,playerNameError,validPlayer,validPlayerTalent,PLAYER_RETURN_PHASES,HERO_TALENT_REVISION,validHeroTalentRules} from './players.js?v=0.27.0';
+import {ENEMY,ENCOUNTERS,ENCOUNTER_GROUPS} from './enemies.js?v=0.27.0';
+import {DIFFICULTY,combatDefinition,encounterTuning,SKIRMISH_REVISION,CHALLENGE_REVISION,validChallenge,talentChallenge} from './difficulty.js?v=0.27.0';
+import {CARDS,CARD,RELICS,RELIC,CHAPTERS,ROUTES,isEthereal,OPENING_BOONS,GAME_VERSION} from './data.js?v=0.27.0';
 
 export const SAVE_VERSION=8;
 export const STARTING_DECK=Object.freeze([...Array(5).fill('W01'),...Array(4).fill('U01'),'U02']);
@@ -59,7 +59,7 @@ export class Game {
  recordEnemyAction(e,intent,damage){const action={key:e.key,label:intent.label,attacks:!!intent.damage,damage};this.s.b.lastEnemyActions.push(action);e.lastAction=action;const record=this.encounterRecord(e);record.moves[intent.label]=(record.moves[intent.label]||0)+1;}
  start(seed=Date.now(),{opening=true,character=opening,classic=false,trialLevel:level=null}={}){
   this.s={version:SAVE_VERSION,phase:'map',player:{...DEFAULT_PLAYER},rng:Number(seed)>>>0,seed:Number(seed)>>>0,uid:0,hp:80,maxHp:80,gold:90,step:0,deck:[],relics:['R01'],b:null,scene:null,reward:null,history:[],stats:{turns:0,played:0,damage:0,exhausted:0,self:0,kills:0,wins:0},created:Date.now(),runInfo:{version:GAME_VERSION,activeMs:0,timed:true}};
-  if(!classic){this.s.journey=newJourney();this.s.ruleset=DIFFICULTY;this.s.skirmishRevision=SKIRMISH_REVISION;if(level!==null)this.s.expedition=newExpedition(seed,level);}else if(level!==null)throw Error('历练需要四十五程行程');
+  if(!classic){this.s.journey=newJourney();this.s.ruleset=DIFFICULTY;this.s.skirmishRevision=SKIRMISH_REVISION;this.s.rewardRevision=1;if(level!==null)this.s.expedition=newExpedition(seed,level);}else if(level!==null)throw Error('历练需要四十五程行程');
   for(const id of STARTING_DECK)this.s.deck.push(this.make(id));
   if(character){this.s.character={name:'',portrait:null,hero:'custom',talent:'steady',...(!classic?{challengeRevision:CHALLENGE_REVISION}:{}),selectionMode:'heroes',editing:false,returnPhase:opening?'opening':'map'};this.s.phase='character';}
   else if(opening)this.beginOpening();
@@ -503,6 +503,8 @@ export class Game {
    let pool=CARDS.filter(x=>x.rarity===rarity&&(absolute||x.id.startsWith(universal?'U':'W'))&&!offered.includes(x.id)&&!(x.id==='W22'&&this.s.deck.some(c=>c.id===x.id)));
    if(!pool.length)pool=CARDS.filter(x=>x.rarity===rarity&&!offered.includes(x.id)&&!(x.id==='W22'&&this.s.deck.some(c=>c.id===x.id)));
    if(!pool.length)pool=CARDS.filter(x=>x.rarity>0&&!offered.includes(x.id)&&!(x.id==='W22'&&this.s.deck.some(c=>c.id===x.id)));
+   // Reward revision 1 (new runs only): spread the three scrolls across paths and keep one attack on offer.
+   if(this.s.rewardRevision===1&&!absolute){const paths=new Set(offered.map(id=>CARD[id].path)),spread=pool.filter(x=>!paths.has(x.path));if(spread.length)pool=spread;if(i===n-1&&n>1&&!offered.some(id=>CARD[id].type==='a')){const attacks=pool.filter(x=>x.type==='a');if(attacks.length)pool=attacks;else{const any=CARDS.filter(x=>x.type==='a'&&x.rarity===rarity&&x.id.startsWith('W')&&!offered.includes(x.id));if(any.length)pool=any;}}}
    if(!pool.length)break;offered.push(this.pick(pool).id);
   }
   return offered;

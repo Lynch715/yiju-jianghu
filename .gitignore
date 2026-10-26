@@ -88,3 +88,11 @@ assets/enemies/dongfangbubai.png
 # Full-size normal-enemy redraws stay local; ship runtime WebP.
 assets/enemies/redraw-v0262/
 !dist/一局江湖-v0.26.2.html
+
+# Local-only: archived builds, pre-change backups and scratch
+_archive/
+_backup-*/
+_to_delete/
+
+# v0.27.0 release build
+!dist/一局江湖-v0.27.0.html
